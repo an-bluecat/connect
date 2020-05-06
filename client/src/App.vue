@@ -1,34 +1,26 @@
 <template>
   <div id="app">
-    <Todos v-bind:todos="todos"/>
+    <div v-if="1==1">
+      printthis!!!
+    </div>
+    <HelloWorld msg="hello"></HelloWorld>
   </div>
 </template>
 
 <script>
 import Todos from './components/Todos';
+import HelloWorld from './components/HelloWorld';
 
 export default {
   name: 'App',
   components: {
-    Todos
+    Todos,
+    HelloWorld
   },
   data(){
-    return{
-      todos:[
-        {
-          id:1,
-          title:"todo1",
-          completed: false
-        },
-        {
-          id:1,
-          title:"Todo2",
-          completed: false
-        }
-
-      ]
+      count=1
     }
-  }
+    
 }
 </script>
 
