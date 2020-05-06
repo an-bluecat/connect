@@ -1,9 +1,6 @@
 <template>
   <div id="app">
-    <div v-if="1==1">
-      printthis!!!
-    </div>
-    <HelloWorld msg="hello"></HelloWorld>
+    <HelloWorld msg="Hello World!"></HelloWorld>
   </div>
 </template>
 
