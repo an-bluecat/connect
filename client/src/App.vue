@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-    <HelloWorld msg="Hello World!"></HelloWorld>
+    <HelloWorld></HelloWorld>
   </div>
 </template>
 
@@ -22,15 +22,10 @@ export default {
 </script>
 
 <style>
-*{
-  box-sizing:border-box;
-  margin: 0;
-  padding: 0;
-
-}
 
 body{
   font-family:'Courier New', Courier, monospace;
   line-height: 1.4;
+  background-color: #eeeeee;
 }
 </style>
