@@ -13,7 +13,10 @@
 
       </form>
       <ul>
-        <li v-for="(value, index) in skills" :key='index'>{{value.skill}}</li>
+        <li v-for="(value, index) in skills" :key='index'>
+          {{value.skill}}
+          <i class="fa fa-minus-circle" v-on:click="remove(index)"></i>
+        </li>
       </ul>
 
       <p>These are the skills that you process</p>
@@ -41,6 +44,9 @@ export default {
     addSkill(){
       this.skills.push({skill: this.enterskillmessage})
       this.enterskillmessage="";
+    },
+    remove(id){
+      this.skills.splice(id,1)
     }
 
   }

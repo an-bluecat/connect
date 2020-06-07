@@ -5,6 +5,7 @@
         <ul>
             <li v-for="todo of todos" :key="todo.id">
                 {{todo.name}}
+                <i class="fa fa-minus-circle" v-on:click="remove(todo.id)"></i>
             </li>
         </ul>
         <button v-on:click="clearall">clear</button>
@@ -51,7 +52,16 @@ export default {
             this.todoName = ''
         },
         async clearall(){
-            const res = await axios.delete("https://connectheroserver.herokuapp.com/todos/0")
+            var id=1
+            const res = await axios.delete("https://connectheroserver.herokuapp.com/todos/"+id)
+        },
+        async remove(id){
+            const res = await axios.delete("https://connectheroserver.herokuapp.com/todos/"+id)
+
+            const res1 = await axios.get(baseURL);
+            this.todos=res1.data;
+
+
         }
   }
 }
