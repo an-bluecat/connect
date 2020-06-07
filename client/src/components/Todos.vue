@@ -7,6 +7,7 @@
                 {{todo.name}}
             </li>
         </ul>
+        <button v-on:click="clearall">clear</button>
     </div>
     
 </template>
@@ -37,12 +38,21 @@ export default {
     },
     methods: {
         async addTodo() {
+            // post to db
             const res = await axios.post(baseURL, { name: this.todoName })
 
+            console.log(res)
+            // console.log("todo",todoName)
+
+            // add to todos
             this.todos = [...this.todos, res.data]
 
+            // clear todoName input binding
             this.todoName = ''
-    }
+        },
+        async clearall(){
+            const res = await axios.delete("https://connectheroserver.herokuapp.com/todos/0")
+        }
   }
 }
 </script>
