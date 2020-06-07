@@ -6,9 +6,7 @@
             <li v-for="todo of todos" :key="todo.id">
                 {{todo.name}}
             </li>
-
         </ul>
-
     </div>
     
 </template>
@@ -17,7 +15,8 @@
 <script>
 import axios from "axios";
 
-const baseURL="http://localhost:3000/todos";
+// const baseURL="http://localhost:3000/todos";
+const baseURL="https://connecthero.herokuapp.com/todos";
 
 
 export default {
