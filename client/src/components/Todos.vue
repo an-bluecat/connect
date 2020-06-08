@@ -1,14 +1,13 @@
 <template>
     <div>
-        <h1>Todos</h1>
-        <input v-model="todoName" @keyup.enter="addTodo">
+        <h1>An interesting list</h1>
+        <input placeholder="add your course name" v-model="todoName" @keyup.enter="addTodo">
         <ul>
             <li v-for="todo of todos" :key="todo.id">
                 {{todo.name}}
                 <i class="fa fa-minus-circle" v-on:click="remove(todo.id)"></i>
             </li>
         </ul>
-        <button v-on:click="clearall">clear</button>
     </div>
     
 </template>
@@ -51,10 +50,6 @@ export default {
             // clear todoName input binding
             this.todoName = ''
         },
-        async clearall(){
-            var id=1
-            const res = await axios.delete("https://connectheroserver.herokuapp.com/todos/"+id)
-        },
         async remove(id){
             const res = await axios.delete("https://connectheroserver.herokuapp.com/todos/"+id)
 
@@ -68,5 +63,7 @@ export default {
 </script>
 
 <style scoped>
-
+ h1{
+     text-align:center
+ }
 </style>

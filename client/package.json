@@ -1,5 +1,5 @@
 {
-  "name": "client",
+  "name": "UofTConnect",
   "version": "0.1.0",
   "private": true,
   "scripts": {
@@ -10,8 +10,9 @@
   "dependencies": {
     "axios": "^0.19.2",
     "bootstrap-vue": "^2.15.0",
-    "vee-validate": "^3.3.1",
-    "vue": "^2.6.11"
+    "vee-validate": "^2.2.15",
+    "vue": "^2.6.11",
+    "vue-router": "^3.3.2"
   },
   "devDependencies": {
     "@vue/cli-service": "~4.3.0",

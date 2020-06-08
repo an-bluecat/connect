@@ -7,9 +7,9 @@
     <div class="holder">
 
       <form @submit.prevent="addSkill">
-        <!-- <input placeholder="Enter a skill you have" v-model="enterskillmessage" v-validate="'min:5'" name="enterskillmessage"> -->
-        <input placeholder="Enter a skill you have" v-model="enterskillmessage">
-        <!-- <p class="alert" v-if="errors.has('enterskillmessage')">{{errors.first('enterskillmessage')}}</p> -->
+        <input placeholder="Enter a skill you have" v-model="enterskillmessage" v-validate="'min:5'" name="enterskillmessage">
+        <!-- <input placeholder="Enter a skill you have" v-model="enterskillmessage"> -->
+        <p class="alert" v-if="errors.has('enterskillmessage')">{{errors.first('enterskillmessage')}}</p>
 
       </form>
       <ul>
@@ -42,8 +42,15 @@ export default {
 
   methods: {
     addSkill(){
-      this.skills.push({skill: this.enterskillmessage})
-      this.enterskillmessage="";
+      this.$validator.validateAll().then((result)=>{
+        if(result){
+          this.skills.push({skill: this.enterskillmessage})
+          this.enterskillmessage="";
+        }else{
+          console.log("form not valid");
+        }
+      })
+
     },
     remove(id){
       this.skills.splice(id,1)
