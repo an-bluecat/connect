@@ -1,7 +1,8 @@
 <template>
     <div>
         <h1>An interesting list</h1>
-        <input placeholder="add your course name" v-model="todoName" @keyup.enter="addTodo">
+        <input placeholder="add your course name" v-model="todoName" @keyup.enter="addTodo" v-validate="'min:5'" name="courseName">
+        <p class="alert" v-if="errors.has('courseName')">{{errors.first('courseName')}}</p>
         <ul>
             <li v-for="todo of todos" :key="todo.id">
                 {{todo.name}}
