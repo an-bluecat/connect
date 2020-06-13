@@ -5,12 +5,12 @@
        
         <ul v-if= "displaySearch===false">
                 <li v-for="course of courses" :key="course.id">
-                    {{course.name}}
+                    <router-link v-bind:to="'/'+course.name">{{course.name}}</router-link>
                 </li>
         </ul>
         <ul v-if= "displaySearch">
             <li v-for="course of searchedCourses" :key="course.id">
-                {{course.name}}
+                <router-link v-bind:to="'/'+course.name">{{course.name}}</router-link>
             </li>
             
         </ul>
