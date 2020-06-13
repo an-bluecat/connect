@@ -3,6 +3,7 @@
     <nav>
       <router-link to="/">Home</router-link>
       <router-link to="/about">About</router-link>
+
     </nav>
 
     <router-view />
@@ -14,12 +15,14 @@
 <script>
 import Todos from './components/Todos';
 import HelloWorld from './components/HelloWorld';
+import courseList from './components/courseList';
 
 export default {
   name: 'App',
   components: {
     Todos,
-    HelloWorld
+    HelloWorld,
+    courseList
   },
   data(){
       count=1
