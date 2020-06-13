@@ -3,13 +3,12 @@
         
         <input placeholder="Search for a course" v-model="entered" @keyup.enter="searchCourse">
        
-        <ul>
-            <li v-for="course of courses" :key="course.id">
-                {{course.name}}
-            </li>
-            
+        <ul v-if= "displaySearch===false">
+                <li v-for="course of courses" :key="course.id">
+                    {{course.name}}
+                </li>
         </ul>
-        <ul>
+        <ul v-if= "displaySearch">
             <li v-for="course of searchedCourses" :key="course.id">
                 {{course.name}}
             </li>
@@ -33,7 +32,8 @@ export default {
         return {
             courses:[],
             entered: '',
-            searchedCourses: []
+            searchedCourses: [],
+            displaySearch: false
         }
     },
     async created(){
@@ -48,17 +48,19 @@ export default {
         searchCourse: function() {
             this.searchedCourses=[]
             for (var i=0; i<this.courses.length; i++){
-                console.log(i)
-                if (this.courses[i]["name"].includes(this.entered)){
-                    console.log("yes!!!")
-                    this.searchedCourses.push(this.courses[i])
+                console.log(i);
+                if (this.courses[i]["name"].toUpperCase().includes(this.entered.toUpperCase())){
+                    console.log("yes!!!");
+                    this.searchedCourses.push(this.courses[i]);
                 }
                 
             }
 
 
             // clear todoName input binding
-            this.entered = ''
+            this.entered = '';
+            //make the list display searched courses
+            this.displaySearch=true;
         }
   }
 }
