@@ -1,8 +1,12 @@
 <template>
     <div>
-        <h1>An interesting list</h1>
-        <input placeholder="add your course name" v-model="todoName" @keyup.enter="addTodo" v-validate="'min:5'" name="courseName">
+        <h1>{{this.$route.params.name}}</h1>
+        <input placeholder="your comments here" v-model="todoName" @keyup.enter="addTodo" v-validate="'min:5'" name="courseName">
         <p class="alert" v-if="errors.has('courseName')">{{errors.first('courseName')}}</p>
+
+
+
+
         <ul>
             <li v-for="todo of todos" :key="todo.id">
                 {{todo.name}}
@@ -18,7 +22,9 @@
 import axios from "axios";
 
 // const baseURL="http://localhost:3000/todos";
-const baseURL="https://connectheroserver.herokuapp.com/todos";
+const baseURL="https://connectheroserver.herokuapp.com/";
+console.log("here is the name")
+
 
 
 export default {
@@ -31,8 +37,10 @@ export default {
     },
     async created(){
         try{
-            const res = await axios.get(baseURL);
+            var x=(this.$route.params.name);
+            const res = await axios.get(baseURL+x);
             this.todos=res.data;
+
         }catch(e){
             consol.error(e);
         }
@@ -40,7 +48,7 @@ export default {
     methods: {
         async addTodo() {
             // post to db
-            const res = await axios.post(baseURL, { name: this.todoName })
+            const res = await axios.post(baseURL+(this.$route.params.name), { name: this.todoName })
 
             console.log(res)
             // console.log("todo",todoName)
@@ -52,9 +60,11 @@ export default {
             this.todoName = ''
         },
         async remove(id){
-            const res = await axios.delete("https://connectheroserver.herokuapp.com/todos/"+id)
-
-            const res1 = await axios.get(baseURL);
+            var x=(this.$route.params.name);
+            var y=baseURL+x
+            var z=y+"/"
+            const res = await axios.delete(z+id);
+            const res1 = await axios.get(z);
             this.todos=res1.data;
 
 

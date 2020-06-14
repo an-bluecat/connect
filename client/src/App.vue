@@ -7,8 +7,7 @@
     </nav>
 
     <router-view />
-    <!-- <HelloWorld></HelloWorld>
-    <Todos></Todos> -->
+
   </div>
 </template>
 
@@ -16,6 +15,7 @@
 import Todos from './components/Todos';
 import HelloWorld from './components/HelloWorld';
 import courseList from './components/courseList';
+import About from './components/About';
 
 export default {
   name: 'App',

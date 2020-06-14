@@ -17,9 +17,21 @@ export default new Router({
 
     {
       path: '/',
-      name: 'Todos',
+      name: 'main',
       component: courseList
-  },
+    },
+    {
+      path: '/',
+      name: 'course',
+      component: Todos,
+      children:[
+        {
+          path:"course/:name",
+          name: "class-details",
+          component: Todos
+        }
+      ]
+    },
     {
       path: '/about',
       name: 'about',
