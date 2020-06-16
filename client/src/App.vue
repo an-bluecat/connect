@@ -39,14 +39,14 @@ body {
   display: grid;
   grid-template-rows: auto;
   justify-items: center;
-  padding-top: 50px;
+  /* padding-top: 50px; */
 }
 body, html {
   margin: 0;
   height: 100%;
 }
 #app {
-    width: 50%;
+    width: 100%;
 }
 nav {
   padding: 20px 20px 20px 0;
