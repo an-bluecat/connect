@@ -12,7 +12,7 @@
 </template>
 
 <script>
-import Todos from './components/Todos';
+import courseInstance from './components/courseInstance';
 import HelloWorld from './components/HelloWorld';
 import courseList from './components/courseList';
 import About from './components/About';
@@ -20,13 +20,10 @@ import About from './components/About';
 export default {
   name: 'App',
   components: {
-    Todos,
+    courseInstance,
     HelloWorld,
     courseList
-  },
-  data(){
-      count=1
-    }
+  }
     
 }
 </script>

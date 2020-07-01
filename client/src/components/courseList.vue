@@ -62,7 +62,7 @@ export default {
             }
 
 
-            // clear todoName input binding
+            // clear commentName input binding
             this.entered = '';
             //make the list display searched courses
             this.displaySearch=true;

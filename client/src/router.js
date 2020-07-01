@@ -1,7 +1,7 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 import HelloWorld from './components/HelloWorld.vue'
-import Todos from './components/Todos.vue'
+import courseInstance from './components/courseInstance.vue'
 import About from './components/About.vue'
 import courseList from './components/courseList';
 
@@ -12,7 +12,7 @@ export default new Router({
     // {
     //   path: '/',
     //   name: 'HelloWorld',
-    //   component: HelloWorld,Todos
+    //   component: HelloWorld,courseInstance
     // },
 
     {
@@ -23,12 +23,12 @@ export default new Router({
     {
       path: '/',
       name: 'course',
-      component: Todos,
+      component: courseInstance,
       children:[
         {
           path:"course/:name",
           name: "class-details",
-          component: Todos
+          component: courseInstance
         }
       ]
     },

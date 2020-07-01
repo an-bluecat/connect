@@ -17,13 +17,13 @@
                 <v-tab-item>
                 <v-card flat>
                    
-                        <input placeholder="your comments here" v-model="todoName" @keyup.enter="addTodo" v-validate="'min:5'" name="courseName">
+                        <input placeholder="your comments here" v-model="commentName" @keyup.enter="addcomment" v-validate="'min:5'" name="courseName">
                         <p class="alert" v-if="errors.has('courseName')">{{errors.first('courseName')}}</p>
 
                         <ul>
-                            <li v-for="todo of todos" :key="todo.id">
-                                {{todo.name}}
-                                <i class="fa fa-minus-circle" v-on:click="remove(todo.id)"></i>
+                            <li v-for="comment of comments" :key="comment.id">
+                                {{comment.comment}}
+                                <i class="fa fa-minus-circle" v-on:click="remove(comment.id)"></i>
                             </li>
                         </ul>
 
@@ -56,43 +56,44 @@
 <script>
 import axios from "axios";
 
-// const baseURL="http://localhost:3000/todos";
-const baseURL="https://connectheroserver.herokuapp.com/";
-console.log("here is the name")
+
+// const baseURL="https://connectheroserver.herokuapp.com/";
+const baseURL="https://cors-anywhere.herokuapp.com/https://restapipostgre.herokuapp.com/";
 
 
 
 export default {
-    name:"Todos",
+    name:"courseInstance",
     data(){
         return {
-            todos: [],
-            todoName: ''
+            comments: [],
+            commentName: ''
         }
     },
     async created(){
         try{
             var x=(this.$route.params.name);
             const res = await axios.get(baseURL+x);
-            this.todos=res.data;
+            this.comments=res.data;
 
         }catch(e){
-            consol.error(e);
+            console.error(e);
         }
     },
     methods: {
-        async addTodo() {
+        async addcomment() {
+
             // post to db
-            const res = await axios.post(baseURL+(this.$route.params.name), { name: this.todoName })
+            const res = await axios.post(baseURL+(this.$route.params.name), { name: this.commentName })
 
             console.log(res)
-            // console.log("todo",todoName)
+            // console.log("comment",commentName)
 
-            // add to todos
-            this.todos = [...this.todos, res.data]
+            // add to comments
+            this.comments = [...this.comments, res.data]
 
-            // clear todoName input binding
-            this.todoName = ''
+            //clear commentName input binding
+            this.commentName = ''
         },
         async remove(id){
             var x=(this.$route.params.name);
@@ -100,7 +101,7 @@ export default {
             var z=y+"/"
             const res = await axios.delete(z+id);
             const res1 = await axios.get(z);
-            this.todos=res1.data;
+            this.courseInstance=res1.data;
 
 
         }
