@@ -1,9 +1,9 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import HelloWorld from './components/HelloWorld.vue'
 import courseInstance from './components/courseInstance.vue'
 import About from './components/About.vue'
 import courseList from './components/courseList';
+import addRating from './components/addRating'
 
 Vue.use(Router)
 
@@ -29,6 +29,18 @@ export default new Router({
           path:"course/:name",
           name: "class-details",
           component: courseInstance
+        }
+      ]
+    },
+    {
+      path: '/',
+      name: 'addrating',
+      component: addRating,
+      children:[
+        {
+          path:"addrating/:name",
+          name: "class-rating",
+          component: addRating
         }
       ]
     },

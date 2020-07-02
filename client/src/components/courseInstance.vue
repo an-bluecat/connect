@@ -33,7 +33,13 @@
                 <v-tab-item>
                 <v-card flat>
                     <v-card-text>
-                    <v-btn href="1">rate this course</v-btn>
+                    <v-btn href="1"><router-link v-bind:to="{
+                        name: 'class-rating',
+                        params:{name: this.$route.params.name, id: 1}
+                    }">
+                    Rate This Class
+                    </router-link></v-btn>
+                    
                     <!-- <router-link v-bind:to="'/course/'+course.name">{{course.name}}</router-link> -->
                     <p>
                         Morbi nec metus. Suspendisse faucibus, nunc et pellentesque egestas, lacus ante convallis tellus, vitae iaculis lacus elit id tortor. Sed mollis, eros et ultrices tempus, mauris ipsum aliquam libero, non adipiscing dolor urna a orci. Curabitur ligula sapien, tincidunt non, euismod vitae, posuere imperdiet, leo. Nunc sed turpis.
