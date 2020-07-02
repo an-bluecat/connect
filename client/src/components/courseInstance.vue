@@ -25,20 +25,36 @@
                                 {{comment.comment}}
                                 <i class="fa fa-minus-circle" v-on:click="remove(comment.id)"></i>
                             </li>
-                        </ul>
-
-                    
+                        </ul>   
                 </v-card>
+
+
                 </v-tab-item>
                 <v-tab-item>
                 <v-card flat>
                     <v-card-text>
+                    <v-btn href="1">rate this course</v-btn>
+                    <!-- <router-link v-bind:to="'/course/'+course.name">{{course.name}}</router-link> -->
                     <p>
                         Morbi nec metus. Suspendisse faucibus, nunc et pellentesque egestas, lacus ante convallis tellus, vitae iaculis lacus elit id tortor. Sed mollis, eros et ultrices tempus, mauris ipsum aliquam libero, non adipiscing dolor urna a orci. Curabitur ligula sapien, tincidunt non, euismod vitae, posuere imperdiet, leo. Nunc sed turpis.
                     </p>
         
 
                     </v-card-text>
+                    <v-rating v-model="rating"></v-rating>
+                    <v-container fluid>
+                      <v-row align="center">
+                        <v-col class="d-flex" cols="12" sm="6">
+                          <v-select
+                            :items="items"
+                            label="Standard"
+                            dense
+                          ></v-select>
+                        </v-col>
+                  
+                  
+                      </v-row>
+                    </v-container>
                 </v-card>
                 </v-tab-item>
             
@@ -67,7 +83,9 @@ export default {
     data(){
         return {
             comments: [],
-            commentName: ''
+            commentName: '',
+            rating: 3,
+            items: ['1', '2', '3', '4','5'],
         }
     },
     async created(){
@@ -82,9 +100,11 @@ export default {
     },
     methods: {
         async addcomment() {
+            //construct comment
+            var comment = {user: "unknown", comment: this.commentName, time: "not set", likes: 0}
 
             // post to db
-            const res = await axios.post(baseURL+(this.$route.params.name), { name: this.commentName })
+            const res = await axios.post(baseURL+(this.$route.params.name), comment)
 
             console.log(res)
             // console.log("comment",commentName)
@@ -100,6 +120,7 @@ export default {
             var y=baseURL+x
             var z=y+"/"
             const res = await axios.delete(z+id);
+            // sleep(500)
             const res1 = await axios.get(z);
             this.courseInstance=res1.data;
 
