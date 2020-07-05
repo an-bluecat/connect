@@ -21,7 +21,7 @@
                         <p class="alert" v-if="errors.has('courseName')">{{errors.first('courseName')}}</p>
 
                         <ul>
-                            <li v-for="comment of comments" :key="comment.id">
+                            <li v-for="comment of ratings" :key="comment.id">
                                 {{comment.comment}}
                                 <i class="fa fa-minus-circle" v-on:click="remove(comment.id)"></i>
                             </li>
@@ -33,34 +33,26 @@
                 <v-tab-item>
                 <v-card flat>
                     <v-card-text>
-                    <v-btn href="1"><router-link v-bind:to="{
+                    <v-btn><router-link v-bind:to="{
                         name: 'class-rating',
                         params:{name: this.$route.params.name, id: 1}
                     }">
                     Rate This Class
                     </router-link></v-btn>
+
+                    <h5 v-for="comment of comments" :key="comment.id">
+                        
+                        rate: {{comment.rate}}
+                        <br>
+                        Review: {{comment.comment}}
+                        <hr>
+
+                        
+                    </h5>
                     
-                    <!-- <router-link v-bind:to="'/course/'+course.name">{{course.name}}</router-link> -->
-                    <p>
-                        Morbi nec metus. Suspendisse faucibus, nunc et pellentesque egestas, lacus ante convallis tellus, vitae iaculis lacus elit id tortor. Sed mollis, eros et ultrices tempus, mauris ipsum aliquam libero, non adipiscing dolor urna a orci. Curabitur ligula sapien, tincidunt non, euismod vitae, posuere imperdiet, leo. Nunc sed turpis.
-                    </p>
         
 
                     </v-card-text>
-                    <v-rating v-model="rating"></v-rating>
-                    <v-container fluid>
-                      <v-row align="center">
-                        <v-col class="d-flex" cols="12" sm="6">
-                          <v-select
-                            :items="items"
-                            label="Standard"
-                            dense
-                          ></v-select>
-                        </v-col>
-                  
-                  
-                      </v-row>
-                    </v-container>
                 </v-card>
                 </v-tab-item>
             
@@ -80,7 +72,8 @@ import axios from "axios";
 
 
 // const baseURL="https://connectheroserver.herokuapp.com/";
-const baseURL="https://cors-anywhere.herokuapp.com/https://restapipostgre.herokuapp.com/";
+const baseURL="http://localhost:5000/";
+// const baseURL="https://cors-anywhere.herokuapp.com/https://restapipostgre.herokuapp.com/";
 
 
 
@@ -89,16 +82,23 @@ export default {
     data(){
         return {
             comments: [],
+            ratings:[],
             commentName: '',
             rating: 3,
-            items: ['1', '2', '3', '4','5'],
+            items: ['1', '2', '3', '4', '5']
         }
     },
     async created(){
         try{
             var x=(this.$route.params.name);
             const res = await axios.get(baseURL+x);
-            this.comments=res.data;
+            for(var i=0;i<res.data.length; i++){
+              if(res.data[i]["israting"]==true){
+                this.comments.push(res.data[i])
+              }else{
+                this.ratings.push(res.data[i])
+              }
+            }
 
         }catch(e){
             console.error(e);
@@ -107,7 +107,7 @@ export default {
     methods: {
         async addcomment() {
             //construct comment
-            var comment = {user: "unknown", comment: this.commentName, time: "not set", likes: 0}
+            var comment = {"israting": false, "user": "unknown", "comment": this.commentName, "time": "not set", "likes": 0, "rate": 0}
 
             // post to db
             const res = await axios.post(baseURL+(this.$route.params.name), comment)

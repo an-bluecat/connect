@@ -41,10 +41,26 @@ export default {
             displaySearch: false
         }
     },
-    async created(){
+    // async created(){
+    created(){
         try{
-            const res = await axios.get(baseURL);
-            this.courses=res.data;
+            // const res = await axios.get(baseURL);
+            // const res = axios.get(baseURL);
+            // this.courses=res.data;
+            this.courses=[
+              {
+                "name": "ECE110",
+                "id": 1
+              },
+              {
+                "name": "ECE243",
+                "id": 2
+              },
+              {
+                "name": "ECE297",
+                "id": 3,
+              }
+            ]
         }catch(e){
             console.error(e);
         }
@@ -53,9 +69,7 @@ export default {
         searchCourse: function() {
             this.searchedCourses=[]
             for (var i=0; i<this.courses.length; i++){
-                console.log(i);
                 if (this.courses[i]["name"].toUpperCase().includes(this.entered.toUpperCase())){
-                    console.log("yes!!!");
                     this.searchedCourses.push(this.courses[i]);
                 }
                 
