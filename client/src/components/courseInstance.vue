@@ -1,8 +1,8 @@
 <template>
     <div>
         <h1>{{this.$route.params.name}}</h1>
-
         <v-app id="inspire">
+
             <v-card>
             <v-tabs vertical>
                 <v-tab>
@@ -13,23 +13,72 @@
                 <v-icon left>mdi-access-point</v-icon>
                 Rate This Class
                 </v-tab>
-        
+
+                <!-- ##############tab 1############### -->
                 <v-tab-item>
                 <v-card flat>
-                   
-                        <input placeholder="your comments here" v-model="commentName" @keyup.enter="addcomment" v-validate="'min:5'" name="courseName">
-                        <p class="alert" v-if="errors.has('courseName')">{{errors.first('courseName')}}</p>
+                        <!-- <input placeholder="your comments here" v-model="commentName" @keyup.enter="addcomment" v-validate="'min:5'" name="courseName">
+                        <p class="alert" v-if="errors.has('courseName')">{{errors.first('courseName')}}</p> -->
 
                         <ul>
                             <li v-for="comment of ratings" :key="comment.id">
                                 {{comment.comment}}
                                 <i class="fa fa-minus-circle" v-on:click="remove(comment.id)"></i>
                             </li>
+                            
                         </ul>   
+                        <!-- dialog popup -->
+                        <div class="text-center">
+                          <v-dialog
+                            v-model="dialog"
+                            width="500"
+                          >
+                            <template v-slot:activator="{ on, attrs }">
+                              <v-btn
+                                color="red lighten-2"
+                                dark
+                                v-bind="attrs"
+                                v-on="on"
+                              >
+                                Add Information
+                              </v-btn>
+                            </template>
+                      
+                            <v-card>
+                              <v-card-title
+                                class="headline grey lighten-2"
+                                primary-title
+                              >
+                                Add Information for this course
+                              </v-card-title>
+                      
+                              <v-card-text>
+                                What's happening with {{this.$route.params.name}}? Are you looking for {{this.$route.params.name}} group? Post your message here.
+                              </v-card-text>
+                              <v-text-field v-model="commentName"></v-text-field>
+
+                              <v-divider></v-divider>
+                      
+                              <v-card-actions>
+                                <v-spacer></v-spacer>
+                                <v-btn
+                                  color="primary"
+                                  text
+                                  @click="addcomment(); dialog = false"
+                                >
+                                  Submit
+                                </v-btn>
+                              </v-card-actions>
+                            </v-card>
+                          </v-dialog>
+                        </div>
+                        <!-- end of popup -->
                 </v-card>
 
 
                 </v-tab-item>
+
+                <!-- ##############tab 2############### -->
                 <v-tab-item>
                 <v-card flat>
                     <v-card-text>
@@ -45,13 +94,12 @@
                         rate: {{comment.rate}}
                         <br>
                         Review: {{comment.comment}}
+                        <br>
+                        {{comment.time}}
                         <hr>
 
                         
                     </h5>
-                    
-        
-
                     </v-card-text>
                 </v-card>
                 </v-tab-item>
@@ -73,7 +121,8 @@ import axios from "axios";
 
 // const baseURL="https://connectheroserver.herokuapp.com/";
 // const baseURL="http://localhost:5000/";
-const baseURL="https://cors-anywhere.herokuapp.com/https://restapipostgre.herokuapp.com/";
+// const baseURL="https://cors-anywhere.herokuapp.com/https://restapipostgre.herokuapp.com/";
+const baseURL="https://restapipostgre.herokuapp.com/";
 
 
 
@@ -85,7 +134,9 @@ export default {
             ratings:[],
             commentName: '',
             rating: 3,
-            items: ['1', '2', '3', '4', '5']
+            items: ['1', '2', '3', '4', '5'],
+            dialog: false, //for dialog/input popup when click on "add information"
+            timestamp: ""
         }
     },
     async created(){
@@ -99,15 +150,28 @@ export default {
                 this.ratings.push(res.data[i])
               }
             }
-
+            console.log(this.comments)
         }catch(e){
             console.error(e);
         }
+
+
+        setInterval(this.getNow, 1000);
+
     },
     methods: {
+      // get time
+      getNow: function() {
+                    const today = new Date();
+                    const date = today.getFullYear()+'-'+(today.getMonth()+1)+'-'+today.getDate();
+                    const time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
+                    const dateTime = date +' '+ time;
+                    this.timestamp = dateTime;
+                },
+
         async addcomment() {
             //construct comment
-            var comment = {"israting": false, "user": "unknown", "comment": this.commentName, "time": "not set", "likes": 0, "rate": 0}
+            var comment = {"israting": false, "user": "unknown", "comment": this.commentName, "time": this.timestamp, "likes": 0, "rate": 0}
 
             // post to db
             const res = await axios.post(baseURL+(this.$route.params.name), comment)
