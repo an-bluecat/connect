@@ -98,21 +98,14 @@
                         <br>
                         {{comment.time}}
                         <hr>
-
-                        
                     </h5>
                     </v-card-text>
                 </v-card>
                 </v-tab-item>
-            
             </v-tabs>
             </v-card>
         </v-app>
-       
-
-
     </div>
-    
 </template>
 
 
@@ -141,7 +134,7 @@ export default {
             average: -1
         }
     },
-    async created(){
+    async created(){  // run when page loads
         try{
             // load ratings
             var x=(this.$route.params.name);
@@ -246,19 +239,6 @@ export default {
     font-size: 1.3em;
     background-color: #323333;
     color: #687F7F;
-  }
-  .alert {
-    background: #fdf2ce;
-    font-weight: bold;
-    display: inline-block;
-    padding: 5px;
-    margin-top: -20px;
-  }
-  .alert-in-enter-active {
-    animation: bounce-in .5s;
-  }
-  .alert-in-leave-active {
-    animation: bounce-in .5s reverse;
   }
 @keyframes bounce-in {
   0% {

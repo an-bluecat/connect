@@ -3,17 +3,13 @@
     <nav>
       <router-link to="/">Home</router-link>
       <router-link to="/about">About</router-link>
-
     </nav>
-
     <router-view />
-
   </div>
 </template>
 
 <script>
 import courseInstance from './components/courseInstance';
-import HelloWorld from './components/HelloWorld';
 import courseList from './components/courseList';
 import About from './components/About';
 
@@ -21,7 +17,6 @@ export default {
   name: 'App',
   components: {
     courseInstance,
-    HelloWorld,
     courseList
   }
     
