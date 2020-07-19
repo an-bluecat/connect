@@ -1,6 +1,7 @@
 <template>
     <div>
         <h1>{{this.$route.params.name}}</h1>
+        <h1>rating: <b>{{average}}</b> /5</h1>
         <v-app id="inspire">
 
             <v-card>
@@ -136,11 +137,13 @@ export default {
             rating: 3,
             items: ['1', '2', '3', '4', '5'],
             dialog: false, //for dialog/input popup when click on "add information"
-            timestamp: ""
+            timestamp: "",
+            average: -1
         }
     },
     async created(){
         try{
+            // load ratings
             var x=(this.$route.params.name);
             const res = await axios.get(baseURL+x);
             for(var i=0;i<res.data.length; i++){
@@ -151,6 +154,11 @@ export default {
               }
             }
             console.log(this.comments)
+            // load average rating
+            const avg=await axios.get(baseURL+x+'/average');
+            this.average=avg.data['rate']
+            console.log(this.average)
+
         }catch(e){
             console.error(e);
         }
