@@ -4,6 +4,7 @@ import courseInstance from './components/courseInstance.vue'
 import About from './components/About.vue'
 import courseList from './components/courseList';
 import addRating from './components/addRating'
+import Welcome from './components/Welcome';
 
 Vue.use(Router)
 

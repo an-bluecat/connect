@@ -1,23 +1,17 @@
 <template>
   <div id="app">
-    <nav>
-      <router-link to="/">Home</router-link>
-      <router-link to="/about">About</router-link>
-    </nav>
+    <TopPanel/>
     <router-view />
   </div>
 </template>
 
 <script>
-import courseInstance from './components/courseInstance';
-import courseList from './components/courseList';
-import About from './components/About';
+import TopPanel from './components/TopPanel'
 
 export default {
   name: 'App',
   components: {
-    courseInstance,
-    courseList
+    TopPanel
   }
     
 }
