@@ -1,8 +1,5 @@
 <template>
     <div>
-        <h1>Welcome!</h1>
-        <input placeholder="Search for a course" v-model="entered" @keyup.enter="searchCourse">
-       
         <ul v-if= "displaySearch===false">
                 <li v-for="course of courses" :key="course.id">
                     <router-link v-bind:to="{
@@ -17,10 +14,8 @@
             <li v-for="course of searchedCourses" :key="course.id">
                 <router-link v-bind:to="'/course/'+course.name">{{course.name}}</router-link>
             </li>
-            
         </ul>
     </div>
-    
 </template>
 
 

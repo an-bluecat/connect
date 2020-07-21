@@ -126,10 +126,13 @@
         if (!this.formIsValid) {
           return
         }
+        if (!this.image){
+          return
+        }
         const meetupData = {
           title: this.title,
           location: this.location,
-          imageUrl: this.imageUrl,
+          image: this.image, // submit binary file
           description: this.description,
           date: this.submittableDateTime
         }

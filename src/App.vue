@@ -1,12 +1,15 @@
 <template>
 
   <v-app id="inspire">
-    <div>  <!--  Keep the div to avoid mysterious white space  -->
+    <div>
       <TopPanel/>
-      <CreateMeetup/>
+      <!-- <CreateMeetup/> -->
     </div>
-
-    <router-view />
+    <!-- <div id="container"> -->
+    <main>
+      <router-view></router-view>
+    </main>
+    <!-- </div> -->
   </v-app>
 </template>
 
@@ -27,5 +30,13 @@ export default {
 
 <style>
 @import url('https://fonts.googleapis.com/css?family=Montserrat:400,700');
-
+.container {
+  /* background-color: aqua; */
+  /* height: 100vh; */
+  /* width: 100vw; */
+}
+.inspire {
+  height: 100vh;
+  width: 100vw;
+}
 </style>
