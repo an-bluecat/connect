@@ -13,7 +13,7 @@ export default new Router({
     {
       path: '/',
       name: 'main',
-      component: courseList
+      component: Welcome
     },
     {
       path: '/',
@@ -43,6 +43,11 @@ export default new Router({
       path: '/about',
       name: 'about',
       component: About
+    },
+    {
+      path: '/courses',
+      name: 'courses', 
+      component: courseList
     }
   ]
 })
