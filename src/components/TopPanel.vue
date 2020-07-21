@@ -1,21 +1,19 @@
 <template>
-    <v-app id="inspire">
     <v-tabs
-      fixed-tabs
-      background-color="#343a40"
-      dark
+    fixed-tabs
+    background-color="#343a40"
+    dark
     >
-        <v-tab @click="$router.push('/')">
+        <v-tab @click="$router.push('/').catch(()=>{})">
             Home
         </v-tab>
-        <v-tab @click="$router.push('/about')">
+        <v-tab @click="$router.push('/about').catch(()=>{})">
             About
         </v-tab>
-        <v-tab @click="$router.push('/courses')">
+        <v-tab @click="$router.push('/courses').catch(()=>{})">
             Courses
         </v-tab>
     </v-tabs>
-    </v-app>
 </template>
 
 <script>
@@ -25,9 +23,16 @@
 
             }
         },
+        methods: {
+            test: () => {
+
+            }
+        }
     }
 </script>
 
 <style scoped>
-
+.v-tabs {
+    height:50px;
+}
 </style>

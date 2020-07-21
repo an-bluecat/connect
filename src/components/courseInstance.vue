@@ -18,9 +18,6 @@
                 <!-- ##############tab 1############### -->
                 <v-tab-item>
                 <v-card flat>
-                        <!-- <input placeholder="your comments here" v-model="commentName" @keyup.enter="addcomment" v-validate="'min:5'" name="courseName">
-                        <p class="alert" v-if="errors.has('courseName')">{{errors.first('courseName')}}</p> -->
-
                         <ul>
                             <li v-for="comment of ratings" :key="comment.id">
                                 {{comment.comment}}
@@ -169,33 +166,24 @@ export default {
                     const dateTime = date +' '+ time;
                     this.timestamp = dateTime;
                 },
-
         async addcomment() {
             //construct comment
             var comment = {"israting": false, "user": "unknown", "comment": this.commentName, "time": this.timestamp, "likes": 0, "rate": 0}
-
             // post to db
             const res = await axios.post(baseURL+(this.$route.params.name), comment)
-
-            console.log(res)
-            // console.log("comment",commentName)
-
             // add to comments
             this.comments = [...this.comments, res.data]
-
             //clear commentName input binding
             this.commentName = ''
         },
+        // remove a comment. Currently not in use
         async remove(id){
             var x=(this.$route.params.name);
             var y=baseURL+x
             var z=y+"/"
             const res = await axios.delete(z+id);
-            // sleep(500)
             const res1 = await axios.get(z);
             this.courseInstance=res1.data;
-
-
         }
   }
 }
