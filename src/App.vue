@@ -1,17 +1,21 @@
 <template>
   <div id="app">
     <TopPanel/>
+    <CreateMeetup/>
     <router-view />
   </div>
 </template>
 
 <script>
 import TopPanel from './components/TopPanel'
+import CreateMeetup from './components/CreateMeetup'
 
 export default {
   name: 'App',
   components: {
-    TopPanel
+    TopPanel,
+    CreateMeetup
+
   }
     
 }
