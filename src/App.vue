@@ -3,7 +3,7 @@
   <v-app id="inspire">
     <div>  <!--  Keep the div to avoid mysterious white space  -->
       <TopPanel/>
-      <!-- <CreateMeetup/> -->
+      <CreateMeetup/>
     </div>
 
     <router-view />
