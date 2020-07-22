@@ -23,7 +23,16 @@ export default {
     TopPanel,
     CreateMeetup
   },
-    
+  computed: {
+    userIsAuthenticated () {
+        if(this.$store.getters.user !== null && this.$store.getters.user !== undefined){
+          console.log("logged in as: ")
+        }else{
+          console.log("No user")
+        }
+        return this.$store.getters.user !== null && this.$store.getters.user !== undefined
+      }
+  }
 }
 </script>
 

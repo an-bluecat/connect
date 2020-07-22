@@ -2,8 +2,14 @@
   <div class="about">
     <h1>This is an about page</h1>
     <p>Right now this will be used for experimenting vuetify features</p>
-    ok
+    <h3 v-if="userIsAuthenticated">
+      Welcome, you are logged in
+    </h3>
+    <p v-else>
+      no user in logged in
+    </p>
     <Signup/>
+    <Signin/>
 
 
   </div>
@@ -11,17 +17,21 @@
 
 <script>
 import Signup from './User/Signup'
+import Signin from './User/Signin'
 
 export default {
   components: {
-    Signup
+    Signup,
+    Signin
   },
   computed: {
-      meetups () {
-        return this.$store.getters.featuredMeetups
-      },
-      loading () {
-        return this.$store.getters.loading
+      userIsAuthenticated () {
+        if(this.$store.getters.user !== null && this.$store.getters.user !== undefined){
+          console.log("logged in as: ")
+        }else{
+          console.log("No user")
+        }
+        return this.$store.getters.user !== null && this.$store.getters.user !== undefined
       }
   },
 }
