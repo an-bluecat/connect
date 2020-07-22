@@ -15,15 +15,14 @@
 
 <script>
 import TopPanel from './components/TopPanel'
-import CreateMeetup from './components/CreateMeetup'
+import CreateMeetup from './components/Meetup/CreateMeetup'
 
 export default {
   name: 'App',
   components: {
     TopPanel,
     CreateMeetup
-
-  }
+  },
     
 }
 </script>
