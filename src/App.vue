@@ -3,7 +3,7 @@
   <v-app id="inspire">
     <div>
       <TopPanel/>
-      <!-- <CreateMeetup/> -->
+      <CreateMeetup/>
     </div>
     <!-- <div id="container"> -->
     <main>

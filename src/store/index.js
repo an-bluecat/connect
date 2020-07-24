@@ -2,6 +2,7 @@ import Vue from 'vue'
 import Vuex from 'vuex'
 import * as firebase from 'firebase'
 
+
 Vue.use(Vuex)
 
 export const store = new Vuex.Store({
@@ -24,17 +25,18 @@ export const store = new Vuex.Store({
     //     description: 'It\'s Paris!'
     //   }
     // ],
-    user: null,
+
+    user: null, // default: no user
     loading: false,
     error: null
   },
   mutations: {
-    setLoadedMeetups (state, payload) {
-      state.loadedMeetups = payload
-    },
-    createMeetup (state, payload) {
-      state.loadedMeetups.push(payload)
-    },
+    // setLoadedMeetups (state, payload) {
+    //   state.loadedMeetups = payload
+    // },
+    // createMeetup (state, payload) {
+    //   state.loadedMeetups.push(payload)
+    // },
     setUser (state, payload) {
       state.user = payload
     },
@@ -48,62 +50,66 @@ export const store = new Vuex.Store({
       state.error = null
     }
   },
+
+  // asynchronous tasks
   actions: {
-    // loadMeetups ({commit}) {
-    //   commit('setLoading', true)
-    //   firebase.database().ref('meetups').once('value')
-    //     .then((data) => {
-    //       const meetups = []
-    //       const obj = data.val()
-    //       for (let key in obj) {
-    //         meetups.push({
-    //           id: key,
-    //           title: obj[key].title,
-    //           description: obj[key].description,
-    //           imageUrl: obj[key].imageUrl,
-    //           date: obj[key].date,
-    //           creatorId: obj[key].creatorId
-    //         })
-    //       }
-    //       commit('setLoadedMeetups', meetups)
-    //       commit('setLoading', false)
-    //     })
-    //     .catch(
-    //       (error) => {
-    //         console.log(error)
-    //         commit('setLoading', false)
-    //       }
-    //     )
-    // },
-    createMeetup ({commit, getters}, payload) {
-      const meetup = {
-        title: payload.title,
-        location: payload.location,
-        imageUrl: payload.imageUrl,
-        description: payload.description,
-        date: payload.date.toISOString(),
-        creatorId: getters.user.id
-      }
-      firebase.database().ref('meetups').push(meetup)
+    loadMeetups ({commit}) {
+      commit('setLoading', true)
+      firebase.database().ref('meetups').once('value')
         .then((data) => {
-          const key = data.key
-          commit('createMeetup', {
-            ...meetup,
-            id: key
-          })
+          const meetups = []
+          const obj = data.val()
+          for (let key in obj) {
+            meetups.push({
+              id: key,
+              title: obj[key].title,
+              description: obj[key].description,
+              imageUrl: obj[key].imageUrl,
+              date: obj[key].date,
+              creatorId: obj[key].creatorId
+            })
+          }
+          commit('setLoadedMeetups', meetups)
+          commit('setLoading', false)
         })
-        .catch((error) => {
-          console.log(error)
-        })
-      // Reach out to firebase and store it
+        .catch(
+          (error) => {
+            console.log(error)
+            commit('setLoading', false)
+          }
+        )
     },
+    // createMeetup ({commit, getters}, payload) {
+    //   const meetup = {
+    //     title: payload.title,
+    //     location: payload.location,
+    //     imageUrl: payload.imageUrl,
+    //     description: payload.description,
+    //     date: payload.date.toISOString(),
+    //     creatorId: getters.user.id
+    //   }
+    //   firebase.database().ref('meetups').push(meetup)
+    //     .then((data) => {
+    //       const key = data.key
+    //       commit('createMeetup', {
+    //         ...meetup,
+    //         id: key
+    //       })
+    //     })
+    //     .catch((error) => {
+    //       console.log(error)
+    //     })
+    //   // Reach out to firebase and store it
+    // },
     signUserUp ({commit}, payload) {
+      // loading
       commit('setLoading', true)
       commit('clearError')
       firebase.auth().createUserWithEmailAndPassword(payload.email, payload.password)
         .then(
           user => {
-            commit('setLoading', false)
+            
+            commit('setLoading', false) // not loading anymore
             const newUser = {
               id: user.uid,
               registeredMeetups: []
@@ -113,8 +119,8 @@ export const store = new Vuex.Store({
         )
         .catch(
           error => {
-            commit('setLoading', false)
-            commit('setError', error)
+            commit('setLoading', false) // not loading anymore
+            commit('setError', error) // saves the error
             console.log(error)
           }
         )
@@ -168,6 +174,7 @@ export const store = new Vuex.Store({
         })
       }
     },
+    // get user that's stored in state
     user (state) {
       return state.user
     },

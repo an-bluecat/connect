@@ -8,6 +8,7 @@ import App from './App.vue'
 import router from './router'
 import vuetify from './plugins/vuetify'
 import { store } from './store' // automatically find ./store/index
+import AlertCmp from './components/Shared/Alert.vue'
 
 
 Vue.use(VeeValidate);
@@ -17,8 +18,9 @@ Vue.use(BootstrapVue)
 Vue.use(IconsPlugin)
 Vue.config.productionTip = false
 
+// register vue component 
+Vue.component('app-alert', AlertCmp)
 
-// Vue.use(VeeValidate)
 
 
 new Vue({

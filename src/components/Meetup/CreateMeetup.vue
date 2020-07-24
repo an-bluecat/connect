@@ -124,21 +124,22 @@
     },
     methods: {
       onCreateMeetup () {
-        if (!this.formIsValid) {
-          return
-        }
-        if (!this.image){
-          return
-        }
+        // if (!this.formIsValid) {
+        //   return
+        // }
+        // if (!this.image){
+        //   return
+        // }
         const meetupData = {
-          title: this.title,
-          location: this.location,
-          image: this.image, // submit binary file
-          description: this.description,
-          date: this.submittableDateTime
+          title: "title",
+          location: "location",
+          image: "this.image", // submit binary file
+          description: "description",
+          date: submittableDateTime
         }
+        // dispatch data
         this.$store.dispatch('createMeetup', meetupData)
-        this.$router.push('/meetups')
+        this.$router.push('/')
       },
       onPickFile(){
         this.$refs.fileInput.click();

@@ -38,7 +38,7 @@
                     <v-btn type="submit" :disabled="loading" :loading="loading">
                       Sign in
                        <span slot="loader" class="custom-loader">
-                        <v-icon light>cached</v-icon>
+                        <v-icon light>loading</v-icon>
                        </span>
                     </v-btn>
                   </v-flex>
@@ -73,6 +73,7 @@
       }
     },
     watch: {
+      // redirect if user sign in
       user (value) {
         if (value !== null && value !== undefined) {
           this.$router.push('/')

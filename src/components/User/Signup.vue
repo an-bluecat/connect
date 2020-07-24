@@ -1,7 +1,11 @@
 <template>
   <v-container>
+    <!-- alert component, from ./Shared/Alert -->
     <v-layout row v-if="error">
       <v-flex xs12 sm6 offset-sm3>
+          <!-- app-alert component is a self defined component, registered in main.js -->
+          <!-- listen to dismissed event, called by onClose in alert.vue -->
+          <!-- pass error.message to Alert -->
         <app-alert @dismissed="onDismissed" :text="error.message"></app-alert>
       </v-flex>
     </v-layout>
@@ -50,7 +54,7 @@
                     <v-btn type="submit" :disabled="loading" :loading="loading">
                       Sign up
                        <span slot="loader" class="custom-loader">
-                        <v-icon light>cached</v-icon>
+                        <v-icon light>loading</v-icon>
                        </span>
                     </v-btn>
                   </v-flex>
@@ -90,7 +94,9 @@
       }
     },
     watch: {
+      // watch whenever getter gives us a new state
       user (value) {
+        // There is a user, redirect to '/'
         if (value !== null && value !== undefined) {
           this.$router.push('/')
         }
