@@ -35,6 +35,7 @@ new Vue({
       databaseURL: 'https://uofthub.firebaseio.com',
       projectId: 'uofthub',
       storageBucket: 'uofthub.appspot.com'
+      
     })
   }
 }).$mount('#app')

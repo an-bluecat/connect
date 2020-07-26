@@ -10,7 +10,10 @@
     </p>
     <Signup/>
     <Signin/>
-
+      <v-btn 
+    @click="test()"
+  >click1
+  </v-btn>
 
   </div>
 </template>
@@ -33,6 +36,23 @@ export default {
         return this.$store.getters.user !== null && this.$store.getters.user !== undefined
       }
   },
+  methods:{
+    test(){
+      const meetupData = {
+      title: this.title,
+      location: this.location,
+      image: this.image, // submit binary file
+      description: this.description,
+      date: this.submittableDateTime
+      }
+    // call createMeetup in index/actions
+    // this.$store.dispatch('createMeetup', meetupData)
+    // console.log("ok")
+    // console.log(this.$store.state.loadedMeetups)
+
+    console.log(this.$store.dispatch('loadMeetups'))
+    }
+  }
 }
 
 

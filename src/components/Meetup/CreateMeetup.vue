@@ -83,7 +83,10 @@
         </form>
       </v-flex>
     </v-layout>
+
   </v-container>
+
+
 </template>
 
 <script>
@@ -131,34 +134,37 @@
         //   return
         // }
         const meetupData = {
-          title: "title",
-          location: "location",
-          image: "this.image", // submit binary file
-          description: "description",
-          date: submittableDateTime
+          title: this.title,
+          location: this.location,
+          image: this.image, // submit binary file
+          description: this.description,
+          date: this.submittableDateTime
         }
-        // dispatch data
         this.$store.dispatch('createMeetup', meetupData)
-        this.$router.push('/')
+        // this.$router.push('/meetups')
       },
       onPickFile(){
+        // $ gives all the ref in this component
         this.$refs.fileInput.click();
       },
+      // default DOM event is in automatically
       onFilePicked(event){
         // list of files 
         const files = event.target.files;
         let filename = files[0].name;
-        // doesn't have extension
+        // doesn't have extension in the filename
         if (filename.lastIndexOf('.') <= 0){
           return alert("Please add a valid file!")
         }
-        // turn binary file to string value for upload
+        // turn binary file to string value
         const fileReader = new FileReader()
         fileReader.addEventListener('load',()=>
-          // result is the base 64. imageURL can preview with this
+          // result is the base 64 string. imageURL can preview with this
           this.imageUrl = fileReader.result
         )
         fileReader.readAsDataURL(files[0])
+
+        // store binary file
         this.image = files[0]
       }
     }
