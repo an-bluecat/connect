@@ -35,7 +35,14 @@ new Vue({
       databaseURL: 'https://uofthub.firebaseio.com',
       projectId: 'uofthub',
       storageBucket: 'uofthub.appspot.com'
-      
     })
+    // Todo:
+    // firebase.auth().onAuthStateChanged((user) => {
+    //   if (user) {
+    //     this.$store.dispatch('autoSignIn', user)
+    //   }
+    // })
+    this.$store.dispatch('loadMeetups')
+    
   }
 }).$mount('#app')

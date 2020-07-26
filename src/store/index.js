@@ -8,7 +8,7 @@ Vue.use(Vuex)
 export const store = new Vuex.Store({
   // stored data
   state: {
-    loadedMeetups:[{test1: "test1"}],
+    loadedMeetups:[],
 
 
     user: null, // default: no user
@@ -47,7 +47,6 @@ export const store = new Vuex.Store({
       // once('value'): get the snapshot once
       firebase.database().ref('meetups').once('value')
         .then((data) => {
-          console.log("loadedmeetupdata:", data.val())
           const meetups = []
           // .val() will get you the value of the response
           const obj = data.val()
@@ -59,8 +58,8 @@ export const store = new Vuex.Store({
               id: key,
               title: obj[key].title,
               // description: obj[key].description,
-              // imageUrl: obj[key].imageUrl,
-              // date: obj[key].date,
+              imageUrl: obj[key].imageUrl,
+              date: obj[key].date
               // creatorId: obj[key].creatorId
             })
           }
@@ -76,24 +75,28 @@ export const store = new Vuex.Store({
     },
     createMeetup ({commit, getters}, payload) {
       const meetup = {
-        title: payload.title,
-        location: payload.location,
-        description: payload.description,
+        title: payload.type,
         date: payload.date.toISOString(),
         // creatorId: getters.user.id
       }
       let imageUrl
       let key
+      // push meetup to database
       firebase.database().ref('meetups').push(meetup)
         .then((data) => {
+          // data we get back from firebase contains the key of this object
           key = data.key
           return key
         })
+        // use store image into storage
         .then(key => {
           const filename = payload.image.name
           const ext = filename.slice(filename.lastIndexOf('.'))
+          // upload fire to the storage part of the firebase. for files we use put('xxx') to upload
           return firebase.storage().ref('meetups/' + key + '.' + ext).put(payload.image)
         })
+        // A promise is an object that may produce a single value some time in the future : either a resolved value, or a reason that it's not resolved
+        // this step is needed to get DownloadURL?
         .then(snapshot => {
           return new Promise((resolve, reject) => {
             snapshot.ref.getDownloadURL().then(url => {
@@ -104,8 +107,10 @@ export const store = new Vuex.Store({
         })
         .then((snapshot) => {
           imageUrl = snapshot.downloadURL
+          // update a node "meetups", child(key)
           return firebase.database().ref('meetups').child(key).update({imageUrl: imageUrl})
         })
+        // commit in local store
         .then(() => {
           commit('createMeetup', {
             ...meetup,
@@ -117,101 +122,31 @@ export const store = new Vuex.Store({
           console.log(error)
         })
     },
-    // createMeetup ({commit, getters}, payload) {
-    //   const meetup = {
-    //     title: payload.title,
-    //     location: payload.location,
-    //     description: payload.description,
-    //     date: payload.date.toISOString(),
-    //     // creatorId: getters.user.id
-    //   }
-    //   let imageUrl
-    //   let key
-    //   //ref('node').push('adddata to list')
-    //   // set: set a single object
-    //   // update: update single item
-    //   firebase.database().ref('meetups').push(meetup)
-    //     .then((data) => {
-    //       console.log(data)
-    //       // data we get back from firebase contains the key of this object
-    //       const key = data.key
-    //       return key
-    //       // commit('createMeetup', {
-    //       //   ...meetup, // ... is spread operator to copy/contatenate array or object
-    //       //   id: key
-    //       // })
-          
-    //     })
-    //     // use the key to upload image in firebase
-    //     .then(key =>{
-    //       // image is part of the payload we passed in
-    //       // image is the file object
-    //       const filename = payload.image.name
-    //       const ext = filename.slice(filename.lastIndexOf('.'))
-    //       // upload fire to the storage part of the firebase
-    //       // for files we use put('xxx') to upload
-    //       return firebase.storage().ref('meetups' + key + '.' + ext).put(payload.image)
-    //     })
-    //     .then(snapshot => {
-    //       console.log("snapshot",snapshot)
-    //       return new Promise((resolve, reject) => {
-    //         snapshot.ref.getDownloadURL().then(url => {
-    //           snapshot.downloadURL = url
-    //           resolve(snapshot)
-    //         })
-    //       })
-    //     })
-    //     .then((snapshot) => {
-    //       imageUrl = snapshot.downloadURL
-    //       return firebase.database().ref('meetups').child(key).update({imageUrl: imageUrl})
-    //     })
-        
-    //     // // Get imageURL from storate and update database with this download URL
-    //     // .then(fileData => {
-          
-    //     //   imageUrl = fileData.metadata.downloadURLs[0]
-    //     //   console.log("imageUrl", imageUrl)
-    //     //   // child is for accessing a specific child
-    //     //   // update a pair
-    //     //   return firebase.database().ref('meetups').child(key).update({imageUrl: imageUrl})
-    //     // })
-    //     // commit in local store
-    //     .then(() => {
-    //         commit('createMeetup', {
-    //         ...meetup, // ... is spread operator to copy/contatenate array or object
-    //         imageUrl: imageUrl,
-    //         id: key
-    //       })
-    //     })
-    //     .catch((error) => {
-    //       console.log(error)
-    //     })
-    //   // Reach out to firebase and store it
-    // },
-    // signUserUp ({commit}, payload) {
-    //   // loading
-    //   commit('setLoading', true)
-    //   commit('clearError')
-    //   firebase.auth().createUserWithEmailAndPassword(payload.email, payload.password)
-    //     .then(
-    //       user => {
+    
+    signUserUp ({commit}, payload) {
+      // loading
+      commit('setLoading', true)
+      commit('clearError')
+      firebase.auth().createUserWithEmailAndPassword(payload.email, payload.password)
+        .then(
+          user => {
             
-    //         commit('setLoading', false) // not loading anymore
-    //         const newUser = {
-    //           id: user.uid,
-    //           registeredMeetups: []
-    //         }
-    //         commit('setUser', newUser)
-    //       }
-    //     )
-    //     .catch(
-    //       error => {
-    //         commit('setLoading', false) // not loading anymore
-    //         commit('setError', error) // saves the error
-    //         console.log(error)
-    //       }
-    //     )
-    // },
+            commit('setLoading', false) // not loading anymore
+            const newUser = {
+              id: user.uid,
+              registeredMeetups: []
+            }
+            commit('setUser', newUser)
+          }
+        )
+        .catch(
+          error => {
+            commit('setLoading', false) // not loading anymore
+            commit('setError', error) // saves the error
+            console.log(error)
+          }
+        )
+    },
     signUserIn ({commit}, payload) {
       commit('setLoading', true)
       commit('clearError')
@@ -247,9 +182,10 @@ export const store = new Vuex.Store({
   },
   getters: {
     loadedMeetups (state) {
-      return state.loadedMeetups.sort((meetupA, meetupB) => {
-        return meetupA.date > meetupB.date
-      })
+      return state.loadedMeetups
+      // return state.loadedMeetups.sort((meetupA, meetupB) => {
+      //   return meetupA.date > meetupB.date
+      // })
     },
     featuredMeetups (state, getters) {
       return getters.loadedMeetups.slice(0, 5)

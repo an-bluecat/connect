@@ -1,9 +1,9 @@
-// this is just an example
+
 <template>
   <v-container>
     <v-layout row>
       <v-flex xs12 sm6 offset-sm3>
-        <h4>Create a new Meetup</h4>
+        <h4>Upload a new file</h4>
       </v-flex>
     </v-layout>
     <v-layout row>
@@ -12,27 +12,17 @@
           <v-layout row>
             <v-flex xs12 sm6 offset-sm3>
               <v-text-field
-                name="title"
-                label="Title"
-                id="title"
-                v-model="title"
-                required></v-text-field>
-            </v-flex>
-          </v-layout>
-          <v-layout row>
-            <v-flex xs12 sm6 offset-sm3>
-              <v-text-field
-                name="location"
-                label="Location"
-                id="location"
-                v-model="location"
+                name="type"
+                label="type"
+                id="type"
+                v-model="type"
                 required></v-text-field>
             </v-flex>
           </v-layout>
           <v-layout row>
             <v-flex xs12 sm6 offset-sm3>
               <!-- btn shown -->
-              <v-btn raised class="primary" @click="onPickFile">Upload Image</v-btn>
+              <v-btn raised class="primary" @click="onPickFile">Upload File</v-btn>
               <!-- actual file input, hidden -->
               <input 
                 type="file" 
@@ -46,7 +36,7 @@
               <img :src="imageUrl" height="150">
             </v-flex>
           </v-layout>
-          <v-layout row>
+          <!-- <v-layout row>
             <v-flex xs12 sm6 offset-sm3>
               <v-text-field
                 name="description"
@@ -56,8 +46,8 @@
                 v-model="description"
                 required></v-text-field>
             </v-flex>
-          </v-layout>
-          <v-layout row>
+          </v-layout> -->
+          <!-- <v-layout row>
             <v-flex xs12 sm6 offset-sm3>
               <h4>Choose a Data & Time</h4>
             </v-flex>
@@ -71,13 +61,13 @@
             <v-flex xs12 sm6 offset-sm3>
               <v-time-picker v-model="time" format="24hr"></v-time-picker>
             </v-flex>
-          </v-layout>
+          </v-layout> -->
           <v-layout row>
             <v-flex xs12 sm6 offset-sm3>
               <v-btn
                 class="primary"
                 :disabled="!formIsValid"
-                type="submit">Create Meetup</v-btn>
+                type="submit">Submit</v-btn>
             </v-flex>
           </v-layout>
         </form>
@@ -94,11 +84,8 @@
     name: "CreateMeetup",
     data () {
       return {
-        title: '',
-        location: '',
+        type: '',
         imageUrl: '',
-        description: '',
-        date: new Date(),
         time: new Date(),
         // this is the raw file
         image: null
@@ -106,7 +93,7 @@
     },
     computed: {
       formIsValid () {
-        return this.title !== '' &&
+        return this.type !== '' &&
           this.location !== '' &&
           this.imageUrl !== '' &&
           this.description !== ''
@@ -127,18 +114,25 @@
     },
     methods: {
       onCreateMeetup () {
-        // if (!this.formIsValid) {
-        //   return
-        // }
-        // if (!this.image){
-        //   return
-        // }
+        if (!this.formIsValid) {
+          return
+        }
+        if (!this.image){
+          return
+        }
+        // get time: this will get zulu time
+        var today = new Date();
+        // var date = today.getFullYear()+'-'+(today.getMonth()+1)+'-'+today.getDate();
+        // var time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
+        // var dateTime = date+' '+time;
+        var dateTime = today
+        console.log(today.toISOString())
         const meetupData = {
-          title: this.title,
-          location: this.location,
+          type: this.type,
+          // location: this.location,
           image: this.image, // submit binary file
           description: this.description,
-          date: this.submittableDateTime
+          date: dateTime
         }
         this.$store.dispatch('createMeetup', meetupData)
         // this.$router.push('/meetups')

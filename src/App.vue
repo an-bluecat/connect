@@ -3,7 +3,6 @@
   <v-app id="inspire">
     <div>
       <TopPanel/>
-      <CreateMeetup/>
     </div>
     <!-- <div id="container"> -->
     <main>
@@ -15,13 +14,11 @@
 
 <script>
 import TopPanel from './components/TopPanel'
-import CreateMeetup from './components/Meetup/CreateMeetup'
 
 export default {
   name: 'App',
   components: {
     TopPanel,
-    CreateMeetup
   },
   computed: {
     userIsAuthenticated () {
