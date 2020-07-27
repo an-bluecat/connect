@@ -8,7 +8,7 @@
     </v-layout>
     <v-layout row>
       <v-flex xs12>
-        <form @submit.prevent="onCreateMeetup">
+        <form @submit.prevent="onCreatefileUpload">
           <v-layout row>
             <v-flex xs12 sm6 offset-sm3>
               <v-text-field
@@ -36,7 +36,7 @@
               <img :src="imageUrl" height="150">
             </v-flex>
           </v-layout>
-          <!-- <v-layout row>
+          <v-layout row>
             <v-flex xs12 sm6 offset-sm3>
               <v-text-field
                 name="description"
@@ -46,7 +46,7 @@
                 v-model="description"
                 required></v-text-field>
             </v-flex>
-          </v-layout> -->
+          </v-layout>
           <!-- <v-layout row>
             <v-flex xs12 sm6 offset-sm3>
               <h4>Choose a Data & Time</h4>
@@ -81,11 +81,12 @@
 
 <script>
   export default {
-    name: "CreateMeetup",
+    name: "CreatefileUpload",
     data () {
       return {
         type: '',
         imageUrl: '',
+        description: '',
         time: new Date(),
         // this is the raw file
         image: null
@@ -94,26 +95,24 @@
     computed: {
       formIsValid () {
         return this.type !== '' &&
-          this.location !== '' &&
-          this.imageUrl !== '' &&
-          this.description !== ''
+          this.imageUrl !== ''
       },
-      submittableDateTime () {
-        const date = new Date(this.date)
-        if (typeof this.time === 'string') {
-          let hours = this.time.match(/^(\d+)/)[1]
-          const minutes = this.time.match(/:(\d+)/)[1]
-          date.setHours(hours)
-          date.setMinutes(minutes)
-        } else {
-          date.setHours(this.time.getHours())
-          date.setMinutes(this.time.getMinutes())
-        }
-        return date
-      }
+      // submittableDateTime () {
+      //   const date = new Date(this.date)
+      //   if (typeof this.time === 'string') {
+      //     let hours = this.time.match(/^(\d+)/)[1]
+      //     const minutes = this.time.match(/:(\d+)/)[1]
+      //     date.setHours(hours)
+      //     date.setMinutes(minutes)
+      //   } else {
+      //     date.setHours(this.time.getHours())
+      //     date.setMinutes(this.time.getMinutes())
+      //   }
+      //   return date
+      // }
     },
     methods: {
-      onCreateMeetup () {
+      onCreatefileUpload () {
         if (!this.formIsValid) {
           return
         }
@@ -127,15 +126,15 @@
         // var dateTime = date+' '+time;
         var dateTime = today
         console.log(today.toISOString())
-        const meetupData = {
+        const fileUploadData = {
           type: this.type,
           // location: this.location,
           image: this.image, // submit binary file
           description: this.description,
           date: dateTime
         }
-        this.$store.dispatch('createMeetup', meetupData)
-        // this.$router.push('/meetups')
+        this.$store.dispatch('createfileUpload', fileUploadData)
+        // this.$router.push('/fileUploads')
       },
       onPickFile(){
         // $ gives all the ref in this component

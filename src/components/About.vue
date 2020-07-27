@@ -14,23 +14,23 @@
         @click="test()"
       >click1
       </v-btn> -->
-    <CreateMeetup/>
-    <Meetups/>
+    <CreatefileUpload/>
+    <fileUploads/>
   </div>
 </template>
 
 <script>
 import Signup from './User/Signup'
 import Signin from './User/Signin'
-import CreateMeetup from './Meetup/CreateMeetup'
-import Meetups from './Meetup/Meetups'
+import CreatefileUpload from './Meetup/CreatefileUpload'
+import fileUploads from './Meetup/fileUploads'
 
 export default {
   components: {
     Signup,
     Signin,
-    CreateMeetup,
-    Meetups
+    CreatefileUpload,
+    fileUploads
   },
   computed: {
       userIsAuthenticated () {
@@ -42,19 +42,19 @@ export default {
   },
   methods:{
     // test(){
-    //   const meetupData = {
+    //   const fileUploadData = {
     //   title: this.title,
     //   location: this.location,
     //   image: this.image, // submit binary file
     //   description: this.description,
     //   date: this.submittableDateTime
     //   }
-    // // call createMeetup in index/actions
-    // // this.$store.dispatch('createMeetup', meetupData)
+    // // call createfileUpload in index/actions
+    // // this.$store.dispatch('createfileUpload', fileUploadData)
     // // console.log("ok")
-    // // console.log(this.$store.state.loadedMeetups)
+    // // console.log(this.$store.state.loadedfileUploads)
 
-    // console.log(this.$store.dispatch('loadMeetups'))
+    // console.log(this.$store.dispatch('loadfileUploads'))
     // }
   }
 }

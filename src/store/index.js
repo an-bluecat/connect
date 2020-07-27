@@ -8,7 +8,7 @@ Vue.use(Vuex)
 export const store = new Vuex.Store({
   // stored data
   state: {
-    loadedMeetups:[],
+    loadedfileUploads:[],
 
 
     user: null, // default: no user
@@ -18,11 +18,11 @@ export const store = new Vuex.Store({
   // mutate state
   // called by commit "actions" part of this same file
   mutations: {
-    setLoadedMeetups (state, payload) {
-      state.loadedMeetups = payload
+    setLoadedfileUploads (state, payload) {
+      state.loadedfileUploads = payload
     },
-    createMeetup (state, payload) {
-      state.loadedMeetups.push(payload)
+    createfileUpload (state, payload) {
+      state.loadedfileUploads.push(payload)
     },
     setUser (state, payload) {
       state.user = payload
@@ -40,30 +40,31 @@ export const store = new Vuex.Store({
 
   // asynchronous tasks
   actions: {
-    loadMeetups ({commit}) {
+    loadfileUploads ({commit}) {
       commit('setLoading', true)
-      // reach out to the meetup node
+      // reach out to the fileUpload node
       // on('value'): listen to any value changes and get push notifications
       // once('value'): get the snapshot once
-      firebase.database().ref('meetups').once('value')
+      firebase.database().ref('fileUploads').once('value')
         .then((data) => {
-          const meetups = []
+          const fileUploads = []
           // .val() will get you the value of the response
           const obj = data.val()
           // data.val is an object, not an array
           // The "let" statement declares a block-scoped local variable, optionally initializing it to a value.
           // loop through the object, same as for(key in obj), but limit key to block scope by "let"
           for (let key in obj) {
-            meetups.push({
+            fileUploads.push({
               id: key,
-              title: obj[key].title,
-              // description: obj[key].description,
+              type: obj[key].type,
+              description: obj[key].description,
               imageUrl: obj[key].imageUrl,
-              date: obj[key].date
+              date: obj[key].date,
+              filename: obj[key].filename
               // creatorId: obj[key].creatorId
             })
           }
-          commit('setLoadedMeetups', meetups)
+          commit('setLoadedfileUploads', fileUploads)
           commit('setLoading', false)
         })
         .catch(
@@ -73,16 +74,18 @@ export const store = new Vuex.Store({
           }
         )
     },
-    createMeetup ({commit, getters}, payload) {
-      const meetup = {
-        title: payload.type,
+    createfileUpload ({commit, getters}, payload) {
+      const fileUpload = {
+        type: payload.type,
         date: payload.date.toISOString(),
+        filename: payload.image.name,
+        description: payload.description
         // creatorId: getters.user.id
       }
       let imageUrl
       let key
-      // push meetup to database
-      firebase.database().ref('meetups').push(meetup)
+      // push fileUpload to database
+      firebase.database().ref('fileUploads').push(fileUpload)
         .then((data) => {
           // data we get back from firebase contains the key of this object
           key = data.key
@@ -93,7 +96,8 @@ export const store = new Vuex.Store({
           const filename = payload.image.name
           const ext = filename.slice(filename.lastIndexOf('.'))
           // upload fire to the storage part of the firebase. for files we use put('xxx') to upload
-          return firebase.storage().ref('meetups/' + key + '.' + ext).put(payload.image)
+          return firebase.storage().ref(filename).put(payload.image)
+          // return firebase.storage().ref('fileUploads/' + key + '.' + ext).put(payload.image)
         })
         // A promise is an object that may produce a single value some time in the future : either a resolved value, or a reason that it's not resolved
         // this step is needed to get DownloadURL?
@@ -107,13 +111,13 @@ export const store = new Vuex.Store({
         })
         .then((snapshot) => {
           imageUrl = snapshot.downloadURL
-          // update a node "meetups", child(key)
-          return firebase.database().ref('meetups').child(key).update({imageUrl: imageUrl})
+          // update a node "fileUploads", child(key)
+          return firebase.database().ref('fileUploads').child(key).update({imageUrl: imageUrl})
         })
         // commit in local store
         .then(() => {
-          commit('createMeetup', {
-            ...meetup,
+          commit('createfileUpload', {
+            ...fileUpload,
             imageUrl: imageUrl,
             id: key
           })
@@ -134,7 +138,7 @@ export const store = new Vuex.Store({
             commit('setLoading', false) // not loading anymore
             const newUser = {
               id: user.uid,
-              registeredMeetups: []
+              registeredfileUploads: []
             }
             commit('setUser', newUser)
           }
@@ -156,7 +160,7 @@ export const store = new Vuex.Store({
             commit('setLoading', false)
             const newUser = {
               id: user.uid,
-              registeredMeetups: []
+              registeredfileUploads: []
             }
             commit('setUser', newUser)
           }
@@ -170,7 +174,7 @@ export const store = new Vuex.Store({
         )
     },
     autoSignIn ({commit}, payload) {
-      commit('setUser', {id: payload.uid, registeredMeetups: []})
+      commit('setUser', {id: payload.uid, registeredfileUploads: []})
     },
     logout ({commit}) {
       firebase.auth().signOut()
@@ -181,19 +185,19 @@ export const store = new Vuex.Store({
     }
   },
   getters: {
-    loadedMeetups (state) {
-      return state.loadedMeetups
-      // return state.loadedMeetups.sort((meetupA, meetupB) => {
-      //   return meetupA.date > meetupB.date
+    loadedfileUploads (state) {
+      return state.loadedfileUploads
+      // return state.loadedfileUploads.sort((fileUploadA, fileUploadB) => {
+      //   return fileUploadA.date > fileUploadB.date
       // })
     },
-    featuredMeetups (state, getters) {
-      return getters.loadedMeetups.slice(0, 5)
+    featuredfileUploads (state, getters) {
+      return getters.loadedfileUploads.slice(0, 5)
     },
-    loadedMeetup (state) {
-      return (meetupId) => {
-        return state.loadedMeetups.find((meetup) => {
-          return meetup.id === meetupId
+    loadedfileUpload (state) {
+      return (fileUploadId) => {
+        return state.loadedfileUploads.find((fileUpload) => {
+          return fileUpload.id === fileUploadId
         })
       }
     },

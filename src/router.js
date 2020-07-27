@@ -48,6 +48,11 @@ export default new Router({
       path: '/courses',
       name: 'courses', 
       component: courseList
-    }
+    },
+    // redirect all the firebasestorage link to http:// firebasestorage.xxx.com
+    // {
+    //   path: 'https://firebasestorage.googleapis.com',
+    //   beforeEnter() {location.href = 'https://firebasestorage.googleapis.com'}
+    // }
   ]
 })
