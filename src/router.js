@@ -6,6 +6,8 @@ import courseList from './components/courseList';
 import addRating from './components/addRating'
 import Welcome from './components/Welcome';
 import CreatefileUpload from './components/Meetup/CreatefileUpload'
+import Signup from './components/User/Signup'
+import Signin from './components/User/Signin'
 
 Vue.use(Router)
 
@@ -16,29 +18,35 @@ export default new Router({
       name: 'main',
       component: Welcome
     },
+    // {
+    //   path: '/',
+    //   name: 'course',
+    //   component: courseInstance,
+    //   children:[
+    //     {
+    //       path:"course/:name",
+    //       name: "class-details",
+    //       component: courseInstance
+    //     }
+    //   ]
+    // },
+    // {
+    //   path: '/',
+    //   name: 'addrating',
+    //   component: addRating,
+    //   children:[
+    //     {
+    //       path:"addrating/:name",
+    //       name: "class-rating",
+    //       component: addRating
+    //     }
+    //   ]
+    // },
     {
-      path: '/',
-      name: 'course',
-      component: courseInstance,
-      children:[
-        {
-          path:"course/:name",
-          name: "class-details",
-          component: courseInstance
-        }
-      ]
-    },
-    {
-      path: '/',
+      path: '/addrating/:classname',
       name: 'addrating',
-      component: addRating,
-      children:[
-        {
-          path:"addrating/:name",
-          name: "class-rating",
-          component: addRating
-        }
-      ]
+      props: true,
+      component: addRating
     },
     {
       path: '/about',
@@ -56,6 +64,16 @@ export default new Router({
       props: true,
       component: CreatefileUpload
     },
+    {
+      path: '/signup',
+      name: 'Signup',
+      component: Signup
+    },
+    {
+      path: '/signin',
+      name: 'Signin',
+      component: Signin
+    }
     // redirect all the firebasestorage link to http:// firebasestorage.xxx.com
     // {
     //   path: 'https://firebasestorage.googleapis.com',

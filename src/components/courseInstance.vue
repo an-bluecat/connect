@@ -84,12 +84,11 @@
                 <v-tab-item>
                 <v-card flat>
                     <v-card-text>
-                    <v-btn><router-link v-bind:to="{
-                        name: 'class-rating',
-                        params:{name: this.$route.params.name, id: 1}
-                    }">
+                    <v-btn @click="onclickaddrating()">
+                    <!-- <router-link v-bind:classname="classname"> -->
                     Rate This Class
-                    </router-link></v-btn>
+                    <!-- </router-link> -->
+                    </v-btn>
 
                     <h5 v-for="comment of comments" :key="comment.id">
                         
@@ -182,8 +181,11 @@ export default {
       getname: function (){
         return this.$route.params.name
       },
-      onlickupload: function(){
+      onclickupload: function(){
         this.$router.push('/addfile/' + this.classname)
+      },
+      onclickaddrating (){
+        this.$router.push('/addrating/' + this.classname)
       },
       // get time
       getNow: function() {

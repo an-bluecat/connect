@@ -42,7 +42,7 @@
             <v-flex xs12 sm6 offset-sm3>
               <v-text-field
                 name="description"
-                label="Description"
+                label="Display Name As "
                 id="description"
                 multi-line
                 v-model="description"
@@ -78,7 +78,7 @@
         time: new Date(),
         // this is the raw file
         image: null,
-        docTypes: ['Homework', 'Test/Quiz', 'Syllabus', 'Note', 'Others']
+        docTypes: ['Homework', 'Test/Quiz', 'Syllabus', 'Notes', 'Others']
       }
     },
     computed: {

@@ -8,14 +8,17 @@
     <p v-else>
       no user in logged in
     </p>
-    <Signup/>
-    <Signin/>
-      <!-- <v-btn 
-        @click="test()"
-      >click1
-      </v-btn> -->
-    <CreatefileUpload/>
-    <fileUploads/>
+      <v-btn >
+        <router-link to="/signin">
+        signin
+        </router-link>
+      </v-btn>
+      <v-btn >
+        <router-link to="/signup">
+        signup
+        </router-link>
+      </v-btn>
+
   </div>
 </template>
 
@@ -34,9 +37,6 @@ export default {
   },
   computed: {
       userIsAuthenticated () {
-        if(this.$store.getters.user !== null && this.$store.getters.user !== undefined){
-          console.log(this.$store.getters.user)
-        }
         return this.$store.getters.user !== null && this.$store.getters.user !== undefined
       }
   },
@@ -51,10 +51,6 @@ export default {
     //   }
     // // call createfileUpload in index/actions
     // // this.$store.dispatch('createfileUpload', fileUploadData)
-    // // console.log("ok")
-    // // console.log(this.$store.state.loadedfileUploads)
-
-    // console.log(this.$store.dispatch('loadfileUploads'))
     // }
   }
 }

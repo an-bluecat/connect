@@ -2,7 +2,7 @@
   <v-container>
     <v-layout row>
       <v-flex xs12 sm6 offset-sm3>
-        <h1>Rate {{this.$route.params.name}}</h1>
+        <h1>Rate {{classname}}</h1>
       </v-flex>
     </v-layout>
     <v-layout row>
@@ -19,13 +19,13 @@
           </v-layout>
           <v-layout row>
             <v-flex xs12 sm6 offset-sm3>
-              <v-text-field
+              <v-textarea
                 name="description"
                 label="Here is your chance to be more specific"
                 id="description"
                 multi-line
                 v-model="formData.comment"
-                required></v-text-field>
+                required></v-textarea>
             </v-flex>
           </v-layout>
           <v-layout row>
@@ -54,6 +54,7 @@ const baseURL="https://restapipostgre.herokuapp.com/";
 
 export default {
   name: 'home',
+  props: ['classname'],
   data() {
     return {
       formData: {
@@ -87,7 +88,7 @@ export default {
     //   this.addPet(payload)
 
       // post to db
-      const res1 = axios.post(baseURL+(this.$route.params.name), comment)
+      const res1 = axios.post(baseURL+(this.classname), comment)
       // reset form after submit
       this.formData = {
         comment: '',
@@ -96,7 +97,7 @@ export default {
         
       },
       //redirect to course page
-      window.location.href = "https://myuoft.netlify.app/#/course/"+this.$route.params.name;
+      window.location.href = "https://myuoft.netlify.app/#/course/"+ (this.classname);
     }
   }
 }
