@@ -21,6 +21,7 @@
                   </div>
                 </v-card-title>
                 <v-card-actions>
+                  <!-- <h5>{{classname}}</h5> -->
                   <v-btn text @click="redirect(fileUpload)">
                   <!-- <v-btn text :to="'/fileUploads/' + fileUpload.id"> -->
                     <!-- <v-icon left light>arrow_forward</v-icon> -->
@@ -38,14 +39,20 @@
 
 <script>
   export default {
+    props: ['classname'],
+    created() {
+        // load files
+        // console.log("classname", this.$props.classname)
+        this.$store.dispatch('loadfileUploads', this.$props.classname)
+    },
     computed: {
       fileUploads () {
+        console.log("loaded files", this.$store.getters.loadedfileUploads)
         return this.$store.getters.loadedfileUploads
       }
     },
     methods: {
       redirect (fileUpload) {
-        console.log(fileUpload.imageUrl)
         window.open(fileUpload.imageUrl, "_blank"); 
       }
     }

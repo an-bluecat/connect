@@ -3,7 +3,7 @@
   <v-container>
     <v-layout row>
       <v-flex xs12 sm6 offset-sm3>
-        <h4>Upload a new file</h4>
+        <h4>Upload a new file for {{classname}}</h4>
       </v-flex>
     </v-layout>
     <v-layout row>
@@ -11,29 +11,31 @@
         <form @submit.prevent="onCreatefileUpload">
           <v-layout row>
             <v-flex xs12 sm6 offset-sm3>
-              <v-text-field
+              <!-- <v-text-field
                 name="type"
                 label="type"
                 id="type"
                 v-model="type"
-                required></v-text-field>
+                required></v-text-field> -->
+              <v-select
+                :items="docTypes"
+                label="Type"
+                v-model="type"
+              ></v-select>
             </v-flex>
           </v-layout>
           <v-layout row>
             <v-flex xs12 sm6 offset-sm3>
-              <!-- btn shown -->
+              <!-- use button to collect image
               <v-btn raised class="primary" @click="onPickFile">Upload File</v-btn>
-              <!-- actual file input, hidden -->
+              
               <input 
                 type="file" 
                 style="display: none" 
                 ref="fileInput"
-                @change="onFilePicked">
-            </v-flex>
-          </v-layout>
-          <v-layout row>
-            <v-flex xs12 sm6 offset-sm3>
-              <img :src="imageUrl" height="150">
+                @change="onFilePicked"> -->
+            
+            <v-file-input chips label="Upload File" @change="onFilePicked"></v-file-input>
             </v-flex>
           </v-layout>
           <v-layout row>
@@ -47,21 +49,6 @@
                 required></v-text-field>
             </v-flex>
           </v-layout>
-          <!-- <v-layout row>
-            <v-flex xs12 sm6 offset-sm3>
-              <h4>Choose a Data & Time</h4>
-            </v-flex>
-          </v-layout>
-          <v-layout row class="mb-2">
-            <v-flex xs12 sm6 offset-sm3>
-              <v-date-picker v-model="date"></v-date-picker>
-            </v-flex>
-          </v-layout>
-          <v-layout row>
-            <v-flex xs12 sm6 offset-sm3>
-              <v-time-picker v-model="time" format="24hr"></v-time-picker>
-            </v-flex>
-          </v-layout> -->
           <v-layout row>
             <v-flex xs12 sm6 offset-sm3>
               <v-btn
@@ -82,6 +69,7 @@
 <script>
   export default {
     name: "CreatefileUpload",
+    props: ["classname"],
     data () {
       return {
         type: '',
@@ -89,13 +77,16 @@
         description: '',
         time: new Date(),
         // this is the raw file
-        image: null
+        image: null,
+        docTypes: ['Homework', 'Test/Quiz', 'Syllabus', 'Note', 'Others']
       }
     },
     computed: {
       formIsValid () {
         return this.type !== '' &&
-          this.imageUrl !== ''
+          this.imageUrl !== '' &&
+          this.description != '' && 
+          this.image != null
       },
       // submittableDateTime () {
       //   const date = new Date(this.date)
@@ -125,26 +116,43 @@
         // var time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
         // var dateTime = date+' '+time;
         var dateTime = today
-        console.log(today.toISOString())
         const fileUploadData = {
           type: this.type,
           // location: this.location,
           image: this.image, // submit binary file
           description: this.description,
-          date: dateTime
+          date: dateTime,
+          classname: this.$props.classname
         }
         this.$store.dispatch('createfileUpload', fileUploadData)
-        // this.$router.push('/fileUploads')
+        this.$router.push('/course/' + this.classname)
       },
       onPickFile(){
         // $ gives all the ref in this component
         this.$refs.fileInput.click();
       },
       // default DOM event is in automatically
-      onFilePicked(event){
-        // list of files 
-        const files = event.target.files;
-        let filename = files[0].name;
+      // onFilePicked(event){
+      //   // list of files 
+      //   const files = event.target.files;
+      //   let filename = files[0].name;
+      //   // doesn't have extension in the filename
+      //   if (filename.lastIndexOf('.') <= 0){
+      //     return alert("Please add a valid file!")
+      //   }
+      //   // turn binary file to string value
+      //   const fileReader = new FileReader()
+      //   fileReader.addEventListener('load',()=>
+      //     // result is the base 64 string. imageURL can preview with this
+      //     this.imageUrl = fileReader.result
+      //   )
+      //   fileReader.readAsDataURL(files[0])
+
+      //   // store binary file
+      //   this.image = files[0]
+      // }
+      onFilePicked(file){
+        let filename = file.name;
         // doesn't have extension in the filename
         if (filename.lastIndexOf('.') <= 0){
           return alert("Please add a valid file!")
@@ -155,10 +163,10 @@
           // result is the base 64 string. imageURL can preview with this
           this.imageUrl = fileReader.result
         )
-        fileReader.readAsDataURL(files[0])
+        fileReader.readAsDataURL(file)
 
         // store binary file
-        this.image = files[0]
+        this.image = file
       }
     }
   }

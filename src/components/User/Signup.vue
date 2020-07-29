@@ -104,9 +104,6 @@
     },
     methods: {
       onSignup () {
-        console.log(this.email)
-        console.log(this.password)
-        console.log(this.confirmPassword)
         this.$store.dispatch('signUserUp', {email: this.email, password: this.password})
       },
       onDismissed () {

@@ -9,8 +9,6 @@ export const store = new Vuex.Store({
   // stored data
   state: {
     loadedfileUploads:[],
-
-
     user: null, // default: no user
     loading: false,
     error: null
@@ -40,16 +38,16 @@ export const store = new Vuex.Store({
 
   // asynchronous tasks
   actions: {
-    loadfileUploads ({commit}) {
+    loadfileUploads ({commit}, payload) {
       commit('setLoading', true)
       // reach out to the fileUpload node
       // on('value'): listen to any value changes and get push notifications
       // once('value'): get the snapshot once
-      firebase.database().ref('fileUploads').once('value')
+      firebase.database().ref(payload).once('value')
         .then((data) => {
           const fileUploads = []
-          // .val() will get you the value of the response
-          const obj = data.val()
+          const obj = data.val() // .val() will get you the value of the response
+          console.log("obj",obj)
           // data.val is an object, not an array
           // The "let" statement declares a block-scoped local variable, optionally initializing it to a value.
           // loop through the object, same as for(key in obj), but limit key to block scope by "let"
@@ -64,6 +62,7 @@ export const store = new Vuex.Store({
               // creatorId: obj[key].creatorId
             })
           }
+          console.log("fileUploads", fileUploads)
           commit('setLoadedfileUploads', fileUploads)
           commit('setLoading', false)
         })
@@ -75,28 +74,32 @@ export const store = new Vuex.Store({
         )
     },
     createfileUpload ({commit, getters}, payload) {
+      let imageUrl
+      let key
+      const classname = payload.classname
+
       const fileUpload = {
         type: payload.type,
         date: payload.date.toISOString(),
         filename: payload.image.name,
-        description: payload.description
+        description: payload.description,
+        classname: payload.classname
         // creatorId: getters.user.id
       }
-      let imageUrl
-      let key
-      // push fileUpload to database
-      firebase.database().ref('fileUploads').push(fileUpload)
+      //************** STEP 1: ******************
+      // push json information to database
+      firebase.database().ref(classname).push(fileUpload)
         .then((data) => {
-          // data we get back from firebase contains the key of this object
-          key = data.key
+          key = data.key // data we get back from firebase contains the key of this object
           return key
         })
+        //************** STEP 2 ******************
         // use store image into storage
         .then(key => {
           const filename = payload.image.name
-          const ext = filename.slice(filename.lastIndexOf('.'))
+          // const ext = filename.slice(filename.lastIndexOf('.'))
           // upload fire to the storage part of the firebase. for files we use put('xxx') to upload
-          return firebase.storage().ref(filename).put(payload.image)
+          return firebase.storage().ref('fileUploads/' + classname + '/' + filename).put(payload.image)
           // return firebase.storage().ref('fileUploads/' + key + '.' + ext).put(payload.image)
         })
         // A promise is an object that may produce a single value some time in the future : either a resolved value, or a reason that it's not resolved
@@ -111,10 +114,12 @@ export const store = new Vuex.Store({
         })
         .then((snapshot) => {
           imageUrl = snapshot.downloadURL
+          //************** STEP 3: ******************
           // update a node "fileUploads", child(key)
-          return firebase.database().ref('fileUploads').child(key).update({imageUrl: imageUrl})
+          return firebase.database().ref(classname).child(key).update({imageUrl: imageUrl})
         })
         // commit in local store
+        //************** STEP 4: ******************
         .then(() => {
           commit('createfileUpload', {
             ...fileUpload,

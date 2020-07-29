@@ -5,6 +5,7 @@ import About from './components/About.vue'
 import courseList from './components/courseList';
 import addRating from './components/addRating'
 import Welcome from './components/Welcome';
+import CreatefileUpload from './components/Meetup/CreatefileUpload'
 
 Vue.use(Router)
 
@@ -48,6 +49,12 @@ export default new Router({
       path: '/courses',
       name: 'courses', 
       component: courseList
+    },
+    {
+      path: '/addfile/:classname',
+      name: 'addfile',
+      props: true,
+      component: CreatefileUpload
     },
     // redirect all the firebasestorage link to http:// firebasestorage.xxx.com
     // {

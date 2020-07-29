@@ -14,6 +14,10 @@
                 <v-icon left>mdi-access-point</v-icon>
                 Rate This Class
                 </v-tab>
+                <v-tab>
+                <v-icon left>mdi-access-point</v-icon>
+                Documents
+                </v-tab>
 
                 <!-- ##############tab 1############### -->
                 <v-tab-item>
@@ -99,6 +103,13 @@
                     </v-card-text>
                 </v-card>
                 </v-tab-item>
+                <!-- ##############tab 3############### -->
+                <v-tab-item>
+                <v-card flat>
+                    <fileUploads v-bind:classname="classname"></fileUploads>
+                    <v-btn @click="onlickupload()">upload file</v-btn>
+                </v-card>
+                </v-tab-item>
             </v-tabs>
             </v-card>
         </v-app>
@@ -108,6 +119,8 @@
 
 <script>
 import axios from "axios";
+import fileUploads from "./Meetup/fileUploads";
+import CreatefileUpload from "./Meetup/CreatefileUpload";
 
 
 // const baseURL="https://connectheroserver.herokuapp.com/";
@@ -116,22 +129,32 @@ import axios from "axios";
 const baseURL="https://restapipostgre.herokuapp.com/";
 
 
-
 export default {
     name:"courseInstance",
+    components: {
+      fileUploads,
+      CreatefileUpload
+    },
     data(){
         return {
             comments: [],
             ratings:[],
             commentName: '',
-            rating: 3,
-            items: ['1', '2', '3', '4', '5'],
             dialog: false, //for dialog/input popup when click on "add information"
             timestamp: "",
-            average: -1
+            average: -1,
+            classname: this.$route.params.name
         }
     },
+    created(){
+      // load fileUpload
+      
+    },
+
     async created(){  // run when page loads
+
+
+
         try{
             // load ratings
             var x=(this.$route.params.name);
@@ -143,11 +166,9 @@ export default {
                 this.ratings.push(res.data[i])
               }
             }
-            console.log(this.comments)
-            // load average rating
             const avg=await axios.get(baseURL+x+'/average');
             this.average=avg.data['rate']
-            console.log(this.average)
+            // console.log(this.average)
 
         }catch(e){
             console.error(e);
@@ -158,6 +179,12 @@ export default {
 
     },
     methods: {
+      getname: function (){
+        return this.$route.params.name
+      },
+      onlickupload: function(){
+        this.$router.push('/addfile/' + this.classname)
+      },
       // get time
       getNow: function() {
                     const today = new Date();
