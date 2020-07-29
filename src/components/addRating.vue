@@ -1,27 +1,48 @@
 <template>
-    <div>
+  <v-container>
+    <v-layout row>
+      <v-flex xs12 sm6 offset-sm3>
         <h1>Rate {{this.$route.params.name}}</h1>
-        <b-form @submit.prevent="handleSubmit">
-
-            <b-form-group id="exampleInputGroup3" label="Rating" label-for="exampleInput3">
-                <b-form-select id="exampleInput3" :options="['0','1', '2','3','4','5']" required v-model="formData.rate" />
-            </b-form-group>
-
-            <b-form-group id="exampleInputGroup2" label="Your Comments" label-for="exampleInput2">
-                <b-form-input
-                id="exampleInput2"
-                type="text"
+      </v-flex>
+    </v-layout>
+    <v-layout row>
+      <v-flex xs12>
+        <form @submit.prevent="handleSubmit">
+          <v-layout row>
+            <v-flex xs12 sm6 offset-sm3>
+              <v-select
+                :items="rateoptions"
+                label="rating"
+                v-model="formData.rate"
+              ></v-select>
+            </v-flex>
+          </v-layout>
+          <v-layout row>
+            <v-flex xs12 sm6 offset-sm3>
+              <v-text-field
+                name="description"
+                label="Here is your chance to be more specific"
+                id="description"
+                multi-line
                 v-model="formData.comment"
-                required
-                placeholder="HERE'S YOUR CHANCE TO BE MORE SPECIFIC" />
-            </b-form-group>
-            
+                required></v-text-field>
+            </v-flex>
+          </v-layout>
+          <v-layout row>
+            <v-flex xs12 sm6 offset-sm3>
+              <v-btn
+                class="primary"
+                :disabled="!formIsValid"
+                type="submit">Submit</v-btn>
+            </v-flex>
+          </v-layout>
+        </form>
+      </v-flex>
+    </v-layout>
 
+  </v-container>
+ 
 
-            <b-button type="submit" variant="primary">Submit</b-button>
-            <!-- <b-button type="reset" variant="danger">Reset</b-button> -->
-        </b-form>
-    </div>
 </template>
 
 <script>
@@ -38,12 +59,19 @@ export default {
       formData: {
         comment: '',
         rate: -1,
-        timestamp: ""
-      }
+        timestamp: "",
+        
+      },
+      rateoptions: [0,1,2,3,4,5]
     }
   },
   created() {
       setInterval(this.getNow, 1000);
+  },
+  computed: {
+    formIsValid () {
+      return this.rate != -1 && this.comment!= ""
+    }
   },
   methods: {
     // get current time
@@ -62,9 +90,11 @@ export default {
       const res1 = axios.post(baseURL+(this.$route.params.name), comment)
       // reset form after submit
       this.formData = {
-        content: '',
-        rate: -1
-      }
+        comment: '',
+        rate: -1,
+        timestamp: "",
+        
+      },
       //redirect to course page
       window.location.href = "https://myuoft.netlify.app/#/course/"+this.$route.params.name;
     }
