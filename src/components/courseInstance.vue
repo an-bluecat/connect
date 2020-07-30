@@ -1,7 +1,7 @@
 <template>
     <div>
         <h1>{{this.$route.params.name}}</h1>
-        <h1>rating: <b>{{average}}</b> /5</h1>
+        <!-- <h1>rating: <b>{{average}}</b> /5</h1> -->
         <v-app id="inspire">
 
             <v-card>
