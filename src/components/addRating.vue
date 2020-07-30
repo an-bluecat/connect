@@ -84,20 +84,28 @@ export default {
                     this.timestamp = dateTime;
     },
     handleSubmit() {
-      var comment = {"israting": true, "user": "unknown", "comment": this.formData.comment, "time": this.timestamp, "likes": 0, "rate": this.formData.rate}
-    //   this.addPet(payload)
+    //   var comment = {"israting": true, "user": "unknown", "comment": this.formData.comment, "time": this.timestamp, "likes": 0, "rate": this.formData.rate}
+    // //   this.addPet(payload)
 
-      // post to db
-      const res1 = axios.post(baseURL+(this.classname), comment)
-      // reset form after submit
-      this.formData = {
-        comment: '',
-        rate: -1,
-        timestamp: "",
+    //   // post to db
+    //   const res1 = axios.post(baseURL+(this.classname), comment)
+    //   // reset form after submit
+    //   this.formData = {
+    //     comment: '',
+    //     rate: -1,
+    //     timestamp: "",
+    // // redirect to course page
+    //   window.location.href = "https://myuoft.netlify.app/#/course/"+ (this.classname);
+        if (!this.formIsValid) {
+          return
+        }
+        // get time: this will get zulu time
+        var time = new Date();
+        const comment = {"classname": this.classname, "user": "unknown", "comment": this.formData.comment, "time": time, "rate": this.formData.rate}
+        this.$store.dispatch('addRating', comment)
+        this.$router.push('/course/' + this.classname)
         
-      },
-      //redirect to course page
-      window.location.href = "https://myuoft.netlify.app/#/course/"+ (this.classname);
+      
     }
   }
 }

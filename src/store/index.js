@@ -9,6 +9,7 @@ export const store = new Vuex.Store({
   // stored data
   state: {
     loadedfileUploads:[],
+    loadedRatings: [],
     user: null, // default: no user
     loading: false,
     error: null
@@ -19,8 +20,14 @@ export const store = new Vuex.Store({
     setLoadedfileUploads (state, payload) {
       state.loadedfileUploads = payload
     },
+    setLoadedRatings (state, payload){
+      state.loadedRatings = payload
+    },
     createfileUpload (state, payload) {
       state.loadedfileUploads.push(payload)
+    },
+    addRating (state, payload) {
+      state.loadedRatings.push(payload)
     },
     setUser (state, payload) {
       state.user = payload
@@ -47,7 +54,6 @@ export const store = new Vuex.Store({
         .then((data) => {
           const fileUploads = []
           const obj = data.val() // .val() will get you the value of the response
-          console.log("obj",obj)
           // data.val is an object, not an array
           // The "let" statement declares a block-scoped local variable, optionally initializing it to a value.
           // loop through the object, same as for(key in obj), but limit key to block scope by "let"
@@ -62,8 +68,38 @@ export const store = new Vuex.Store({
               // creatorId: obj[key].creatorId
             })
           }
-          console.log("fileUploads", fileUploads)
           commit('setLoadedfileUploads', fileUploads)
+          commit('setLoading', false)
+        })
+        .catch(
+          (error) => {
+            console.log(error)
+            commit('setLoading', false)
+          }
+        )
+    },
+    loadRatings ({commit}, payload) {
+      commit('setLoading', true)
+      // reach out to the fileUpload node
+      // on('value'): listen to any value changes and get push notifications
+      // once('value'): get the snapshot once
+      firebase.database().ref(payload).child('rating').once('value')
+        .then((data) => {
+          const fileUploads = []
+          const obj = data.val() // .val() will get you the value of the response
+          // data.val is an object, not an array
+          // The "let" statement declares a block-scoped local variable, optionally initializing it to a value.
+          // loop through the object, same as for(key in obj), but limit key to block scope by "let"
+          for (let key in obj) {
+            fileUploads.push({
+              id: key,
+              comment: obj[key].comment,
+              rate: obj[key].rate,
+              time: obj[key].time,
+              user: obj[key].user
+            })
+          }
+          commit('setLoadedRatings', fileUploads)
           commit('setLoading', false)
         })
         .catch(
@@ -77,7 +113,6 @@ export const store = new Vuex.Store({
       let imageUrl
       let key
       const classname = payload.classname
-
       const fileUpload = {
         type: payload.type,
         date: payload.date.toISOString(),
@@ -124,6 +159,36 @@ export const store = new Vuex.Store({
           commit('createfileUpload', {
             ...fileUpload,
             imageUrl: imageUrl,
+            id: key
+          })
+        })
+        .catch((error) => {
+          console.log(error)
+        })
+    },
+    addRating ({commit, getters}, payload) {
+      let imageUrl
+      let key
+      const classname = payload.classname
+
+      const fileUpload = {
+        rate: payload.rate,
+        user: payload.user,
+        comment: payload.comment,
+        time: payload.time.toISOString(),
+        classname: payload.classname
+        // creatorId: getters.user.id
+      }
+      // push json information to database
+      firebase.database().ref(classname).child('rating').push(fileUpload)
+        .then((data) => {
+          key = data.key // data we get back from firebase contains the key of this object
+          return key
+        })
+        // commit locally
+        .then(() => {
+          commit('addRating', {
+            ...fileUpload,
             id: key
           })
         })
@@ -206,7 +271,10 @@ export const store = new Vuex.Store({
         })
       }
     },
-    // get user that's stored in state
+    loadedRatings (state) {
+      return state.loadedRatings
+    },
+
     user (state) {
       return state.user
     },

@@ -83,23 +83,7 @@
                 <!-- ##############tab 2############### -->
                 <v-tab-item>
                 <v-card flat>
-                    <v-card-text>
-                    <v-btn @click="onclickaddrating()">
-                    <!-- <router-link v-bind:classname="classname"> -->
-                    Rate This Class
-                    <!-- </router-link> -->
-                    </v-btn>
-
-                    <h5 v-for="comment of comments" :key="comment.id">
-                        
-                        rate: {{comment.rate}}
-                        <br>
-                        Review: {{comment.comment}}
-                        <br>
-                        {{comment.time}}
-                        <hr>
-                    </h5>
-                    </v-card-text>
+                    <ratings v-bind:classname="classname"></ratings>
                 </v-card>
                 </v-tab-item>
                 <!-- ##############tab 3############### -->
@@ -120,6 +104,7 @@
 import axios from "axios";
 import fileUploads from "./Meetup/fileUploads";
 import CreatefileUpload from "./Meetup/CreatefileUpload";
+import ratings from "./ratings";
 
 
 // const baseURL="https://connectheroserver.herokuapp.com/";
@@ -132,7 +117,8 @@ export default {
     name:"courseInstance",
     components: {
       fileUploads,
-      CreatefileUpload
+      CreatefileUpload,
+      ratings
     },
     data(){
         return {
@@ -145,16 +131,9 @@ export default {
             classname: this.$route.params.name
         }
     },
-    created(){
-      // load fileUpload
-      
-    },
 
     async created(){  // run when page loads
-
-
-
-        try{
+         try{
             // load ratings
             var x=(this.$route.params.name);
             const res = await axios.get(baseURL+x);
@@ -172,10 +151,8 @@ export default {
         }catch(e){
             console.error(e);
         }
-
-
         setInterval(this.getNow, 1000);
-
+      
     },
     methods: {
       getname: function (){

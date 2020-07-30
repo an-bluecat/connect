@@ -18,30 +18,18 @@ export default new Router({
       name: 'main',
       component: Welcome
     },
-    // {
-    //   path: '/',
-    //   name: 'course',
-    //   component: courseInstance,
-    //   children:[
-    //     {
-    //       path:"course/:name",
-    //       name: "class-details",
-    //       component: courseInstance
-    //     }
-    //   ]
-    // },
-    // {
-    //   path: '/',
-    //   name: 'addrating',
-    //   component: addRating,
-    //   children:[
-    //     {
-    //       path:"addrating/:name",
-    //       name: "class-rating",
-    //       component: addRating
-    //     }
-    //   ]
-    // },
+    {
+      path: '/',
+      name: 'course',
+      component: courseInstance,
+      children:[
+        {
+          path:"course/:name",
+          name: "class-details",
+          component: courseInstance
+        }
+      ]
+    },
     {
       path: '/addrating/:classname',
       name: 'addrating',
