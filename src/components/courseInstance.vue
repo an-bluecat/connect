@@ -89,8 +89,7 @@
                 <!-- ##############tab 3############### -->
                 <v-tab-item>
                 <v-card flat>
-                    <fileUploads v-bind:classname="classname"></fileUploads>
-                    <v-btn @click="onlickupload()">upload file</v-btn>
+                    <fileUploads v-bind:classname="classname"></fileUploads>     
                 </v-card>
                 </v-tab-item>
             </v-tabs>
@@ -157,12 +156,6 @@ export default {
     methods: {
       getname: function (){
         return this.$route.params.name
-      },
-      onclickupload: function(){
-        this.$router.push('/addfile/' + this.classname)
-      },
-      onclickaddrating (){
-        this.$router.push('/addrating/' + this.classname)
       },
       // get time
       getNow: function() {

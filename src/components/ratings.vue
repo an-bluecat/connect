@@ -1,11 +1,54 @@
 <template>
-  <v-container>
+<v-container>
+            
+          
+    <v-flex xs12 sm6 class="text-xs-center text-sm-right">
+      <h3>rating: {{average}}/5</h3>
+      <v-btn @click="onclickaddrating()">add rating</v-btn>
+      <br></br>
+    </v-flex>
+    <v-layout row wrap v-for="comment of comments" :key="comment.id" class="mb-2">
+      
+      <v-flex xs12 sm10 md8 offset-sm1 offset-md2>
+
+        <v-card color="grey lighten-4">
+          
+          <v-container fluid>
+            <v-layout row>
+              <v-flex xs7 sm8 md9>
+                <v-card-title primary-title>
+                  <v-rating
+                    v-model="comment.rate"
+                    background-color="white"
+                    color="yellow accent-4"
+                    dense
+                    half-increments
+                    readonly
+                    size="22"
+                  ></v-rating>
+                  <span class="black--text text--lighten-1 caption mr-2">
+                    ({{comment.rate}})
+                  </span>
+                </v-card-title>
+                <v-card-subtitle>
+                  {{comment.time}}
+                  <!-- <br><br/> -->
+                </v-card-subtitle>
+                <v-card-text>
+                  <h6>{{comment.comment}}</h6>
+                </v-card-text>
+              </v-flex>
+            </v-layout>
+          </v-container>
+        </v-card>
+      </v-flex>
+    </v-layout>
+  </v-container>
+  <!-- <v-container>
     <v-card-text>
       <h3>average rating: {{average}}/5</h3>
       <v-btn @click="onclickaddrating()">
-      <!-- <router-link v-bind:classname="classname"> -->
       Rate This Class
-      <!-- </router-link> -->
       </v-btn>
 
       <h5 v-for="comment of comments" :key="comment.id">
@@ -18,7 +61,7 @@
           <hr>
       </h5>
     </v-card-text>
-  </v-container>
+  </v-container> -->
 </template>
 
 <script>
