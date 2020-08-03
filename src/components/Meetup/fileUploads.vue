@@ -1,9 +1,18 @@
 <template>
   <v-container>
-    <v-flex xs12 sm6 class="text-xs-center text-sm-right">
-        <v-btn @click="onclickupload()">upload file</v-btn>
-      <br></br>
+    <v-layout row warp class="mb-2">
+    <v-flex xs12 sm10 md8 offset-sm1 offset-md2 class="text-xs-center text-sm-center">
+        <v-select
+            :items="docTypes"
+            label="Filter"
+            outlined
+            dense
+            v-model="type"
+        ></v-select>
+      <v-btn class="mb-2" @click="onclickupload()">upload file</v-btn>
     </v-flex>
+    </v-layout>
+
     <v-layout row wrap v-for="fileUpload in fileUploads" :key="fileUpload.id" class="mb-2">
       <v-flex xs12 sm10 md8 offset-sm1 offset-md2>
         <v-card>
@@ -50,6 +59,12 @@
 <script>
   export default {
     props: ['classname'],
+    data () {
+      return{
+        type: '',
+        docTypes: ['All', 'Homework', 'Test/Quiz', 'Syllabus', 'Notes', 'Others']
+      }
+    },
     created() {
         // load files
         // console.log("classname", this.$props.classname)
@@ -58,7 +73,20 @@
     computed: {
       fileUploads () {
         console.log("loaded files", this.$store.getters.loadedfileUploads)
-        return this.$store.getters.loadedfileUploads
+        console.log(this.type)
+        const files = this.$store.getters.loadedfileUploads;
+        if(this.type == 'All' || this.type == ''){
+          return files
+        }
+        else{
+          var targetFile = []
+          for(let filenum in this.$store.getters.loadedfileUploads){
+            if(files[filenum]['type'] == this.type){
+              targetFile.push(files[filenum])
+            }
+          }
+          return targetFile;
+        };
       }
     },
     methods: {
