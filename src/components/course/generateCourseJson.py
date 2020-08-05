@@ -38,6 +38,12 @@ for row in rows:
         # modify class name
         if "H1F" in newName:
             newName = newName.replace("H1F", "")
+        if "H1S" in newName:
+            newName = newName.replace("H1S", "")
+        if "Y1Y" in newName:
+            newName = newName.replace("Y1Y", "")
+        if "H1Y" in newName:
+            newName = newName.replace("H1Y", "")
         courseJson.append({'id': id, 'name': newName})
         id += 1
         
