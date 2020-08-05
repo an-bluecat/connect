@@ -30,7 +30,7 @@
 </template>
 
 <script>
-import courseList from './courseList'
+import courseList from './course/courseList'
 import TopPanel from './TopPanel'
 
 export default {

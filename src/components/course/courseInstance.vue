@@ -101,9 +101,9 @@
 
 <script>
 import axios from "axios";
-import fileUploads from "./fileUpload/fileUploads";
-import CreatefileUpload from "./fileUpload/CreatefileUpload";
-import ratings from "./ratings";
+import fileUploads from "../fileUpload/fileUploads";
+import CreatefileUpload from "../fileUpload/CreatefileUpload";
+import ratings from "../ratings";
 
 
 // const baseURL="https://connectheroserver.herokuapp.com/";
