@@ -2,7 +2,7 @@ import csv
 import os
 import json
 
-print("working dir", os.getcwd())
+# print("working dir", os.getcwd())
 # csv file name 
 filename = "./src/components/course/fall_winter_complete.csv"
   
@@ -42,6 +42,6 @@ for row in rows:
         id += 1
         
     
-print(courseJson)
+# print(courseJson)
 with open('./src/components/course/courseimport.json', 'w') as fp:
     json.dump(courseJson, fp)
