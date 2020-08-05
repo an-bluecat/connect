@@ -21,8 +21,7 @@
 
 <script>
 import axios from "axios";
-
-
+import courseimport from './courseimport.json'
 const baseURL="https://connectheroserver.herokuapp.com/courses";
 
 
@@ -30,36 +29,36 @@ export default {
     name:"courseList",
     data(){
         return {
-            courses:[],
+            courses: courseimport,
             entered: '',
             searchedCourses: [],
             displaySearch: false
         }
     },
     // async created(){
-    created(){
-        try{
-            // const res = await axios.get(baseURL);
-            // const res = axios.get(baseURL);
-            // this.courses=res.data;
-            this.courses=[
-              {
-                "name": "ECE110",
-                "id": 1
-              },
-              {
-                "name": "ECE243",
-                "id": 2
-              },
-              {
-                "name": "ECE297",
-                "id": 3,
-              }
-            ]
-        }catch(e){
-            console.error(e);
-        }
-    },
+    // created(){
+    //     try{
+    //         // const res = await axios.get(baseURL);
+    //         // const res = axios.get(baseURL);
+    //         // this.courses=res.data;
+    //         this.courses=[
+    //           {
+    //             "name": "ECE110",
+    //             "id": 1
+    //           },
+    //           {
+    //             "name": "ECE243",
+    //             "id": 2
+    //           },
+    //           {
+    //             "name": "ECE297",
+    //             "id": 3
+    //           }
+    //         ]
+    //     }catch(e){
+    //         console.error(e);
+    //     }
+    // },
     methods: {
         searchCourse: function() {
             this.searchedCourses=[]
