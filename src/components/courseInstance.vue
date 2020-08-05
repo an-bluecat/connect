@@ -101,8 +101,8 @@
 
 <script>
 import axios from "axios";
-import fileUploads from "./Meetup/fileUploads";
-import CreatefileUpload from "./Meetup/CreatefileUpload";
+import fileUploads from "./fileUpload/fileUploads";
+import CreatefileUpload from "./fileUpload/CreatefileUpload";
 import ratings from "./ratings";
 
 

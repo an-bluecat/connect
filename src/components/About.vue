@@ -25,8 +25,8 @@
 <script>
 import Signup from './User/Signup'
 import Signin from './User/Signin'
-import CreatefileUpload from './Meetup/CreatefileUpload'
-import fileUploads from './Meetup/fileUploads'
+import CreatefileUpload from './fileUpload/CreatefileUpload'
+import fileUploads from './fileUpload/fileUploads'
 
 export default {
   components: {

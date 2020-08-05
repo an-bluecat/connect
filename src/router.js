@@ -5,7 +5,7 @@ import About from './components/About.vue'
 import courseList from './components/courseList';
 import addRating from './components/addRating'
 import Welcome from './components/Welcome';
-import CreatefileUpload from './components/Meetup/CreatefileUpload'
+import CreatefileUpload from './components/fileUpload/CreatefileUpload'
 import Signup from './components/User/Signup'
 import Signin from './components/User/Signin'
 
