@@ -69,6 +69,12 @@ export default new Router({
       name: 'ratings',
       props: true,
       component: ratings
+    },
+    {
+      path: '/course/:classname/resources',
+      name: 'resources',
+      props: true,
+      component: fileUploads
     }
     // redirect all the firebasestorage link to http:// firebasestorage.xxx.com
     // {

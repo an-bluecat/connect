@@ -1,74 +1,107 @@
 <template>
-<v-container>
-            
-          
-    <v-flex xs12 sm6 class="text-xs-center text-sm-right">
+  <v-app>
+    <v-navigation-drawer
+      v-model="drawer"
+      :color="primary"
+      :permanent="permanent"
+      :src="bg"
+      absolute
+      dark
+    >
+      <v-list
+        dense
+        nav
+        class="py-0"
+      >
+        <v-list-item >
 
-      <h3>rating: {{average}}/5</h3>
-      <v-btn @click="onclickaddrating()">add rating</v-btn>
-      <br></br>
-    </v-flex>
-    <v-layout row wrap v-for="comment of comments" :key="comment.id" class="mb-2">
-      
-      <v-flex xs12 sm10 md8 offset-sm1 offset-md2>
+          <v-list-item-content>
+            <v-list-item-title>{{classname}}</v-list-item-title>
+          </v-list-item-content>
+        </v-list-item>
 
-        <v-card color="grey lighten-4">
-          
-          <v-container fluid>
-            <v-layout row>
-              <v-flex xs7 sm8 md9>
-                <v-card-title primary-title>
-                  <v-rating
-                    v-model="comment.rate"
-                    background-color="white"
-                    color="yellow accent-4"
-                    dense
-                    half-increments
-                    readonly
-                    size="22"
-                  ></v-rating>
-                  <span class="black--text text--lighten-1 caption mr-2">
-                    ({{comment.rate}})
-                  </span>
-                </v-card-title>
-                <v-card-subtitle>
-                  {{comment.time}}
-                  <!-- <br><br/> -->
-                </v-card-subtitle>
-                <v-card-text>
-                  <h6>{{comment.comment}}</h6>
-                </v-card-text>
-              </v-flex>
-            </v-layout>
-          </v-container>
-        </v-card>
-      </v-flex>
-    </v-layout>
-  </v-container>
-  <!-- <v-container>
-    <v-card-text>
-      <h3>average rating: {{average}}/5</h3>
-      <v-btn @click="onclickaddrating()">
-      Rate This Class
-      </v-btn>
+        <v-divider></v-divider>
 
-      <h5 v-for="comment of comments" :key="comment.id">
+        <v-list-item
+          v-for="item in items"
+          :key="item.title"
+          link
+          @click="onclickoptions(item)"
+        >
+          <v-list-item-icon>
+            <v-icon>{{ item.icon }}</v-icon>
+          </v-list-item-icon>
+
+          <v-list-item-content>
+            <v-list-item-title>{{ item.title }}</v-list-item-title>
+          </v-list-item-content>
+        </v-list-item>
+      </v-list>
+    </v-navigation-drawer>
+    <v-content>
+      <v-container>   
+        <v-flex xs12 sm6 class="text-xs-center text-sm-right">
+          <h1>{{this.classname}}</h1>
+          <h3>rating: {{average}}/5</h3>
+          <v-btn @click="onclickaddrating()">add rating</v-btn>
+          <br></br>
+        </v-flex>
+        <v-layout row wrap v-for="comment of comments" :key="comment.id" class="mb-2">
           
-          rate: {{comment.rate}}
-          <br>
-          Review: {{comment.comment}}
-          <br>
-          {{comment.time}}
-          <hr>
-      </h5>
-    </v-card-text>
-  </v-container> -->
+          <v-flex xs12 sm10 md8 offset-sm1 offset-md2>
+
+            <v-card color="grey lighten-4">
+              
+              <v-container fluid>
+                <v-layout row>
+                  <v-flex xs7 sm8 md9>
+                    <v-card-title primary-title>
+                      <v-rating
+                        v-model="comment.rate"
+                        background-color="white"
+                        color="yellow accent-4"
+                        dense
+                        half-increments
+                        readonly
+                        size="22"
+                      ></v-rating>
+                      <span class="black--text text--lighten-1 caption mr-2">
+                        ({{comment.rate}})
+                      </span>
+                    </v-card-title>
+                    <v-card-subtitle>
+                      {{comment.time}}
+                      <!-- <br><br/> -->
+                    </v-card-subtitle>
+                    <v-card-text>
+                      <h6>{{comment.comment}}</h6>
+                    </v-card-text>
+                  </v-flex>
+                </v-layout>
+              </v-container>
+            </v-card>
+          </v-flex>
+        </v-layout>
+      </v-container>
+    </v-content>
+
+  </v-app>
+  
 </template>
 
 <script>
   export default {
     name: 'ratings',
     props: ['classname'],
+    data(){
+      return {
+        items: [
+              { title: 'Discussion', icon: 'mdi-view-dashboard' },
+              { title: 'Ratings', icon: 'mdi-image' },
+              { title: 'Resources', icon: 'mdi-help-box' },
+            ],
+      }
+    },
     created () {
         // load files
         this.$store.dispatch('loadRatings', this.$props.classname)
@@ -95,6 +128,18 @@
       onclickaddrating (){
         this.$router.push('/addrating/' + this.classname)
       },
+      onclickoptions(option) {
+        console.log("option", option)
+        if(option['title'] == "Discussion"){
+          return this.$router.push('/course/' + this.classname)
+        }
+        if(option['title'] == "Ratings"){
+          return this.$router.push('/course/' + this.classname + '/ratings')
+        }
+        if(option['title'] == "Resources"){
+          return this.$router.push('/course/' + this.classname + '/resources')
+        }
+      }
     }
   }
 </script>
