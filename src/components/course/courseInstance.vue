@@ -94,6 +94,51 @@
                 </v-tab-item>
             </v-tabs>
             </v-card>
+            <!-- <v-container> -->
+              <v-card
+                height="600"
+                class="overflow-hidden"
+              >
+                <v-navigation-drawer
+                  v-model="drawer"
+                  :color="primary"
+                  :permanent="permanent"
+                  :src="bg"
+                  absolute
+                  dark
+                >
+                  <v-list
+                    dense
+                    nav
+                    class="py-0"
+                  >
+                    <v-list-item >
+          
+                      <v-list-item-content>
+                        <v-list-item-title>{{classname}}</v-list-item-title>
+                      </v-list-item-content>
+                    </v-list-item>
+          
+                    <v-divider></v-divider>
+          
+                    <v-list-item
+                      v-for="item in items"
+                      :key="item.title"
+                      link
+                      @click="onclickoptions(item)"
+                    >
+                      <v-list-item-icon>
+                        <v-icon>{{ item.icon }}</v-icon>
+                      </v-list-item-icon>
+          
+                      <v-list-item-content>
+                        <v-list-item-title>{{ item.title }}</v-list-item-title>
+                      </v-list-item-content>
+                    </v-list-item>
+                  </v-list>
+                </v-navigation-drawer>
+              </v-card>
+            <!-- </v-container> -->
         </v-app>
     </div>
 </template>
@@ -127,7 +172,13 @@ export default {
             dialog: false, //for dialog/input popup when click on "add information"
             timestamp: "",
             average: -1,
-            classname: this.$route.params.name
+            classname: this.$route.params.name,
+            items: [
+              { title: 'Discussion', icon: 'mdi-view-dashboard' },
+              { title: 'Ratings', icon: 'mdi-image' },
+              { title: 'Resources', icon: 'mdi-help-box' },
+            ],
+
         }
     },
 
@@ -165,7 +216,7 @@ export default {
                     const dateTime = date +' '+ time;
                     this.timestamp = dateTime;
                 },
-        async addcomment() {
+      async addcomment() {
             //construct comment
             var comment = {"israting": false, "user": "unknown", "comment": this.commentName, "time": this.timestamp, "likes": 0, "rate": 0}
             // post to db
@@ -174,16 +225,28 @@ export default {
             this.comments = [...this.comments, res.data]
             //clear commentName input binding
             this.commentName = ''
-        },
+      },
         // remove a comment. Currently not in use
-        async remove(id){
+      async remove(id){
             var x=(this.$route.params.name);
             var y=baseURL+x
             var z=y+"/"
             const res = await axios.delete(z+id);
             const res1 = await axios.get(z);
             this.courseInstance=res1.data;
+        },
+      onclickoptions(option) {
+        console.log("option", option)
+        if(option['title'] == "Discussion"){
+          return this.$router.push('/course/' + this.$route.params.name)
         }
+        if(option['title'] == "Ratings"){
+          return this.$router.push('/course/' + this.$route.params.name + '/ratings')
+        }
+        if(option['title'] == "Resources"){
+          return this.$router.push('/course/' + this.$route.params.name + '/resources')
+        }
+      }
   }
 }
 </script>
@@ -192,54 +255,6 @@ export default {
  h1{
      text-align:center
  }
- @import "https://cdn.jsdelivr.net/npm/animate.css@3.5.1";
-@import "https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"; 
-  .holder {
-    background: #fff;
-  }
-  ul {
-    margin: 0;
-    padding: 0;
-    list-style-type: none;
-  }
-  
-  ul li {
-    padding: 20px;
-    font-size: 1.3em;
-    background-color: #E0EDF4;
-    border-left: 5px solid #3EB3F6;
-    margin-bottom: 2px;
-    color: #3E5252;
-  }
-  p {
-    text-align:center;
-    padding: 30px 0;
-    color: gray;
-  }
-  /* .container {
-    box-shadow: 0px 0px 40px lightgray;
-  } */
-  input {
-    width: calc(100% - 40px);
-    border: 0;
-    padding: 20px;
-    font-size: 1.3em;
-    background-color: #323333;
-    color: #687F7F;
-  }
-@keyframes bounce-in {
-  0% {
-    transform: scale(0);
-  }
-  50% {
-    transform: scale(1.5);
-  }
-  100% {
-    transform: scale(1);
-  }
-}
-i {
-  float:right;
-  cursor:pointer;
-}
+ 
+
 </style>

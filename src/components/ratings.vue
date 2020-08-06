@@ -3,6 +3,7 @@
             
           
     <v-flex xs12 sm6 class="text-xs-center text-sm-right">
+
       <h3>rating: {{average}}/5</h3>
       <v-btn @click="onclickaddrating()">add rating</v-btn>
       <br></br>

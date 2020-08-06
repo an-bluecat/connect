@@ -8,6 +8,8 @@ import Welcome from './components/Welcome';
 import CreatefileUpload from './components/fileUpload/CreatefileUpload'
 import Signup from './components/User/Signup'
 import Signin from './components/User/Signin'
+import ratings from './components/ratings'
+import fileUploads from './components/fileUpload/fileUploads'
 
 Vue.use(Router)
 
@@ -61,6 +63,12 @@ export default new Router({
       path: '/signin',
       name: 'Signin',
       component: Signin
+    },
+    {
+      path: '/course/:classname/ratings',
+      name: 'ratings',
+      props: true,
+      component: ratings
     }
     // redirect all the firebasestorage link to http:// firebasestorage.xxx.com
     // {
