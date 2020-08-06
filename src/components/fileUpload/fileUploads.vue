@@ -108,9 +108,9 @@
         type: '',
         docTypes: ['All', 'Homework', 'Test/Quiz', 'Syllabus', 'Notes', 'Others'],
         items: [
-              { title: 'Discussion', icon: 'mdi-view-dashboard' },
-              { title: 'Ratings', icon: 'mdi-image' },
-              { title: 'Resources', icon: 'mdi-help-box' },
+          { title: 'Discussion', icon: 'mdi-comment-account-outline' },
+          { title: 'Ratings', icon: 'mdi-star' },
+          { title: 'Resources', icon: 'mdi-semantic-web' },
         ],
       }
     },

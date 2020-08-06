@@ -95,10 +95,10 @@
     props: ['classname'],
     data(){
       return {
-        items: [
-              { title: 'Discussion', icon: 'mdi-view-dashboard' },
-              { title: 'Ratings', icon: 'mdi-image' },
-              { title: 'Resources', icon: 'mdi-help-box' },
+            items: [
+              { title: 'Discussion', icon: 'mdi-comment-account-outline' },
+              { title: 'Ratings', icon: 'mdi-star' },
+              { title: 'Resources', icon: 'mdi-semantic-web' },
             ],
       }
     },
