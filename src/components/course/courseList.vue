@@ -1,14 +1,14 @@
 <template>
     <div>
         <ul v-if= "displaySearch===false">
-                <li v-for="course of courses" :key="course.id">
-                    <router-link v-bind:to="{
-                        name: 'class-details',
-                        params:{name: course.name, id: course.id}
-                    }">
-                    {{course.name}}
-                    </router-link>
-                </li>
+            <li v-for="course of courses" :key="course.id">
+                <router-link v-bind:to="{
+                    name: 'class-details',
+                    params:{name: course.name, id: course.id}
+                }">
+                {{course.name}}
+                </router-link>
+            </li>
         </ul>
         <ul v-if= "displaySearch">
             <li v-for="course of searchedCourses" :key="course.id">
@@ -35,30 +35,6 @@ export default {
             displaySearch: false
         }
     },
-    // async created(){
-    // created(){
-    //     try{
-    //         // const res = await axios.get(baseURL);
-    //         // const res = axios.get(baseURL);
-    //         // this.courses=res.data;
-    //         this.courses=[
-    //           {
-    //             "name": "ECE110",
-    //             "id": 1
-    //           },
-    //           {
-    //             "name": "ECE243",
-    //             "id": 2
-    //           },
-    //           {
-    //             "name": "ECE297",
-    //             "id": 3
-    //           }
-    //         ]
-    //     }catch(e){
-    //         console.error(e);
-    //     }
-    // },
     methods: {
         searchCourse: function() {
             this.searchedCourses=[]
