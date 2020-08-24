@@ -20,9 +20,9 @@
         >
           <v-list-item-content>
             <router-link v-bind:to="{
-              name: 'class-details',
-              params:{name: course.name, id: course.id}
-            }">
+              name: 'board',
+              params:{name: course.name, option: ''}}"
+            >
               {{course.name}}
             </router-link>
           </v-list-item-content>

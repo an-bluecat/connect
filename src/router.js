@@ -10,6 +10,8 @@ import Signup from './components/User/Signup'
 import Signin from './components/User/Signin'
 import ratings from './components/ratings'
 import fileUploads from './components/fileUpload/fileUploads'
+import fileUpload from './components/fileUpload/fileUpload'
+import DiscussionBoard from './components/DiscussionBoard'
 
 Vue.use(Router)
 
@@ -21,14 +23,25 @@ export default new Router({
       component: Welcome
     },
     {
-      path: '/',
+      path: '/course/:name',
       name: 'course',
       component: courseInstance,
+      props: true,
       children:[
         {
-          path:"course/:name",
-          name: "class-details",
-          component: courseInstance
+          path:"",
+          name: "board",
+          component: DiscussionBoard
+        },
+        {
+          path: "ratings",
+          name: "ratings",
+          component: addRating
+        },
+        {
+          path: "resources",
+          name: "resources",
+          component: fileUploads
         }
       ]
     },
@@ -64,18 +77,6 @@ export default new Router({
       name: 'Signin',
       component: Signin
     },
-    {
-      path: '/course/:classname/ratings',
-      name: 'ratings',
-      props: true,
-      component: ratings
-    },
-    {
-      path: '/course/:classname/resources',
-      name: 'resources',
-      props: true,
-      component: fileUploads
-    }
     // redirect all the firebasestorage link to http:// firebasestorage.xxx.com
     // {
     //   path: 'https://firebasestorage.googleapis.com',
