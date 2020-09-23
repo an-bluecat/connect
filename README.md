@@ -1,3 +1,5 @@
+Course Discussion platform using Vue and Google firebase.
+Used for exchange information, comments, class rating, class files for U of T students.
 
 ## Project setup
 ```
