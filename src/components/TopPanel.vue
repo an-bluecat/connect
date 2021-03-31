@@ -7,11 +7,11 @@
         <v-tab @click="$router.push('/').catch(()=>{})">
             Home
         </v-tab>
-        <v-tab @click="$router.push('/about').catch(()=>{})">
-            About
-        </v-tab>
         <v-tab @click="$router.push('/courses').catch(()=>{})">
             Courses
+        </v-tab>
+        <v-tab @click="$router.push('/about').catch(()=>{})">
+            About
         </v-tab>
     </v-tabs>
 </template>

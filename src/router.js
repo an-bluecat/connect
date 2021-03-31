@@ -1,9 +1,12 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 import courseInstance from './components/course/courseInstance.vue'
+import project from './components/course/project.vue'
+import rate from './components/course/rate.vue'
 import About from './components/About.vue'
 import courseList from './components/course/courseList';
 import addRating from './components/addRating'
+import addComment from './components/addComment'
 import Welcome from './components/Welcome';
 import CreatefileUpload from './components/fileUpload/CreatefileUpload'
 import Signup from './components/User/Signup'
@@ -33,10 +36,40 @@ export default new Router({
       ]
     },
     {
+      path: '/',
+      name: 'project',
+      component: project,
+      children:[
+        {
+          path:"project/:name",
+          name: "class-details",
+          component: project
+        }
+      ]
+    },
+    {
+      path: '/',
+      name: 'rate',
+      component: rate,
+      children:[
+        {
+          path:"project/rate/:name",
+          name: "class-details",
+          component: rate
+        }
+      ]
+    },
+    {
       path: '/addrating/:classname',
       name: 'addrating',
       props: true,
       component: addRating
+    },
+    {
+      path: '/addcomment/:classname',
+      name: 'addcomment',
+      props: true,
+      component: addComment
     },
     {
       path: '/about',

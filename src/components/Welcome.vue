@@ -10,25 +10,27 @@
           </v-card-text>
         </v-card>
     </v-parallax>
-    <h3 id="title"><center>Our Current Top Rated Courses</center></h3>
-    <v-list shaped elevation="10">
-      <v-subheader>Choose your course below!</v-subheader>
-      <v-list-item-group v-model="item" color="primary">
-        <v-list-item
-          v-for="course of courses"
-          :key="course.id"
-        >
-          <v-list-item-content>
-            <router-link v-bind:to="{
-              name: 'class-details',
-              params:{name: course.name, id: course.id}
-            }">
-              {{course.name}}
-            </router-link>
-          </v-list-item-content>
-        </v-list-item>
-      </v-list-item-group>
-    </v-list>
+    <v-container class="mt-n16">
+      <v-row class="mt-n8">
+        <v-col v-for="(item,index) in items" :key="index" cols="12" md="3"> 
+          <v-card class="mx-auto" width="100%" @click="navToProject(item.name)">
+            <v-img height="250" :src="item.src"></v-img>
+            <v-card-title>{{item.name}}</v-card-title>
+            <v-card-text>
+              <v-row align="center" class="mx-0">
+                <!-- <v-rating :value="item.rate" color="amber" dense half-increments readonly size="14"></v-rating> -->
+                <!-- <div class="grey--text ml-4">{{item.rate}} ({{item.nums}})</div> -->
+              </v-row>
+              <div class="my-4 subtitle-1">
+                {{item.title}}
+              </div>
+              <div>{{item.desc}}</div>
+            </v-card-text>
+            <v-divider class="mx-4"></v-divider>
+          </v-card>
+        </v-col>
+      </v-row>
+    </v-container>
   </v-container>
 </template>
 
@@ -44,8 +46,30 @@ export default {
         SearchCourse
     },
     data: () => ({
-      courses: courseimport
+      courses: courseimport,
+      selection: 1,
+      alignments: [
+        'start',
+        'center',
+        'end',
+      ],
+      items: [
+        {name: 'Chem',src:require('../assets/chem.jpg'),rate:4.5,nums:'107',title:'Chemical Engineering',desc:'Chemical Engineering'},
+        {name: 'Civ',src:'https://cdn.vuetifyjs.com/images/cards/cooking.png',rate:1,nums:'10',title:'Civil Engineering',desc:'Civil Engineering'},
+        {name: 'ECE',src:'https://cdn.vuetifyjs.com/images/cards/cooking.png',rate:3,nums:'302',title:'Electrical and Computer Engineering',desc:'Electrical and Computer Engineering'},
+        {name: 'EngSci',src:'https://cdn.vuetifyjs.com/images/cards/cooking.png',rate:5,nums:'2',title:'Engineering Science',desc:'Engineering Science'},
+        {name: 'Indy',src:'https://cdn.vuetifyjs.com/images/cards/cooking.png',rate:4,nums:'432',title:'Industrial Engineering',desc:'Industrial Engineering has been traditionall'},
+        {name: 'MSE',src:'https://cdn.vuetifyjs.com/images/cards/cooking.png',rate:2,nums:'20',title:'Material Science and Engineering',desc:'Material Science and Engineering'},
+        {name: 'Mech',src:'https://cdn.vuetifyjs.com/images/cards/cooking.png',rate:2.5,nums:'236',title:'Mechanical Engineering',desc:'Mechanical Engineering'},
+        {name: 'Min',src:'https://cdn.vuetifyjs.com/images/cards/cooking.png',rate:4.5,nums:'100',title:'Mineral Engineering',desc:'Mineral Engineering'},
+      ]
     }),
+    methods: {
+      navToProject(name) {
+        let routeData = this.$router.resolve('./project/'+ name);
+        window.open(routeData.href, '_blank');
+      }
+    }
   }
 </script>
 

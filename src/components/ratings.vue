@@ -1,10 +1,7 @@
 <template>
   <v-app>
     <v-navigation-drawer
-      v-model="drawer"
-      :color="primary"
-      :permanent="permanent"
-      :src="bg"
+      permanent="permanent"
       absolute
       dark
     >

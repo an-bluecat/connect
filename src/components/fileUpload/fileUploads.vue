@@ -1,10 +1,7 @@
 <template>
   <v-app>
   <v-navigation-drawer
-      v-model="drawer"
-      :color="primary"
-      :permanent="permanent"
-      :src="bg"
+      permanent="permanent"
       absolute
       dark
     >
@@ -146,6 +143,7 @@
         this.$router.push('/addfile/' + this.classname)
       },
       onclickoptions(option) {
+        return this.$router.push('/project/rate/' + this.classname);
         console.log("option", option)
         if(option['title'] == "Discussion"){
           return this.$router.push('/course/' + this.classname)

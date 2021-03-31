@@ -76,17 +76,28 @@
       // redirect if user sign in
       user (value) {
         if (value !== null && value !== undefined) {
-          this.$router.push('/')
+          this.$router.push('/about')
         }
       }
     },
     methods: {
       onSignin () {
+        //储存至Vuex
         this.$store.dispatch('signUserIn', {email: this.email, password: this.password})
+        //储存至Cookie
+        this.setCookie(this.email, this.password, 7);
       },
       onDismissed () {
         this.$store.dispatch('clearError')
-      }
+      },
+      //设置cookie
+      setCookie(c_name, c_pwd, exdays) {
+          var exdate = new Date(); //获取时间
+          exdate.setTime(exdate.getTime() + 24 * 60 * 60 * 1000 * exdays); //保存的天数
+          //字符串拼接cookie
+          window.document.cookie = "email" + "=" + c_name + ";path=/;expires=" + exdate.toGMTString();
+          window.document.cookie = "password" + "=" + c_pwd + ";path=/;expires=" + exdate.toGMTString();
+      },
     }
   }
 </script>

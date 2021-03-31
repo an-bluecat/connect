@@ -93,10 +93,8 @@
             </v-card> -->
             
         <v-navigation-drawer
-          v-model="drawer"
-          :color="primary"
-          :permanent="permanent"
-          :src="bg"
+          permanent="permanent"
+          src="bg"
           absolute
           dark
         >

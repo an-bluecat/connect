@@ -2,21 +2,12 @@
   <v-container>
     <v-layout row>
       <v-flex xs12 sm6 offset-sm3>
-        <h1>Rate {{classname}}</h1>
+        <h1>Comment {{classname}}</h1>
       </v-flex>
     </v-layout>
     <v-layout row>
       <v-flex xs12>
         <form @submit.prevent="handleSubmit">
-          <v-layout row>
-            <v-flex xs12 sm6 offset-sm3>
-              <v-select
-                :items="rateoptions"
-                label="rating"
-                v-model="formData.rate"
-              ></v-select>
-            </v-flex>
-          </v-layout>
           <v-layout row>
             <v-flex xs12 sm6 offset-sm3>
               <v-textarea
@@ -59,21 +50,18 @@ export default {
     return {
       formData: {
         comment: '',
-        rate: -1,
         timestamp: "",
-        
       },
-      rateoptions: [0,1,2,3,4,5],
-      //userinfo
-      email: ''
+      email: 'unknown'
     }
   },
   created() {
       setInterval(this.getNow, 1000);
+      this.getCookie();
   },
   computed: {
     formIsValid () {
-      return this.rate != -1 && this.comment!= ""
+      return this.comment!= ""
     }
   },
   methods: {
@@ -86,33 +74,29 @@ export default {
                     this.timestamp = dateTime;
     },
     handleSubmit() {
-    //   var comment = {"israting": true, "user": "unknown", "comment": this.formData.comment, "time": this.timestamp, "likes": 0, "rate": this.formData.rate}
-    // //   this.addPet(payload)
-
-    //   // post to db
-    //   const res1 = axios.post(baseURL+(this.classname), comment)
-    //   // reset form after submit
-    //   this.formData = {
-    //     comment: '',
-    //     rate: -1,
-    //     timestamp: "",
-    // // redirect to course page
-    //   window.location.href = "https://myuoft.netlify.app/#/course/"+ (this.classname);
         if (!this.formIsValid) {
           return
         }
         // get time: this will get zulu time
         var time = new Date();
-        const user = this.$store.getters.user ? this.$store.getters.user : 'unknown';
-        const comment = {"classname": this.classname, "user": user, "comment": this.formData.comment, "time": time, "rate": this.formData.rate}
-        // console.log(comment);
-        this.$store.dispatch('addRating', comment)
-        // this.$router.push('/course/' + this.classname)
-        // http://localhost:8080/#/project/rate/APS100H1
+        const comment = {"classname": this.classname, "user": this.email, "comment": this.formData.comment, "time": time}
+        this.$store.dispatch('addComment', comment)
         this.$router.push('/project/rate/' + this.classname)
-        
-      
-    }
+    },
+    //读取cookie
+    getCookie: function() {
+        if (document.cookie.length > 0) {
+            this.showLoginInfo = true;
+            var arr = document.cookie.split('; '); //这里显示的格式需要切割一下自己可输出看下
+            for (var i = 0; i < arr.length; i++) {
+                var arr2 = arr[i].split('='); //再次切割
+                //判断查找相对应的值
+                if (arr2[0] == 'email') {
+                    this.email = arr2[1]; //保存到保存数据的地方
+                }
+            }
+        }
+    },
   }
 }
 </script>

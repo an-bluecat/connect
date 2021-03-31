@@ -125,7 +125,7 @@
           classname: this.$props.classname
         }
         this.$store.dispatch('createfileUpload', fileUploadData)
-        this.$router.push('/course/' + this.classname)
+        this.$router.push('/project/rate/' + this.classname)
       },
       onPickFile(){
         // $ gives all the ref in this component

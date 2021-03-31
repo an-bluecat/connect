@@ -98,7 +98,7 @@
       user (value) {
         // There is a user, redirect to '/'
         if (value !== null && value !== undefined) {
-          this.$router.push('/')
+          this.$router.push('/about')
         }
       }
     },

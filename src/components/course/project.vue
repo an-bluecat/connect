@@ -1,0 +1,121 @@
+<template>
+  <v-app id="inspire">
+
+    <v-navigation-drawer v-model="drawer" app>
+      <v-sheet color="grey lighten-4" class="pa-4">
+        <div>{{name}}</div>
+      </v-sheet>
+      <v-divider></v-divider>
+      <v-list>
+        <v-list-item
+          v-for="[icon, text] in links"
+          :key="icon"
+          link
+          @click="onclickoptions(text)"
+        >
+          <v-list-item-icon>
+            <v-icon>{{ icon }}</v-icon>
+          </v-list-item-icon>
+
+          <v-list-item-content>
+            <v-list-item-title>{{ text }}</v-list-item-title>
+          </v-list-item-content>
+        </v-list-item>
+      </v-list>
+    </v-navigation-drawer>
+
+    <v-main>
+      <v-container class="py-8 px-6" fluid>
+        <v-row>
+          <v-col cols="12">
+            <v-card>
+              <v-subheader>area</v-subheader>
+
+              <v-list>
+                <template two-line v-for="(item,index) in plist">
+                  <v-list-item :key="index">
+                    <v-list-item-avatar color="grey darken-1">
+                    </v-list-item-avatar>
+
+                    <v-list-item-content @click="navToRate(item)">
+                      <v-list-item-title> {{ item[0] }}</v-list-item-title>
+                      <v-list-item-subtitle> {{ item[1] }} </v-list-item-subtitle>
+                    </v-list-item-content>
+                  </v-list-item>
+
+                  <v-divider
+                    v-if="index !== (list1.length-1)"
+                    :key="`divider-${index}`"
+                    inset
+                  ></v-divider>
+                </template>
+              </v-list>
+            </v-card>
+          </v-col>
+        </v-row>
+      </v-container>
+    </v-main>
+  </v-app>
+</template>
+
+<script>
+import courseimport from './coursecsv/courseimport.json';
+
+  export default {
+    data: () => ({
+      cards: ['area1', 'area2'],
+      drawer: null,
+      links: [ 
+        ['mdi-inbox-arrow-down', 'First year courses'],
+        ['mdi-send', 'Second year courses'],
+        ['mdi-alert-octagon', 'Third year courses'],
+        ['mdi-domain', 'Fourth year courses'],
+      ],
+      //路由数据
+      name: '',
+      //分科数据
+      pdata: courseimport,
+      plist: [],//中间数据
+      list1: [],
+      list2: [],
+      list3: [],
+      list4: [],
+    }),
+    created() {
+      this.name = this.$route.params.name;
+      //把数据填充到右侧区域
+      const pdata = this.pdata[this.name];
+      this.list1 = [];this.list2 = [];this.list3 = [];this.list4 = [];
+      if(pdata.length > 0) {
+        this.list1 = pdata[0];
+        this.list2 = pdata[1];
+        this.list3 = pdata[2];
+        this.list4 = pdata[3];
+      }
+      this.plist = this.list1;
+    },
+    methods: {
+      onclickoptions(option) {
+        this.plist = [];
+        switch(option) {
+          case "First year courses":
+            this.plist = this.list1;
+            break;
+          case "Second year courses":
+            this.plist = this.list2;
+            break;
+          case "Third year courses":
+            this.plist = this.list3;
+            break;  
+          case "Fourth year courses":
+            this.plist = this.list4;
+            break;                             
+        }
+      },
+      navToRate(item) {
+        let routeData = this.$router.resolve('./rate/'+ item[0]);
+        window.open(routeData.href, '_blank');
+      }
+    }
+  }
+</script>

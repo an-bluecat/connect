@@ -27,7 +27,9 @@ export default {
             if(this.model == null){
                 return
             }
-            this.$router.push('./course/'+ this.model)
+            // this.$router.push('./course/'+ this.model)
+            let routeData = this.$router.resolve('./project/rate/'+ this.model);
+            window.open(routeData.href, '_blank');
         }
     },
     computed: {
@@ -36,7 +38,7 @@ export default {
             for(let num in this.courses){
                 result.push(this.courses[num]['name'])
             }
-            console.log("result", result)
+            // console.log("result", result)
             return result
         },
     },

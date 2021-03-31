@@ -10,6 +10,7 @@ export const store = new Vuex.Store({
   state: {
     loadedfileUploads:[],
     loadedRatings: [],
+    loadedComments: [],
     user: null, // default: no user
     loading: false,
     error: null
@@ -23,11 +24,17 @@ export const store = new Vuex.Store({
     setLoadedRatings (state, payload){
       state.loadedRatings = payload
     },
+    setLoadedComments (state, payload){
+      state.loadedComments = payload
+    },
     createfileUpload (state, payload) {
       state.loadedfileUploads.push(payload)
     },
     addRating (state, payload) {
       state.loadedRatings.push(payload)
+    },
+    addComment (state, payload) {
+      state.loadedComments.push(payload)
     },
     setUser (state, payload) {
       state.user = payload
@@ -100,6 +107,30 @@ export const store = new Vuex.Store({
             })
           }
           commit('setLoadedRatings', fileUploads)
+          commit('setLoading', false)
+        })
+        .catch(
+          (error) => {
+            console.log(error)
+            commit('setLoading', false)
+          }
+        )
+    },
+    loadComments ({commit}, payload) {
+      commit('setLoading', true)
+      firebase.database().ref(payload).child('comment').once('value')
+        .then((data) => {
+          const fileUploads = []
+          const obj = data.val() // .val() will get you the value of the response
+          for (let key in obj) {
+            fileUploads.push({
+              id: key,
+              comment: obj[key].comment,
+              time: obj[key].time,
+              user: obj[key].user
+            })
+          }
+          commit('setLoadedComments', fileUploads)
           commit('setLoading', false)
         })
         .catch(
@@ -196,7 +227,34 @@ export const store = new Vuex.Store({
           console.log(error)
         })
     },
-    
+    addComment ({commit, getters}, payload) {
+      let imageUrl
+      let key
+      const classname = payload.classname
+
+      const fileUpload = {
+        user: payload.user,
+        comment: payload.comment,
+        time: payload.time.toISOString(),
+        classname: payload.classname
+      }
+      // push json information to database
+      firebase.database().ref(classname).child('comment').push(fileUpload)
+        .then((data) => {
+          key = data.key // data we get back from firebase contains the key of this object
+          return key
+        })
+        // commit locally
+        .then(() => {
+          commit('addComment', {
+            ...fileUpload,
+            id: key
+          })
+        })
+        .catch((error) => {
+          console.log(error)
+        })
+    },    
     signUserUp ({commit}, payload) {
       // loading
       commit('setLoading', true)
@@ -230,7 +288,8 @@ export const store = new Vuex.Store({
             commit('setLoading', false)
             const newUser = {
               id: user.uid,
-              registeredfileUploads: []
+              registeredfileUploads: [],
+              email: payload.email
             }
             commit('setUser', newUser)
           }
@@ -273,6 +332,9 @@ export const store = new Vuex.Store({
     },
     loadedRatings (state) {
       return state.loadedRatings
+    },
+    loadedComments (state) {
+      return state.loadedComments
     },
 
     user (state) {
