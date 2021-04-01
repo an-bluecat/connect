@@ -28,8 +28,9 @@ export default {
                 return
             }
             // this.$router.push('./course/'+ this.model)
-            let routeData = this.$router.resolve('./project/rate/'+ this.model);
-            window.open(routeData.href, '_blank');
+            // let routeData = this.$router.resolve('./project/rate/'+ this.model);
+            // window.open(routeData.href, '_blank');
+            this.$router.push('./rate/'+ this.model);
         }
     },
     computed: {

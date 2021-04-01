@@ -118,18 +118,40 @@ export const store = new Vuex.Store({
     },
     loadComments ({commit}, payload) {
       commit('setLoading', true)
-      firebase.database().ref(payload).child('comment').once('value')
+      firebase.database().ref(payload.name).child('comment').once('value')
         .then((data) => {
           const fileUploads = []
           const obj = data.val() // .val() will get you the value of the response
-          for (let key in obj) {
-            fileUploads.push({
-              id: key,
-              comment: obj[key].comment,
-              time: obj[key].time,
-              user: obj[key].user
-            })
+          //先组一个数组
+          const mlist = [];
+          let mkey = (payload.page-1)*4;
+          if(obj != null) {
+            if((Object.keys(obj).length-mkey) < 4) {var limit = Object.keys(obj).length-mkey}else {var limit = 4}
+            for(var i=0;i<limit;i++) {
+              mlist.push(mkey+i);
+            }
+            for(var i=0;i<mlist.length;i++) {
+              //根据payload.page 和  来决定输出  1=> 0-4 2=>5->9
+              let key = Object.keys(obj)[mlist[i]];
+              fileUploads.push({
+                id: key,
+                comment: obj[key].comment,
+                time: obj[key].time,
+                user: obj[key].user,
+                total: Object.keys(obj).length
+              })
+            }
           }
+
+          // console.log(Object.keys(obj).length);
+          // for (let key in obj) {
+          //   fileUploads.push({
+          //     id: key,
+          //     comment: obj[key].comment,
+          //     time: obj[key].time,
+          //     user: obj[key].user
+          //   })
+          // }
           commit('setLoadedComments', fileUploads)
           commit('setLoading', false)
         })

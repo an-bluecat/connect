@@ -81,7 +81,8 @@ export default {
         var time = new Date();
         const comment = {"classname": this.classname, "user": this.email, "comment": this.formData.comment, "time": time}
         this.$store.dispatch('addComment', comment)
-        this.$router.push('/project/rate/' + this.classname)
+        // this.$router.push('/rate/' + this.classname)
+        this.$router.replace('/rate/' + this.classname)
     },
     //读取cookie
     getCookie: function() {

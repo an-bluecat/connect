@@ -3,7 +3,7 @@
 
     <v-navigation-drawer v-model="drawer" app>
       <v-sheet color="grey lighten-4" class="pa-4">
-        <div>{{name}}</div>
+        <v-breadcrumbs :items="items" large></v-breadcrumbs>
       </v-sheet>
       <v-divider></v-divider>
       <v-list>
@@ -29,7 +29,7 @@
         <v-row>
           <v-col cols="12">
             <v-card>
-              <v-subheader>area</v-subheader>
+              <!-- <v-subheader>area</v-subheader> -->
 
               <v-list>
                 <template two-line v-for="(item,index) in plist">
@@ -80,9 +80,16 @@ import courseimport from './coursecsv/courseimport.json';
       list2: [],
       list3: [],
       list4: [],
+      //面包屑导航
+      items: [
+        {text: 'Home', disabled: false, href: '/'},
+        {text: '', disabled: false, href: ''}
+      ]
     }),
     created() {
       this.name = this.$route.params.name;
+      //面包屑
+      this.items[1].text = this.name;this.items[1].href = '/project/'+this.name;
       //把数据填充到右侧区域
       const pdata = this.pdata[this.name];
       this.list1 = [];this.list2 = [];this.list3 = [];this.list4 = [];
@@ -113,8 +120,9 @@ import courseimport from './coursecsv/courseimport.json';
         }
       },
       navToRate(item) {
-        let routeData = this.$router.resolve('./rate/'+ item[0]);
-        window.open(routeData.href, '_blank');
+        // let routeData = this.$router.resolve('./rate/'+ item[0]);
+        // window.open(routeData.href, '_blank');
+        this.$router.push('/rate/'+ item[0]);
       }
     }
   }

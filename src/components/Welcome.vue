@@ -37,7 +37,6 @@
 <script>
 import courseList from './course/courseList'
 import TopPanel from './TopPanel'
-import courseimport from './course/courseimport.json'
 import SearchCourse from './course/SeachCourse'
 
 export default {
@@ -46,7 +45,6 @@ export default {
         SearchCourse
     },
     data: () => ({
-      courses: courseimport,
       selection: 1,
       alignments: [
         'start',
@@ -66,8 +64,9 @@ export default {
     }),
     methods: {
       navToProject(name) {
-        let routeData = this.$router.resolve('./project/'+ name);
-        window.open(routeData.href, '_blank');
+        // let routeData = this.$router.resolve('./project/'+ name);
+        // window.open(routeData.href, '_blank');
+        this.$router.push('./project/'+ name);
       }
     }
   }

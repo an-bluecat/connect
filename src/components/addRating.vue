@@ -107,10 +107,11 @@ export default {
         const comment = {"classname": this.classname, "user": user, "comment": this.formData.comment, "time": time, "rate": this.formData.rate}
         // console.log(comment);
         this.$store.dispatch('addRating', comment)
+        this.$store.dispatch('addComment', comment)
         // this.$router.push('/course/' + this.classname)
         // http://localhost:8080/#/project/rate/APS100H1
-        this.$router.push('/project/rate/' + this.classname)
-        
+        // this.$router.push('/rate/' + this.classname)
+        this.$router.replace('/rate/' + this.classname)
       
     }
   }

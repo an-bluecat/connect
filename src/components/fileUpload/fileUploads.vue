@@ -143,7 +143,7 @@
         this.$router.push('/addfile/' + this.classname)
       },
       onclickoptions(option) {
-        return this.$router.push('/project/rate/' + this.classname);
+        return this.$router.push('/rate/' + this.classname);
         console.log("option", option)
         if(option['title'] == "Discussion"){
           return this.$router.push('/course/' + this.classname)
