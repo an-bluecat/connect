@@ -37,7 +37,7 @@
                     <v-list-item-avatar color="grey darken-1">
                     </v-list-item-avatar>
 
-                    <v-list-item-content @click="navToRate(item)">
+                    <v-list-item-content @click="navToRate(item)" class="link">
                       <v-list-item-title> {{ item[0] }}</v-list-item-title>
                       <v-list-item-subtitle> {{ item[1] }} </v-list-item-subtitle>
                     </v-list-item-content>
@@ -127,3 +127,8 @@ import courseimport from './coursecsv/courseimport.json';
     }
   }
 </script>
+<style scoped>
+ .link {
+   cursor: pointer;
+ }
+</style>

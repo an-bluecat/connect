@@ -7,7 +7,6 @@
           <v-list-item>
             <v-list-item-content>
               <v-breadcrumbs :items="bitems" large></v-breadcrumbs>
-              <!-- <v-list-item-title>{{title}}</v-list-item-title> -->
             </v-list-item-content>
           </v-list-item>
         </v-row>
@@ -15,7 +14,7 @@
           <v-col class="pl-6">
             <v-list-item>
               <v-list-item-content>
-                <v-list-item-title>{{title}}</v-list-item-title>
+                <v-list-item-title class="text-h6">{{title}} - {{km}}</v-list-item-title>
               </v-list-item-content>
             </v-list-item>
             <v-list-item two-line>
@@ -110,6 +109,7 @@
 
 <script>
   import coursedesc from './coursedesc.json';
+  import courseimport from './coursecsv/courseimport.json';
   export default {
     data: () => ({
       //科目信息
@@ -125,6 +125,9 @@
       page: 1,
       pageLength: 0,
       showPage: false,
+      //课名数据
+      pdata1: courseimport,
+      km: ''
     }),
     created() {
       this.title = this.$route.params.name;
@@ -133,6 +136,25 @@
       // this.$store.dispatch('loadRatings', this.$props.classname)
       this.$store.dispatch('loadRatings', this.$route.params.name)
       this.$store.dispatch('loadComments', {name:this.$route.params.name,page:this.page})
+      const obj = this.pdata1;
+      for(let key in obj) {
+        for(var i=0;i<obj[key].length;i++) {
+          // if(obj[key][i][0][0] != undefined) {
+            // console.log(obj[key][i]);
+            for(var j=0;j<obj[key][i].length;j++) {
+            if(this.title == obj[key][i][j][0]) {
+              this.km = obj[key][i][j][1];
+              break;
+            }
+            }
+            // if(this.title == obj[key][i][0][0]) {
+            //   this.km = obj[key][i][0][1];
+            //   break;
+            // }
+          // }
+
+        }
+      }
 
       if(this.pdata[this.title] != undefined) {
         this.desc = this.pdata[this.title][0];
@@ -147,15 +169,20 @@
         const ratings = this.$store.getters.loadedRatings;
         var total = 0;
         // for loop in javascript gets the key of the object, not the object
-        for(let ratingnum in ratings){
-          total = total + ratings[ratingnum]['rate']
+        if(ratings.length > 0) {
+          for(let ratingnum in ratings){
+            total = total + ratings[ratingnum]['rate']
+          }
+          let key = Object.keys(ratings).length;
+          var average = Number(total / key);
+
+          if(!isNaN(average)) {
+            return average.toPrecision(2);
+          }else {
+            return 0;
+          }
         }
-        var average=total/(Object.keys(ratings).length)
-        if(!isNaN(average)) {
-          return parseInt(average.toPrecision(2));
-        }else {
-          return 0;
-        }
+        return 0;
       },
       fileUploads () { //显示上传文件
         const files = this.$store.getters.loadedfileUploads;
