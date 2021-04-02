@@ -1,47 +1,42 @@
 <template>
+  <v-app>
+    <v-main>
+      <!-- <v-container fluid ma-0 pa-0 fill-height> -->
+      <v-container fluid>
+        <v-row >
+          <v-parallax src="@/assets/background.jpg">
+              <h1><center>
+                  Welcome to U of T Connect
+              </center></h1>
+              <v-card width="80%">
+                <v-card-text>
+                  <SearchCourse></SearchCourse>
+                </v-card-text>
+              </v-card>
+          </v-parallax>
+        </v-row>
+        <h4 id="title"><center>Our Current Top Rated Courses</center></h4>
+        <v-row class="mt-n16">
+          <v-col v-for="(item,index) in items" :key="index" cols="12" md="3" xs="3" sm="3" lg="3" xl="3"> 
+            <v-card class="mx-auto" width="100%" @click="navToProject(item.name)">
+              <v-img height="250" :src="item.src"></v-img>
+              <v-card-title>{{item.name}}</v-card-title>
+              <v-card-text>
+                <div class="my-4 subtitle-1">
+                  {{item.title}}
+                </div>
+                <div>{{item.desc}}</div>
+              </v-card-text>
+              <v-divider class="mx-4"></v-divider>
+            </v-card>
+          </v-col>
+        </v-row>
 
-  <v-container id="container" fluid ma-0 pa-0 fill-height>
+      </v-container>
+    </v-main>
 
-    <v-parallax src="@/assets/background.jpg">
-        <h1><center>
-            Welcome to U of T Connect
-        </center></h1>
-        <v-card width="80%">
-          <v-card-text>
-            <SearchCourse></SearchCourse>
-          </v-card-text>
-        </v-card>
-    </v-parallax>
-    <h3 id="title"><center>Our Current Top Rated Courses</center></h3>
-    <!-- <v-sheet width="100%">
-      <v-row class="mt-n8">
-        <v-col v-for="(item,index) in items" :key="index" cols="12" md="3"> 
-          <v-card class="mx-auto" width="100%" @click="navToProject(item.name)">
-            <v-img height="250" :src="item.src"></v-img>
-            <v-card-title>{{item.name}}</v-card-title>
-            <v-card-text>
-              <div class="my-4 subtitle-1">
-                {{item.title}}
-              </div>
-              <div>{{item.desc}}</div>
-            </v-card-text>
-            <v-divider class="mx-4"></v-divider>
-          </v-card>
-        </v-col>
-      </v-row>
-    </v-sheet> -->
-    <v-container>
-      <v-row no-gutters>
-        <v-col v-for="(item,index) in items" :key="index" cols="12" md="3">
-          <v-card class="pa-2" outlined tile>
-            {{item.title}}
-          </v-card>
-        </v-col>
-      </v-row>
-    </v-container>
+  </v-app>
 
-
-  </v-container>
 </template>
 
 <script>
