@@ -10,17 +10,17 @@
           </v-card-text>
         </v-card>
     </v-parallax>
-    <v-container class="mt-n16">
+    <v-container fluid class="mt-n16">
       <v-row class="mt-n8">
         <v-col v-for="(item,index) in items" :key="index" cols="12" md="3"> 
           <v-card class="mx-auto" width="100%" @click="navToProject(item.name)">
             <v-img height="250" :src="item.src"></v-img>
             <v-card-title>{{item.name}}</v-card-title>
             <v-card-text>
-              <v-row align="center" class="mx-0">
+              <!-- <v-row align="center" class="mx-0"> -->
                 <!-- <v-rating :value="item.rate" color="amber" dense half-increments readonly size="14"></v-rating> -->
                 <!-- <div class="grey--text ml-4">{{item.rate}} ({{item.nums}})</div> -->
-              </v-row>
+              <!-- </v-row> -->
               <div class="my-4 subtitle-1">
                 {{item.title}}
               </div>

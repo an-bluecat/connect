@@ -1,8 +1,8 @@
 <template>
   <v-app id="inspire">
 
-    <v-main class="grey lighten-3">
-      <v-container>
+    <!-- <v-main class="grey lighten-3"> -->
+      <v-container class="grey lighten-3" fluid>
         <v-row no-gutters style="height: 50px;background-color: white">
           <v-list-item>
             <v-list-item-content>
@@ -45,7 +45,9 @@
             </v-list-item>
           </v-col>
           <v-col>
-            <p class="text-justify mt-3 pr-4">{{desc}}</p>
+            <p class="text-justify d-inline-block text-truncate" style="max-width: 150px;" v-if="$vuetify.breakpoint.xs">{{desc}}</p>
+            <p class="text-justify mt-3 pr-4" v-else>{{desc}}</p>
+            
           </v-col>
         </v-row>
         <v-row no-gutters style="height: 550px;background-color: white">
@@ -86,24 +88,29 @@
                   ></v-divider>
 
                 </template>
-                <div class="text-xs-center text-sm-center">
-                    <v-btn @click="addrating()">add comment</v-btn>
-                    <div class="text-center mt-4">
-                      <v-pagination
-                        v-model="page"
-                        :length="pageLength"
-                        @input="onPageChange"
-                        v-if="showPage"
-                      ></v-pagination>
-                    </div>
-                </div>
+                  <v-row>
+                    <v-col align="center">
+                      <div class="text-xs-center text-sm-center">
+                          <v-btn @click="addrating()">add comment</v-btn>
+                          <div class="text-center mt-4">
+                            <v-pagination
+                              v-model="page"
+                              :length="pageLength"
+                              @input="onPageChange"
+                              v-if="showPage"
+                            ></v-pagination>
+                          </div>
+                      </div>
+                    </v-col>
+                  </v-row>
+
                 
               </v-list>
           </v-col>
         </v-row >
 
       </v-container>
-    </v-main>
+    <!-- </v-main> -->
   </v-app>
 </template>
 
@@ -130,6 +137,7 @@
       km: ''
     }),
     created() {
+      console.log(this.$vuetify.breakpoint.xs);
       this.title = this.$route.params.name;
       //面包屑
       this.bitems[1].text = this.title;this.bitems[1].href = '/rate/'+this.title;
@@ -174,10 +182,10 @@
             total = total + ratings[ratingnum]['rate']
           }
           let key = Object.keys(ratings).length;
-          var average = Number(total / key);
-
+          var average = Number(total / key).toFixed(2);
           if(!isNaN(average)) {
-            return average.toPrecision(2);
+            return parseFloat(average);
+            // return average.toPrecision(2);
           }else {
             return 0;
           }
