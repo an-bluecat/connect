@@ -2,20 +2,18 @@
 
   <v-container id="container" fluid ma-0 pa-0 fill-height>
 
-    <v-sheet width="100%">
-      <v-parallax src="@/assets/background.jpg">
-          <h1><center>
-              Welcome to U of T Connect
-          </center></h1>
-          <v-card width="80%">
-            <v-card-text>
-              <SearchCourse></SearchCourse>
-            </v-card-text>
-          </v-card>
-      </v-parallax>
-    </v-sheet>
-
-    <v-sheet width="100%">
+    <v-parallax src="@/assets/background.jpg">
+        <h1><center>
+            Welcome to U of T Connect
+        </center></h1>
+        <v-card width="80%">
+          <v-card-text>
+            <SearchCourse></SearchCourse>
+          </v-card-text>
+        </v-card>
+    </v-parallax>
+    <h3 id="title"><center>Our Current Top Rated Courses</center></h3>
+    <!-- <v-sheet width="100%">
       <v-row class="mt-n8">
         <v-col v-for="(item,index) in items" :key="index" cols="12" md="3"> 
           <v-card class="mx-auto" width="100%" @click="navToProject(item.name)">
@@ -31,7 +29,16 @@
           </v-card>
         </v-col>
       </v-row>
-    </v-sheet>
+    </v-sheet> -->
+    <v-container>
+      <v-row no-gutters>
+        <v-col v-for="(item,index) in items" :key="index" cols="12" md="3">
+          <v-card class="pa-2" outlined tile>
+            {{item.title}}
+          </v-card>
+        </v-col>
+      </v-row>
+    </v-container>
 
 
   </v-container>
