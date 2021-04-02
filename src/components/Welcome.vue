@@ -1,26 +1,27 @@
 <template>
+
   <v-container id="container" fluid ma-0 pa-0 fill-height>
-    <v-parallax src="@/assets/background.jpg" height=500>
-        <h1><center>
-            Welcome to U of T Connect
-        </center></h1>
-        <v-card>
-          <v-card-text>
-            <SearchCourse></SearchCourse>
-          </v-card-text>
-        </v-card>
-    </v-parallax>
-    <v-container fluid class="mt-n16">
+
+    <v-sheet width="100%">
+      <v-parallax src="@/assets/background.jpg">
+          <h1><center>
+              Welcome to U of T Connect
+          </center></h1>
+          <v-card width="80%">
+            <v-card-text>
+              <SearchCourse></SearchCourse>
+            </v-card-text>
+          </v-card>
+      </v-parallax>
+    </v-sheet>
+
+    <v-sheet width="100%">
       <v-row class="mt-n8">
         <v-col v-for="(item,index) in items" :key="index" cols="12" md="3"> 
           <v-card class="mx-auto" width="100%" @click="navToProject(item.name)">
             <v-img height="250" :src="item.src"></v-img>
             <v-card-title>{{item.name}}</v-card-title>
             <v-card-text>
-              <!-- <v-row align="center" class="mx-0"> -->
-                <!-- <v-rating :value="item.rate" color="amber" dense half-increments readonly size="14"></v-rating> -->
-                <!-- <div class="grey--text ml-4">{{item.rate}} ({{item.nums}})</div> -->
-              <!-- </v-row> -->
               <div class="my-4 subtitle-1">
                 {{item.title}}
               </div>
@@ -30,7 +31,9 @@
           </v-card>
         </v-col>
       </v-row>
-    </v-container>
+    </v-sheet>
+
+
   </v-container>
 </template>
 
