@@ -12,7 +12,7 @@
             <v-flex xs12 sm6 offset-sm3>
               <v-select
                 :items="rateoptions"
-                label="rating"
+                label="workload"
                 v-model="formData.rate"
               ></v-select>
             </v-flex>
@@ -21,7 +21,7 @@
             <v-flex xs12 sm6 offset-sm3>
               <v-textarea
                 name="description"
-                label="Here is your chance to be more specific"
+                label="How do you like this course?"
                 id="description"
                 multi-line
                 v-model="formData.comment"
