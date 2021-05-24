@@ -49,5 +49,5 @@ for row in rows:
         
     
 # print(courseJson)
-with open('./src/components/course/courseimport.json', 'w') as fp:
+with open('./src/components/course/courseIndexSearchList', 'w') as fp:
     json.dump(courseJson, fp)

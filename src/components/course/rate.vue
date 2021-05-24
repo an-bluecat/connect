@@ -1,3 +1,6 @@
+// 这是单独的课程界面
+
+
 <template>
   <v-app id="inspire">
 
@@ -76,8 +79,9 @@
 
                     <v-list-item-content>
                       <v-list-item-title v-html="item.comment"></v-list-item-title>
+                      <!-- 暂时不显示名字 -->
                       <v-list-item-subtitle v-html="item.time"></v-list-item-subtitle>
-                      <v-list-item-subtitle v-html="item.user"></v-list-item-subtitle>
+                      <!-- <v-list-item-subtitle v-html="item.user"></v-list-item-subtitle> -->
                     </v-list-item-content>
                   </v-list-item>
 
