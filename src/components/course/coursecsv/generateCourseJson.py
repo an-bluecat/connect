@@ -40,10 +40,15 @@ def parseClass(classname):
         for i in range(0,len(row),1):
             courseStr=row[i]
             if courseStr!="":
-                courseStr=courseStr.replace(" ","")
                 courseStr=courseStr.split("-",maxsplit=2)
                 code=courseStr[0]
                 name=courseStr[1]
+                # get ride of space
+                if code[-1]==" ":
+                    code=code[:-1]
+                if name!="" and name[0]==" ":
+                    name=name[1:]
+                
                 if "H1F" in code:
                     code = code.replace("H1F", "")
                 if "H1S" in code:
@@ -56,9 +61,11 @@ def parseClass(classname):
                     code = code.replace("H1", "")
                 if "Y1" in code:
                     code = code.replace("Y1", "")
+
                 courseJson[i].append([code,name])
             
     result={classname: courseJson}
+    print(courseJson)
     return courseJson
 
 classnames=["Chem","Civ","ECE","EngSci","Indy","MSE","Mech","Min","T1"]
@@ -89,39 +96,44 @@ def getCourseIndex(classname):
             for i in range(0,len(row),1):
                 courseStr=row[i]
                 if courseStr!="":
-                    courseStr=courseStr.replace(" ","")
-                    courseStr=courseStr.split("-",maxsplit=2)
-                    code=courseStr[0]
-                    if "H1F" in code:
-                        code = code.replace("H1F", "")
-                    if "H1S" in code:
-                        code = code.replace("H1S", "")
-                    if "Y1Y" in code:
-                        code = code.replace("Y1Y", "")
-                    if "H1Y" in code:
-                        code = code.replace("H1Y", "")
-                    if "H1" in code:
-                        code = code.replace("H1", "")
-                    if "Y1" in code:
-                        code = code.replace("Y1", "")
+                    # courseStr=courseStr.split("-",maxsplit=2)
+                    # code=courseStr[0]
+                    # name=courseStr[1]
+                    # # get ride of space
+                    # if code[-1]==" ":
+                    #     code=code[:-1]
+                    # if name!="" and name[0]==" ":
+                    #     name=name[1:]
+                    
+                    # if "H1F" in code:
+                    #     code = code.replace("H1F", "")
+                    # if "H1S" in code:
+                    #     code = code.replace("H1S", "")
+                    # if "Y1Y" in code:
+                    #     code = code.replace("Y1Y", "")
+                    # if "H1Y" in code:
+                    #     code = code.replace("H1Y", "")
+                    # if "H1" in code:
+                    #     code = code.replace("H1", "")
+                    # if "Y1" in code:
+                    #     code = code.replace("Y1", "")
                     temp={}
                     temp['id']=id
-                    temp['name']=code
+                    temp['name']=courseStr
                     id+=1
                     courseIndexSearch.append(temp)
-    print(courseIndexSearch)
 for name in classnames:
     getCourseIndex(name)
 
 
 
 
-############ currently does NOT WORK!!!!!!!!! ##############
-### needs to deal with space issues. #####
-# with open('./src/components/course/coursecsv/courseIndexSearchList', 'w') as fp:
-#     json.dump(output, fp)
+########### currently does NOT WORK!!!!!!!!! ##############
+## needs to deal with space issues. #####
+with open('./src/components/course/coursecsv/courseIndexSearchList', 'w') as fp:
+    json.dump(output, fp)
 
 
 ### this one is okay!
-with open('./src/components/course/courseIndexSearchList', 'w') as fp:
+with open('./src/components/course/courseIndexSearchList.json', 'w') as fp:
     json.dump(courseIndexSearch, fp)
