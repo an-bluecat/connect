@@ -30,7 +30,9 @@ export default {
             // this.$router.push('./course/'+ this.model)
             // let routeData = this.$router.resolve('./project/rate/'+ this.model);
             // window.open(routeData.href, '_blank');
-            this.$router.push('./rate/'+ this.model);
+            // 域名需要除去课名，只留下代码
+            var coursecode=this.model.split(" ")[0];
+            this.$router.push('./rate/'+ coursecode);
         }
     },
     computed: {

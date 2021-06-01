@@ -46,6 +46,8 @@ def parseClass(classname):
                 # get ride of space
                 if code[-1]==" ":
                     code=code[:-1]
+                else:
+                    print("WARNING: ", code, "Does not have a space between it and '-'. Consider adding it! Otherwise there will be potential bug.")
                 if name!="" and name[0]==" ":
                     name=name[1:]
                 
@@ -65,7 +67,7 @@ def parseClass(classname):
                 courseJson[i].append([code,name])
             
     result={classname: courseJson}
-    print(courseJson)
+    # print(courseJson)
     return courseJson
 
 classnames=["Chem","Civ","ECE","EngSci","Indy","MSE","Mech","Min","T1"]
@@ -105,18 +107,18 @@ def getCourseIndex(classname):
                     # if name!="" and name[0]==" ":
                     #     name=name[1:]
                     
-                    # if "H1F" in code:
-                    #     code = code.replace("H1F", "")
-                    # if "H1S" in code:
-                    #     code = code.replace("H1S", "")
-                    # if "Y1Y" in code:
-                    #     code = code.replace("Y1Y", "")
-                    # if "H1Y" in code:
-                    #     code = code.replace("H1Y", "")
-                    # if "H1" in code:
-                    #     code = code.replace("H1", "")
-                    # if "Y1" in code:
-                    #     code = code.replace("Y1", "")
+                    if "H1F" in courseStr:
+                        courseStr = courseStr.replace("H1F", "")
+                    if "H1S" in courseStr:
+                        courseStr = courseStr.replace("H1S", "")
+                    if "Y1Y" in courseStr:
+                        courseStr = courseStr.replace("Y1Y", "")
+                    if "H1Y" in courseStr:
+                        courseStr = courseStr.replace("H1Y", "")
+                    if "H1" in courseStr:
+                        courseStr = courseStr.replace("H1", "")
+                    if "Y1" in courseStr:
+                        courseStr = courseStr.replace("Y1", "")
                     temp={}
                     temp['id']=id
                     temp['name']=courseStr
