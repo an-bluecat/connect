@@ -106,7 +106,7 @@ import courseimport from './coursecsv/courseimport.json';
         this.list4 = pdata[3];
       }
       this.plist = this.list1;
-      document.documentElement.scrollTop = 0;
+      // document.documentElement.scrollTop = 0;
     },
 
     methods: {

@@ -81,6 +81,7 @@
                       <v-list-item-title v-html="item.comment"></v-list-item-title>
                       <!-- 暂时不显示名字 -->
                       <v-list-item-subtitle v-html="item.time"></v-list-item-subtitle>
+                      <v-list-item-subtitle v-html="item.pname"></v-list-item-subtitle>
                       <!-- <v-list-item-subtitle v-html="item.user"></v-list-item-subtitle> -->
                     </v-list-item-content>
                   </v-list-item>
@@ -141,7 +142,7 @@
       km: ''
     }),
     created() {
-      console.log(this.$vuetify.breakpoint.xs);
+      // console.log(this.$vuetify.breakpoint.xs);
       this.title = this.$route.params.name;
       //面包屑
       this.bitems[1].text = this.title;this.bitems[1].href = '/rate/'+this.title;

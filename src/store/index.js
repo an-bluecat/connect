@@ -121,7 +121,19 @@ export const store = new Vuex.Store({
       firebase.database().ref(payload.name).child('comment').once('value')
         .then((data) => {
           const fileUploads = []
-          const obj = data.val() // .val() will get you the value of the response
+          const obj1 = data.val() // .val() will get you the value of the response
+
+          var arr = [];
+          for (var i in obj1) {
+              arr.push([obj1[i],i]);
+          };
+          arr.reverse();
+          var len = arr.length;
+          var obj = {};
+          for (var i = 0; i < len; i++) {
+              obj[arr[i][1]] = arr[i][0];
+          }
+          
           //先组一个数组
           const mlist = [];
           let mkey = (payload.page-1)*4;
@@ -138,7 +150,8 @@ export const store = new Vuex.Store({
                 comment: obj[key].comment,
                 time: obj[key].time,
                 user: obj[key].user,
-                total: Object.keys(obj).length
+                total: Object.keys(obj).length,
+                pname: obj[key].pname
               })
             }
           }
@@ -228,8 +241,10 @@ export const store = new Vuex.Store({
         rate: payload.rate,
         user: payload.user,
         comment: payload.comment,
-        time: payload.time.toISOString(),
-        classname: payload.classname
+        // time: payload.time.toISOString(),
+        time: payload.time.toString(),
+        classname: payload.classname,
+        pname: payload.pname
         // creatorId: getters.user.id
       }
       // push json information to database
@@ -257,8 +272,10 @@ export const store = new Vuex.Store({
       const fileUpload = {
         user: payload.user,
         comment: payload.comment,
-        time: payload.time.toISOString(),
-        classname: payload.classname
+        // time: payload.time.toISOString(),
+        time: payload.time.toString(),
+        classname: payload.classname,
+        pname: payload.pname
       }
       // push json information to database
       firebase.database().ref(classname).child('comment').push(fileUpload)

@@ -19,6 +19,16 @@
           </v-layout>
           <v-layout row>
             <v-flex xs12 sm6 offset-sm3>
+              <v-text-field
+                name="Professor's name"
+                label="Professor's name"
+                id="Professor's name"
+                v-model="formData.pname"
+                ></v-text-field>
+            </v-flex>
+          </v-layout>
+          <v-layout row>
+            <v-flex xs12 sm6 offset-sm3>
               <v-textarea
                 name="description"
                 label="How do you like this course?"
@@ -61,11 +71,12 @@ export default {
         comment: '',
         rate: -1,
         timestamp: "",
-        
+        pname: ""
       },
       rateoptions: [0,1,2,3,4,5],
       //userinfo
       email: ''
+
     }
   },
   created() {
@@ -103,9 +114,16 @@ export default {
         }
         // get time: this will get zulu time
         var time = new Date();
+        const now = time.getFullYear()+'-'+(time.getMonth()+1)+'-'+time.getDate();
         const user = this.$store.getters.user ? this.$store.getters.user : 'unknown';
-        const comment = {"classname": this.classname, "user": user, "comment": this.formData.comment, "time": time, "rate": this.formData.rate}
-        // console.log(comment);
+        const comment = {
+          "classname": this.classname, 
+          "user": user, 
+          "comment": this.formData.comment, 
+          "time": now, 
+          "rate": this.formData.rate,
+          "pname": this.formData.pname
+        }
         this.$store.dispatch('addRating', comment)
         this.$store.dispatch('addComment', comment)
         // this.$router.push('/course/' + this.classname)
