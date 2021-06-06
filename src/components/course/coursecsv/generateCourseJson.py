@@ -44,8 +44,8 @@ def parseClass(classname):
                 code=courseStr[0]
                 name=courseStr[1]
                 # get ride of space
-                if code[-1]==" ":
-                    code=code[:-1]
+                if " " in code:
+                    code = code.replace(" ", "")
                 else:
                     print("WARNING: ", code, "Does not have a space between it and '-'. Consider adding it! Otherwise there will be potential bug.")
                 if name!="" and name[0]==" ":
@@ -76,6 +76,11 @@ courseSearchIndex={}
 for name in classnames:
     temp=parseClass(name)
     output[name]=temp
+
+########### currently does NOT WORK!!!!!!!!! ##############
+## needs to deal with space issues. #####
+with open('./src/components/course/coursecsv/courseimport.json', 'w') as fp:
+    json.dump(output, fp)
 
 
 
@@ -130,12 +135,7 @@ for name in classnames:
 
 
 
-########### currently does NOT WORK!!!!!!!!! ##############
-## needs to deal with space issues. #####
-with open('./src/components/course/coursecsv/courseIndexSearchList', 'w') as fp:
-    json.dump(output, fp)
 
 
-### this one is okay!
 with open('./src/components/course/courseIndexSearchList.json', 'w') as fp:
     json.dump(courseIndexSearch, fp)
