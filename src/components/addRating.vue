@@ -14,6 +14,7 @@
                 :items="rateoptions"
                 label="workload"
                 v-model="formData.rate"
+                required
               ></v-select>
             </v-flex>
           </v-layout>
@@ -35,7 +36,7 @@
                 id="description"
                 multi-line
                 v-model="formData.comment"
-                required></v-textarea>
+                ></v-textarea>
             </v-flex>
           </v-layout>
           <v-layout row>
@@ -85,8 +86,10 @@ export default {
   computed: {
     // make sure rating is completed / rating 必填，其他选填
     formIsValid () {
-      return this.rate != -1 
-      // && this.comment!= ""
+      console.log(this.rate)
+      return this.formData.rate!=-1
+      //return this.rate == 0 || this.rate == 1 || this.rate == 2 || this.rate == 3 || this.rate == 4 || this.rate == 5
+      // && this.comment!= "" this.formData.comment!=""
     }
   },
   methods: {
@@ -115,8 +118,10 @@ export default {
           "pname": this.formData.pname
         }
         this.$store.dispatch('addRating', comment)
-        if (this.comment!= ""){
-          this.$store.dispatch('addComment', comment)
+        if (this.formData.comment!=""){
+          console.log("add comment");
+          console.log(comment)
+          this.$store.dispatch('addComment', comment);
         }
         
         // this.$router.push('/course/' + this.classname)

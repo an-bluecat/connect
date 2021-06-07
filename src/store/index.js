@@ -234,7 +234,7 @@ export const store = new Vuex.Store({
     },
     addRating ({commit, getters}, payload) {
       let key
-      // const classname = payload.classname
+      const classname = payload.classname
 
       const fileUpload = {
         rate: payload.rate,
@@ -259,7 +259,7 @@ export const store = new Vuex.Store({
     },
     addComment ({commit, getters}, payload) {
       let key
-      // const classname = payload.classname
+      const classname = payload.classname
 
       const fileUpload = {
         user: payload.user,
