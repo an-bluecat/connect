@@ -233,18 +233,11 @@ export const store = new Vuex.Store({
         })
     },
     addRating ({commit, getters}, payload) {
-      let imageUrl
       let key
-      const classname = payload.classname
+      // const classname = payload.classname
 
       const fileUpload = {
         rate: payload.rate,
-        user: payload.user,
-        comment: payload.comment,
-        // time: payload.time.toISOString(),
-        time: payload.time.toString(),
-        classname: payload.classname,
-        pname: payload.pname
         // creatorId: getters.user.id
       }
       // push json information to database
@@ -265,17 +258,16 @@ export const store = new Vuex.Store({
         })
     },
     addComment ({commit, getters}, payload) {
-      let imageUrl
       let key
-      const classname = payload.classname
+      // const classname = payload.classname
 
       const fileUpload = {
         user: payload.user,
         comment: payload.comment,
         // time: payload.time.toISOString(),
         time: payload.time.toString(),
-        classname: payload.classname,
-        pname: payload.pname
+        // classname: payload.classname,
+        pname: payload.pname // prof's name
       }
       // push json information to database
       firebase.database().ref(classname).child('comment').push(fileUpload)

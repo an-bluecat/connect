@@ -21,7 +21,7 @@
             <v-flex xs12 sm6 offset-sm3>
               <v-text-field
                 name="Professor's name"
-                label="Professor's name"
+                label="Professor's name (Optional)"
                 id="Professor's name"
                 v-model="formData.pname"
                 ></v-text-field>
@@ -31,7 +31,7 @@
             <v-flex xs12 sm6 offset-sm3>
               <v-textarea
                 name="description"
-                label="How do you like this course?"
+                label="How do you like this course?（Optional)"
                 id="description"
                 multi-line
                 v-model="formData.comment"
@@ -83,8 +83,10 @@ export default {
       setInterval(this.getNow, 1000);
   },
   computed: {
+    // make sure rating is completed / rating 必填，其他选填
     formIsValid () {
-      return this.rate != -1 && this.comment!= ""
+      return this.rate != -1 
+      // && this.comment!= ""
     }
   },
   methods: {
@@ -97,18 +99,6 @@ export default {
                     this.timestamp = dateTime;
     },
     handleSubmit() {
-    //   var comment = {"israting": true, "user": "unknown", "comment": this.formData.comment, "time": this.timestamp, "likes": 0, "rate": this.formData.rate}
-    // //   this.addPet(payload)
-
-    //   // post to db
-    //   const res1 = axios.post(baseURL+(this.classname), comment)
-    //   // reset form after submit
-    //   this.formData = {
-    //     comment: '',
-    //     rate: -1,
-    //     timestamp: "",
-    // // redirect to course page
-    //   window.location.href = "https://myuoft.netlify.app/#/course/"+ (this.classname);
         if (!this.formIsValid) {
           return
         }
@@ -125,7 +115,10 @@ export default {
           "pname": this.formData.pname
         }
         this.$store.dispatch('addRating', comment)
-        this.$store.dispatch('addComment', comment)
+        if (this.comment!= ""){
+          this.$store.dispatch('addComment', comment)
+        }
+        
         // this.$router.push('/course/' + this.classname)
         // http://localhost:8080/#/project/rate/APS100H1
         // this.$router.push('/rate/' + this.classname)
