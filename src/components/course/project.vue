@@ -72,10 +72,14 @@ import courseimport from './coursecsv/courseimport.json';
       cards: ['area1', 'area2'],
       drawer: null,
       links: [ 
-        ['mdi-inbox-arrow-down', 'First year courses'],
-        ['mdi-send', 'Second year courses'],
-        ['mdi-alert-octagon', 'Third year courses'],
-        ['mdi-domain', 'Fourth year courses'],
+        // ['mdi-inbox-arrow-down', 'First year courses'],
+        // ['mdi-send', 'Second year courses'],
+        // ['mdi-alert-octagon', 'Third year courses'],
+        // ['mdi-domain', 'Fourth year courses'],
+        ['mdi-send', '1st year courses'],
+        ['mdi-send', '2nd year courses'],
+        ['mdi-send', '3rd year courses'],
+        ['mdi-send', '4th year courses'],
       ],
       //路由数据
       name: '',

@@ -12,7 +12,7 @@
             <v-flex xs12 sm6 offset-sm3>
               <v-select
                 :items="rateoptions"
-                label="workload"
+                label="difficulty"
                 v-model="formData.rate"
                 required
               ></v-select>
