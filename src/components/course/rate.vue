@@ -22,12 +22,11 @@
             </v-list-item>
             <v-list-item two-line>
               <v-list-item-content>
-                <v-list-item-title class="text-h6">Workload: {{average}}/5</v-list-item-title>
+                <v-list-item-title class="text-h6">difficulty: {{average}}/5</v-list-item-title>
                 <v-list-item-subtitle>
                   <v-row align="center" class="mx-0">
                     <v-rating :value="average" color="amber" dense half-increments readonly size="20"></v-rating>
                     <!-- <div class="grey--text ml-1">{{average}}</div> -->
-                    <!-- <v-icon class="ml-4" size="14" @click="addrating">mdi-send</v-icon> -->
                     <v-btn class="info ml-2" x-small @click="addrating">rate</v-btn>
                   </v-row>
                   <!-- <v-btn class="info mt-1" x-small @click="addrating">rate this course</v-btn> -->
