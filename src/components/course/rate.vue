@@ -22,7 +22,7 @@
             </v-list-item>
             <v-list-item two-line>
               <v-list-item-content>
-                <v-list-item-title class="text-h6">difficulty: {{average}}/5</v-list-item-title>
+                <v-list-item-title class="text-h6">Difficulty: {{average}}/5</v-list-item-title>
                 <v-list-item-subtitle>
                   <v-row align="center" class="mx-0">
                     <v-rating :value="average" color="amber" dense half-increments readonly size="20"></v-rating>
@@ -31,6 +31,7 @@
                   </v-row>
                   <!-- <v-btn class="info mt-1" x-small @click="addrating">rate this course</v-btn> -->
                 </v-list-item-subtitle>
+                <v-list-item>{{numRating}}</v-list-item>
               </v-list-item-content>
             </v-list-item>
             <v-list-item three-line>
@@ -196,6 +197,17 @@
         }
         return 0;
       },
+      // based on how many ratings
+      numRating () {
+        var mytext="";
+        if(this.$store.getters.loadedRatings.length > 0){
+          mytext="based on " + this.$store.getters.loadedRatings.length + " ratings";
+          return mytext;
+        }else{
+          return mytext;
+        }
+      },
+
       fileUploads () { //显示上传文件
         const files = this.$store.getters.loadedfileUploads;
         var targetFile = []
