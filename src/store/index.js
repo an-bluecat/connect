@@ -264,6 +264,7 @@ export const store = new Vuex.Store({
       const fileUpload = {
         user: payload.user,
         comment: payload.comment,
+        rate: payload.rate,
         // time: payload.time.toISOString(),
         time: payload.time.toString(),
         // classname: payload.classname,
