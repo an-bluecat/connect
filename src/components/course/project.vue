@@ -117,16 +117,16 @@ import courseimport from './coursecsv/courseimport.json';
       onclickoptions(option) {
         this.plist = [];
         switch(option) {
-          case "First year courses":
+          case "1st year courses":
             this.plist = this.list1;
             break;
-          case "Second year courses":
+          case "2nd year courses":
             this.plist = this.list2;
             break;
-          case "Third year courses":
+          case "3rd year courses":
             this.plist = this.list3;
             break;  
-          case "Fourth year courses":
+          case "4th year courses":
             this.plist = this.list4;
             break;                             
         }
