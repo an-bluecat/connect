@@ -145,7 +145,7 @@
       // console.log(this.$vuetify.breakpoint.xs);
       this.title = this.$route.params.name;
       //面包屑
-      this.bitems[1].text = this.title;this.bitems[1].href = '/rate/'+this.title;
+      this.bitems[1].text = this.title;this.bitems[1].href = '/#/rate/'+this.title;
       // this.$store.dispatch('loadRatings', this.$props.classname)
       this.$store.dispatch('loadRatings', this.$route.params.name)
       this.$store.dispatch('loadComments', {name:this.$route.params.name,page:this.page})
