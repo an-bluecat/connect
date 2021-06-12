@@ -123,7 +123,9 @@ def getCourseIndex(classname):
                     if "H1" in courseStr:
                         courseStr = courseStr.replace("H1", "")
                     if "Y1" in courseStr:
-                        courseStr = courseStr.replace("Y1", "")
+                        if "PHY1" not in courseStr:
+                            courseStr = courseStr.replace("Y1", "")
+
                     temp={}
                     temp['id']=id
                     temp['name']=courseStr
