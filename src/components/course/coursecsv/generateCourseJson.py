@@ -4,6 +4,12 @@ import csv
 import os
 import json
 
+
+run = True
+
+
+
+
 # print("working dir", os.getcwd())
 ################################ getting courseIndexSearchList
 ########################### COURRENTLY NOT WORKING!
@@ -40,7 +46,10 @@ def parseClass(classname):
         for i in range(0,len(row),1):
             courseStr=row[i]
             if courseStr!="":
-                courseStr=courseStr.split("-",maxsplit=2)
+                # if "ECE411" in courseStr:
+                #     print("here",courseStr)
+                #     print(courseStr.split("-",maxsplit=1))
+                courseStr=courseStr.split("-",maxsplit=1)
                 code=courseStr[0]
                 name=courseStr[1]
                 # get ride of space
@@ -77,10 +86,10 @@ for name in classnames:
     temp=parseClass(name)
     output[name]=temp
 
-########### currently does NOT WORK!!!!!!!!! ##############
-## needs to deal with space issues. #####
-with open('./src/components/course/coursecsv/courseimport.json', 'w') as fp:
-    json.dump(output, fp)
+
+if run:
+    with open('./src/components/course/coursecsv/courseimport.json', 'w') as fp:
+        json.dump(output, fp)
 
 
 
@@ -137,7 +146,6 @@ for name in classnames:
 
 
 
-
-
-with open('./src/components/course/courseIndexSearchList.json', 'w') as fp:
-    json.dump(courseIndexSearch, fp)
+if run:
+    with open('./src/components/course/courseIndexSearchList.json', 'w') as fp:
+        json.dump(courseIndexSearch, fp)
