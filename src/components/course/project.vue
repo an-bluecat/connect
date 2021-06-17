@@ -56,6 +56,23 @@
                   ></v-divider>
                 </template>
               </v-list>
+            <!-- <v-card>
+              <v-card-title>
+                Nutrition
+                <v-spacer></v-spacer>
+                <v-text-field
+                  v-model="search"
+                  append-icon="mdi-magnify"
+                  label="Search"
+                  single-line
+                  hide-details
+                ></v-text-field>
+              </v-card-title>
+              <v-data-table
+                :headers="headers"
+                :items="desserts"
+                :search="search"
+              ></v-data-table> -->
             </v-card>
           </v-col>
         </v-row>
@@ -94,7 +111,22 @@ import courseimport from './coursecsv/courseimport.json';
       items: [
         {text: 'Home', disabled: false, href: '/'},
         {text: '', disabled: false, href: ''}
-      ]
+      ],
+      // veutify: data table
+      search: '',
+      headers: [
+        {
+          text: 'Course Code',
+          align: 'start',
+          // sortable: false,
+          value: 'name',
+        },
+        { text: 'Course Name', value: 'calories' },
+        { text: 'Difficulty(0-5)', value: 'fat' },
+        { text: 'rate difficulty', value: 'carbs' },
+      ],
+      tableData: []
+
     }),
     created() {
       this.name = this.$route.params.name;
@@ -111,6 +143,12 @@ import courseimport from './coursecsv/courseimport.json';
       }
       this.plist = this.list1;
       // document.documentElement.scrollTop = 0;
+      // for data table
+      // this.table1=[]; this.table2=[]; this.table3=[]; this.table4=[]
+      // for (var i=0; i<list1.length; i++){
+      //   table1.append()
+      // }
+
     },
 
     methods: {

@@ -8,10 +8,10 @@
     "start": "node server.js"
   },
   "dependencies": {
-    "axios": "^0.19.2",
+    "axios": "^0.21.1",
     "bootstrap-vue": "^2.15.0",
     "dotenv": "^8.2.0",
-    "firebase": "^7.16.1",
+    "firebase": "^7.24.0",
     "vee-validate": "^2.2.15",
     "vue": "^2.6.11",
     "vue-router": "^3.3.2",
