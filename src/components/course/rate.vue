@@ -37,12 +37,13 @@
             <v-list-item three-line>
               <v-list-item-content>
                 <v-list-item-title>
-                  Syllabus
+                  Resources
                   <!-- <v-icon class="ml-4" size="14" @click="addfile">mdi-upload</v-icon> -->
                   <v-btn class="info ml-2" x-small @click="addfile">upload</v-btn>
                 </v-list-item-title>
                 <v-list-item-subtitle v-for="fileUpload in fileUploads" :key="fileUpload.id">
-                  <a :href="fileUpload.imageUrl" target="_blank">{{fileUpload.filename}} - {{fileUpload.description}}</a>
+                  <!-- <a :href="fileUpload.imageUrl" target="_blank">{{fileUpload.filename}} - {{fileUpload.description}}</a> -->
+                  <a :href="fileUpload.imageUrl" target="_blank">{{fileUpload.type}} - {{fileUpload.filename}}</a>
                 </v-list-item-subtitle>
               </v-list-item-content>
             </v-list-item>

@@ -40,13 +40,13 @@
           </v-layout>
           <v-layout row>
             <v-flex xs12 sm6 offset-sm3>
-              <v-text-field
+              <!-- <v-text-field
                 name="description"
                 label="Display Name As "
                 id="description"
                 multi-line
                 v-model="description"
-                required></v-text-field>
+                required></v-text-field> -->
             </v-flex>
           </v-layout>
           <v-layout row>
@@ -78,14 +78,14 @@
         time: new Date(),
         // this is the raw file
         image: null,
-        docTypes: ['Homework', 'Test/Quiz', 'Syllabus', 'Notes', 'Others']
+        docTypes: ['Textbook', 'Test/Quiz', 'Syllabus', 'Notes', 'Others']
       }
     },
     computed: {
       formIsValid () {
         return this.type !== '' &&
           this.imageUrl !== '' &&
-          this.description != '' && 
+          // this.description != '' && 
           this.image != null
       },
       // submittableDateTime () {
