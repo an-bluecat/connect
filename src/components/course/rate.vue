@@ -22,16 +22,27 @@
             </v-list-item>
             <v-list-item two-line>
               <v-list-item-content>
-                <v-list-item-title class="text-h6">Difficulty: {{average}}/5</v-list-item-title>
-                <v-list-item-subtitle>
+                <v-list-item-title class="text-h6">Difficulty: {{average}}/5 
+                  <v-list-item-subtitle>{{numRating}}</v-list-item-subtitle>
+                </v-list-item-title>
+
+                <v-list-item-content>
                   <v-row align="center" class="mx-0">
-                    <v-rating :value="average" color="amber" dense half-increments readonly size="20"></v-rating>
-                    <!-- <div class="grey--text ml-1">{{average}}</div> -->
+                    <!-- <v-rating :value="average" color="amber" dense half-increments readonly size="20"></v-rating> -->
+                    <v-rating
+                      v-model="difficultyRating"
+                      color="yellow darken-3"
+                      background-color="grey darken-1"
+                      half-increments
+                      hover
+                      dense
+                      size="20"
+                    ></v-rating>
                     <v-btn class="info ml-2" x-small @click="addrating">rate</v-btn>
                   </v-row>
                   <!-- <v-btn class="info mt-1" x-small @click="addrating">rate this course</v-btn> -->
-                </v-list-item-subtitle>
-                <v-list-item>{{numRating}}</v-list-item>
+                </v-list-item-content>
+        
               </v-list-item-content>
             </v-list-item>
             <v-list-item three-line>
@@ -97,7 +108,7 @@
                   <v-row>
                     <v-col align="center">
                       <div class="text-xs-center text-sm-center">
-                          <v-btn @click="addrating()">add comment</v-btn>
+                          <v-btn @click="addcomment()">add comment</v-btn>
                           <div class="text-center mt-4">
                             <v-pagination
                               v-model="page"
@@ -125,6 +136,8 @@
   import courseimport from './coursecsv/courseimport.json';
   export default {
     data: () => ({
+      //rating 0-5
+      difficultyRating: -1,
       //科目信息
       title: '',
       pdata: coursedesc,
@@ -202,7 +215,7 @@
       numRating () {
         var mytext="";
         if(this.$store.getters.loadedRatings.length > 0){
-          mytext="based on " + this.$store.getters.loadedRatings.length + " ratings";
+          mytext="(based on " + this.$store.getters.loadedRatings.length + " ratings)";
           return mytext;
         }else{
           return mytext;
@@ -239,7 +252,21 @@
       },
     },
     methods: {
-      addrating() {
+      addrating(){
+        const currating = {
+          "classname": this.$route.params.name, 
+          // "user": user, 
+          // "comment": this.formData.comment, 
+          // "time": now, 
+          "rate": this.difficultyRating
+          // "pname": this.formData.pname
+        }
+        if(this.difficultyRating != -1){
+          this.$store.dispatch('addRating', currating)
+        }
+        // this.$store.dispatch('addRating', rating)
+      },
+      addcomment() {
         this.$router.push('/addrating/'+ this.title)
       },
       addfile() {

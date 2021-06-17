@@ -68,7 +68,7 @@ export const store = new Vuex.Store({
             fileUploads.push({
               id: key,
               type: obj[key].type,
-              description: obj[key].description,
+              // description: obj[key].description,
               imageUrl: obj[key].imageUrl,
               date: obj[key].date,
               filename: obj[key].filename
