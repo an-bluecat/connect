@@ -27,18 +27,34 @@
                 </v-list-item-title>
 
                 <v-list-item-content>
-                  <v-row align="center" class="mx-0">
+                  <v-row align="center" class="mx-0" v-if="pressedRate==false">
+                    <!-- <v-rating :value="average" color="amber" dense half-increments readonly size="20"></v-rating> -->
+                    <v-rating
+                      :value="average"
+                      color="yellow darken-3"
+                      background-color="grey darken-1"
+                      half-increments
+                      dense
+
+                      size="30"
+
+                    ></v-rating>
+                    <v-btn class="info ml-2" x-small @click="pressRate">rate</v-btn>
+                  </v-row>
+                  <v-row align="center" class="mx-0" v-else-if="pressedRate==true">
                     <!-- <v-rating :value="average" color="amber" dense half-increments readonly size="20"></v-rating> -->
                     <v-rating
                       v-model="difficultyRating"
                       color="yellow darken-3"
                       background-color="grey darken-1"
                       half-increments
-                      hover
+                      :hover="true"
                       dense
-                      size="20"
+                      :readonly="false"
+                      size="30"
+                      
                     ></v-rating>
-                    <v-btn class="info ml-2" x-small @click="addrating">rate</v-btn>
+                    <v-btn class="info ml-2" x-small @click="addrating">confirm</v-btn>
                   </v-row>
                   <!-- <v-btn class="info mt-1" x-small @click="addrating">rate this course</v-btn> -->
                 </v-list-item-content>
@@ -136,7 +152,8 @@
   import courseimport from './coursecsv/courseimport.json';
   export default {
     data: () => ({
-      //rating 0-5
+      // used for the rating botton
+      pressedRate: false,
       difficultyRating: -1,
       //科目信息
       title: '',
@@ -215,7 +232,7 @@
       numRating () {
         var mytext="";
         if(this.$store.getters.loadedRatings.length > 0){
-          mytext="(based on " + this.$store.getters.loadedRatings.length + " ratings)";
+          mytext="(based on " + this.$store.getters.loadedRatings.length + " students)";
           return mytext;
         }else{
           return mytext;
@@ -252,7 +269,11 @@
       },
     },
     methods: {
-      addrating(){
+      pressRate(){ //按rate触发这个
+        this.pressedRate=true
+      },
+      addrating(){ //按了confirm之后触发这个
+        // push to firebase
         const currating = {
           "classname": this.$route.params.name, 
           // "user": user, 
@@ -264,7 +285,11 @@
         if(this.difficultyRating != -1){
           this.$store.dispatch('addRating', currating)
         }
-        // this.$store.dispatch('addRating', rating)
+
+        // return to normal
+        this.pressedRate=false
+        this.difficultyRating=-1
+        
       },
       addcomment() {
         this.$router.push('/addrating/'+ this.title)
