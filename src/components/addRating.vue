@@ -9,13 +9,27 @@
       <v-flex xs12>
         <form @submit.prevent="handleSubmit">
           <v-layout row>
-            <v-flex xs12 sm6 offset-sm3>
+            <!-- <v-flex xs12 sm6 offset-sm3>
               <v-select
                 :items="rateoptions"
                 label="Difficulty"
                 v-model="formData.rate"
                 required
               ></v-select>
+            </v-flex> -->
+            <v-flex xs12 sm6 offset-sm3>
+            <v-rating
+              v-model="formData.rate"
+              color="yellow darken-3"
+              background-color="grey darken-1"
+              half-increments
+              dense
+              :readonly="false"
+              :hover="true"
+              size="30"
+              required
+            ></v-rating>
+            <h6>{{display}}</h6>
             </v-flex>
           </v-layout>
           <v-layout row>
@@ -68,13 +82,14 @@ export default {
   props: ['classname'],
   data() {
     return {
+      display:"select difficulty",
       formData: {
         comment: '',
         rate: -1,
         timestamp: "",
         pname: ""
       },
-      rateoptions: [0,1,2,3,4,5],
+      // rateoptions: [0,1,2,3,4,5],
       //userinfo
       email: ''
 
@@ -82,6 +97,7 @@ export default {
   },
   created() {
       setInterval(this.getNow, 1000);
+
   },
   computed: {
     // make sure rating is completed / rating 必填，其他选填
@@ -91,6 +107,17 @@ export default {
       //return this.rate == 0 || this.rate == 1 || this.rate == 2 || this.rate == 3 || this.rate == 4 || this.rate == 5
       // && this.comment!= "" this.formData.comment!=""
     }
+
+  },
+  mounted() {
+      console.log("this.formData.rate",this.formData.rate);
+      console.log("this.formData[rate]",this.formData["rate"]);
+
+      if(this.formData.rate==-1){
+        this.display= "select difficulty";
+      }else{
+        this.display= "test";
+      }
   },
   methods: {
     // get current time
