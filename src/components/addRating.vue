@@ -82,7 +82,7 @@ export default {
   props: ['classname'],
   data() {
     return {
-      display:"select difficulty",
+      // display:"select difficulty",
       formData: {
         comment: '',
         rate: -1,
@@ -106,19 +106,34 @@ export default {
       return this.formData.rate!=-1
       //return this.rate == 0 || this.rate == 1 || this.rate == 2 || this.rate == 3 || this.rate == 4 || this.rate == 5
       // && this.comment!= "" this.formData.comment!=""
+    },
+    display () {
+      if(this.formData.rate==-1){
+        return "select difficulty";
+      }else if(this.formData.rate<=1){
+        return "easy";
+      }else if(this.formData.rate<=2){
+        return "slightly easy"
+      }else if(this.formData.rate<=3){
+        return "medium"
+      }else if(this.formData.rate<=4){
+        return "slightly hard"
+      }else{
+        return "hard"
+      }
     }
 
   },
-  mounted() {
-      console.log("this.formData.rate",this.formData.rate);
-      console.log("this.formData[rate]",this.formData["rate"]);
+  // mounted() {
+  //     console.log("this.formData.rate",this.formData.rate);
+  //     console.log("this.formData[rate]",this.formData["rate"]);
 
-      if(this.formData.rate==-1){
-        this.display= "select difficulty";
-      }else{
-        this.display= "test";
-      }
-  },
+  //     if(this.formData.rate==-1){
+  //       this.display= "select difficulty";
+  //     }else{
+  //       this.display= "test";
+  //     }
+  // },
   methods: {
     // get current time
     getNow: function() {
