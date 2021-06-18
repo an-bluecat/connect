@@ -35,7 +35,8 @@
                       background-color="grey darken-1"
                       half-increments
                       dense
-                      readonly
+                      :hover="true"
+                      :readonly="true"
                       size="30"
                     ></v-rating>
                     <v-btn class="info ml-2" x-small @click="pressRate">rate</v-btn>
@@ -47,9 +48,9 @@
                       color="yellow darken-3"
                       background-color="grey darken-1"
                       half-increments
-                      :hover="true"
                       dense
                       :readonly="false"
+                      :hover="true"
                       size="30"
                       
                     ></v-rating>
