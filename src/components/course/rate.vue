@@ -35,9 +35,8 @@
                       background-color="grey darken-1"
                       half-increments
                       dense
-
+                      readonly
                       size="30"
-
                     ></v-rating>
                     <v-btn class="info ml-2" x-small @click="pressRate">rate</v-btn>
                   </v-row>
