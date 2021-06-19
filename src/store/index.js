@@ -150,6 +150,7 @@ export const store = new Vuex.Store({
                 comment: obj[key].comment,
                 time: obj[key].time,
                 user: obj[key].user,
+                rate: obj[key].rate,
                 total: Object.keys(obj).length,
                 pname: obj[key].pname
               })

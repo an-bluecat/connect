@@ -52,7 +52,6 @@
                       :readonly="false"
                       :hover="true"
                       size="30"
-                      
                     ></v-rating>
                     <v-btn class="info ml-2" x-small @click="addrating">confirm</v-btn>
                   </v-row>
@@ -106,10 +105,31 @@
                     </v-list-item-avatar>
 
                     <v-list-item-content>
-                      <v-list-item-title v-html="item.comment"></v-list-item-title>
+                      <v-list-item-title>
+                        <!-- <v-row align="right"> -->
+                        <v-rating
+                          :value="item.rate"
+                          color="yellow darken-3"
+                          background-color="grey darken-1"
+                          half-increments
+                          dense
+                          :hover="true"
+                          :readonly="true"
+                          size="15"
+                        ></v-rating>
+                        "{{difficultyLevel(item.rate)}}"
+                        <!-- </v-row> -->
+                      </v-list-item-title>
+
+                      {{item.comment}}
+                      
+                      <!-- <v-list-item-title v-html="item.comment"></v-list-item-title> -->
+
+                      <!-- <v-list-item-subtitle v-html="item.time"></v-list-item-subtitle> -->
+                      <v-list-item-subtitle>{{item.time}}</v-list-item-subtitle>
+
+                      <v-list-item-subtitle v-if="item.pname!=''">taught by {{item.pname}}</v-list-item-subtitle>
                       <!-- 暂时不显示名字 -->
-                      <v-list-item-subtitle v-html="item.time"></v-list-item-subtitle>
-                      <v-list-item-subtitle v-html="item.pname"></v-list-item-subtitle>
                       <!-- <v-list-item-subtitle v-html="item.user"></v-list-item-subtitle> -->
                     </v-list-item-content>
                   </v-list-item>
@@ -255,6 +275,7 @@
         // console.log(this.$store.getters.loadedComments);
         const files = this.$store.getters.loadedComments;
         var targetFile = [];
+        console.log(targetFile)
         for(let filenum in this.$store.getters.loadedComments){
           targetFile.push(files[filenum])
         }
@@ -267,6 +288,7 @@
         }
         return targetFile;
       },
+
     },
     methods: {
       pressRate(){ //按rate触发这个
@@ -308,6 +330,23 @@
         this.$store.dispatch('loadComments', {name:this.$route.params.name,page:this.page})
       },
 
+
+            // display difficulty level string
+      difficultyLevel (rating) {
+      if(rating==-1){
+        return "";
+      }else if(rating<=1){
+        return "easy";
+      }else if(rating<=2){
+        return "slightly easy"
+      }else if(rating<=3){
+        return "medium"
+      }else if(rating<=4){
+        return "slightly hard"
+      }else{
+        return "hard"
+      }
+    }
     }
   }
 </script>
