@@ -155,7 +155,7 @@ export default {
           "classname": this.classname, 
           "user": user, 
           "comment": this.formData.comment, 
-          "time": now, 
+          "time": time, 
           "rate": this.formData.rate,
           "pname": this.formData.pname
         }
