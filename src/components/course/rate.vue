@@ -299,10 +299,11 @@
         var time = new Date();
         const now = time.getFullYear()+'-'+(time.getMonth()+1)+'-'+time.getDate();
         var currating;
-        if(this.userIsAuthenticated==true){
+        const user = this.$store.getters.user ? this.$store.getters.user : 'unknown';
+        if(user!="unknown"){
           currating = {
           "classname": this.$route.params.name, 
-          "user": this.$store.getters.user, 
+          "user": user, 
           // "comment": this.formData.comment, 
           "time": now, 
           "spec_time":time,
