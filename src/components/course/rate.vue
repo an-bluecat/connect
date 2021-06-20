@@ -297,14 +297,14 @@
       addrating(){ //按了confirm之后触发这个
         
         var time = new Date();
-        const now = time.getFullYear()+'-'+(time.getMonth()+1)+'-'+time.getDate();
+        // const now = time.getFullYear()+'-'+(time.getMonth()+1)+'-'+time.getDate();
         var currating;
         if(this.userIsAuthenticated==true){
           currating = {
           "classname": this.$route.params.name, 
           "user": this.$store.getters.user, 
           // "comment": this.formData.comment, 
-          "time": now, 
+          "time": time, 
           "rate": this.difficultyRating
           // "pname": this.formData.pname
           }
