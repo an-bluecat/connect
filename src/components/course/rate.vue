@@ -295,15 +295,29 @@
         this.pressedRate=true
       },
       addrating(){ //按了confirm之后触发这个
-        // push to firebase
-        const currating = {
+        
+        var time = new Date();
+        const now = time.getFullYear()+'-'+(time.getMonth()+1)+'-'+time.getDate();
+        var currating;
+        if(this.userIsAuthenticated==true){
+          currating = {
           "classname": this.$route.params.name, 
-          // "user": user, 
+          "user": this.$store.getters.user, 
           // "comment": this.formData.comment, 
-          // "time": now, 
+          "time": now, 
           "rate": this.difficultyRating
           // "pname": this.formData.pname
+          }
+        }else{
+          currating = {
+          "classname": this.$route.params.name, 
+
+          "time": now, 
+          "rate": this.difficultyRating
+          // "pname": this.formData.pname
+          }
         }
+        
         if(this.difficultyRating != -1){
           this.$store.dispatch('addRating', currating)
         }

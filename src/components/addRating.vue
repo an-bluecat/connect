@@ -161,8 +161,8 @@ export default {
         }
         this.$store.dispatch('addRating', comment)
         if (this.formData.comment!=""){
-          console.log("add comment");
-          console.log(comment)
+          // console.log("add comment");
+          // console.log(comment)
           this.$store.dispatch('addComment', comment);
         }
         

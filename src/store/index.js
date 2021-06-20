@@ -236,11 +236,21 @@ export const store = new Vuex.Store({
     addRating ({commit, getters}, payload) {
       let key
       const classname = payload.classname
-
-      const fileUpload = {
-        rate: payload.rate,
-        // creatorId: getters.user.id
+      var fileUpload;
+      if("user" in payload){
+        var fileUpload= {
+          rate: payload.rate,
+          user: payload.user,
+          time: payload.time
+        }
+      }else{
+        var fileUpload= {
+          rate: payload.rate,
+          time: payload.time
+        }
       }
+      
+      
       // push json information to database
       firebase.database().ref(classname).child('rating').push(fileUpload)
         .then((data) => {
@@ -320,6 +330,7 @@ export const store = new Vuex.Store({
           user => {
             commit('setLoading', false)
             const newUser = {
+              // id: user.uid, buggy???
               id: user.user.uid,
               registeredfileUploads: [],
               email: payload.email
