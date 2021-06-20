@@ -320,7 +320,7 @@ export const store = new Vuex.Store({
           user => {
             commit('setLoading', false)
             const newUser = {
-              id: user.uid,
+              id: user.user.uid,
               registeredfileUploads: [],
               email: payload.email
             }

@@ -16,7 +16,7 @@
           </v-parallax>
         </v-row>
         <h4 id="title"><center>Search By Program</center></h4>
-        <v-row class="mt-n16">
+        <v-row>
           <v-col v-for="(item,index) in items" :key="index" cols="12" md="3" xs="3" sm="3" lg="3" xl="3"> 
             <v-card class="mx-auto" width="100%" @click="navToProject(item.name)">
               <v-img height="250" :src="item.src"></v-img>

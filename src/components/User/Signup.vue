@@ -24,7 +24,9 @@
                       id="email"
                       v-model="email"
                       type="email"
-                      required></v-text-field>
+                      required
+                      :rules="[checkMail]"
+                      ></v-text-field>
                   </v-flex>
                 </v-layout>
                 <v-layout row>
@@ -82,6 +84,10 @@
       // check if password and confirmPassword input is the same
       comparePasswords () {
         return this.password !== this.confirmPassword ? 'Passwords do not match' : ''
+      },
+      checkMail () {
+        var correct = this.email.endsWith("@mail.utoronto.ca")
+        return correct == true ? "" : "please use your u of t mail"
       },
       user () {
         return this.$store.getters.user
