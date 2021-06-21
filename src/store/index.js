@@ -183,6 +183,7 @@ export const store = new Vuex.Store({
       const fileUpload = {
         type: payload.type,
         date: payload.date.toISOString(),
+        time_log: payload.time_log.toISOString(),
         filename: payload.image.name,
         description: payload.description,
         classname: payload.classname
@@ -241,12 +242,14 @@ export const store = new Vuex.Store({
         var fileUpload= {
           rate: payload.rate,
           user: payload.user,
-          time: payload.time
+          time: payload.time,
+          time_log: payload.time_log.toISOString(),
         }
       }else{
         var fileUpload= {
           rate: payload.rate,
-          time: payload.time
+          time: payload.time,
+          time_log: payload.time_log.toISOString(),
         }
       }
       
@@ -278,6 +281,7 @@ export const store = new Vuex.Store({
         rate: payload.rate,
         // time: payload.time.toISOString(),
         time: payload.time.toString(),
+        time_log: payload.time_log.toISOString(),
         // classname: payload.classname,
         pname: payload.pname // prof's name
       }
