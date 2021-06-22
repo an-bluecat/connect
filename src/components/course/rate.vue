@@ -7,6 +7,8 @@
     <v-container class="grey lighten-3" fluid>
       <v-row no-gutters style="background-color: white">
         <v-col lg="3" sm="3" md="3" xs="12">
+        <!-- <v-col lg3 sm3 md3 xs12> -->
+
           <v-list-item>
             <v-list-item-content>
               <v-breadcrumbs :items="bitems" large></v-breadcrumbs>
@@ -14,6 +16,7 @@
           </v-list-item>
         </v-col>
         <v-col lg="6" sm="7" md="7" xs="12">
+        <!-- <v-col lg6 sm7 md7 xs12> -->
           <v-list-item>
             <v-list-item-content>
               <SearchCourse></SearchCourse>
@@ -21,15 +24,28 @@
           </v-list-item>
         </v-col>
       </v-row>
-      <v-row no-gutters style="background-color: white">
-        <v-col lg="5" md="5" sm="12" class="pl-6">
+      <v-row style="background-color: white" no-gutters>
+        <v-col class="pl-6">
           <v-list-item>
+            <v-list-item-content>
+              <v-list-item-title class="text-h4 font-weight-bold">{{ title }}</v-list-item-title>
+              <!-- <v-list-item-title class="text-h5 font-weight-medium">{{ km }}</v-list-item-title> -->
+              <v-list-item-title class="text-h5 font-weight-medium">{{ km }}</v-list-item-title>
+
+            </v-list-item-content>
+          </v-list-item>
+        </v-col>
+      </v-row>
+      <v-row no-gutters style="background-color: white">
+        <v-col lg="5" md="5" sm="12" xs="12" class="pl-6">
+        <!-- <v-col lg5 md5 sm12 class="pl-6"> -->
+          <!-- <v-list-item>
             <v-list-item-content>
               <v-list-item-title class="text-h5"
                 >{{ title }} - {{ km }}</v-list-item-title
               >
             </v-list-item-content>
-          </v-list-item>
+          </v-list-item> -->
           <v-list-item two-line>
             <v-list-item-content>
               <v-list-item-title class="text-h6"
@@ -97,9 +113,15 @@
             </v-list-item-content>
           </v-list-item>
         </v-col>
-        <v-col lg="7" md="7" sm="12" class="pl-10">
-          <p
+        <v-col lg="7" md="7" sm="12" xs="12" class="pl-10">
+        <!-- <v-col lg7 md7 sm12 class="pl-10"> -->
+          <!-- <p
             class="text-justify d-inline-block text-truncate"
+            style="max-width: 150px"
+            v-if="$vuetify.breakpoint.xs"
+          > -->
+          <p
+            class="text-justify d-inline-block"
             style="max-width: 150px"
             v-if="$vuetify.breakpoint.xs"
           >
@@ -191,7 +213,7 @@
 <script>
 import coursedesc from "./coursedesc.json";
 import courseimport from "./coursecsv/courseimport.json";
-import SearchCourse from "./SeachCourse";
+import SearchCourse from "./SeachCourse_top";
 export default {
   components: {
     SearchCourse,
