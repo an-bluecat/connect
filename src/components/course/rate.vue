@@ -3,366 +3,404 @@
 
 <template>
   <v-app id="inspire">
-
     <!-- <v-main class="grey lighten-3"> -->
-      <v-container class="grey lighten-3" fluid>
-        <v-row no-gutters style="height: 50px;background-color: white">
+    <v-container class="grey lighten-3" fluid>
+      <v-row no-gutters style="background-color: white">
+        <v-col lg="3" sm="3" md="3" xs="12">
           <v-list-item>
             <v-list-item-content>
               <v-breadcrumbs :items="bitems" large></v-breadcrumbs>
             </v-list-item-content>
           </v-list-item>
-        </v-row>
-        <v-row no-gutters style="height: 268px;background-color: white">
-          <v-col class="pl-6">
-            <v-list-item>
+        </v-col>
+        <v-col lg="6" sm="7" md="7" xs="12">
+          <v-list-item>
+            <v-list-item-content>
+              <SearchCourse></SearchCourse>
+            </v-list-item-content>
+          </v-list-item>
+        </v-col>
+      </v-row>
+      <v-row no-gutters style="background-color: white">
+        <v-col lg="5" md="5" sm="12" class="pl-6">
+          <v-list-item>
+            <v-list-item-content>
+              <v-list-item-title class="text-h5"
+                >{{ title }} - {{ km }}</v-list-item-title
+              >
+            </v-list-item-content>
+          </v-list-item>
+          <v-list-item two-line>
+            <v-list-item-content>
+              <v-list-item-title class="text-h6"
+                >Difficulty: {{ average }}/5
+                <v-list-item-subtitle>{{ numRating }}</v-list-item-subtitle>
+              </v-list-item-title>
+
               <v-list-item-content>
-                <v-list-item-title class="text-h5">{{title}} - {{km}}</v-list-item-title>
+                <v-row align="center" class="mx-0" v-if="pressedRate == false">
+                  <!-- <v-rating :value="average" color="amber" dense half-increments readonly size="20"></v-rating> -->
+                  <v-rating
+                    :value="average"
+                    color="yellow darken-3"
+                    background-color="grey darken-1"
+                    half-increments
+                    dense
+                    :hover="true"
+                    :readonly="true"
+                    size="30"
+                  ></v-rating>
+                  <v-btn class="info ml-2" x-small @click="pressRate"
+                    >rate</v-btn
+                  >
+                </v-row>
+                <v-row
+                  align="center"
+                  class="mx-0"
+                  v-else-if="pressedRate == true"
+                >
+                  <!-- <v-rating :value="average" color="amber" dense half-increments readonly size="20"></v-rating> -->
+                  <v-rating
+                    v-model="difficultyRating"
+                    color="yellow darken-3"
+                    background-color="grey darken-1"
+                    half-increments
+                    dense
+                    :readonly="false"
+                    :hover="true"
+                    size="30"
+                  ></v-rating>
+                  <v-btn class="info ml-2" x-small @click="addrating"
+                    >confirm</v-btn
+                  >
+                </v-row>
+                <!-- <v-btn class="info mt-1" x-small @click="addrating">rate this course</v-btn> -->
               </v-list-item-content>
-            </v-list-item>
-            <v-list-item two-line>
-              <v-list-item-content>
-                <v-list-item-title class="text-h6">Difficulty: {{average}}/5 
-                  <v-list-item-subtitle>{{numRating}}</v-list-item-subtitle>
-                </v-list-item-title>
+            </v-list-item-content>
+          </v-list-item>
+          <v-list-item three-line>
+            <v-list-item-content>
+              <v-list-item-title>
+                Resources
+                <!-- <v-icon class="ml-4" size="14" @click="addfile">mdi-upload</v-icon> -->
+                <v-btn class="info ml-2" x-small @click="addfile">upload</v-btn>
+              </v-list-item-title>
+              <v-list-item-subtitle
+                v-for="fileUpload in fileUploads"
+                :key="fileUpload.id"
+              >
+                <!-- <a :href="fileUpload.imageUrl" target="_blank">{{fileUpload.filename}} - {{fileUpload.description}}</a> -->
+                <a :href="fileUpload.imageUrl" target="_blank"
+                  >{{ fileUpload.type }} - {{ fileUpload.filename }}</a
+                >
+              </v-list-item-subtitle>
+            </v-list-item-content>
+          </v-list-item>
+        </v-col>
+        <v-col lg="7" md="7" sm="12" class="pl-10">
+          <p
+            class="text-justify d-inline-block text-truncate"
+            style="max-width: 150px"
+            v-if="$vuetify.breakpoint.xs"
+          >
+            {{ desc }}
+          </p>
+          <p class="text-justify mt-3 pr-4" v-else>{{ desc }}</p>
+        </v-col>
+      </v-row>
+      <v-row no-gutters style="height: 550px; background-color: white">
+        <v-col align="left">
+          <v-divider inset></v-divider>
+          <v-list three-line>
+            <template v-for="(item, index) in showComments">
+              <v-subheader
+                v-if="item.header"
+                :key="item.header"
+                v-text="comment"
+              ></v-subheader>
+
+              <v-list-item v-else :key="item.comment">
+                <v-list-item-avatar>
+                  <!-- <v-img :src="item.avatar"></v-img> -->
+                  <v-avatar color="indigo" size="56">
+                    <v-icon dark> mdi-account-circle </v-icon>
+                  </v-avatar>
+                </v-list-item-avatar>
 
                 <v-list-item-content>
-                  <v-row align="center" class="mx-0" v-if="pressedRate==false">
-                    <!-- <v-rating :value="average" color="amber" dense half-increments readonly size="20"></v-rating> -->
+                  <v-list-item-title>
+                    <!-- <v-row align="right"> -->
                     <v-rating
-                      :value="average"
+                      :value="item.rate"
                       color="yellow darken-3"
                       background-color="grey darken-1"
                       half-increments
                       dense
                       :hover="true"
                       :readonly="true"
-                      size="30"
+                      size="15"
                     ></v-rating>
-                    <v-btn class="info ml-2" x-small @click="pressRate">rate</v-btn>
-                  </v-row>
-                  <v-row align="center" class="mx-0" v-else-if="pressedRate==true">
-                    <!-- <v-rating :value="average" color="amber" dense half-increments readonly size="20"></v-rating> -->
-                    <v-rating
-                      v-model="difficultyRating"
-                      color="yellow darken-3"
-                      background-color="grey darken-1"
-                      half-increments
-                      dense
-                      :readonly="false"
-                      :hover="true"
-                      size="30"
-                    ></v-rating>
-                    <v-btn class="info ml-2" x-small @click="addrating">confirm</v-btn>
-                  </v-row>
-                  <!-- <v-btn class="info mt-1" x-small @click="addrating">rate this course</v-btn> -->
-                </v-list-item-content>
-        
-              </v-list-item-content>
-            </v-list-item>
-            <v-list-item three-line>
-              <v-list-item-content>
-                <v-list-item-title>
-                  Resources
-                  <!-- <v-icon class="ml-4" size="14" @click="addfile">mdi-upload</v-icon> -->
-                  <v-btn class="info ml-2" x-small @click="addfile">upload</v-btn>
-                </v-list-item-title>
-                <v-list-item-subtitle v-for="fileUpload in fileUploads" :key="fileUpload.id">
-                  <!-- <a :href="fileUpload.imageUrl" target="_blank">{{fileUpload.filename}} - {{fileUpload.description}}</a> -->
-                  <a :href="fileUpload.imageUrl" target="_blank">{{fileUpload.type}} - {{fileUpload.filename}}</a>
-                </v-list-item-subtitle>
-              </v-list-item-content>
-            </v-list-item>
-          </v-col>
-          <v-col>
-            <p class="text-justify d-inline-block text-truncate" style="max-width: 150px;" v-if="$vuetify.breakpoint.xs">{{desc}}</p>
-            <p class="text-justify mt-3 pr-4" v-else>{{desc}}</p>
-            
-          </v-col>
-        </v-row>
-        <v-row no-gutters style="height: 550px;background-color: white">
-          <v-col align="left">
-              <v-divider inset></v-divider>
-              <v-list three-line>
-                <template v-for="(item, index) in showComments">
-                  <v-subheader
-                    v-if="item.header"
-                    :key="item.header"
-                    v-text="comment"
-                  ></v-subheader>
-                  
-                  <v-list-item
-                    v-else
-                    :key="item.comment"
+                    "{{ difficultyLevel(item.rate) }}"
+                    <!-- </v-row> -->
+                  </v-list-item-title>
+
+                  {{ item.comment }}
+
+                  <!-- <v-list-item-title v-html="item.comment"></v-list-item-title> -->
+
+                  <!-- <v-list-item-subtitle v-html="item.time"></v-list-item-subtitle> -->
+                  <v-list-item-subtitle>{{ item.time }}</v-list-item-subtitle>
+
+                  <v-list-item-subtitle v-if="item.pname != ''"
+                    >taught by {{ item.pname }}</v-list-item-subtitle
                   >
-                    <v-list-item-avatar>
-                      <!-- <v-img :src="item.avatar"></v-img> -->
-                      <v-avatar color="indigo" size="56">
-                          <v-icon dark>
-                            mdi-account-circle
-                          </v-icon>
-                      </v-avatar>
-                    </v-list-item-avatar>
+                  <!-- 暂时不显示名字 -->
+                  <!-- <v-list-item-subtitle v-html="item.user"></v-list-item-subtitle> -->
+                </v-list-item-content>
+              </v-list-item>
 
-                    <v-list-item-content>
-                      <v-list-item-title>
-                        <!-- <v-row align="right"> -->
-                        <v-rating
-                          :value="item.rate"
-                          color="yellow darken-3"
-                          background-color="grey darken-1"
-                          half-increments
-                          dense
-                          :hover="true"
-                          :readonly="true"
-                          size="15"
-                        ></v-rating>
-                        "{{difficultyLevel(item.rate)}}"
-                        <!-- </v-row> -->
-                      </v-list-item-title>
-
-                      {{item.comment}}
-                      
-                      <!-- <v-list-item-title v-html="item.comment"></v-list-item-title> -->
-
-                      <!-- <v-list-item-subtitle v-html="item.time"></v-list-item-subtitle> -->
-                      <v-list-item-subtitle>{{item.time}}</v-list-item-subtitle>
-
-                      <v-list-item-subtitle v-if="item.pname!=''">taught by {{item.pname}}</v-list-item-subtitle>
-                      <!-- 暂时不显示名字 -->
-                      <!-- <v-list-item-subtitle v-html="item.user"></v-list-item-subtitle> -->
-                    </v-list-item-content>
-                  </v-list-item>
-
-                  <v-divider
-                    v-if="index !== (showComments.length-1)"
-                    :key="`divider-${index}`"
-                    inset
-                  ></v-divider>
-
-                </template>
-                  <v-row>
-                    <v-col align="center">
-                      <div class="text-xs-center text-sm-center">
-                          <v-btn @click="addcomment()">add comment</v-btn>
-                          <div class="text-center mt-4">
-                            <v-pagination
-                              v-model="page"
-                              :length="pageLength"
-                              @input="onPageChange"
-                              v-if="showPage"
-                            ></v-pagination>
-                          </div>
-                      </div>
-                    </v-col>
-                  </v-row>
-
-                
-              </v-list>
-          </v-col>
-        </v-row >
-
-      </v-container>
+              <v-divider
+                v-if="index !== showComments.length - 1"
+                :key="`divider-${index}`"
+                inset
+              ></v-divider>
+            </template>
+            <v-row>
+              <v-col align="center">
+                <div class="text-xs-center text-sm-center">
+                  <v-btn @click="addcomment()">add comment</v-btn>
+                  <div class="text-center mt-4">
+                    <v-pagination
+                      v-model="page"
+                      :length="pageLength"
+                      @input="onPageChange"
+                      v-if="showPage"
+                    ></v-pagination>
+                  </div>
+                </div>
+              </v-col>
+            </v-row>
+          </v-list>
+        </v-col>
+      </v-row>
+    </v-container>
     <!-- </v-main> -->
   </v-app>
 </template>
 
 <script>
-  import coursedesc from './coursedesc.json';
-  import courseimport from './coursecsv/courseimport.json';
-  export default {
-    data: () => ({
-      // used for the rating botton
-      pressedRate: false,
-      difficultyRating: -1,
-      //科目信息
-      title: '',
-      pdata: coursedesc,
-      desc: '',
-      //面包屑导航
-      bitems: [
-        {text: 'Home', disabled: false, href: '/'},
-        {text: '', disabled: false, href: ''}
-      ],
-      //分页
-      page: 1,
-      pageLength: 0,
-      showPage: false,
-      //课名数据
-      pdata1: courseimport,
-      km: ''
-    }),
-    created() {
-      // console.log(this.$vuetify.breakpoint.xs);
-      this.title = this.$route.params.name;
-      //面包屑
-      this.bitems[1].text = this.title;this.bitems[1].href = '/#/rate/'+this.title;
-      // this.$store.dispatch('loadRatings', this.$props.classname)
-      this.$store.dispatch('loadRatings', this.$route.params.name)
-      this.$store.dispatch('loadComments', {name:this.$route.params.name,page:this.page})
-      const obj = this.pdata1;
-      for(let key in obj) {
-        for(var i=0;i<obj[key].length;i++) {
-          // if(obj[key][i][0][0] != undefined) {
-            // console.log(obj[key][i]);
-            for(var j=0;j<obj[key][i].length;j++) {
-            if(this.title == obj[key][i][j][0]) {
-              this.km = obj[key][i][j][1];
-              break;
-            }
-            }
-            // if(this.title == obj[key][i][0][0]) {
-            //   this.km = obj[key][i][0][1];
-            //   break;
-            // }
-          // }
+import coursedesc from "./coursedesc.json";
+import courseimport from "./coursecsv/courseimport.json";
+import SearchCourse from "./SeachCourse";
+export default {
+  components: {
+    SearchCourse,
+  },
+  data: () => ({
+    // used for the rating botton
+    pressedRate: false,
+    difficultyRating: -1,
+    //科目信息
+    title: "",
+    pdata: coursedesc,
+    desc: "",
+    //面包屑导航
+    bitems: [
+      { text: "Home", disabled: false, href: "/" },
+      { text: "", disabled: false, href: "" },
+    ],
+    //分页
+    page: 1,
+    pageLength: 0,
+    showPage: false,
+    //课名数据
+    pdata1: courseimport,
+    km: "",
+  }),
+  created() {
+    // console.log(this.$vuetify.breakpoint.xs);
+    this.title = this.$route.params.name;
+    //面包屑
+    this.bitems[1].text = this.title;
+    this.bitems[1].href = "/#/rate/" + this.title;
+    // this.$store.dispatch('loadRatings', this.$props.classname)
+    this.$store.dispatch("loadRatings", this.$route.params.name);
+    this.$store.dispatch("loadComments", {
+      name: this.$route.params.name,
+      page: this.page,
+    });
+    const obj = this.pdata1;
+    for (let key in obj) {
+      for (var i = 0; i < obj[key].length; i++) {
+        // if(obj[key][i][0][0] != undefined) {
+        // console.log(obj[key][i]);
+        for (var j = 0; j < obj[key][i].length; j++) {
+          if (this.title == obj[key][i][j][0]) {
+            this.km = obj[key][i][j][1];
+            break;
+          }
+        }
+        // if(this.title == obj[key][i][0][0]) {
+        //   this.km = obj[key][i][0][1];
+        //   break;
+        // }
+        // }
+      }
+    }
 
+    if (this.pdata[this.title] != undefined) {
+      this.desc = this.pdata[this.title][0];
+    }
+  },
+  mounted() {
+    // console.log(111);
+  },
+  computed: {
+    average() {
+      //显示rate
+      const ratings = this.$store.getters.loadedRatings;
+      var total = 0;
+      // for loop in javascript gets the key of the object, not the object
+      if (ratings.length > 0) {
+        for (let ratingnum in ratings) {
+          total = total + ratings[ratingnum]["rate"];
+        }
+        let key = Object.keys(ratings).length;
+        var average = Number(total / key).toFixed(2);
+        if (!isNaN(average)) {
+          return parseFloat(average);
+          // return average.toPrecision(2);
+        } else {
+          return 0;
         }
       }
-
-      if(this.pdata[this.title] != undefined) {
-        this.desc = this.pdata[this.title][0];
+      return 0;
+    },
+    // based on how many ratings
+    numRating() {
+      var mytext = "";
+      if (this.$store.getters.loadedRatings.length > 0) {
+        mytext =
+          "(based on " +
+          this.$store.getters.loadedRatings.length +
+          " students)";
+        return mytext;
+      } else {
+        return mytext;
       }
-      
     },
-    mounted() {
-      // console.log(111);
-    },
-    computed: {
-      average () {//显示rate
-        const ratings = this.$store.getters.loadedRatings;
-        var total = 0;
-        // for loop in javascript gets the key of the object, not the object
-        if(ratings.length > 0) {
-          for(let ratingnum in ratings){
-            total = total + ratings[ratingnum]['rate']
-          }
-          let key = Object.keys(ratings).length;
-          var average = Number(total / key).toFixed(2);
-          if(!isNaN(average)) {
-            return parseFloat(average);
-            // return average.toPrecision(2);
-          }else {
-            return 0;
-          }
-        }
-        return 0;
-      },
-      // based on how many ratings
-      numRating () {
-        var mytext="";
-        if(this.$store.getters.loadedRatings.length > 0){
-          mytext="(based on " + this.$store.getters.loadedRatings.length + " students)";
-          return mytext;
-        }else{
-          return mytext;
-        }
-      },
 
-      fileUploads () { //显示上传文件
-        const files = this.$store.getters.loadedfileUploads;
-        var targetFile = []
-        
-        if(files.length > 0) {
-          for(let filenum in this.$store.getters.loadedfileUploads){
-              targetFile.push(files[filenum])
-          }
-        }
-        this.$store.dispatch('loadfileUploads', this.$route.params.name)
-        return targetFile;
-      },
-      showComments () {
-        // console.log(this.$store.getters.loadedComments);
-        const files = this.$store.getters.loadedComments;
-        var targetFile = [];
-        console.log(targetFile)
-        for(let filenum in this.$store.getters.loadedComments){
-          targetFile.push(files[filenum])
-        }
-        
-        if(targetFile.length > 0) {
-          this.pageLength = (targetFile.length != 0) ? Math.ceil(targetFile[0]['total'] / 4) : 1;
-          this.showPage = true
-        }else {
-          this.showPage = false
-        }
-        return targetFile;
-      },
+    fileUploads() {
+      //显示上传文件
+      const files = this.$store.getters.loadedfileUploads;
+      var targetFile = [];
 
+      if (files.length > 0) {
+        for (let filenum in this.$store.getters.loadedfileUploads) {
+          targetFile.push(files[filenum]);
+        }
+      }
+      this.$store.dispatch("loadfileUploads", this.$route.params.name);
+      return targetFile;
     },
-    methods: {
-      pressRate(){ //按rate触发这个
-        this.pressedRate=true
-      },
-      addrating(){ //按了confirm之后触发这个
-        
-        var time = new Date();
-        const now = time.getFullYear()+'-'+(time.getMonth()+1)+'-'+time.getDate();
-        var currating;
-        const user = this.$store.getters.user ? this.$store.getters.user : 'unknown';
-        if(user!="unknown"){
-          currating = {
-          "classname": this.$route.params.name, 
-          "user": user, 
-          // "comment": this.formData.comment, 
-          "time": now, 
-          "spec_time":time,
-          "rate": this.difficultyRating
+    showComments() {
+      // console.log(this.$store.getters.loadedComments);
+      const files = this.$store.getters.loadedComments;
+      var targetFile = [];
+      console.log(targetFile);
+      for (let filenum in this.$store.getters.loadedComments) {
+        targetFile.push(files[filenum]);
+      }
+
+      if (targetFile.length > 0) {
+        this.pageLength =
+          targetFile.length != 0 ? Math.ceil(targetFile[0]["total"] / 4) : 1;
+        this.showPage = true;
+      } else {
+        this.showPage = false;
+      }
+      return targetFile;
+    },
+  },
+  methods: {
+    pressRate() {
+      //按rate触发这个
+      this.pressedRate = true;
+    },
+    addrating() {
+      //按了confirm之后触发这个
+
+      var time = new Date();
+      const now =
+        time.getFullYear() + "-" + (time.getMonth() + 1) + "-" + time.getDate();
+      var currating;
+      const user = this.$store.getters.user
+        ? this.$store.getters.user
+        : "unknown";
+      if (user != "unknown") {
+        currating = {
+          classname: this.$route.params.name,
+          user: user,
+          // "comment": this.formData.comment,
+          time: now,
+          time_log: time,
+          rate: this.difficultyRating,
           // "pname": this.formData.pname
-          }
-        }else{
-          currating = {
-          "classname": this.$route.params.name, 
-
-          "time": now, 
-          "rate": this.difficultyRating
+        };
+      } else {
+        currating = {
+          classname: this.$route.params.name,
+          time_log: time,
+          time: now,
+          rate: this.difficultyRating,
           // "pname": this.formData.pname
-          }
-        }
-        
-        if(this.difficultyRating != -1){
-          this.$store.dispatch('addRating', currating)
-        }
+        };
+      }
 
-        // return to normal
-        this.pressedRate=false
-        this.difficultyRating=-1
-        
-      },
-      addcomment() {
-        this.$router.push('/addrating/'+ this.title)
-      },
-      addfile() {
-        this.$router.push('/addfile/'+ this.title)
-      },
-      // addcomment() {
-      //   this.$router.push('/addcomment/'+ this.title)
-      // },
-      redirect (imageUrl) {
-        window.open(imageUrl, "_blank"); 
-      },
-      onPageChange(page) {
-        this.page = page;
-        this.$store.dispatch('loadComments', {name:this.$route.params.name,page:this.page})
-      },
+      if (this.difficultyRating != -1) {
+        this.$store.dispatch("addRating", currating);
+      }
 
+      // return to normal
+      this.pressedRate = false;
+      this.difficultyRating = -1;
+    },
+    addcomment() {
+      this.$router.push("/addrating/" + this.title);
+    },
+    addfile() {
+      this.$router.push("/addfile/" + this.title);
+    },
+    // addcomment() {
+    //   this.$router.push('/addcomment/'+ this.title)
+    // },
+    redirect(imageUrl) {
+      window.open(imageUrl, "_blank");
+    },
+    onPageChange(page) {
+      this.page = page;
+      this.$store.dispatch("loadComments", {
+        name: this.$route.params.name,
+        page: this.page,
+      });
+    },
 
-            // display difficulty level string
-      difficultyLevel (rating) {
-      if(rating==-1){
+    // display difficulty level string
+    difficultyLevel(rating) {
+      if (rating == -1) {
         return "";
-      }else if(rating<=1){
+      } else if (rating <= 1) {
         return "easy";
-      }else if(rating<=2){
-        return "slightly easy"
-      }else if(rating<=3){
-        return "medium"
-      }else if(rating<=4){
-        return "slightly hard"
-      }else{
-        return "hard"
+      } else if (rating <= 2) {
+        return "slightly easy";
+      } else if (rating <= 3) {
+        return "medium";
+      } else if (rating <= 4) {
+        return "slightly hard";
+      } else {
+        return "hard";
       }
-    }
-    }
-  }
+    },
+  },
+};
 </script>

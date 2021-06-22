@@ -155,7 +155,7 @@ export default {
           "classname": this.classname, 
           "user": user, 
           "comment": this.formData.comment, 
-          "time_log":time,
+          "time_log": time,
           "time": now, 
           "rate": this.formData.rate,
           "pname": this.formData.pname
