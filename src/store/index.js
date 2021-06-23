@@ -184,9 +184,10 @@ export const store = new Vuex.Store({
         type: payload.type,
         date: payload.date.toISOString(),
         // time_log: payload.time_log.toISOString(),
+        user: payload.user,
         filename: payload.image.name,
-        description: payload.description,
-        classname: payload.classname
+        // description: payload.description,
+        // classname: payload.classname
         // creatorId: getters.user.id
       }
       //************** STEP 1: ******************

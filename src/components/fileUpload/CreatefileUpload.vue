@@ -116,13 +116,15 @@
         // var time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
         // var dateTime = date+' '+time;
         var dateTime = today
+        const user = this.$store.getters.user ? this.$store.getters.user : 'unknown';
         const fileUploadData = {
           type: this.type,
           // location: this.location,
           image: this.image, // submit binary file
           description: this.description,
           date: dateTime,
-          classname: this.$props.classname
+          classname: this.$props.classname,
+          user: user
         }
         this.$store.dispatch('createfileUpload', fileUploadData)
         this.$router.replace('/rate/' + this.classname)
