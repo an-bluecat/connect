@@ -4,8 +4,10 @@
 <template>
   <v-app id="inspire">
     <!-- <v-main class="grey lighten-3"> -->
-    <v-container class="grey lighten-3" fluid>
+    <!-- <v-container class="grey lighten-3" fluid> -->
+    <v-container fluid>
       <v-row no-gutters style="background-color: white">
+      
         <v-col lg="3" sm="3" md="3" xs="12">
         <!-- <v-col lg3 sm3 md3 xs12> -->
 
@@ -25,6 +27,7 @@
         </v-col>
       </v-row>
       <v-row style="background-color: white" no-gutters>
+        <!-- <v-parallax src="@/assets/background.jpg"> -->
         <v-col class="pl-6">
           <v-list-item>
             <v-list-item-content>
@@ -36,6 +39,7 @@
           </v-list-item>
         </v-col>
       </v-row>
+        <!-- </v-parallax> -->
       <v-row no-gutters style="background-color: white">
         <v-col lg="5" md="5" sm="12" xs="12" class="pl-6">
         <!-- <v-col lg5 md5 sm12 class="pl-6"> -->
@@ -48,10 +52,10 @@
           </v-list-item> -->
           <v-list-item two-line>
             <v-list-item-content>
-              <v-list-item-title class="text-h6"
+              <!-- <v-list-item-title class="text-h6"
                 >Difficulty: {{ average }}/5
                 <v-list-item-subtitle>{{ numRating }}</v-list-item-subtitle>
-              </v-list-item-title>
+              </v-list-item-title> -->
 
               <v-list-item-content>
                 <v-row align="center" class="mx-0" v-if="pressedRate == false">
@@ -92,8 +96,15 @@
                 </v-row>
                 <!-- <v-btn class="info mt-1" x-small @click="addrating">rate this course</v-btn> -->
               </v-list-item-content>
+              <v-list-item-content class="text-h6">
+                "{{displayDifficulty}}"
+              </v-list-item-content>
+              <v-list-item-subtitle>{{ numRating }}</v-list-item-subtitle>
             </v-list-item-content>
           </v-list-item>
+
+          
+
           <v-list-item three-line>
             <v-list-item-content>
               <v-list-item-title>
@@ -277,7 +288,22 @@ export default {
   mounted() {
     // console.log(111);
   },
-  computed: {
+  computed: {    
+    displayDifficulty () {
+      if(this.average==-1){
+        return "select difficulty";
+      }else if(this.average<=1){
+        return "easy";
+      }else if(this.average<=2){
+        return "slightly easy"
+      }else if(this.average<=3){
+        return "medium"
+      }else if(this.average<=4){
+        return "slightly hard"
+      }else{
+        return "hard"
+      }
+    },
     average() {
       //显示rate
       const ratings = this.$store.getters.loadedRatings;
@@ -426,3 +452,11 @@ export default {
   },
 };
 </script>
+<style scoped>
+/* .container {
+  width: 100vw;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+} */
+</style>

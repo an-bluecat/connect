@@ -13,7 +13,7 @@
           <v-list-item-title class="headline mb-1">
             {{email}}
           </v-list-item-title>
-          <v-list-item-subtitle>Common User</v-list-item-subtitle>
+          <v-list-item-subtitle>Registered User</v-list-item-subtitle>
         </v-list-item-content>
 
         <v-list-item-avatar tile size="80" color="indigo">
@@ -88,7 +88,7 @@ import Signin from './User/Signin'
     },
     methods: {
       getSX() {
-        return this.email.substr(0,2);
+        return this.email.substr(0,1).toUpperCase();
       },
       Logout() {
         //清除vuex数据 跳转首页
@@ -99,6 +99,7 @@ import Signin from './User/Signin'
       //读取cookie
       getCookie: function() {
           if (document.cookie.length > 0) {
+            console.log(document.cookie)
               this.showLoginInfo = true;
               var arr = document.cookie.split('; '); //这里显示的格式需要切割一下自己可输出看下
               for (var i = 0; i < arr.length; i++) {
