@@ -5,7 +5,7 @@
       <v-container fluid>
         <v-row>
           <v-parallax src="@/assets/background.jpg">
-            <h1><center>Welcome to U of T Connect</center></h1>
+            <h1><center>Welcome to U of T Hub</center></h1>
             <v-card width="80%">
               <v-card-text>
                 <SearchCourse></SearchCourse>

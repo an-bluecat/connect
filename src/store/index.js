@@ -183,7 +183,7 @@ export const store = new Vuex.Store({
       const fileUpload = {
         type: payload.type,
         date: payload.date.toISOString(),
-        time_log: payload.time_log.toISOString(),
+        // time_log: payload.time_log.toISOString(),
         filename: payload.image.name,
         description: payload.description,
         classname: payload.classname

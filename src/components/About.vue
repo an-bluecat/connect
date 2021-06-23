@@ -99,7 +99,6 @@ import Signin from './User/Signin'
       //读取cookie
       getCookie: function() {
           if (document.cookie.length > 0) {
-            console.log(document.cookie)
               this.showLoginInfo = true;
               var arr = document.cookie.split('; '); //这里显示的格式需要切割一下自己可输出看下
               for (var i = 0; i < arr.length; i++) {
