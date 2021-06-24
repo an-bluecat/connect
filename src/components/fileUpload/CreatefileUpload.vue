@@ -121,7 +121,7 @@
           type: this.type,
           // location: this.location,
           image: this.image, // submit binary file
-          description: this.description,
+          // description: this.description,
           date: dateTime,
           classname: this.$props.classname,
           user: user

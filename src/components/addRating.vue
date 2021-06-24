@@ -102,7 +102,6 @@ export default {
   computed: {
     // make sure rating is completed / rating 必填，其他选填
     formIsValid () {
-      console.log(this.rate)
       return this.formData.rate!=-1
       //return this.rate == 0 || this.rate == 1 || this.rate == 2 || this.rate == 3 || this.rate == 4 || this.rate == 5
       // && this.comment!= "" this.formData.comment!=""
@@ -147,8 +146,19 @@ export default {
         if (!this.formIsValid) {
           return
         }
+        // get IP
+        // var myIP;
+        // fetch('https://api.ipify.org?format=json')
+        // .then(x => x.json())
+        // .then(({ ip }) => {
+        //     myIP = ip;
+        // });
+        // console.log("myIP",myIP)
+
+
         // get time: this will get zulu time
         var time = new Date();
+
         const now = time.getFullYear()+'-'+(time.getMonth()+1)+'-'+time.getDate();
         const user = this.$store.getters.user ? this.$store.getters.user : 'unknown';
         const comment = {
@@ -162,8 +172,7 @@ export default {
         }
         this.$store.dispatch('addRating', comment)
         if (this.formData.comment!=""){
-          // console.log("add comment");
-          // console.log(comment)
+
           this.$store.dispatch('addComment', comment);
         }
         

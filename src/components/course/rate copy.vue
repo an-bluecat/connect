@@ -5,8 +5,8 @@
   <v-app id="inspire">
     <!-- <v-main class="grey lighten-3"> -->
     <!-- <v-container class="grey lighten-3" fluid> -->
-    <v-container fluid class="px-10">
-      <v-row no-gutters style="background-color: white" class="px-0">
+    <v-container fluid>
+      <v-row no-gutters style="background-color: white">
       
         <v-col lg="3" sm="3" md="3" xs="12">
         <!-- <v-col lg3 sm3 md3 xs12> -->
@@ -26,10 +26,9 @@
           </v-list-item>
         </v-col>
       </v-row>
-      
       <v-row style="background-color: white" no-gutters>
         <!-- <v-parallax src="@/assets/background.jpg"> -->
-        <v-col class="pl-6" lg="5" md="5" sm="12" xs="12">
+        <v-col class="pl-6">
           <v-list-item>
             <v-list-item-content>
               <v-list-item-title class="text-h4 font-weight-bold">{{ title }}</v-list-item-title>
@@ -39,14 +38,20 @@
             </v-list-item-content>
           </v-list-item>
         </v-col>
-        <v-col lg="5" md="5" sm="12" xs="12">
+      </v-row>
+        <!-- </v-parallax> -->
+      <v-row no-gutters style="background-color: white">
+        <v-col lg="5" md="5" sm="12" xs="12" class="pl-6">
           <v-list-item two-line>
             <v-list-item-content>
+              <!-- <v-list-item-title class="text-h6"
+                >Difficulty: {{ average }}/5
+                <v-list-item-subtitle>{{ numRating }}</v-list-item-subtitle>
+              </v-list-item-title> -->
 
               <v-list-item-content>
-                <v-row align="center" class="mx-0">
+                <v-row align="center" class="mx-0" v-if="pressedRate == false">
                   <!-- <v-rating :value="average" color="amber" dense half-increments readonly size="20"></v-rating> -->
-                  difficulty
                   <v-rating
                     :value="average"
                     color="yellow darken-3"
@@ -57,66 +62,76 @@
                     :readonly="true"
                     size="30"
                   ></v-rating>
-                  {{average}}
+                  <v-btn class="info ml-2" x-small @click="pressRate"
+                    >rate</v-btn
+                  >
                 </v-row>
-                
+                <v-row
+                  align="center"
+                  class="mx-0"
+                  v-else-if="pressedRate == true"
+                >
+                  <!-- <v-rating :value="average" color="amber" dense half-increments readonly size="20"></v-rating> -->
+                  <v-rating
+                    v-model="difficultyRating"
+                    color="yellow darken-3"
+                    background-color="grey darken-1"
+                    half-increments
+                    dense
+                    :readonly="false"
+                    :hover="true"
+                    size="30"
+                  ></v-rating>
+                  <v-btn class="info ml-2" x-small @click="addrating"
+                    >confirm</v-btn
+                  >
+                </v-row>
+                <!-- <v-btn class="info mt-1" x-small @click="addrating">rate this course</v-btn> -->
+              </v-list-item-content>
+              <v-list-item-content class="text-h6">
+                "{{displayDifficulty}}"
               </v-list-item-content>
               <v-list-item-subtitle>{{ numRating }}</v-list-item-subtitle>
-              
             </v-list-item-content>
           </v-list-item>
-        </v-col>
-      </v-row>
 
-
-      <v-row style="background-color: white" no-gutters class="pl-7">
-        <v-col cols="12" lg="5" md="5" sm="12" xs="12">
-          <v-btn 
-            color="primary"
-            elevation="5"
-            large
-            outlined
-            rounded
-            @click="addcomment()"
-          ><v-icon left>
-            mdi-pencil
-          </v-icon>
-          rate/comment</v-btn>
-        </v-col>
-        
-      </v-row>
-
-
-
-
-      <v-row class="px-10 py-5">
-
-          <p class="text-h5 font-weight-medium">Description</p>
-          <p class="text-justify">{{ desc }}</p>
-      </v-row>
-
-
-      <v-row class="px-5">
-
+          
 
           <v-list-item three-line>
             <v-list-item-content>
-              <v-list-item-title class="text-h5 font-weight-medium">
+              <v-list-item-title>
                 Resources
+                <!-- <v-icon class="ml-4" size="14" @click="addfile">mdi-upload</v-icon> -->
                 <v-btn class="info ml-2" x-small @click="addfile">upload</v-btn>
               </v-list-item-title>
               <v-list-item-subtitle
                 v-for="fileUpload in fileUploads"
                 :key="fileUpload.id"
               >
+                <!-- <a :href="fileUpload.imageUrl" target="_blank">{{fileUpload.filename}} - {{fileUpload.description}}</a> -->
                 <a :href="fileUpload.imageUrl" target="_blank"
                   >{{ fileUpload.type }} - {{ fileUpload.filename }}</a
                 >
               </v-list-item-subtitle>
             </v-list-item-content>
           </v-list-item>
-
-
+        </v-col>
+        <v-col lg="7" md="7" sm="12" xs="12" class="pl-10">
+        <!-- <v-col lg7 md7 sm12 class="pl-10"> -->
+          <!-- <p
+            class="text-justify d-inline-block text-truncate"
+            style="max-width: 150px"
+            v-if="$vuetify.breakpoint.xs"
+          > -->
+          <p
+            class="text-justify d-inline-block"
+            style="max-width: 150px"
+            v-if="$vuetify.breakpoint.xs"
+          >
+            {{ desc }}
+          </p>
+          <p class="text-justify mt-3 pr-4" v-else>{{ desc }}</p>
+        </v-col>
       </v-row>
       <v-row no-gutters style="height: 550px; background-color: white">
         <v-col align="left">
@@ -164,6 +179,8 @@
                   <v-list-item-subtitle v-if="item.pname != ''"
                     >taught by {{ item.pname }}</v-list-item-subtitle
                   >
+                  <!-- 暂时不显示名字 -->
+                  <!-- <v-list-item-subtitle v-html="item.user"></v-list-item-subtitle> -->
                 </v-list-item-content>
               </v-list-item>
 
