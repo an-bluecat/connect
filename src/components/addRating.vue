@@ -1,6 +1,6 @@
 <template>
   <v-container>
-    <v-layout row>
+    <v-layout row class="py-10">
       <v-flex xs12 sm6 offset-sm3>
         <h1>Rate {{classname}}</h1>
       </v-flex>
@@ -9,15 +9,8 @@
       <v-flex xs12>
         <form @submit.prevent="handleSubmit">
           <v-layout row>
-            <!-- <v-flex xs12 sm6 offset-sm3>
-              <v-select
-                :items="rateoptions"
-                label="Difficulty"
-                v-model="formData.rate"
-                required
-              ></v-select>
-            </v-flex> -->
             <v-flex xs12 sm6 offset-sm3>
+            <h6>{{display}}</h6>
             <v-rating
               v-model="formData.rate"
               color="yellow darken-3"
@@ -29,9 +22,30 @@
               size="30"
               required
             ></v-rating>
-            <h6>{{display}}</h6>
+            
             </v-flex>
           </v-layout>
+
+          <v-layout row>
+            <v-flex xs12 sm6 offset-sm3>
+            <h6>{{displayUsefulness}}</h6>
+            <v-rating
+              v-model="formData.usefulness"
+              color="yellow darken-3"
+              background-color="grey darken-1"
+              half-increments
+              dense
+              :readonly="false"
+              :hover="true"
+              size="30"
+              required
+            ></v-rating>
+
+
+            </v-flex>
+          </v-layout>
+
+
           <v-layout row>
             <v-flex xs12 sm6 offset-sm3>
               <v-text-field
@@ -86,6 +100,7 @@ export default {
       formData: {
         comment: '',
         rate: -1,
+        usefulness: -1,
         timestamp: "",
         pname: ""
       },
@@ -102,37 +117,43 @@ export default {
   computed: {
     // make sure rating is completed / rating 必填，其他选填
     formIsValid () {
-      return this.formData.rate!=-1
+      return this.formData.rate!=-1 && this.formData.usefulness!=-1;
       //return this.rate == 0 || this.rate == 1 || this.rate == 2 || this.rate == 3 || this.rate == 4 || this.rate == 5
       // && this.comment!= "" this.formData.comment!=""
     },
     display () {
       if(this.formData.rate==-1){
-        return "select difficulty";
+        return "Select difficulty";
       }else if(this.formData.rate<=1){
-        return "easy";
+        return "Easy";
       }else if(this.formData.rate<=2){
-        return "slightly easy"
+        return "Slightly easy"
       }else if(this.formData.rate<=3){
-        return "medium"
+        return "Medium"
       }else if(this.formData.rate<=4){
-        return "slightly hard"
+        return "Slightly hard"
       }else{
-        return "hard"
+        return "Very Hard"
+      }
+    },
+    displayUsefulness (){
+      if(this.formData.usefulness==-1){
+        return "Select Usefulness";
+      }else if(this.formData.usefulness<=1){
+        return "Useless";
+      }else if(this.formData.usefulness<=2){
+        return "Not so useful"
+      }else if(this.formData.usefulness<=3){
+        return "Somewhat useful"
+      }else if(this.formData.usefulness<=4){
+        return "Useful"
+      }else{
+        return "Very Useful"
       }
     }
 
   },
-  // mounted() {
-  //     console.log("this.formData.rate",this.formData.rate);
-  //     console.log("this.formData[rate]",this.formData["rate"]);
 
-  //     if(this.formData.rate==-1){
-  //       this.display= "select difficulty";
-  //     }else{
-  //       this.display= "test";
-  //     }
-  // },
   methods: {
     // get current time
     getNow: function() {
@@ -168,11 +189,11 @@ export default {
           "time_log": time,
           "time": now, 
           "rate": this.formData.rate,
-          "pname": this.formData.pname
+          "pname": this.formData.pname,
+          "usefulness": this.formData.usefulness
         }
         this.$store.dispatch('addRating', comment)
         if (this.formData.comment!=""){
-
           this.$store.dispatch('addComment', comment);
         }
         

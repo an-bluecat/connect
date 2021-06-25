@@ -30,46 +30,46 @@
       <v-row style="background-color: white" no-gutters>
         <!-- <v-parallax src="@/assets/background.jpg"> -->
         <v-col class="pl-6" lg="5" md="5" sm="12" xs="12">
-          <v-list-item>
-            <v-list-item-content>
               <v-list-item-title class="text-h4 font-weight-bold">{{ title }}</v-list-item-title>
-              <!-- <v-list-item-title class="text-h5 font-weight-medium">{{ km }}</v-list-item-title> -->
               <v-list-item-title class="text-h5 font-weight-medium">{{ km }}</v-list-item-title>
-
-            </v-list-item-content>
-          </v-list-item>
         </v-col>
         <v-col lg="5" md="5" sm="12" xs="12">
-          <v-list-item two-line>
-            <v-list-item-content>
-
-              <v-list-item-content>
-                <v-row align="center" class="mx-0">
-                  <!-- <v-rating :value="average" color="amber" dense half-increments readonly size="20"></v-rating> -->
-                  difficulty
-                  <v-rating
-                    :value="average"
-                    color="yellow darken-3"
-                    background-color="grey darken-1"
-                    half-increments
-                    dense
-                    :hover="true"
-                    :readonly="true"
-                    size="30"
-                  ></v-rating>
-                  {{average}}
-                </v-row>
-                
-              </v-list-item-content>
-              <v-list-item-subtitle>{{ numRating }}</v-list-item-subtitle>
-              
-            </v-list-item-content>
+          <v-list-item class="text-h6 font-weight-medium">
+            Difficulty   
+            <v-rating
+              :value="average"
+              color="yellow darken-3"
+              background-color="grey darken-1"
+              half-increments
+              dense
+              :hover="true"
+              :readonly="true"
+              size="30"
+              class="pl-5"
+            ></v-rating>
+            {{average}}
           </v-list-item>
+          <v-list-item class="text-h6 font-weight-medium">
+            Usefulness
+            <v-rating
+              :value="UsefulnessAverage"
+              color="yellow darken-3"
+              background-color="grey darken-1"
+              half-increments
+              dense
+              :hover="true"
+              :readonly="true"
+              size="30"
+            ></v-rating>
+            {{UsefulnessAverage}}
+          </v-list-item>
+          
+          <v-list-item>{{ numRating }}</v-list-item>
         </v-col>
       </v-row>
 
 
-      <v-row style="background-color: white" no-gutters class="pl-7">
+      <v-row style="background-color: white" no-gutters class="pl-6 pb-6">
         <v-col cols="12" lg="5" md="5" sm="12" xs="12">
           <v-btn 
             color="primary"
@@ -83,20 +83,20 @@
           </v-icon>
           rate/comment</v-btn>
         </v-col>
-        
       </v-row>
 
 
 
 
-      <v-row class="px-10 py-5">
-
+      <v-row class="pl-6 pr-6 py-2">
+        <v-col col="12" lg="10" md="10" sm="12" xs="12">
           <p class="text-h5 font-weight-medium">Description</p>
           <p class="text-justify">{{ desc }}</p>
+        </v-col>
       </v-row>
 
 
-      <v-row class="px-5">
+      <v-row class="px-5 py-2">
 
 
           <v-list-item three-line>
@@ -140,6 +140,7 @@
                 <v-list-item-content>
                   <v-list-item-title>
                     <!-- <v-row align="right"> -->
+                    Difficulty
                     <v-rating
                       :value="item.rate"
                       color="yellow darken-3"
@@ -150,15 +151,24 @@
                       :readonly="true"
                       size="15"
                     ></v-rating>
-                    "{{ difficultyLevel(item.rate) }}"
                     <!-- </v-row> -->
                   </v-list-item-title>
-
+                  <v-list-item-title>
+                    <!-- <v-row align="right"> -->
+                    Usefulness
+                    <v-rating
+                      :value="item.usefulness"
+                      color="yellow darken-3"
+                      background-color="grey darken-1"
+                      half-increments
+                      dense
+                      :hover="true"
+                      :readonly="true"
+                      size="15"
+                    ></v-rating>
+                    <!-- </v-row> -->
+                  </v-list-item-title>
                   {{ item.comment }}
-
-                  <!-- <v-list-item-title v-html="item.comment"></v-list-item-title> -->
-
-                  <!-- <v-list-item-subtitle v-html="item.time"></v-list-item-subtitle> -->
                   <v-list-item-subtitle>{{ item.time }}</v-list-item-subtitle>
 
                   <v-list-item-subtitle v-if="item.pname != ''"
@@ -287,6 +297,26 @@ export default {
       if (ratings.length > 0) {
         for (let ratingnum in ratings) {
           total = total + ratings[ratingnum]["rate"];
+        }
+        let key = Object.keys(ratings).length;
+        var average = Number(total / key).toFixed(2);
+        if (!isNaN(average)) {
+          return parseFloat(average);
+          // return average.toPrecision(2);
+        } else {
+          return 0;
+        }
+      }
+      return 0;
+    },
+    UsefulnessAverage(){
+
+      const ratings = this.$store.getters.loadedRatings;
+      var total = 0;
+      // for loop in javascript gets the key of the object, not the object
+      if (ratings.length > 0) {
+        for (let ratingnum in ratings) {
+          total = total + ratings[ratingnum]["usefulness"];
         }
         let key = Object.keys(ratings).length;
         var average = Number(total / key).toFixed(2);

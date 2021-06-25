@@ -101,6 +101,7 @@ export const store = new Vuex.Store({
             fileUploads.push({
               id: key,
               comment: obj[key].comment,
+              usefulness: obj[key].usefulness,
               rate: obj[key].rate,
               time: obj[key].time,
               user: obj[key].user
@@ -152,7 +153,9 @@ export const store = new Vuex.Store({
                 user: obj[key].user,
                 rate: obj[key].rate,
                 total: Object.keys(obj).length,
-                pname: obj[key].pname
+                pname: obj[key].pname,
+                usefulness: obj[key].usefulness
+                
               })
             }
           }
@@ -245,12 +248,14 @@ export const store = new Vuex.Store({
           user: payload.user,
           time: payload.time,
           time_log: payload.time_log.toISOString(),
+          usefulness: payload.usefulness
         }
       }else{
         var fileUpload= {
           rate: payload.rate,
           time: payload.time,
           time_log: payload.time_log.toISOString(),
+          usefulness: payload.usefulness
         }
       }
       
@@ -283,7 +288,7 @@ export const store = new Vuex.Store({
         // time: payload.time.toISOString(),
         time: payload.time.toString(),
         time_log: payload.time_log.toISOString(),
-        // classname: payload.classname,
+        usefulness: payload.usefulness,
         pname: payload.pname // prof's name
       }
       // push json information to database
