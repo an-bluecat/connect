@@ -299,7 +299,7 @@ export default {
           total = total + ratings[ratingnum]["rate"];
         }
         let key = Object.keys(ratings).length;
-        var average = Number(total / key).toFixed(2);
+        var average = Number(total / key).toFixed(1);
         if (!isNaN(average)) {
           return parseFloat(average);
           // return average.toPrecision(2);
@@ -312,14 +312,23 @@ export default {
     UsefulnessAverage(){
 
       const ratings = this.$store.getters.loadedRatings;
+      console.log(ratings)
       var total = 0;
       // for loop in javascript gets the key of the object, not the object
       if (ratings.length > 0) {
-        for (let ratingnum in ratings) {
-          total = total + ratings[ratingnum]["usefulness"];
-        }
         let key = Object.keys(ratings).length;
-        var average = Number(total / key).toFixed(2);
+        for (let ratingnum in ratings) {
+          if("usefulness" in ratings[ratingnum] && ratings[ratingnum]["usefulness"]!=undefined){
+            console.log(ratings[ratingnum]["usefulness"])
+            total = total + ratings[ratingnum]["usefulness"];
+          }else{
+            key = key-1;
+          }
+          
+        }
+        
+        var average = Number(total / key).toFixed(1);
+
         if (!isNaN(average)) {
           return parseFloat(average);
           // return average.toPrecision(2);
