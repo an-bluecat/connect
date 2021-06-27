@@ -1,5 +1,5 @@
 <template>
-  <v-container>
+  <v-container class="wrap">
     <!-- alert component, from ./Shared/Alert -->
     <v-layout row v-if="error">
       <v-flex xs12 sm6 offset-sm3>
@@ -9,11 +9,9 @@
         <app-alert @dismissed="onDismissed" :text="error.message"></app-alert>
       </v-flex>
     </v-layout>
-    <v-layout row>
       <v-flex xs12 sm6 offset-sm3>
         <v-card>
           <v-card-text>
-            <v-container>
               <!-- stop the form from submitting the normal way and execute myFunction() instead -->
               <form @submit.prevent="onSignup">
                 <v-layout row>
@@ -62,11 +60,9 @@
                   </v-flex>
                 </v-layout>
               </form>
-            </v-container>
           </v-card-text>
         </v-card>
       </v-flex>
-    </v-layout>
   </v-container>
 </template>
 
@@ -118,3 +114,16 @@
     }
   }
 </script>
+<style scoped lang="scss">
+.wrap{
+  width: 100%;
+  height: auto;
+  padding: 33px;
+.row{
+  margin: 0;
+}
+.btn{
+  width: 100%;
+}
+}
+</style>

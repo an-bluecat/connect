@@ -1,15 +1,12 @@
 <template>
-  <v-container>
+  <v-container class="wrap">
     <v-layout row v-if="error">
-      <v-flex xs12 sm6 offset-sm3>
+      <v-flex style="padding: 0 12px" >
         <app-alert @dismissed="onDismissed" :text="error.message"></app-alert>
       </v-flex>
     </v-layout>
     <v-layout row>
-      <v-flex xs12 sm6 offset-sm3>
-        <v-card>
-          <v-card-text>
-            <v-container>
+      <v-flex >
               <form @submit.prevent="onSignin">
                 <v-layout row>
                   <v-flex xs12>
@@ -23,7 +20,7 @@
                   </v-flex>
                 </v-layout>
                 <v-layout row>
-                  <v-flex xs12>
+                  <v-flex >
                     <v-text-field
                       name="password"
                       label="Password"
@@ -34,8 +31,8 @@
                   </v-flex>
                 </v-layout>
                 <v-layout row>
-                  <v-flex xs12>
-                    <v-btn type="submit" :disabled="loading" :loading="loading">
+                  <v-flex >
+                    <v-btn class="btn" color="primary" type="submit" :disabled="loading" :loading="loading">
                       Sign in
                        <span slot="loader" class="custom-loader">
                         <v-icon light>loading</v-icon>
@@ -44,9 +41,6 @@
                   </v-flex>
                 </v-layout>
               </form>
-            </v-container>
-          </v-card-text>
-        </v-card>
       </v-flex>
     </v-layout>
   </v-container>
@@ -74,11 +68,11 @@
     },
     watch: {
       // redirect if user sign in
-      user (value) {
-        if (value !== null && value !== undefined) {
-          this.$router.push('/about')
-        }
-      }
+      // user (value) {
+      //   if (value !== null && value !== undefined) {
+      //     this.$router.push('/about')
+      //   }
+      // }
     },
     methods: {
       onSignin () {
@@ -101,3 +95,15 @@
     }
   }
 </script>
+<style scoped lang="scss">
+.wrap{
+  width: 100%;
+  height: auto;
+  .row{
+    margin: 0 2px !important;
+  }
+  .btn{
+    width: 100%;
+  }
+}
+</style>
