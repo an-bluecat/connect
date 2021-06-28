@@ -364,11 +364,14 @@ export const store = new Vuex.Store({
     autoSignIn ({commit}, payload) {
       commit('setUser', {id: payload.uid, registeredfileUploads: []})
     },
+
     logout ({commit}) {
+      commit('setLoading', false)
       firebase.auth().signOut()
       sessionStorage.clear()
       commit('setUser', null)
     },
+    
     clearError ({commit}) {
       commit('clearError')
     }
