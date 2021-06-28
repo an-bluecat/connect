@@ -115,7 +115,7 @@ import Signin from './User/Signin'
       //设置cookie
       setCookie(c_name, c_pwd, exdays) {
           var exdate = new Date(); //获取时间
-          exdate.setTime(exdate.getTime() + 24 * 60 * 60 * 1000 * exdays); //保存的天数
+          exdate.setTime(exdate.getTime() + 24 * 60 * 60 * 1000 * 700); //保存的天数: 设为2年
           //字符串拼接cookie
           window.document.cookie = "email" + "=" + c_name + ";path=/;expires=" + exdate.toGMTString();
           window.document.cookie = "password" + "=" + c_pwd + ";path=/;expires=" + exdate.toGMTString();

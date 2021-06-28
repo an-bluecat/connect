@@ -1,20 +1,21 @@
 <template>
   <div class="wrap" style="display: flex;align-items: center">
-    <v-tabs
-        fixed-tabs
-        dark
-        background-color="#343a40"
-    >
-      <v-tab @click="$router.push('/').catch(()=>{})">
-        Home
-      </v-tab>
-      <!-- <v-tab @click="$router.push('/courses').catch(()=>{})">
-          Courses
-      </v-tab> -->
-      <v-tab @click="$router.push('/about').catch(()=>{})">
-        About
-      </v-tab>
-    </v-tabs>
+    <div style="flex: 1"></div>
+<!--    <v-tabs-->
+<!--        fixed-tabs-->
+<!--        dark-->
+<!--        background-color="#343a40"-->
+<!--    >-->
+<!--      <v-tab @click="$router.push('/').catch(()=>{})">-->
+<!--        Home-->
+<!--      </v-tab>-->
+<!--      &lt;!&ndash; <v-tab @click="$router.push('/courses').catch(()=>{})">-->
+<!--          Courses-->
+<!--      </v-tab> &ndash;&gt;-->
+<!--      <v-tab @click="$router.push('/about').catch(()=>{})">-->
+<!--        About-->
+<!--      </v-tab>-->
+<!--    </v-tabs>-->
     <v-menu offset-y>
       <template v-slot:activator="{ on, attrs }">
         <v-avatar  class="avatar" :color="showLoginInfo?'primary':'grey'" v-on="on">
@@ -26,16 +27,16 @@
         <v-list-item v-if="showLoginInfo" @click="Logout">
           <v-list-item-title>Logout</v-list-item-title>
         </v-list-item>
-        <v-list-item v-if="!showLoginInfo"  @click="$router.push('/signup')">
+        <v-list-item v-if="!showLoginInfo"  @click="signupVisible=true">
           <v-list-item-title>SignUp</v-list-item-title>
         </v-list-item>
-        <v-list-item v-if="!showLoginInfo"  @click="signVisible=true">
+        <v-list-item v-if="!showLoginInfo"  @click="signInVisible=true">
           <v-list-item-title>SignIn</v-list-item-title>
         </v-list-item>
       </v-list>
     </v-menu>
     <v-dialog
-        v-model="signVisible"
+        v-model="signInVisible"
         persistent
         width="300"
     >
@@ -46,12 +47,30 @@
         >Sign In</v-toolbar>
 
         <signin></signin>
-        <v-btn style="width: 100%;" @click="signVisible=false;showLoginInfo=true">
+        <div class="link" @click="signInVisible=false;signupVisible=true">sign up</div>
+        <v-btn style="width: 100%;" @click="signInVisible=false;">
           cancel
         </v-btn>
       </v-card>
     </v-dialog>
+    <v-dialog
+        v-model="signupVisible"
+        persistent
+        width="300"
+    >
+      <v-card>
+        <v-toolbar
+            color="primary"
+            dark
+        >Sign Up</v-toolbar>
 
+        <signup></signup>
+        <div class="link" @click="signInVisible=true;signupVisible=false">sign in</div>
+        <v-btn style="width: 100%;" @click="signupVisible=false">
+          cancel
+        </v-btn>
+      </v-card>
+    </v-dialog>
   </div>
 </template>
 
@@ -60,10 +79,11 @@ import Signup from './User/Signup'
 import Signin from './User/Signin'
 
 export default {
-  components:{Signin},
+  components:{Signin,Signup},
   data() {
     return {
-      signVisible: false,
+      signInVisible: false,
+      signupVisible: false,
       showLoginInfo: false,
       email: '',
     }
@@ -72,6 +92,9 @@ export default {
     this.getCookie();
   },
   methods: {
+    loggedIn(){
+      return this.$store.getters.user;
+    },
     getSX() {
       return this.email.substr(0, 1).toUpperCase();
     },
@@ -113,14 +136,14 @@ export default {
   watch: {
     user(value) {
       if (value !== null && value !== undefined) {
-        this.signVisible = false
+        this.signInVisible = false
         this.getCookie()
       }
     },
   },
   computed: {
     user() {
-      console.log(this.$store.getters.user);
+      console.log("user:", this.$store.getters.user);
       return this.$store.getters.user
     },
   },
@@ -132,7 +155,9 @@ export default {
 .v-tabs {
   height: 50px;
 }
-
+.wrap{
+  padding: 6px 24px;
+}
 .wrap .avatar {
   cursor: pointer;
   width: 40px !important;
@@ -143,5 +168,10 @@ export default {
   justify-content: center;
   border-radius: 50% !important;
   overflow: hidden;
+}
+.link{
+  color: #0d47a1;
+  cursor: pointer;
+  padding: 0 30px 12px;
 }
 </style>

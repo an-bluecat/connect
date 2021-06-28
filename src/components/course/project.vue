@@ -1,6 +1,5 @@
 <template>
   <v-app id="inspire">
-
     <v-navigation-drawer v-model="drawer" app>
       <v-sheet color="grey lighten-4" class="pa-4">
         <v-breadcrumbs :items="items" large></v-breadcrumbs>
@@ -9,7 +8,7 @@
       <v-list>
         <v-list-item
           v-for="[icon, text] in links"
-          :key="icon"
+          :key="text"
           link
           @click="onclickoptions(text)"
         >
@@ -24,7 +23,7 @@
       </v-list>
     </v-navigation-drawer>
 
-    <v-app-bar app>
+    <v-app-bar app style="margin-top: 50px">
       <v-app-bar-nav-icon @click="drawer = !drawer"></v-app-bar-nav-icon>
 
       <v-toolbar-title>{{name}}</v-toolbar-title>

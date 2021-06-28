@@ -251,7 +251,7 @@ export default {
     for (let key in obj) {
       for (var i = 0; i < obj[key].length; i++) {
         // if(obj[key][i][0][0] != undefined) {
-        // console.log(obj[key][i]);
+
         for (var j = 0; j < obj[key][i].length; j++) {
           if (this.title == obj[key][i][j][0]) {
             this.km = obj[key][i][j][1];
@@ -312,14 +312,12 @@ export default {
     UsefulnessAverage(){
 
       const ratings = this.$store.getters.loadedRatings;
-      console.log(ratings)
       var total = 0;
       // for loop in javascript gets the key of the object, not the object
       if (ratings.length > 0) {
         let key = Object.keys(ratings).length;
         for (let ratingnum in ratings) {
           if("usefulness" in ratings[ratingnum] && ratings[ratingnum]["usefulness"]!=undefined){
-            console.log(ratings[ratingnum]["usefulness"])
             total = total + ratings[ratingnum]["usefulness"];
           }else{
             key = key-1;
@@ -366,10 +364,10 @@ export default {
       return targetFile;
     },
     showComments() {
-      // console.log(this.$store.getters.loadedComments);
+
       const files = this.$store.getters.loadedComments;
       var targetFile = [];
-      // console.log(targetFile);
+
       for (let filenum in this.$store.getters.loadedComments) {
         targetFile.push(files[filenum]);
       }

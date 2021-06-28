@@ -115,7 +115,7 @@
     },
     created() {
         // load files
-        // console.log("classname", this.$props.classname)
+
         this.$store.dispatch('loadfileUploads', this.$props.classname)
     },
     computed: {
