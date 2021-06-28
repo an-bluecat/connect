@@ -18,19 +18,19 @@
 <!--    </v-tabs>-->
     <v-menu offset-y>
       <template v-slot:activator="{ on, attrs }">
-        <v-avatar  class="avatar" :color="showLoginInfo?'primary':'grey'" v-on="on">
-          <v-icon dark v-if="!showLoginInfo"> mdi-account-circle</v-icon>
+        <v-avatar  class="avatar" :color="userLoggedIn ? 'primary':'grey'" v-on="on">
+          <v-icon dark v-if="!userLoggedIn"> mdi-account-circle</v-icon>
           <span v-else class="white--text headline">{{ getSX() }}</span>
         </v-avatar>
       </template>
       <v-list>
-        <v-list-item v-if="showLoginInfo" @click="Logout">
+        <v-list-item v-if="userLoggedIn" @click="Logout">
           <v-list-item-title>Logout</v-list-item-title>
         </v-list-item>
-        <v-list-item v-if="!showLoginInfo"  @click="signupVisible=true">
+        <v-list-item v-if="!userLoggedIn"  @click="signupVisible=true">
           <v-list-item-title>SignUp</v-list-item-title>
         </v-list-item>
-        <v-list-item v-if="!showLoginInfo"  @click="signInVisible=true">
+        <v-list-item v-if="!userLoggedIn"  @click="signInVisible=true">
           <v-list-item-title>SignIn</v-list-item-title>
         </v-list-item>
       </v-list>
@@ -84,7 +84,7 @@ export default {
     return {
       signInVisible: false,
       signupVisible: false,
-      showLoginInfo: false,
+      // showLoginInfo: false,
       email: '',
     }
   },
@@ -92,9 +92,6 @@ export default {
     this.getCookie();
   },
   methods: {
-    loggedIn(){
-      return this.$store.getters.user;
-    },
     getSX() {
       return this.email.substr(0, 1).toUpperCase();
     },
@@ -115,7 +112,7 @@ export default {
     //读取cookie
     getCookie: function () {
       if (document.cookie.length > 0) {
-        this.showLoginInfo = true;
+        // this.showLoginInfo = true;
         var arr = document.cookie.split('; '); //这里显示的格式需要切割一下自己可输出看下
         for (var i = 0; i < arr.length; i++) {
           var arr2 = arr[i].split('='); //再次切割
@@ -145,6 +142,10 @@ export default {
     user() {
       console.log("user:", this.$store.getters.user);
       return this.$store.getters.user
+    },
+    userLoggedIn(){
+      console.log("this.$store.getters.user", this.$store.getters.user)
+      return this.$store.getters.user != null ;
     },
   },
 

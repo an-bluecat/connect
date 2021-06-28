@@ -1,7 +1,7 @@
 <template>
 
   <v-app id="inspire">
-    <div>
+    <div style="position: absolute;top:0;right:0;z-index: 11">
       <TopPanel/>
     </div>
     <!-- <div id="container"> -->
@@ -14,11 +14,13 @@
 
 <script>
 import TopPanel from './components/TopPanel'
+// import Signup from './components/User/Signup'
+// import Signin from './components/User/Signin'
 
 export default {
   name: 'App',
   components: {
-    TopPanel,
+    TopPanel
   },
   data() {
     return {

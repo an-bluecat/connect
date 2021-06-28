@@ -73,9 +73,9 @@
         <v-col cols="12" lg="5" md="5" sm="12" xs="12">
           <v-btn 
             color="primary"
-            elevation="5"
+            elevation="6"
             large
-            outlined
+            
             rounded
             @click="addcomment()"
           ><v-icon left>
@@ -132,7 +132,7 @@
               <v-list-item v-else :key="index">
                 <v-list-item-avatar>
                   <!-- <v-img :src="item.avatar"></v-img> -->
-                  <v-avatar color="indigo" size="56">
+                  <v-avatar color="indigo" size="40">
                     <v-icon dark> mdi-account-circle </v-icon>
                   </v-avatar>
                 </v-list-item-avatar>
@@ -251,7 +251,7 @@ export default {
     for (let key in obj) {
       for (var i = 0; i < obj[key].length; i++) {
         // if(obj[key][i][0][0] != undefined) {
-
+        // console.log(obj[key][i]);
         for (var j = 0; j < obj[key][i].length; j++) {
           if (this.title == obj[key][i][j][0]) {
             this.km = obj[key][i][j][1];

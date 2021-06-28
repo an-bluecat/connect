@@ -88,7 +88,7 @@ export default {
         src: require("../assets/ece.jpeg"),
         rate: 3,
         nums: "302",
-        title: "Electrical and Computer Engineering",
+        title: "Electrical & Computer Engineering",
       },
       {
         name: "EngSci",

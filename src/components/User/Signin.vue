@@ -63,7 +63,9 @@
         return this.$store.getters.error
       },
       loading () {
-        return this.$store.getters.loading
+        // console.log("this.$store.getters.loading", this.$store.getters.loading)
+        // return this.$store.getters.loading
+        return false;
       }
     },
     watch: {

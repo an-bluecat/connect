@@ -71,7 +71,8 @@ def parseClass(classname):
                 if "H1" in code:
                     code = code.replace("H1", "")
                 if "Y1" in code:
-                    code = code.replace("Y1", "")
+                    if "PHY1" not in code:
+                        code = code.replace("Y1", "")
 
                 courseJson[i].append([code,name])
             

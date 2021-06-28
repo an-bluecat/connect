@@ -1,11 +1,16 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 import * as firebase from 'firebase'
+import createPersistedState from "vuex-persistedstate";
 
 
 Vue.use(Vuex)
 
 export const store = new Vuex.Store({
+  // remember states: 这样user不会被page reload清楚掉
+  // https://stackoverflow.com/questions/43027499/vuex-state-on-page-refresh
+  plugins: [createPersistedState()],
+
   // stored data
   state: {
     loadedfileUploads:[],
@@ -361,6 +366,7 @@ export const store = new Vuex.Store({
     },
     logout ({commit}) {
       firebase.auth().signOut()
+      sessionStorage.clear()
       commit('setUser', null)
     },
     clearError ({commit}) {
