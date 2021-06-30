@@ -79,7 +79,7 @@
       },
       checkMail () {
         var correct = this.email.endsWith("@mail.utoronto.ca")
-        return correct == true ? "" : "Please use your U of T Email"
+        return correct == false ? "Please use your U of T Email" : ""
       },
       user () {
         return this.$store.getters.user

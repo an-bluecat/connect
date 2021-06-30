@@ -301,13 +301,18 @@ export default {
         let key = Object.keys(ratings).length;
         var average = Number(total / key).toFixed(1);
         if (!isNaN(average)) {
-          return parseFloat(average);
+          
+          if(average==0){
+            return ""
+          }else{
+            return parseFloat(average);
+          }
           // return average.toPrecision(2);
         } else {
           return 0;
         }
       }
-      return 0;
+      // return 0;
     },
     UsefulnessAverage(){
 
@@ -328,13 +333,17 @@ export default {
         var average = Number(total / key).toFixed(1);
 
         if (!isNaN(average)) {
-          return parseFloat(average);
+          if(average==0){
+            return "";
+          }else{
+            return parseFloat(average);
+          }
           // return average.toPrecision(2);
         } else {
           return 0;
         }
       }
-      return 0;
+      // return 0;
     },
     // based on how many ratings
     numRating() {
