@@ -1,26 +1,4 @@
-<!-- CURRENTLY NOT USED !!!! -->
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 <template>
-
   <v-app>
     <v-navigation-drawer
       permanent="permanent"

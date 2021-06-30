@@ -16,7 +16,7 @@
                   <v-flex xs12>
                     <v-text-field
                       name="email"
-                      label="Mail"
+                      label="U of T Email"
                       id="email"
                       v-model="email"
                       type="email"
@@ -79,7 +79,7 @@
       },
       checkMail () {
         var correct = this.email.endsWith("@mail.utoronto.ca")
-        return correct == true ? "" : "please use your u of t mail"
+        return correct == true ? "" : "Please use your U of T Email"
       },
       user () {
         return this.$store.getters.user

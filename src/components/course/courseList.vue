@@ -1,3 +1,4 @@
+  <!-- CURRENTLY NOT USED !!!! -->
 <template>
     <v-container>
         <h1>All Courses</h1>

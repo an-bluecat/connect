@@ -132,7 +132,7 @@
               <v-list-item v-else :key="index">
                 <v-list-item-avatar>
                   <!-- <v-img :src="item.avatar"></v-img> -->
-                  <v-avatar color="indigo" size="40">
+                  <v-avatar color="#55798F" size="40">
                     <v-icon dark> mdi-account-circle </v-icon>
                   </v-avatar>
                 </v-list-item-avatar>
