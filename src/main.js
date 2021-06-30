@@ -34,8 +34,24 @@ new Vue({
       authDomain: 'uofthub.firebaseapp.com',
       databaseURL: 'https://uofthub.firebaseio.com',
       projectId: 'uofthub',
-      storageBucket: 'uofthub.appspot.com'
+      storageBucket: 'uofthub.appspot.com',
+      messagingSenderId: "431637826531",
+      appId: "1:431637826531:web:7cd65da0c854ce7cb12ed6",
+      measurementId: "G-RYN3EDH15X"
     })
+
+
+//     // For Firebase JS SDK v7.20.0 and later, measurementId is optional
+// const firebaseConfig = {
+//   apiKey: "AIzaSyCP9jwDxfUZFewPpqNTB0qEAJx6rVQayS0",
+//   authDomain: "uofthub.firebaseapp.com",
+//   databaseURL: "https://uofthub.firebaseio.com",
+//   projectId: "uofthub",
+//   storageBucket: "uofthub.appspot.com",
+//   messagingSenderId: "431637826531",
+//   appId: "1:431637826531:web:7cd65da0c854ce7cb12ed6",
+//   measurementId: "G-RYN3EDH15X"
+// };
     // Todo:
     // firebase.auth().onAuthStateChanged((user) => {
     //   if (user) {
