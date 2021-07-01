@@ -4,7 +4,8 @@
       <!-- <v-container fluid ma-0 pa-0 fill-height> -->
       <v-container fluid>
         <v-row>
-          <v-parallax src="@/assets/background.jpg">
+          <v-parallax src="@/assets/building.jpeg">
+          <!-- <v-parallax src="@/assets/background.jpg"> -->
             <h1><center>Welcome to U of T Hub</center></h1>
             <v-card width="80%">
               <v-card-text>

@@ -122,7 +122,7 @@
                 </v-list-item-avatar>
 
                 <v-list-item-content>
-                  <v-list-item-title>
+                  <v-list-item-title class="font-weight-medium">
                     <!-- <v-row align="right"> -->
                     Difficulty
                     <v-rating
@@ -137,7 +137,7 @@
                     ></v-rating>
                     <!-- </v-row> -->
                   </v-list-item-title>
-                  <v-list-item-title>
+                  <v-list-item-title class="font-weight-medium">
                     <!-- <v-row align="right"> -->
                     Usefulness
                     <v-rating
