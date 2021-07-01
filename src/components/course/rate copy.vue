@@ -101,76 +101,67 @@
 
       <v-row>
       
-        <v-col align="left">
+        <v-col>
           
           <!-- <v-divider inset></v-divider> -->
-          <v-list three-line>
+          <!-- <v-list three-line> -->
             <template v-for="(item, index) in showComments">
               <v-card :key="index" class="my-8" color="#f5f5f5">
-              <v-subheader
-                v-if="item.header"
-                :key="index"
-                v-text="comment"
-              ></v-subheader>
+                <v-card-title>
+                      <v-avatar color="#55798F" size="40">
+                        <v-icon dark> mdi-account-circle </v-icon>
+                      </v-avatar>
+                  <!-- </v-col> -->
+                    <!-- <v-list-item-content> -->
+                      <v-card-actions>
+                        
+                        Difficulty
+                        <v-rating
+                          :value="item.rate"
+                          color="yellow darken-3"
+                          background-color="grey darken-1"
+                          half-increments
+                          dense
+                          :hover="true"
+                          :readonly="true"
+                          size="15"
+                        ></v-rating>
+                      
+                      </v-card-actions>
+                      <br></br>
+                      <!-- <v-list-item-content> -->
+                        <!-- <v-row align="right"> -->
+                          <v-card-actions>
+                        Usefulness
+                        <v-rating
+                          :value="item.usefulness"
+                          color="yellow darken-3"
+                          background-color="grey darken-1"
+                          half-increments
+                          dense
+                          :hover="true"
+                          :readonly="true"
+                          size="15"
+                        ></v-rating>
+                        </v-card-actions>
+                </v-card-title>
+                        <!-- </v-row> -->
+                      <!-- </v-list-item-content> -->
+                      {{ item.comment }}
+                      <v-list-item-subtitle>{{ item.time }}</v-list-item-subtitle>
 
-              <v-list-item v-else :key="index">
-                <v-list-item-avatar>
-                  <!-- <v-img :src="item.avatar"></v-img> -->
-                  <v-avatar color="#55798F" size="40">
-                    <v-icon dark> mdi-account-circle </v-icon>
-                  </v-avatar>
-                </v-list-item-avatar>
+                      <v-list-item-subtitle v-if="item.pname != ''"
+                        >taught by {{ item.pname }}</v-list-item-subtitle
+                      >
+                    <!-- </v-list-item-content> -->
+                  
+                
 
-                <v-list-item-content>
-                  <v-list-item-title>
-                    <!-- <v-row align="right"> -->
-                    Difficulty
-                    <v-rating
-                      :value="item.rate"
-                      color="yellow darken-3"
-                      background-color="grey darken-1"
-                      half-increments
-                      dense
-                      :hover="true"
-                      :readonly="true"
-                      size="15"
-                    ></v-rating>
-                    <!-- </v-row> -->
-                  </v-list-item-title>
-                  <v-list-item-title>
-                    <!-- <v-row align="right"> -->
-                    Usefulness
-                    <v-rating
-                      :value="item.usefulness"
-                      color="yellow darken-3"
-                      background-color="grey darken-1"
-                      half-increments
-                      dense
-                      :hover="true"
-                      :readonly="true"
-                      size="15"
-                    ></v-rating>
-                    <!-- </v-row> -->
-                  </v-list-item-title>
-                  {{ item.comment }}
-                  <v-list-item-subtitle>{{ item.time }}</v-list-item-subtitle>
-
-                  <v-list-item-subtitle v-if="item.pname != ''"
-                    >taught by {{ item.pname }}</v-list-item-subtitle
-                  >
-                </v-list-item-content>
-              </v-list-item>
-
-              <v-divider
-                v-if="index !== showComments.length - 1"
-                :key="`divider-${index}`"
-                inset
-              ></v-divider>
               </v-card>
             </template>
             <v-row>
               <v-col align="center">
-                <div class="text-xs-center text-sm-center">
+                <div class="text-xs-center text-sm-center mt-5">
                   <v-btn @click="addcomment()">add comment</v-btn>
                   <div class="text-center mt-4">
                     <v-pagination
@@ -183,7 +174,7 @@
                 </div>
               </v-col>
             </v-row>
-          </v-list>
+          <!-- </v-list> -->
         </v-col>
       </v-row>
       <!-- 评论 -->

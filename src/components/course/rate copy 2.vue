@@ -101,7 +101,7 @@
 
       <v-row>
       
-        <v-col align="left">
+        <v-col align="left" cols="12" xs="12" sm="12" md="10" lg="10" xl="10">
           
           <!-- <v-divider inset></v-divider> -->
           <v-list three-line>
@@ -114,15 +114,19 @@
               ></v-subheader>
 
               <v-list-item v-else :key="index">
-                <v-list-item-avatar>
+                <v-list-item-avatar class="mt-7">
                   <!-- <v-img :src="item.avatar"></v-img> -->
                   <v-avatar color="#55798F" size="40">
                     <v-icon dark> mdi-account-circle </v-icon>
                   </v-avatar>
                 </v-list-item-avatar>
 
+                <v-list-item-content justify="start">
+                  {{ item.comment }}
+                </v-list-item-content>
+
                 <v-list-item-content>
-                  <v-list-item-title>
+                  <!-- <v-list-item-title> -->
                     <!-- <v-row align="right"> -->
                     Difficulty
                     <v-rating
@@ -136,7 +140,7 @@
                       size="15"
                     ></v-rating>
                     <!-- </v-row> -->
-                  </v-list-item-title>
+                  <!-- </v-list-item-title> -->
                   <v-list-item-title>
                     <!-- <v-row align="right"> -->
                     Usefulness
@@ -152,20 +156,21 @@
                     ></v-rating>
                     <!-- </v-row> -->
                   </v-list-item-title>
-                  {{ item.comment }}
+                  
                   <v-list-item-subtitle>{{ item.time }}</v-list-item-subtitle>
 
                   <v-list-item-subtitle v-if="item.pname != ''"
                     >taught by {{ item.pname }}</v-list-item-subtitle
                   >
                 </v-list-item-content>
+
               </v-list-item>
 
-              <v-divider
+              <!-- <v-divider
                 v-if="index !== showComments.length - 1"
                 :key="`divider-${index}`"
                 inset
-              ></v-divider>
+              ></v-divider> -->
               </v-card>
             </template>
             <v-row>

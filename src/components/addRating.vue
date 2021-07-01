@@ -194,7 +194,7 @@ export default {
           "usefulness": this.formData.usefulness
         }
         this.$store.dispatch('addRating', comment)
-        if (this.formData.comment!=""){
+        if (this.formData.comment.trim()!=""){
           this.$store.dispatch('addComment', comment);
         }
         
