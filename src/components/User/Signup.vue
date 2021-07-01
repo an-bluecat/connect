@@ -88,7 +88,8 @@
         return this.$store.getters.error
       },
       loading () {
-        return this.$store.getters.loading
+        // return this.$store.getters.loading
+        return this.$store.getters.signloading
       }
     },
     watch: {

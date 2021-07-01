@@ -1,14 +1,44 @@
 <template>
 
-  <v-app id="inspire">
+  <v-app>
+
     <div style="position: absolute;top:0;right:0;z-index: 11">
       <TopPanel/>
     </div>
+    <!-- <v-app-bar app>
+      <TopPanel/>
+    </v-app-bar> -->
     <!-- <div id="container"> -->
     <main>
-      <router-view></router-view>
+      <!-- <v-container fluid> -->
+        <router-view></router-view>
+      <!-- </v-container> -->
     </main>
-    <!-- </div> -->
+
+
+    <!-- <v-footer
+      app
+      color="primary lighten-1"
+      padless
+      
+    >
+      <v-row
+        justify="center"
+        no-gutters
+      >
+        <v-btn
+          v-for="link in links"
+          :key="link"
+          color="white"
+          text
+          rounded
+        >
+          {{ link }}
+        </v-btn>
+      </v-row>
+    </v-footer> -->
+
+    
   </v-app>
 </template>
 
@@ -26,12 +56,21 @@ export default {
     return {
       path: '',
       showPath: true,
+      links: [
+        'Contact Us',
+      ],
     }
   },
   computed: {
     userIsAuthenticated () {
         return this.$store.getters.user !== null && this.$store.getters.user !== undefined
-      }
+    },
+    // localAttrs () {
+    //   const attrs = {}
+    //   // attrs['absolute'] = false
+    //   attrs['fixed'] = true
+    //   return attrs
+    // },
   },
   // 判断路由
   mounted() {

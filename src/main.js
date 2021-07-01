@@ -1,4 +1,6 @@
 import * as firebase from 'firebase'
+import 'firebase/auth'
+import 'firebase/firestore'
 import "firebase/analytics";
 import { BootstrapVue, IconsPlugin } from 'bootstrap-vue'
 import VeeValidate from 'vee-validate';

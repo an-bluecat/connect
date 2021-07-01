@@ -54,9 +54,45 @@
               <v-btn
                 class="primary"
                 :disabled="!formIsValid"
-                type="submit">Submit</v-btn>
+                type="submit"
+
+                :loading="dialog"
+                
+                color="purple darken-2"
+                @click="dialog = true"
+                >Submit</v-btn>
             </v-flex>
           </v-layout>
+
+          <v-layout row class="mt-6">
+            <v-flex xs12 sm6 offset-sm3>
+              <v-alert v-show="showAlert"
+              dense type="error"
+              >You have not login yet</v-alert>
+            </v-flex>
+          </v-layout>
+
+          <v-dialog
+            v-model="dialog"
+            hide-overlay
+            persistent
+            width="300"
+          >
+            <v-card
+              color="primary"
+              dark
+            >
+              <v-card-text>
+                Please stand by
+                <v-progress-linear
+                  indeterminate
+                  color="white"
+                  class="mb-0"
+                ></v-progress-linear>
+              </v-card-text>
+            </v-card>
+          </v-dialog>
+
         </form>
       </v-flex>
     </v-layout>
@@ -78,7 +114,22 @@
         time: new Date(),
         // this is the raw file
         image: null,
-        docTypes: ['Textbook', 'Test/Quiz', 'Syllabus', 'Notes', 'Others']
+        docTypes: ['Textbook', 'Test/Quiz', 'Syllabus', 'Notes', 'Others'],
+        //Alert Info
+        showAlert: false,
+        //Dialog Infp
+        dialog: false
+      }
+    },
+    watch: {
+      getCurrent (curval,oldval) {
+        if(curval == 1) {
+          this.dialog = true
+        }
+        if(curval == 0) {
+          this.dialog = false
+          this.$router.replace('/rate/' + this.classname)
+        }
       }
     },
     computed: {
@@ -88,6 +139,9 @@
           // this.description != '' && 
           this.image != null
       },
+      getCurrent() {
+        return this.$store.getters.loadedcurrentUploads;
+      }
       // submittableDateTime () {
       //   const date = new Date(this.date)
       //   if (typeof this.time === 'string') {
@@ -110,6 +164,10 @@
         if (!this.image){
           return
         }
+        if (this.$store.getters.user == null) {
+          this.showAlert = true;
+          return
+        }else {this.showAlert = false}
         // get time: this will get zulu time
         var today = new Date();
         // var date = today.getFullYear()+'-'+(today.getMonth()+1)+'-'+today.getDate();
@@ -127,7 +185,8 @@
           user: user
         }
         this.$store.dispatch('createfileUpload', fileUploadData)
-        this.$router.replace('/rate/' + this.classname)
+        // add state_changed over-> $router.replace
+        // this.$router.replace('/rate/' + this.classname)
       },
       onPickFile(){
         // $ gives all the ref in this component

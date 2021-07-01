@@ -1,40 +1,23 @@
-// 这是单独的课程界面
-
-
 <template>
-  <v-app id="inspire">
-    <!-- <v-main class="grey lighten-3"> -->
-    <!-- <v-container class="grey lighten-3" fluid> -->
-    <v-container fluid class="px-10">
-      <v-row no-gutters style="background-color: white" class="px-0">
-      
-        <v-col lg="3" sm="3" md="3" xs="12">
-        <!-- <v-col lg3 sm3 md3 xs12> -->
-
-          <v-list-item>
-            <v-list-item-content>
-              <v-breadcrumbs :items="bitems" large></v-breadcrumbs>
-            </v-list-item-content>
-          </v-list-item>
+    <v-container>
+      <!-- 面包屑 + search -->
+      <v-row no-gutters>
+        <v-col cols="12" xs="12" sm="12" md="3" lg="3" xl="3">
+          <v-breadcrumbs :items="bitems" large></v-breadcrumbs>
         </v-col>
-        <v-col lg="6" sm="7" md="7" xs="12">
-        <!-- <v-col lg6 sm7 md7 xs12> -->
-          <v-list-item>
-            <v-list-item-content>
-              <SearchCourse></SearchCourse>
-            </v-list-item-content>
-          </v-list-item>
+        <v-col cols="12" xs="12" sm="12" md="7" lg="7" xl="7">
+          <SearchCourse></SearchCourse>
         </v-col>
       </v-row>
-      
-      <v-row style="background-color: white" no-gutters>
-        <!-- <v-parallax src="@/assets/background.jpg"> -->
-        <v-col class="pl-6" lg="5" md="5" sm="12" xs="12">
-              <v-list-item-title class="text-h4 font-weight-bold">{{ title }}</v-list-item-title>
-              <v-list-item-title class="text-h5 font-weight-medium">{{ km }}</v-list-item-title>
+
+      <!-- 科目信息 + 评分 -->
+      <v-row no-gutters>
+        <v-col cols="12" xs="12" sm="12" md="6" lg="6" xl="6">
+              <v-list-item-title :class="titleStyle">{{ title }}</v-list-item-title>
+              <v-list-item-title :class="kmStyle">{{ km }}</v-list-item-title>
         </v-col>
-        <v-col lg="5" md="5" sm="12" xs="12">
-          <v-list-item class="text-h6 font-weight-medium">
+        <v-col cols="12" xs="12" sm="12" md="6" lg="6" xl="6">
+          <v-list-item :class="diffStyle">
             Difficulty   
             <v-rating
               :value="average"
@@ -44,12 +27,12 @@
               dense
               :hover="true"
               :readonly="true"
-              size="30"
+              :size="sizeStyle"
               class="pl-5"
             ></v-rating>
             {{average}}
           </v-list-item>
-          <v-list-item class="text-h6 font-weight-medium">
+          <v-list-item :class="diffStyle">
             Usefulness
             <v-rating
               :value="UsefulnessAverage"
@@ -59,23 +42,21 @@
               dense
               :hover="true"
               :readonly="true"
-              size="30"
+              :size="sizeStyle"
+              class="pl-5"
             ></v-rating>
             {{UsefulnessAverage}}
           </v-list-item>
-          
           <v-list-item>{{ numRating }}</v-list-item>
         </v-col>
       </v-row>
-
-
-      <v-row style="background-color: white" no-gutters class="pl-6 pb-6">
-        <v-col cols="12" lg="5" md="5" sm="12" xs="12">
+      <!-- 评分键 -->
+      <v-row no-gutters :class="rateStyle">
+        <v-col cols="12" xs="12" sm="12" md="6" lg="6" xl="6">
           <v-btn 
             color="primary"
             elevation="6"
             large
-            
             rounded
             @click="addcomment()"
           ><v-icon left>
@@ -84,23 +65,19 @@
           rate/comment</v-btn>
         </v-col>
       </v-row>
-
-
-
-
-      <v-row class="pl-6 pr-6 py-2">
+      <!-- 评分键 -->
+      <!-- 描述 -->
+      <v-row no-gutters class="mt-6">
         <v-col col="12" lg="10" md="10" sm="12" xs="12">
           <p class="text-h5 font-weight-medium">Description</p>
           <p class="text-justify">{{ desc }}</p>
         </v-col>
       </v-row>
+      <!-- 描述 -->
+      <!-- 附件 -->
+      <v-row class="my-6 pl-3">
 
 
-      <v-row class="px-5 py-2">
-
-
-          <v-list-item three-line>
-            <v-list-item-content>
               <v-list-item-title class="text-h5 font-weight-medium">
                 Resources
                 <v-btn class="info ml-2" x-small @click="addfile">upload</v-btn>
@@ -113,14 +90,20 @@
                   >{{ fileUpload.type }} - {{ fileUpload.filename }}</a
                 >
               </v-list-item-subtitle>
-            </v-list-item-content>
-          </v-list-item>
 
 
       </v-row>
-      <v-row no-gutters style="height: 550px; background-color: white">
+      <!-- 附件 -->
+      <!-- 评论 -->
+      <!-- <v-row class="mt-6 mb-3 pl-3">
+      <v-list-item-title class="text-h5 font-weight-medium">Reviews</v-list-item-title>
+      </v-row> -->
+
+      <v-row>
+      
         <v-col align="left">
-          <v-divider inset></v-divider>
+          
+          <!-- <v-divider inset></v-divider> -->
           <v-list three-line>
             <template v-for="(item, index) in showComments">
               <v-subheader
@@ -201,9 +184,8 @@
           </v-list>
         </v-col>
       </v-row>
+      <!-- 评论 -->
     </v-container>
-    <!-- </v-main> -->
-  </v-app>
 </template>
 
 <script>
@@ -402,7 +384,53 @@ export default {
         // console.log("myIP",myIP)
       return targetFile;
     },
+    titleStyle() {
+      switch (this.$vuetify.breakpoint.name) {
+          case 'xs': return "text-h4 font-weight-bold"
+          case 'sm': return "text-h4 font-weight-bold"
+          case 'md': return "text-h4 font-weight-bold"
+          case 'lg': return "text-h4 font-weight-bold"
+          case 'xl': return "text-h4 font-weight-bold"
+        }
+    },
+    kmStyle() {
+      switch (this.$vuetify.breakpoint.name) {
+          case 'xs': return "text-h5 "
+          case 'sm': return "text-h5 "
+          case 'md': return "text-h5 "
+          case 'lg': return "text-h5 "
+          case 'xl': return "text-h5 "
+        }
+    },
+    diffStyle() {
+      switch (this.$vuetify.breakpoint.name) {
+          case 'xs': return "text-h8"
+          case 'sm': return "text-h8"
+          case 'md': return "text-h6"
+          case 'lg': return "text-h6"
+          case 'xl': return "text-h6"
+        }
+    },
+    sizeStyle() {
+      switch (this.$vuetify.breakpoint.name) {
+          case 'xs': return "20"
+          case 'sm': return "20"
+          case 'md': return "20"
+          case 'lg': return "20"
+          case 'xl': return "20"
+        }
+    },
+    rateStyle() {
+      switch (this.$vuetify.breakpoint.name) {
+          case 'xs': return "mb-6"
+          case 'sm': return "mb-6"
+          case 'md': return "mt-n10 mb-12"
+          case 'lg': return "mt-n10 mb-12"
+          case 'xl': return "mt-n10 mb-12"
+        }
+    }
   },
+  
   methods: {
     pressRate() {
       //按rate触发这个

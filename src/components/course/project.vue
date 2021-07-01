@@ -183,4 +183,9 @@ import courseimport from './coursecsv/courseimport.json';
  .link {
    cursor: pointer;
  }
+ .container {
+  /* background-color: aqua; */
+  height: 100vh;
+  width: 100vw;
+}
 </style>

@@ -17,8 +17,10 @@ export const store = new Vuex.Store({
     loadedRatings: [],
     loadedComments: [],
     user: null, // default: no user
+    signLoading: false,
     loading: false,
-    error: null
+    error: null,
+    loadedcurrentUploads: 1,
   },
   // mutate state
   // called by commit "actions" part of this same file
@@ -46,6 +48,9 @@ export const store = new Vuex.Store({
     },
     setLoading (state, payload) {
       state.loading = payload
+    },
+    setSignLoading (state, payload) {
+      state.signLoading = payload
     },
     setError (state, payload) {
       state.error = payload
@@ -198,6 +203,7 @@ export const store = new Vuex.Store({
         // classname: payload.classname
         // creatorId: getters.user.id
       }
+      this.state.loadedcurrentUploads = 1;
       //************** STEP 1: ******************
       // push json information to database
       firebase.database().ref(classname).child('files').push(fileUpload)
@@ -238,6 +244,9 @@ export const store = new Vuex.Store({
             imageUrl: imageUrl,
             id: key
           })
+          //此刻上传才完毕，需要告知前台 修改loadedcurrentUploads = 0
+          this.state.loadedcurrentUploads = 0;
+          // console.log(this.state.loadedcurrentUploads);
         })
         .catch((error) => {
           console.log(error)
@@ -315,13 +324,13 @@ export const store = new Vuex.Store({
     },    
     signUserUp ({commit}, payload) {
       // loading
-      commit('setLoading', true)
+      commit('setSignLoading', true)
       commit('clearError')
       firebase.auth().createUserWithEmailAndPassword(payload.email, payload.password)
         .then(
           user => {
             
-            commit('setLoading', false) // not loading anymore
+            commit('setSignLoading', false) // not loading anymore
             const newUser = {
               id: user.uid,
               registeredfileUploads: []
@@ -331,19 +340,19 @@ export const store = new Vuex.Store({
         )
         .catch(
           error => {
-            commit('setLoading', false) // not loading anymore
+            commit('setSignLoading', false) // not loading anymore
             commit('setError', error) // saves the error
             console.log(error)
           }
         )
     },
     signUserIn ({commit}, payload) {
-      commit('setLoading', true)
+      commit('setSignLoading', true)
       commit('clearError')
       firebase.auth().signInWithEmailAndPassword(payload.email, payload.password)
         .then(
           user => {
-            commit('setLoading', false)
+            commit('setSignLoading', false)
             const newUser = {
               // id: user.uid, buggy???
               id: user.user.uid,
@@ -355,7 +364,7 @@ export const store = new Vuex.Store({
         )
         .catch(
           error => {
-            commit('setLoading', false)
+            commit('setSignLoading', false)
             commit('setError', error)
             console.log(error)
           }
@@ -366,7 +375,7 @@ export const store = new Vuex.Store({
     },
 
     logout ({commit}) {
-      commit('setLoading', false)
+      commit('setSignLoading', false)
       firebase.auth().signOut()
       sessionStorage.clear()
       commit('setUser', null)
@@ -393,6 +402,9 @@ export const store = new Vuex.Store({
         })
       }
     },
+    loadedcurrentUploads (state, getters) {
+      return state.loadedcurrentUploads;
+    },
     loadedRatings (state) {
       return state.loadedRatings
     },
@@ -405,6 +417,9 @@ export const store = new Vuex.Store({
     },
     loading (state) {
       return state.loading
+    },
+    signloading (state) {
+      return state.signLoading
     },
     error (state) {
       return state.error
