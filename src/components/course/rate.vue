@@ -106,7 +106,7 @@
           <!-- <v-divider inset></v-divider> -->
           <v-list three-line>
             <template v-for="(item, index) in showComments">
-              <v-card :key="index" class="my-8" color="#f5f5f5">
+              <v-card :key="index" class="my-8" color="#f5f5f5" elevation="6" outlined>
               <v-subheader
                 v-if="item.header"
                 :key="index"
@@ -160,12 +160,6 @@
                   >
                 </v-list-item-content>
               </v-list-item>
-
-              <v-divider
-                v-if="index !== showComments.length - 1"
-                :key="`divider-${index}`"
-                inset
-              ></v-divider>
               </v-card>
             </template>
             <v-row>
