@@ -1,5 +1,10 @@
 <template>
     <v-container>
+    <!-- 弹窗 -->
+    <!-- <SignupDialog></SignupDialog> -->
+
+
+
       <!-- 面包屑 + search -->
       <v-row no-gutters>
         <v-col cols="12" xs="12" sm="12" md="3" lg="3" xl="3">
@@ -58,7 +63,8 @@
             elevation="6"
             large
             rounded
-            @click="addcomment()"
+            @click="addcomment();"
+            
           ><v-icon left>
             mdi-pencil
           </v-icon>
@@ -68,7 +74,7 @@
       <!-- 评分键 -->
       <!-- 描述 -->
       <v-row no-gutters class="mt-6">
-        <v-col col="12" lg="10" md="10" sm="12" xs="12">
+        <v-col col="12" xl="10" lg="10" md="10" sm="12" xs="12">
           <p class="text-h5 font-weight-medium">Description</p>
           <p class="text-justify">{{ desc }}</p>
         </v-col>
@@ -101,7 +107,7 @@
 
       <v-row>
       
-        <v-col align="left">
+        <v-col col="12" xl="10" lg="10" md="10" sm="12" xs="12">
           
           <!-- <v-divider inset></v-divider> -->
           <v-list three-line>
@@ -188,11 +194,16 @@
 import coursedesc from "./coursedesc.json";
 import courseimport from "./coursecsv/courseimport.json";
 import SearchCourse from "./SeachCourse_top";
+import TopPanel from "../TopPanel.vue"
+import SignupDialog from "../User/SignupDialog.vue"
+
 export default {
   components: {
     SearchCourse,
+    TopPanel
   },
   data: () => ({
+    remindSignup: true,
     // used for the rating botton
     pressedRate: false,
     difficultyRating: -1,

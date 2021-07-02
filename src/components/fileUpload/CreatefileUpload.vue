@@ -26,18 +26,11 @@
           </v-layout>
           <v-layout row>
             <v-flex xs12 sm6 offset-sm3>
-              <!-- use button to collect image
-              <v-btn raised class="primary" @click="onPickFile">Upload File</v-btn>
-              
-              <input 
-                type="file" 
-                style="display: none" 
-                ref="fileInput"
-                @change="onFilePicked"> -->
             
             <v-file-input chips label="Upload File" @change="onFilePicked"></v-file-input>
             </v-flex>
           </v-layout>
+
           <v-layout row>
             <v-flex xs12 sm6 offset-sm3>
               <!-- <v-text-field
@@ -59,7 +52,7 @@
                 :loading="dialog"
                 
                 color="purple darken-2"
-                @click="dialog = true"
+                
                 >Submit</v-btn>
             </v-flex>
           </v-layout>
@@ -68,7 +61,7 @@
             <v-flex xs12 sm6 offset-sm3>
               <v-alert v-show="showAlert"
               dense type="error"
-              >You have not login yet</v-alert>
+              >Please log in</v-alert>
             </v-flex>
           </v-layout>
 
@@ -83,7 +76,7 @@
               dark
             >
               <v-card-text>
-                Please stand by
+                Uploading
                 <v-progress-linear
                   indeterminate
                   color="white"
@@ -167,7 +160,7 @@
         if (this.$store.getters.user == null) {
           this.showAlert = true;
           return
-        }else {this.showAlert = false}
+        }else {this.showAlert = false;this.dialog = true}
         // get time: this will get zulu time
         var today = new Date();
         // var date = today.getFullYear()+'-'+(today.getMonth()+1)+'-'+today.getDate();

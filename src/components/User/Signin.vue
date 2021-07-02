@@ -38,6 +38,7 @@
                         <v-icon light>loading</v-icon>
                        </span>
                     </v-btn>
+
                   </v-flex>
                 </v-layout>
               </form>
@@ -47,6 +48,7 @@
 </template>
 
 <script>
+
   export default {
     name: "Signin",
     data () {
