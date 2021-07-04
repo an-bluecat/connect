@@ -28,19 +28,18 @@
           <v-list-item-title>View profile</v-list-item-title>
         </v-list-item>
         <v-list-item v-if="userLoggedIn" @click="Logout">
-          <v-list-item-title>Logout</v-list-item-title>
+          <v-list-item-title>Log out</v-list-item-title>
         </v-list-item>
         <v-list-item v-if="!userLoggedIn"  @click="signupVisible=true">
-          <v-list-item-title>SignUp</v-list-item-title>
+          <v-list-item-title>Sign up</v-list-item-title>
         </v-list-item>
         <v-list-item v-if="!userLoggedIn"  @click="signInVisible=true">
-          <v-list-item-title>SignIn</v-list-item-title>
+          <v-list-item-title>Sign in</v-list-item-title>
         </v-list-item>
       </v-list>
     </v-menu>
     <v-dialog
         v-model="signInVisible"
-        persistent
         width="300"
     >
       <v-card>
@@ -51,14 +50,13 @@
 
         <signin></signin>
         <div class="link" @click="signInVisible=false;signupVisible=true">sign up</div>
-        <v-btn style="width: 100%;" @click="signInVisible=false;">
+        <v-btn style="width: 100%;"  @click="signInVisible=false;">
           cancel
         </v-btn>
       </v-card>
     </v-dialog>
     <v-dialog
         v-model="signupVisible"
-        persistent
         width="300"
     >
       <v-card>
@@ -80,6 +78,7 @@
 <script>
 import Signup from './User/Signup'
 import Signin from './User/Signin'
+
 
 export default {
   components:{Signin,Signup},

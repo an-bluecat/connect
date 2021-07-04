@@ -105,7 +105,7 @@
 
       <v-row>
       
-        <v-col align="left">
+        <v-col col="12" xl="10" lg="10" md="10" sm="12" xs="12">
           
           <!-- <v-divider inset></v-divider> -->
           <v-list three-line>
