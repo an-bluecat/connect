@@ -2,8 +2,8 @@
   <v-app>
     <v-main>
       <!-- <v-container fluid ma-0 pa-0 fill-height> -->
-      <!-- <v-container fluid> -->
-        <!-- <v-row> -->
+      <v-container fluid>
+        <v-row>
           <v-parallax src="@/assets/building.jpeg">
           <!-- <v-parallax src="@/assets/background.jpg"> -->
             <h1><center>Welcome to U of T Hub</center></h1>
@@ -13,7 +13,7 @@
               </v-card-text>
             </v-card>
           </v-parallax>
-        <!-- </v-row> -->
+        </v-row>
         <h4 id="title"><center>Search By Program</center></h4>
         <v-row>
           <v-col
@@ -43,7 +43,7 @@
             </v-card>
           </v-col>
         </v-row>
-      <!-- </v-container> -->
+      </v-container>
     </v-main>
   </v-app>
 </template>
@@ -163,5 +163,4 @@ export default {
 .v-list {
   width: 70%;
 }
-
 </style>

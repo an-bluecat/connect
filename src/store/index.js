@@ -15,12 +15,17 @@ export const store = new Vuex.Store({
   state: {
     loadedfileUploads:[],
     loadedRatings: [],
+    loadedFavs: [],
+    loadedFav: false,
+    loadedRecords: [],
     loadedComments: [],
     user: null, // default: no user
     signLoading: false,
+    saveLoading: false,
     loading: false,
     error: null,
     loadedcurrentUploads: 1,
+    userProfile: []
   },
   // mutate state
   // called by commit "actions" part of this same file
@@ -30,6 +35,15 @@ export const store = new Vuex.Store({
     },
     setLoadedRatings (state, payload){
       state.loadedRatings = payload
+    },
+    setLoadedFavs (state, payload){
+      state.loadedFavs = payload
+    },
+    setLoadedFav (state, payload){
+      state.loadedFav = payload
+    },
+    setLoadedRecords (state, payload){
+      state.loadedRecords = payload
     },
     setLoadedComments (state, payload){
       state.loadedComments = payload
@@ -43,6 +57,9 @@ export const store = new Vuex.Store({
     addComment (state, payload) {
       state.loadedComments.push(payload)
     },
+    setUserProfile (state, payload) {
+      state.userProfile = payload
+    },
     setUser (state, payload) {
       state.user = payload
     },
@@ -51,6 +68,9 @@ export const store = new Vuex.Store({
     },
     setSignLoading (state, payload) {
       state.signLoading = payload
+    },
+    setSaveLoading (state, payload) {
+      state.saveLoading = payload
     },
     setError (state, payload) {
       state.error = payload
@@ -264,6 +284,7 @@ export const store = new Vuex.Store({
           time_log: payload.time_log.toISOString(),
           usefulness: payload.usefulness
         }
+
       }else{
         var fileUpload= {
           rate: payload.rate,
@@ -321,6 +342,27 @@ export const store = new Vuex.Store({
         .catch((error) => {
           console.log(error)
         })
+        //push user records
+        let userRecords = {
+          comment: payload.comment,
+          pname: payload.pname,
+          project: payload.classname,
+          rate: payload.rate,
+          time: payload.time,
+          usefulness: payload.usefulness
+        }
+        const uid = this.state.userProfile.uid;
+        // firebase.database().ref('user/-'+uid).child('fav').once('value')
+        firebase.database().ref('user/-' + uid).child('records').push(userRecords)
+        .then((data) => {
+          return data.key
+        })
+        .then(() => {
+          // commit('addRating', {...userRecords,id:key})
+          console.log('success');
+        }).catch((error) => {
+          console.log(error);
+        })
     },    
     signUserUp ({commit}, payload) {
       // loading
@@ -373,7 +415,75 @@ export const store = new Vuex.Store({
     autoSignIn ({commit}, payload) {
       commit('setUser', {id: payload.uid, registeredfileUploads: []})
     },
+    getUserProfile ({commit}) {
+      firebase.auth().onAuthStateChanged((user) => {
+        if (user) {
+          // User is signed in, see docs for a list of available properties
+          // https://firebase.google.com/docs/reference/js/firebase.User
+          var profile = {
+            uid: user.uid,
+            displayName: user.displayName,
+            photoURL: user.photoURL,
+            email: user.email
+          }
+          // ...
+          commit('setUserProfile', profile)
+        } else {
+          // User is signed out
+          // ...
+        }
+      });
+      // const user = firebase.auth().currentUser;
+      // if (user !== null) {
+      //   user.providerData.forEach((profile) => {
+      //     var profile = {
+      //       uid: profile.uid,
+      //       displayName: profile.displayName,
+      //       email: profile.email,
+      //       photoURL: profile.photoURL
+      //     }
+      //     commit('setUserProfile', profile)
+      //   });
+      // }
+    },
+    updateProfile ({commit}, payload) {
+      let imageUrl;
+      commit('setSaveLoading', true);
 
+      const user = firebase.auth().currentUser;
+      user.updateProfile({
+        displayName: payload.displayName,
+        // photoURL: '',
+      }).then(() => {
+        const filename = payload.photoURL.name
+        return firebase.storage().ref('fileUploads/AVATAR/' + filename).put(payload.photoURL)
+      }).then(snapshot => {
+        return new Promise((resolve, reject) => {
+          snapshot.ref.getDownloadURL().then(url => {
+            snapshot.downloadURL = url
+            resolve(snapshot)
+          })
+        })
+      }).then((snapshot) => {
+        imageUrl = snapshot.downloadURL;
+        return user.updateProfile({
+          photoURL: imageUrl
+        }).then(()=>{
+          var profile = {
+            // uid: profile.uid,
+            displayName: payload.displayName,
+            // email: profile.email,
+            photoURL: imageUrl
+          }
+          commit('setUserProfile', profile)
+          console.log('success');
+        })
+      }).catch((error) => {
+        // An error occurred
+        console.log(error)
+      }); 
+      commit('setSaveLoading', false)
+    },
     logout ({commit}) {
       commit('setSignLoading', false)
       firebase.auth().signOut()
@@ -383,6 +493,114 @@ export const store = new Vuex.Store({
     
     clearError ({commit}) {
       commit('clearError')
+    },
+    getMyFav({commit}) {
+      const uid = this.state.userProfile.uid;
+      firebase.database().ref('user/-'+uid).child('fav').once('value')
+        .then((data) => {
+          const favs = [];
+          const obj = data.val()
+          for (let key in obj) {
+            favs.push({
+              id: key,
+              project: obj[key].project,
+              time: obj[key].time,
+            })
+          }
+          // return
+          commit('setLoadedFavs', favs)
+        }).catch((error) => {
+          console.log(error);
+        })
+    },
+    loadedFav({commit}, payload) {
+      commit('setLoadedFav', false)
+      const uid = this.state.userProfile.uid;
+      firebase.database().ref('user/-'+uid).child('fav').once('value')
+        .then((data) => {
+          const obj = data.val()
+          for (let key in obj) {
+            if(obj[key].project == payload) {
+              commit('setLoadedFav', true)
+            }
+          }
+        }).catch((error) => {
+          console.log(error);
+        })
+    },
+    addFav({commit}, payload) {
+      if(payload.tag) {//添加数据
+        const uid = this.state.userProfile.uid;
+        const fav = {
+          project: payload.project,
+          time: payload.time
+        }
+        firebase.database().ref('user/-'+uid).child('fav').push(fav)
+          .then((data) => {
+            return data.key
+          })
+          .then(()=>{
+            commit('setLoadedFav', true)
+          }).catch((error) => {
+            console.log(error);
+          })
+      }else {//删除数据
+        const uid = this.state.userProfile.uid;
+        firebase.database().ref('user/-'+uid).child('fav').once('value')
+        .then((data) => {
+          const obj = data.val()
+          for (let key in obj) {
+            if(obj[key].project == payload.project) {
+              // return firebase.database().ref('user/-'+uid).child('fav/'+key).remove();
+              firebase.database().ref('user/-'+uid).child('fav/'+key).remove()
+              .then((data) => {
+                commit('setLoadedFav', false)
+              }).catch((error) => {
+                console.log(error);
+              })
+            }
+          }
+        }).catch((error) => {
+          console.log(error);
+        })
+      }
+      return 
+
+    },
+    getMyRecords({commit}) {
+      const uid = this.state.userProfile.uid;
+      firebase.database().ref('user/-'+uid).child('records').once('value')
+        .then((data) => {
+          const records = [];
+          const obj = data.val()
+          for (let key in obj) {
+            records.push({
+              id: key,
+              comment: obj[key].comment,
+              time: obj[key].time,
+              rate: obj[key].rate,
+              pname: obj[key].pname,
+              usefulness: obj[key].usefulness
+            })
+          }
+          // return
+          commit('setLoadedRecords', records)
+        }).catch((error) => {
+          console.log(error);
+        })
+    },
+    updatePassword({commit}, payload) {
+      const user = firebase.auth().currentUser;
+      const newPassword = payload;
+      commit('saveloading', true)
+      user.updatePassword(newPassword).then(() => {
+        // Update successful.
+        
+      }).catch((error) => {
+        // An error ocurred
+        console.log(error);
+      });
+      commit('saveloading', false)
     }
   },
   getters: {
@@ -405,9 +623,21 @@ export const store = new Vuex.Store({
     loadedcurrentUploads (state, getters) {
       return state.loadedcurrentUploads;
     },
+    userProfile (state, getters) {
+      return state.userProfile;
+    },
     loadedRatings (state) {
       return state.loadedRatings
     },
+    loadedFavs (state) {
+      return state.loadedFavs
+    }, 
+    loadedFav (state) {
+      return state.loadedFav
+    }, 
+    loadedRecords (state) {
+      return state.loadedRecords
+    }, 
     loadedComments (state) {
       return state.loadedComments
     },
@@ -420,6 +650,9 @@ export const store = new Vuex.Store({
     },
     signloading (state) {
       return state.signLoading
+    },
+    saveloading (state) {
+      return state.saveLoading
     },
     error (state) {
       return state.error

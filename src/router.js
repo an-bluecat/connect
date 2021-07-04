@@ -11,13 +11,14 @@ import Welcome from './components/Welcome';
 import CreatefileUpload from './components/fileUpload/CreatefileUpload'
 import Signup from './components/User/Signup'
 import Signin from './components/User/Signin'
+import Profile from './components/User/Profile'
 import ratings from './components/ratings'
 import fileUploads from './components/fileUpload/fileUploads'
 
 Vue.use(Router)
 
 export default new Router({
-  // mode: 'history',
+  mode: 'history',
   scrollBehavior (to, from, savedPosition) {
     if (savedPosition) {
       return savedPosition
@@ -104,6 +105,11 @@ export default new Router({
       path: '/signin',
       name: 'Signin',
       component: Signin
+    },
+    {
+      path: '/profile',
+      name: 'Profile',
+      component: Profile
     },
     {
       path: '/course/:classname/ratings',
