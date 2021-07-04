@@ -160,7 +160,7 @@
                   <v-list-item-subtitle>{{ item.time }}</v-list-item-subtitle>
 
                   <v-list-item-subtitle v-if="item.pname != ''"
-                    >taught by {{ item.pname }}</v-list-item-subtitle
+                    >Taught by {{ item.pname }}</v-list-item-subtitle
                   >
                 </v-list-item-content>
               </v-list-item>
