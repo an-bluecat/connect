@@ -346,7 +346,7 @@ export const store = new Vuex.Store({
         let userRecords = {
           comment: payload.comment,
           pname: payload.pname,
-          project: payload.classname,
+          classname: payload.classname,
           rate: payload.rate,
           time: payload.time,
           usefulness: payload.usefulness
@@ -503,7 +503,7 @@ export const store = new Vuex.Store({
           for (let key in obj) {
             favs.push({
               id: key,
-              project: obj[key].project,
+              classname: obj[key].classname,
               time: obj[key].time,
             })
           }
@@ -520,7 +520,7 @@ export const store = new Vuex.Store({
         .then((data) => {
           const obj = data.val()
           for (let key in obj) {
-            if(obj[key].project == payload) {
+            if(obj[key].classname == payload) {
               commit('setLoadedFav', true)
             }
           }
@@ -532,7 +532,7 @@ export const store = new Vuex.Store({
       if(payload.tag) {//添加数据
         const uid = this.state.userProfile.uid;
         const fav = {
-          project: payload.project,
+          classname: payload.classname,
           time: payload.time
         }
         firebase.database().ref('user/-'+uid).child('fav').push(fav)
@@ -550,7 +550,7 @@ export const store = new Vuex.Store({
         .then((data) => {
           const obj = data.val()
           for (let key in obj) {
-            if(obj[key].project == payload.project) {
+            if(obj[key].classname == payload.classname) {
               // return firebase.database().ref('user/-'+uid).child('fav/'+key).remove();
               firebase.database().ref('user/-'+uid).child('fav/'+key).remove()
               .then((data) => {

@@ -520,7 +520,7 @@ export default {
       var time = new Date();
       const now =
         time.getFullYear() + "-" + (time.getMonth() + 1) + "-" + time.getDate();
-      this.$store.dispatch("addFav",{tag: tag, project: this.title, time: now})
+      this.$store.dispatch("addFav",{tag: tag, classname: this.title, time: now})
     }
   },
 };

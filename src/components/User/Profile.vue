@@ -106,7 +106,7 @@
                     </v-list-item-avatar>
 
                     <v-list-item-content>
-                      <v-list-item-title>project: {{ item['project'] }}</v-list-item-title>
+                      <v-list-item-title>{{ item['classname'] }}</v-list-item-title>
 
                       <v-list-item-subtitle>
                         time: {{ item['time'] }}
