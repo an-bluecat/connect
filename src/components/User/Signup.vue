@@ -67,7 +67,7 @@
     name: "Signup",
     data () {
       return {
-        email: '',
+        email: 'example@mail.utoronto.ca',
         password: '',
         confirmPassword: ''
       }
@@ -78,7 +78,7 @@
         return this.password !== this.confirmPassword ? 'Passwords do not match' : ''
       },
       checkMail () {
-        var correct = this.email.endsWith("@mail.utoronto.ca")
+        var correct = this.email.endsWith("utoronto.ca")
         return correct == false ? "Please use your U of T Email" : ""
       },
       user () {
@@ -103,7 +103,12 @@
     },
     methods: {
       onSignup () {
-        this.$store.dispatch('signUserUp', {email: this.email, password: this.password})
+        if(this.email.endsWith("utoronto.ca")){
+          this.$store.dispatch('signUserUp', {email: this.email, password: this.password});
+          this.$router.replace('/');
+          location.reload();
+        }
+        
       },
       onDismissed () {
         this.$store.dispatch('clearError')

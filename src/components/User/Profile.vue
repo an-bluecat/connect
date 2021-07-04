@@ -83,6 +83,11 @@
         </v-card>
       </v-container>
     </v-main>
+
+
+
+
+
     <v-main v-show="showArea2">
       <v-container
         class="py-8 px-6"
@@ -109,7 +114,7 @@
                       <v-list-item-title>{{ item['classname'] }}</v-list-item-title>
 
                       <v-list-item-subtitle>
-                        time: {{ item['time'] }}
+                        collected on: {{ item['time'] }}
                       </v-list-item-subtitle>
                     </v-list-item-content>
                   </v-list-item>
@@ -126,6 +131,11 @@
         </v-row>
       </v-container>
     </v-main>
+
+
+
+
+
     <v-main v-show="showArea3">
       <v-container
         class="py-8 px-6"
@@ -185,6 +195,9 @@
         </v-row>
       </v-container>
     </v-main>
+
+
+
     <v-main v-show="showArea4">
       <v-container
         class="py-16 px-10"
