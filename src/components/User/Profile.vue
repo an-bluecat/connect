@@ -30,6 +30,7 @@
     </v-navigation-drawer>
     <!-- 左侧区域 -->
     <!-- 四块右侧区域 -->
+
     <v-main v-show="showArea1">
       <v-container
         class="py-16 px-10"
@@ -39,7 +40,8 @@
           <v-subheader class="text-h5">Basic information</v-subheader>
           <v-card-text class="px-7">
             <form @submit.prevent="updateProfile">
-              <v-layout row>
+              <v-layout row class="py-4 px-3">
+                <v-list-item-title class="text-h6 font-weight-medium py-3 black--text">Profile picture</v-list-item-title>
                 <v-flex class="d-flex">
                   <v-avatar class="mb-4" :color="userLoggedIn ? 'primary':'grey'">
                     <v-icon dark v-if="!userLoggedIn"> mdi-account-circle</v-icon>
@@ -57,26 +59,32 @@
                     ></v-file-input>
                 </v-flex>
               </v-layout>
-              <v-layout row>
-                <v-flex >
+              <v-list-item-title class="text-h6 font-weight-medium pt-6 black--text">User name</v-list-item-title>
+              <v-layout row class="py-3">
+                <!-- <v-flex > -->
+                <v-col col="12" xl="5" lg="5" md="5" sm="12" xs="12">
                   <v-text-field
                     name="displayName"
-                    label="displayName"
+                    label="Displayed name"
                     id="displayName"
                     v-model="displayName"
                     type="text"
+                    filled
                     required></v-text-field>
-                </v-flex>
-              </v-layout>
-              <v-layout row>
-                <v-flex >
+                <!-- </v-flex> -->
+              <!-- </v-layout> -->
+              <!-- <v-layout row>
+                <v-flex > -->
+                </v-col>
+                <v-col col="12" xl="5" lg="5" md="5" sm="12" xs="12">
                   <v-btn class="btn" color="primary" type="submit" :disabled="loading" :loading="loading">
                     Save
                       <span slot="loader" class="custom-loader">
                       <v-icon light>loading</v-icon>
                       </span>
                   </v-btn>
-                </v-flex>
+                </v-col>
+                <!-- </v-flex> -->
               </v-layout>
             </form>
           </v-card-text>
@@ -137,6 +145,13 @@
             </v-card>
           </v-col>
         </v-row>
+        <v-row>
+          <v-col align="center">
+                <div class="text-xs-center text-sm-center">
+                  <v-btn @click="logout()">Log out</v-btn>
+                  </div>
+              </v-col>
+            </v-row>
       </v-container>
 
     </v-main>
@@ -222,7 +237,7 @@
                 <v-flex >
                   <v-text-field
                     name="newPassword"
-                    label="newPassword"
+                    label="New Password"
                     id="newPassword"
                     v-model="newPassword"
                     type="password"
@@ -254,9 +269,9 @@
     data: () => ({
       drawer: null,
       links: [
-        ['mdi-inbox-arrow-down', 'Basic information'],
-        ['mdi-delete', 'My Comments'],
-        ['mdi-alert-octagon', 'Modify password'],
+        ['mdi-information', 'Basic information'],
+        ['mdi-comment-quote-outline', 'My Reviews'],
+        ['mdi-lock-reset', 'Modify password'],
       ],
       //面包屑导航
       items: [
@@ -275,9 +290,9 @@
       imageUrl: '',
       image: '',
       dialog: false,
-      collection: ['My Favs'],
+      collection: ['My Favourites'],
       //Area3
-      elevations: ['My Comments'],
+      elevations: ['My Reviews'],
       //Area4
       newPassword: ''
     }),
@@ -337,6 +352,18 @@
       }
     },
     methods: {
+      logout() {
+      //清除vuex数据 跳转首页
+      this.$store.dispatch('logout', {})
+      // did not clear cookies!!!
+      if(this.$route.path == '/') {
+        this.$router.go(0);
+      }else {
+        this.$router.replace("/");
+        
+      }
+      
+    },
       onclickoptions(option) {
         this.plist = [];
         switch(option) {
@@ -345,7 +372,7 @@
             this.showArea3 = false;
             this.showArea4 = false;
             break;
-          case "My Comments":
+          case "My Reviews":
             this.showArea1 = false;
             this.showArea3 = true;
             this.showArea4 = false;

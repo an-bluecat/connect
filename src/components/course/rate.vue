@@ -59,7 +59,7 @@
               :hover="true"
               :readonly="true"
               :size="sizeStyle"
-              class="pl-5"
+              class="pl-6"
             ></v-rating>
             {{average}}
           </v-list-item>
@@ -74,7 +74,7 @@
               :hover="true"
               :readonly="true"
               :size="sizeStyle"
-              class="pl-5"
+              class="pl-2"
             ></v-rating>
             {{UsefulnessAverage}}
           </v-list-item>
@@ -133,8 +133,6 @@
       <v-row>
       
         <v-col col="12" xl="10" lg="10" md="10" sm="12" xs="12">
-          
-          <!-- <v-divider inset></v-divider> -->
           <v-list three-line>
             <template v-for="(item, index) in showComments">
               <v-card :key="index" class="my-8" color="#f5f5f5" elevation="6" outlined>

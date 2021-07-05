@@ -18,19 +18,20 @@
 <!--    </v-tabs>-->
     <v-menu offset-y>
       <template v-slot:activator="{ on, attrs }">
-        <v-avatar  class="avatar" :color="userLoggedIn ? 'primary':'grey'" v-on="on">
+        <v-avatar  class="avatar" :color="userLoggedIn ? 'primary':'grey'" v-on="on"
+        @click="goProfile">
           <v-icon dark v-if="!userLoggedIn"> mdi-account-circle</v-icon>
           <img v-else-if="getUserProfile" :src="getPhotoURL" alt="avatar">
           <span v-else class="white--text headline">{{ getSX() }}</span>
         </v-avatar>
       </template>
-      <v-list>
-        <v-list-item v-if="userLoggedIn" @click="goProfile">
+      <v-list v-if="!userLoggedIn">
+        <!-- <v-list-item v-if="userLoggedIn" @click="goProfile">
           <v-list-item-title>View profile</v-list-item-title>
         </v-list-item>
         <v-list-item v-if="userLoggedIn" @click="Logout">
           <v-list-item-title>Log out</v-list-item-title>
-        </v-list-item>
+        </v-list-item> -->
         <v-list-item v-if="!userLoggedIn"  @click="signupVisible=true">
           <v-list-item-title>Sign up</v-list-item-title>
         </v-list-item>
@@ -102,7 +103,9 @@ export default {
       return this.email.substr(0, 1).toUpperCase();
     },
     goProfile() {
-      this.$router.push("/profile");
+      if(this.userLoggedIn){
+        this.$router.push("/profile");
+      }
     },
     Logout() {
       //清除vuex数据 跳转首页
