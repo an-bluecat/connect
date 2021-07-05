@@ -22,6 +22,7 @@ export const store = new Vuex.Store({
     user: null, // default: no user
     signLoading: false,
     saveLoading: false,
+    uploadLoading: false,
     loading: false,
     error: null,
     loadedcurrentUploads: 1,
@@ -71,6 +72,9 @@ export const store = new Vuex.Store({
     },
     setSaveLoading (state, payload) {
       state.saveLoading = payload
+    },
+    setUploadLoading (state, payload) {
+      state.uploadLoading = payload
     },
     setError (state, payload) {
       state.error = payload
@@ -184,8 +188,10 @@ export const store = new Vuex.Store({
                 rate: obj[key].rate,
                 total: Object.keys(obj).length,
                 pname: obj[key].pname,
-                usefulness: obj[key].usefulness
-                
+                usefulness: obj[key].usefulness,
+                show_name: obj[key].show_name,
+                avatar: obj[key].avatar,
+                displayname: obj[key].displayname,
               })
             }
           }
@@ -282,7 +288,7 @@ export const store = new Vuex.Store({
           user: payload.user,
           time: payload.time,
           time_log: payload.time_log.toISOString(),
-          usefulness: payload.usefulness
+          usefulness: payload.usefulness,
         }
 
       }else{
@@ -290,7 +296,7 @@ export const store = new Vuex.Store({
           rate: payload.rate,
           time: payload.time,
           time_log: payload.time_log.toISOString(),
-          usefulness: payload.usefulness
+          usefulness: payload.usefulness,
         }
       }
       
@@ -324,7 +330,10 @@ export const store = new Vuex.Store({
         time: payload.time.toString(),
         time_log: payload.time_log.toISOString(),
         usefulness: payload.usefulness,
-        pname: payload.pname // prof's name
+        pname: payload.pname, // prof's name
+        show_name: payload.show_name,
+        avatar: firebase.auth().currentUser.photoURL,
+        displayname: firebase.auth().currentUser.displayName
       }
       // push json information to database
       firebase.database().ref(classname).child('comment').push(fileUpload)
@@ -349,7 +358,10 @@ export const store = new Vuex.Store({
           classname: payload.classname,
           rate: payload.rate,
           time: payload.time,
-          usefulness: payload.usefulness
+          usefulness: payload.usefulness,
+          show_name: payload.show_name,
+          avatar: firebase.auth().currentUser.photoURL,
+          displayname: firebase.auth().currentUser.displayName
         }
         const uid = this.state.userProfile.uid;
         // firebase.database().ref('user/-'+uid).child('fav').once('value')
@@ -446,18 +458,28 @@ export const store = new Vuex.Store({
       //   });
       // }
     },
+    //改 user name
     updateProfile ({commit}, payload) {
-      let imageUrl;
       commit('setSaveLoading', true);
-
       const user = firebase.auth().currentUser;
       user.updateProfile({
         displayName: payload.displayName,
-        // photoURL: '',
       }).then(() => {
-        const filename = payload.photoURL.name
-        return firebase.storage().ref('fileUploads/AVATAR/' + filename).put(payload.photoURL)
-      }).then(snapshot => {
+        commit('setSaveLoading', false)
+      })
+      .catch((error) => {
+        commit('setSaveLoading', false)
+        console.log(error)
+      }); 
+    },
+    //上传用户图片
+    updatePhoto ({commit}, payload) {
+      commit('setUploadLoading', true);
+      let imageUrl;
+      const user = firebase.auth().currentUser;
+      const filename = payload.photoURL.name
+      firebase.storage().ref('fileUploads/AVATAR/' + filename).put(payload.photoURL)
+      .then(snapshot => {
         return new Promise((resolve, reject) => {
           snapshot.ref.getDownloadURL().then(url => {
             snapshot.downloadURL = url
@@ -470,19 +492,15 @@ export const store = new Vuex.Store({
           photoURL: imageUrl
         }).then(()=>{
           var profile = {
-            // uid: profile.uid,
-            displayName: payload.displayName,
-            // email: profile.email,
             photoURL: imageUrl
           }
           commit('setUserProfile', profile)
-          console.log('success');
+          commit('setUploadLoading', false);
         })
       }).catch((error) => {
-        // An error occurred
         console.log(error)
+        commit('setUploadLoading', false);
       }); 
-      commit('setSaveLoading', false)
     },
     logout ({commit}) {
       commit('setSignLoading', false)
@@ -592,7 +610,7 @@ export const store = new Vuex.Store({
     updatePassword({commit}, payload) {
       const user = firebase.auth().currentUser;
       const newPassword = payload;
-      commit('saveloading', true)
+      commit('setSaveloading', true)
       user.updatePassword(newPassword).then(() => {
         // Update successful.
         
@@ -600,7 +618,7 @@ export const store = new Vuex.Store({
         // An error ocurred
         console.log(error);
       });
-      commit('saveloading', false)
+      commit('setSaveloading', false)
     }
   },
   getters: {
@@ -653,6 +671,9 @@ export const store = new Vuex.Store({
     },
     saveloading (state) {
       return state.saveLoading
+    },
+    uploadloading (state) {
+      return state.uploadLoading
     },
     error (state) {
       return state.error

@@ -13,10 +13,37 @@
       <!-- 科目信息 + 评分 -->
       <v-row no-gutters>
         <v-col cols="12" xs="12" sm="12" md="6" lg="6" xl="6">
-              <v-list-item-title :class="titleStyle">
+              <v-list-item-title :class="titleStyle" class="d-flex">
                 {{ title }}
-                <v-icon v-show="loadedFav" class="mb-2" large @click="addFav(false)">mdi-star</v-icon>
-                <v-icon v-show="!loadedFav" class="mb-2" large @click="addFav(true)">mdi-star-outline</v-icon>
+                <!-- <v-icon v-show="loadedFav" class="mb-2" large @click="addFav(false)">mdi-star</v-icon> -->
+                <!-- <v-icon v-show="!loadedFav" class="mb-2" large @click="addFav(true)">mdi-star-outline</v-icon> -->
+                <v-tooltip top>
+                  <template v-slot:activator="{ on, attrs }">
+                    <v-img class="mx-4" 
+                      v-show="loadedFav" 
+                      @click="addFav(false)" 
+                      max-width="32" 
+                      v-bind="attrs"
+                      v-on="on"
+                      :src="src">
+                    </v-img>
+                  </template>
+                  <span>Remove this course from your favourites</span>
+                </v-tooltip>
+                <v-tooltip top>
+                  <template v-slot:activator="{ on, attrs }">
+                    <v-img class="mx-4" 
+                      v-show="!loadedFav" 
+                      @click="addFav(true)" 
+                      max-width="32" 
+                      v-bind="attrs"
+                      v-on="on"
+                      :src="src1">
+                    </v-img>
+                  </template>
+                  <span>Add this course to your favourites</span>
+                </v-tooltip>
+                
               </v-list-item-title>
               <v-list-item-title :class="kmStyle">{{ km }}</v-list-item-title>
         </v-col>
@@ -119,49 +146,59 @@
 
               <v-list-item v-else :key="index">
                 <v-list-item-avatar>
-                  <!-- <v-img :src="item.avatar"></v-img> -->
-                  <v-avatar color="#55798F" size="40">
+                  <v-img v-if="item.show_name" :src="item.avatar"></v-img>
+                  <v-avatar v-else color="#55798F" size="40">
                     <v-icon dark> mdi-account-circle </v-icon>
                   </v-avatar>
                 </v-list-item-avatar>
 
                 <v-list-item-content>
-                  <v-list-item-title class="font-weight-medium">
-                    <!-- <v-row align="right"> -->
-                    Difficulty
-                    <v-rating
-                      :value="item.rate"
-                      color="yellow darken-3"
-                      background-color="grey darken-1"
-                      half-increments
-                      dense
-                      :hover="true"
-                      :readonly="true"
-                      size="15"
-                    ></v-rating>
-                    <!-- </v-row> -->
-                  </v-list-item-title>
-                  <v-list-item-title class="font-weight-medium">
-                    <!-- <v-row align="right"> -->
-                    Usefulness
-                    <v-rating
-                      :value="item.usefulness"
-                      color="yellow darken-3"
-                      background-color="grey darken-1"
-                      half-increments
-                      dense
-                      :hover="true"
-                      :readonly="true"
-                      size="15"
-                    ></v-rating>
-                    <!-- </v-row> -->
-                  </v-list-item-title>
-                  {{ item.comment }}
-                  <v-list-item-subtitle>{{ item.time }}</v-list-item-subtitle>
+                  <v-row>
+                    <v-col cols="12" xs="6" sm="6" md="6" lg="6" xl="6">
+                      <v-list-item-title class="mb-2" v-if="item.show_name">{{ item.displayname }}</v-list-item-title>
+                      <v-list-item-title class="mb-2" v-else>Anonymous student</v-list-item-title>
+                      {{ item.comment }}
+                      <v-list-item-subtitle class="mt-1">{{ item.time }}</v-list-item-subtitle>
 
-                  <v-list-item-subtitle v-if="item.pname != ''"
-                    >Taught by {{ item.pname }}</v-list-item-subtitle
-                  >
+                      <v-list-item-subtitle v-if="item.pname != ''"
+                        >Taught by {{ item.pname }}</v-list-item-subtitle
+                      >
+                    </v-col>
+                    <v-col cols="12" xs="6" sm="6" md="6" lg="6" xl="6">
+                      <v-list-item-title class="py-2 font-weight-medium">
+                        <!-- <v-row align="right"> -->
+                        Difficulty
+                        <v-rating
+                          :value="item.rate"
+                          color="yellow darken-3"
+                          background-color="grey darken-1"
+                          half-increments
+                          dense
+                          :hover="true"
+                          :readonly="true"
+                          size="15"
+                        ></v-rating>
+                        <!-- </v-row> -->
+                      </v-list-item-title>
+                      <v-list-item-title class="font-weight-medium">
+                        <!-- <v-row align="right"> -->
+                        Usefulness
+                        <v-rating
+                          :value="item.usefulness"
+                          color="yellow darken-3"
+                          background-color="grey darken-1"
+                          half-increments
+                          dense
+                          :hover="true"
+                          :readonly="true"
+                          size="15"
+                        ></v-rating>
+                        <!-- </v-row> -->
+                      </v-list-item-title>
+                    </v-col>
+                  </v-row>
+
+
                 </v-list-item-content>
               </v-list-item>
               </v-card>
@@ -216,6 +253,8 @@ export default {
     //课名数据
     pdata1: courseimport,
     km: "",
+    src: require("../../assets/star.png"),
+    src1: require("../../assets/star-outline.png")
   }),
   created() {
     // console.log(this.$vuetify.breakpoint.xs);
@@ -517,6 +556,7 @@ export default {
       }
     },
     addFav(tag) {
+      console.log(tag);
       var time = new Date();
       const now =
         time.getFullYear() + "-" + (time.getMonth() + 1) + "-" + time.getDate();

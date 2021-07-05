@@ -20,6 +20,7 @@
       <template v-slot:activator="{ on, attrs }">
         <v-avatar  class="avatar" :color="userLoggedIn ? 'primary':'grey'" v-on="on">
           <v-icon dark v-if="!userLoggedIn"> mdi-account-circle</v-icon>
+          <img v-else-if="getUserProfile" :src="getPhotoURL" alt="avatar">
           <span v-else class="white--text headline">{{ getSX() }}</span>
         </v-avatar>
       </template>
@@ -91,7 +92,10 @@ export default {
     }
   },
   mounted() {
-    this.getCookie();
+    if(this.userLoggedIn) {
+      this.getCookie();
+      this.$store.dispatch('getUserProfile', {})
+    }
   },
   methods: {
     getSX() {
@@ -104,8 +108,12 @@ export default {
       //清除vuex数据 跳转首页
       this.$store.dispatch('logout', {})
       this.clearCookie();
-      // this.$router.go(0);
-      this.$router.replace("/");
+      if(this.$route.path == '/') {
+        this.$router.go(0);
+      }else {
+        this.$router.replace("/");
+      }
+      
     },
     //设置cookie
     setCookie(c_name, c_pwd, exdays) {
@@ -152,6 +160,12 @@ export default {
     userLoggedIn(){
       // console.log("this.$store.getters.user", this.$store.getters.user)
       return this.$store.getters.user != null ;
+    },
+    getUserProfile() {
+      return this.$store.getters.userProfile.photoURL != null ;
+    },
+    getPhotoURL() {
+      return this.$store.getters.userProfile.photoURL;
     },
   },
 

@@ -81,19 +81,27 @@
             </form>
           </v-card-text>
         </v-card>
-      </v-container>
-    </v-main>
-
-
-
-
-
-    <v-main v-show="showArea2">
-      <v-container
-        class="py-8 px-6"
-        fluid
-      >
-        <v-row>
+        <v-dialog
+          v-model="dialog"
+          hide-overlay
+          persistent
+          width="300"
+        >
+          <v-card
+            color="primary"
+            dark
+          >
+            <v-card-text>
+              Uploading, Please stand by
+              <v-progress-linear
+                indeterminate
+                color="white"
+                class="mb-0"
+              ></v-progress-linear>
+            </v-card-text>
+          </v-card>
+        </v-dialog>
+        <v-row class="mt-4">
           <v-col
             v-for="card in collection"
             :key="card"
@@ -130,7 +138,9 @@
           </v-col>
         </v-row>
       </v-container>
+
     </v-main>
+
 
 
 
@@ -147,10 +157,11 @@
             :key="card"
             cols="12"
           >
-          <template v-for="(item, index) in getMyRecords">
-            <v-card :key="index" elevation="5">
+          
+            <v-card elevation="5">
               <v-subheader>{{ card }}</v-subheader>
               <v-list two-line>
+                <template v-for="(item, index) in getMyRecords">
                   <v-list-item :key="index">
                     <v-list-item-content>
                       <v-list-item-title class="font-weight-medium">
@@ -187,10 +198,10 @@
                       >
                     </v-list-item-content>
                   </v-list-item>
-                
+                </template>
               </v-list>
             </v-card>
-            </template>
+            
           </v-col>
         </v-row>
       </v-container>
@@ -244,8 +255,7 @@
       drawer: null,
       links: [
         ['mdi-inbox-arrow-down', 'Basic information'],
-        ['mdi-send', 'My collection'],
-        ['mdi-delete', 'My evaluation'],
+        ['mdi-delete', 'My Comments'],
         ['mdi-alert-octagon', 'Modify password'],
       ],
       //面包屑导航
@@ -255,7 +265,6 @@
       ],
       //右侧区域
       showArea1: true,
-      showArea2: false,
       showArea3: false,
       showArea4: false,
       //Area1
@@ -265,13 +274,20 @@
       ],
       imageUrl: '',
       image: '',
-      //Area2
-      collection: ['My collection'],
+      dialog: false,
+      collection: ['My Favs'],
       //Area3
-      elevations: ['My evaluation'],
+      elevations: ['My Comments'],
       //Area4
       newPassword: ''
     }),
+    watch: {
+      uploadloading (curval, oldval) {
+          if(!curval) {
+            this.dialog = false;
+          }
+      },
+    },
     mounted() {
       if(this.userLoggedIn) {
         this.$store.dispatch('getUserProfile', {})
@@ -307,6 +323,9 @@
       loading() {
         return this.$store.getters.saveloading
       },
+      uploadloading() {
+        return this.$store.getters.uploadloading
+      },
       getMyFav() {
         return this.$store.getters.loadedFavs;
       },
@@ -323,31 +342,23 @@
         switch(option) {
           case "Basic information":
             this.showArea1 = true;
-            this.showArea2 = false;
             this.showArea3 = false;
             this.showArea4 = false;
             break;
-          case "My collection":
+          case "My Comments":
             this.showArea1 = false;
-            this.showArea2 = true;
-            this.showArea3 = false;
-            this.showArea4 = false;
-            break;
-          case "My evaluation":
-            this.showArea1 = false;
-            this.showArea2 = false;
             this.showArea3 = true;
             this.showArea4 = false;
             break;  
           case "Modify password":
             this.showArea1 = false;
-            this.showArea2 = false;
             this.showArea3 = false;
             this.showArea4 = true;
             break;                             
         }
       },
       uploadPhoto(file) {
+        this.dialog = true;
         let filename = file.name;
         // doesn't have extension in the filename
         if (filename.lastIndexOf('.') <= 0){
@@ -363,12 +374,11 @@
 
         // store binary file
         this.image = file
+        // refresh avatar
+        this.$store.dispatch('updatePhoto', {photoURL: this.image})
       },
       updateProfile() {
-        if (!this.image){
-          return
-        }
-        this.$store.dispatch('updateProfile', {displayName: this.displayName,photoURL: this.image})
+        this.$store.dispatch('updateProfile', {displayName: this.displayName})
       },
       modifyPassword() {
         this.$store.dispatch('updatePassword', this.newPassword)

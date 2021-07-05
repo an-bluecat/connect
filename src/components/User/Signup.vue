@@ -21,7 +21,7 @@
                       v-model="email"
                       type="email"
                       required
-                      :rules="[checkMail]"
+                      :rules="emailRules"
                       ></v-text-field>
                   </v-flex>
                 </v-layout>
@@ -67,9 +67,14 @@
     name: "Signup",
     data () {
       return {
-        email: 'example@mail.utoronto.ca',
+        email: '',
         password: '',
-        confirmPassword: ''
+        confirmPassword: '',
+        emailRules: [
+          v => !!v || 'E-mail is required',
+          v => /.+@.+\..+/.test(v) || 'E-mail must be valid',
+          v => (v.endsWith("utoronto.ca")) || 'Please use your U of T Email',
+        ],
       }
     },
     computed: {
@@ -77,10 +82,10 @@
       comparePasswords () {
         return this.password !== this.confirmPassword ? 'Passwords do not match' : ''
       },
-      checkMail () {
-        var correct = this.email.endsWith("utoronto.ca")
-        return correct == false ? "Please use your U of T Email" : ""
-      },
+      // checkMail () {
+      //   var correct = this.email.endsWith("utoronto.ca")
+      //   return correct == false ? "Please use your U of T Email" : ""
+      // },
       user () {
         return this.$store.getters.user
       },

@@ -1,84 +1,93 @@
 
 <template>
   <v-container>
-    <v-layout row class="py-10">
-      <v-flex xs12 sm6 offset-sm3>
-        <h1>Rate {{classname}}</h1>
-      </v-flex>
-    </v-layout>
-    <v-layout row>
-      <v-flex xs12>
-        <form @submit.prevent="handleSubmit">
-          <v-layout row>
-            <v-flex xs12 sm6 offset-sm3>
-            <h6>{{display}}</h6>
-            <v-rating
-              v-model="formData.rate"
-              color="yellow darken-3"
-              background-color="grey darken-1"
-              half-increments
-              dense
-              :readonly="false"
-              :hover="true"
-              size="30"
-              required
-            ></v-rating>
-            
-            </v-flex>
-          </v-layout>
+    <v-row no-gutters class="py-10">
+        <v-col cols="12" xs="12" sm="12" md="9" lg="9" xl="9" :class="titleStyle">
+          Rate {{classname}}
+        </v-col>
+    </v-row>
 
-          <v-layout row>
-            <v-flex xs12 sm6 offset-sm3>
-            <h6>{{displayUsefulness}}</h6>
-            <v-rating
-              v-model="formData.usefulness"
-              color="yellow darken-3"
-              background-color="grey darken-1"
-              half-increments
-              dense
-              :readonly="false"
-              :hover="true"
-              size="30"
-              required
-            ></v-rating>
+    <v-row no-gutters class="px-3">
+        <v-col>
+          <form @submit.prevent="handleSubmit">
+            <v-layout row>
+              <v-flex cols="12" xs="12" sm="12" md="9" lg="9" xl="9">
+              <h6>{{display}}</h6>
+              <v-rating
+                v-model="formData.rate"
+                color="yellow darken-3"
+                background-color="grey darken-1"
+                half-increments
+                dense
+                :readonly="false"
+                :hover="true"
+                size="30"
+                required
+              ></v-rating>
+              
+              </v-flex>
+            </v-layout>
 
-
-            </v-flex>
-          </v-layout>
+            <v-layout row>
+              <v-flex cols="12" xs="12" sm="12" md="9" lg="9" xl="9">
+              <h6>{{displayUsefulness}}</h6>
+              <v-rating
+                v-model="formData.usefulness"
+                color="yellow darken-3"
+                background-color="grey darken-1"
+                half-increments
+                dense
+                :readonly="false"
+                :hover="true"
+                size="30"
+                required
+              ></v-rating>
 
 
-          <v-layout row>
-            <v-flex xs12 sm6 offset-sm3>
-              <v-text-field
-                name="Professor's name"
-                label="Professor's name (Optional)"
-                id="Professor's name"
-                v-model="formData.pname"
-                ></v-text-field>
-            </v-flex>
-          </v-layout>
-          <v-layout row>
-            <v-flex xs12 sm6 offset-sm3>
-              <v-textarea
-                name="description"
-                label="How do you like this course?（Optional)"
-                id="description"
-                multi-line
-                v-model="formData.comment"
-                ></v-textarea>
-            </v-flex>
-          </v-layout>
-          <v-layout row>
-            <v-flex xs12 sm6 offset-sm3>
-              <v-btn
-                class="primary"
-                :disabled="!formIsValid"
-                type="submit">Submit</v-btn>
-            </v-flex>
-          </v-layout>
-        </form>
-      </v-flex>
-    </v-layout>
+              </v-flex>
+            </v-layout>
+
+
+            <v-layout row>
+              <v-flex cols="12" xs="12" sm="12" md="9" lg="9" xl="9">
+                <v-text-field
+                  name="Professor's name"
+                  label="Professor's name (Optional)"
+                  id="Professor's name"
+                  v-model="formData.pname"
+                  ></v-text-field>
+              </v-flex>
+            </v-layout>
+            <v-layout row>
+              <v-flex cols="12" xs="12" sm="12" md="9" lg="9" xl="9">
+                <v-textarea
+                  name="description"
+                  label="How do you like this course?（Optional)"
+                  id="description"
+                  multi-line
+                  v-model="formData.comment"
+                  ></v-textarea>
+              </v-flex>
+            </v-layout>
+            <v-layout row v-show="showArea">
+              <v-flex  cols="12" xs="12" sm="12" md="9" lg="9" xl="9">
+                <v-checkbox
+                  v-model="formData.showName"
+                  label="show your username and profule picture"
+                ></v-checkbox>
+              </v-flex>
+            </v-layout>
+            <v-layout row>
+              <v-flex cols="12" xs="12" sm="12" md="9" lg="9" xl="9">
+                <v-btn
+                  class="primary"
+                  :disabled="!formIsValid"
+                  type="submit">Submit</v-btn>
+              </v-flex>
+            </v-layout>
+          </form>
+        </v-col>
+    </v-row>
 
   </v-container>
  
@@ -103,12 +112,12 @@ export default {
         rate: -1,
         usefulness: -1,
         timestamp: "",
-        pname: ""
+        pname: "",
+        showName: true
       },
       // rateoptions: [0,1,2,3,4,5],
       //userinfo
-      email: ''
-
+      email: '',
     }
   },
   created() {
@@ -151,8 +160,19 @@ export default {
       }else{
         return "Very Useful"
       }
+    },
+    titleStyle() {
+      switch (this.$vuetify.breakpoint.name) {
+          case 'xs': return "text-h5 font-weight-bold"
+          case 'sm': return "text-h4 font-weight-bold"
+          case 'md': return "text-h4 font-weight-bold"
+          case 'lg': return "text-h3 font-weight-bold"
+          case 'xl': return "text-h3 font-weight-bold"
+        }
+    },
+    showArea() {
+      return this.formData.comment == '' ? false : true
     }
-
   },
 
   methods: {
@@ -191,7 +211,8 @@ export default {
           "time": now, 
           "rate": this.formData.rate,
           "pname": this.formData.pname,
-          "usefulness": this.formData.usefulness
+          "usefulness": this.formData.usefulness,
+          "show_name": this.formData.showName
         }
         this.$store.dispatch('addRating', comment)
         if (this.formData.comment.trim()!=""){
