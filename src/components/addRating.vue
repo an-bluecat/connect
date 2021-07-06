@@ -137,11 +137,11 @@ export default {
       }else if(this.formData.rate<=1){
         return "Easy";
       }else if(this.formData.rate<=2){
-        return "Slightly easy"
+        return "Easier than average"
       }else if(this.formData.rate<=3){
-        return "Medium"
+        return "Neutral"
       }else if(this.formData.rate<=4){
-        return "Slightly hard"
+        return "Harder than average"
       }else{
         return "Very Hard"
       }
@@ -150,15 +150,15 @@ export default {
       if(this.formData.usefulness==-1){
         return "Select Usefulness";
       }else if(this.formData.usefulness<=1){
-        return "Useless";
+        return "Not Useful";
       }else if(this.formData.usefulness<=2){
-        return "Not so useful"
+        return "Less useful"
       }else if(this.formData.usefulness<=3){
-        return "Somewhat useful"
+        return "Neutral"
       }else if(this.formData.usefulness<=4){
-        return "Useful"
+        return "More useful"
       }else{
-        return "Very Useful"
+        return "Very useful"
       }
     },
     titleStyle() {

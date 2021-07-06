@@ -136,13 +136,13 @@
           <v-list three-line>
             <template v-for="(item, index) in showComments">
               <v-card :key="index" class="my-8" color="#f5f5f5" elevation="6" outlined>
-              <v-subheader
+              <!-- <v-subheader
                 v-if="item.header"
                 :key="index"
                 v-text="comment"
-              ></v-subheader>
+              ></v-subheader> -->
 
-              <v-list-item v-else :key="index">
+              <v-list-item :key="index">
                 <v-list-item-avatar>
                   <v-img v-if="item.show_name" :src="item.avatar"></v-img>
                   <v-avatar v-else color="#55798F" size="40">
@@ -151,20 +151,13 @@
                 </v-list-item-avatar>
 
                 <v-list-item-content>
+                  <v-list-item-title class="mb-2 font-weight-medium" v-if="item.show_name">{{ item.displayname }}</v-list-item-title>
+                  <v-list-item-title class="mb-2 font-weight-medium" v-else>Anonymous student</v-list-item-title>
+                      
                   <v-row>
-                    <v-col cols="12" xs="6" sm="6" md="6" lg="6" xl="6">
-                      <v-list-item-title class="mb-2" v-if="item.show_name">{{ item.displayname }}</v-list-item-title>
-                      <v-list-item-title class="mb-2" v-else>Anonymous student</v-list-item-title>
-                      {{ item.comment }}
-                      <v-list-item-subtitle class="mt-1">{{ item.time }}</v-list-item-subtitle>
-
-                      <v-list-item-subtitle v-if="item.pname != ''"
-                        >Taught by {{ item.pname }}</v-list-item-subtitle
-                      >
-                    </v-col>
-                    <v-col cols="12" xs="6" sm="6" md="6" lg="6" xl="6">
-                      <v-list-item-title class="py-2 font-weight-medium">
-                        <!-- <v-row align="right"> -->
+                    <v-col cols="12" xs="6" sm="6" md="6" lg="2" xl="6">
+                      <span class="px-1 font-weight-normal">
+                        <v-card-actions align="left" class="ml-n2 mt-n6 mb-n7">
                         Difficulty
                         <v-rating
                           :value="item.rate"
@@ -176,10 +169,10 @@
                           :readonly="true"
                           size="15"
                         ></v-rating>
-                        <!-- </v-row> -->
-                      </v-list-item-title>
-                      <v-list-item-title class="font-weight-medium">
-                        <!-- <v-row align="right"> -->
+                        </v-card-actions>
+                      </span>
+                      <span class="px-1 font-weight-normal">
+                        <v-card-actions align="left" class="ml-n2 mb-n8"> 
                         Usefulness
                         <v-rating
                           :value="item.usefulness"
@@ -191,8 +184,16 @@
                           :readonly="true"
                           size="15"
                         ></v-rating>
-                        <!-- </v-row> -->
-                      </v-list-item-title>
+                        </v-card-actions>
+                      </span>
+                    </v-col>
+                    <v-col cols="12" xs="12" sm="12" md="12" lg="12" xl="12" class="pr-5">
+                      {{ item.comment }}
+                      <v-list-item-subtitle class="mt-1">{{ item.time }}</v-list-item-subtitle>
+
+                      <v-list-item-subtitle v-if="item.pname != ''"
+                        >Taught by {{ item.pname }}</v-list-item-subtitle
+                      >
                     </v-col>
                   </v-row>
 
