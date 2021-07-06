@@ -115,8 +115,8 @@
             :key="card"
             cols="12"
           >
-            <v-card elevation="5">
-              <v-subheader>{{ card }}</v-subheader>
+            <v-card elevation="5" class="py-5">
+              <v-subheader class="text-h5">{{ card }}</v-subheader>
 
               <v-list two-line>
                 <template v-for="(item, i) in getMyFav">
@@ -166,18 +166,16 @@
         class="py-8 px-6"
         fluid
       >
+      <v-subheader class="text-h5">My Reviews</v-subheader>
         <v-row>
-          <v-col
-            v-for="card in elevations"
-            :key="card"
-            cols="12"
-          >
           
-            <v-card elevation="5">
-              <v-subheader>{{ card }}</v-subheader>
-              <v-list two-line>
-                <template v-for="(item, index) in getMyRecords">
-                  <v-list-item :key="index">
+          <v-col cols="12">
+          
+            <v-card elevation="5" class="my-5" v-for="(item, index) in getMyRecords">
+              
+              <v-list :key="index" two-line >
+                <template >
+                  <v-list-item>
                     <v-list-item-content>
                       <v-list-item-title class="font-weight-medium">
                         Difficulty
@@ -292,7 +290,7 @@
       dialog: false,
       collection: ['My Favourites'],
       //Area3
-      elevations: ['My Reviews'],
+      // elevations: ['My Reviews'],
       //Area4
       newPassword: ''
     }),

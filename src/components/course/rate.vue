@@ -135,71 +135,67 @@
         <v-col col="12" xl="10" lg="10" md="10" sm="12" xs="12">
           <v-list three-line>
             <template v-for="(item, index) in showComments">
-              <v-card :key="index" class="my-8" color="#f5f5f5" elevation="6" outlined>
-              <!-- <v-subheader
-                v-if="item.header"
-                :key="index"
-                v-text="comment"
-              ></v-subheader> -->
+              <v-card :key="index" class="my-8"  elevation="6" outlined>
+                <!-- color="#f5f5f5" -->
 
-              <v-list-item :key="index">
-                <v-list-item-avatar>
-                  <v-img v-if="item.show_name" :src="item.avatar"></v-img>
-                  <v-avatar v-else color="#55798F" size="40">
-                    <v-icon dark> mdi-account-circle </v-icon>
-                  </v-avatar>
-                </v-list-item-avatar>
+                <v-list-item :key="index">
+                  <v-list-item-avatar>
+                    <v-img v-if="item.show_name" :src="item.avatar"></v-img>
+                    <v-avatar v-else color="#55798F" size="40">
+                      <v-icon dark> mdi-account-circle </v-icon>
+                    </v-avatar>
+                  </v-list-item-avatar>
 
-                <v-list-item-content>
-                  <v-list-item-title class="mb-2 font-weight-medium" v-if="item.show_name">{{ item.displayname }}</v-list-item-title>
-                  <v-list-item-title class="mb-2 font-weight-medium" v-else>Anonymous student</v-list-item-title>
-                      
-                  <v-row>
-                    <v-col cols="12" xs="6" sm="6" md="6" lg="2" xl="6">
-                      <span class="px-1 font-weight-normal">
-                        <v-card-actions align="left" class="ml-n2 mt-n6 mb-n7">
-                        Difficulty
-                        <v-rating
-                          :value="item.rate"
-                          color="yellow darken-3"
-                          background-color="grey darken-1"
-                          half-increments
-                          dense
-                          :hover="true"
-                          :readonly="true"
-                          size="15"
-                        ></v-rating>
-                        </v-card-actions>
-                      </span>
-                      <span class="px-1 font-weight-normal">
-                        <v-card-actions align="left" class="ml-n2 mb-n8"> 
-                        Usefulness
-                        <v-rating
-                          :value="item.usefulness"
-                          color="yellow darken-3"
-                          background-color="grey darken-1"
-                          half-increments
-                          dense
-                          :hover="true"
-                          :readonly="true"
-                          size="15"
-                        ></v-rating>
-                        </v-card-actions>
-                      </span>
-                    </v-col>
-                    <v-col cols="12" xs="12" sm="12" md="12" lg="12" xl="12" class="pr-5">
-                      {{ item.comment }}
-                      <v-list-item-subtitle class="mt-1">{{ item.time }}</v-list-item-subtitle>
+                  <v-list-item-content>
+                    <v-list-item-title class="mb-2 font-weight-medium" v-if="item.show_name">{{ item.displayname }}</v-list-item-title>
+                    <v-list-item-title class="mb-2 font-weight-medium" v-else>Anonymous student</v-list-item-title>
+                        
+                    <v-row>
+                      <v-col cols="12" xs="6" sm="6" md="6" lg="6" xl="6">
+                        <span class="px-1 font-weight-normal grey--text text--darken-1">
+                          <v-card-actions align="left" class="ml-n2 mt-n6 mb-n7">
+                          <div class="">Difficulty</div>
+                          <v-rating
+                            :value="item.rate"
+                            color="yellow darken-3"
+                            background-color="grey darken-1"
+                            half-increments
+                            dense
+                            :hover="true"
+                            :readonly="true"
+                            size="15"
+                          ></v-rating>
+                          </v-card-actions>
+                        </span>
+                        <span class="px-1 font-weight-normal grey--text text--darken-1">
+                          <v-card-actions align="left" class="ml-n2 mb-n8"> 
+                          Usefulness
+                          <v-rating
+                            :value="item.usefulness"
+                            color="yellow darken-3"
+                            background-color="grey darken-1"
+                            half-increments
+                            dense
+                            :hover="true"
+                            :readonly="true"
+                            size="15"
+                          ></v-rating>
+                          </v-card-actions>
+                        </span>
+                      </v-col>
+                      <v-col cols="12" xs="12" sm="12" md="12" lg="12" xl="12" class="pr-5">
+                        {{ item.comment }}
+                        <v-list-item-subtitle class="mt-1">{{ item.time }}</v-list-item-subtitle>
 
-                      <v-list-item-subtitle v-if="item.pname != ''"
-                        >Taught by {{ item.pname }}</v-list-item-subtitle
-                      >
-                    </v-col>
-                  </v-row>
+                        <v-list-item-subtitle v-if="item.pname != ''"
+                          >Taught by {{ item.pname }}</v-list-item-subtitle
+                        >
+                      </v-col>
+                    </v-row>
 
 
-                </v-list-item-content>
-              </v-list-item>
+                  </v-list-item-content>
+                </v-list-item>
               </v-card>
             </template>
             <v-row>
