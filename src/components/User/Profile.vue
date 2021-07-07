@@ -35,12 +35,14 @@
       <v-toolbar-title>Profile</v-toolbar-title>
     </v-app-bar>
     <!-- 3块右侧区域 -->
-    <!-- 基本信息 -->
+
+    <!-- 基本信息 & favorite -->
     <v-main v-show="showArea1">
       <v-container
         class="py-16 px-10"
         fluid
       >
+        <!-- 基本信息 -->
         <v-card  elevation="5" class="py-5">
           <v-subheader class="text-h5">Basic information</v-subheader>
           <v-card-text class="px-7">
@@ -118,6 +120,8 @@
             </v-card-text>
           </v-card>
         </v-dialog>
+
+        <!-- 收藏课程 -->
         <v-row class="mt-4">
           <v-col
             v-for="card in collection"
