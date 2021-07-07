@@ -465,6 +465,10 @@ export const store = new Vuex.Store({
       user.updateProfile({
         displayName: payload.displayName,
       }).then(() => {
+        var profile = {
+          displayName: payload.displayName,
+        }
+        commit('setUserProfile', profile)
         commit('setSaveLoading', false)
       })
       .catch((error) => {
@@ -610,15 +614,15 @@ export const store = new Vuex.Store({
     updatePassword({commit}, payload) {
       const user = firebase.auth().currentUser;
       const newPassword = payload;
-      commit('setSaveloading', true)
+      commit('setSaveLoading', true)
       user.updatePassword(newPassword).then(() => {
         // Update successful.
-        
+        commit('setSaveLoading', false)
       }).catch((error) => {
         // An error ocurred
+        commit('setSaveLoading', false)
         console.log(error);
       });
-      commit('setSaveloading', false)
     }
   },
   getters: {

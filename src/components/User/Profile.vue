@@ -29,6 +29,11 @@
       </v-list>
     </v-navigation-drawer>
     <!-- 左侧区域 -->
+    <v-app-bar app>
+      <v-app-bar-nav-icon @click="drawer = !drawer"></v-app-bar-nav-icon>
+
+      <v-toolbar-title>Profile</v-toolbar-title>
+    </v-app-bar>
     <!-- 四块右侧区域 -->
 
     <v-main v-show="showArea1">
@@ -84,6 +89,10 @@
                       </span>
                   </v-btn>
                 </v-col>
+                <v-col class="mt-n8" col="12" xl="5" lg="5" md="5" sm="12" xs="12">
+                    <v-alert v-show="showSucTips" dismissible dense prominent type="success">username saved!</v-alert>
+                    <v-alert v-show="showErrTips" dismissible dense prominent type="error">something error!</v-alert>
+                </v-col>
                 <!-- </v-flex> -->
               </v-layout>
             </form>
@@ -122,12 +131,13 @@
                 <template v-for="(item, i) in getMyFav">
                   <v-list-item
                     :key="i"
+                    link
                   >
                     <v-list-item-avatar color="grey darken-1">
                     </v-list-item-avatar>
 
-                    <v-list-item-content>
-                      <v-list-item-title>{{ item['classname'] }}</v-list-item-title>
+                    <v-list-item-content @click="navToRate(item['classname'])">
+                      <v-list-item-title class="text-decoration-underline">{{ item['classname'] }}</v-list-item-title>
 
                       <v-list-item-subtitle>
                         collected on: {{ item['time'] }}
@@ -250,6 +260,10 @@
                       <v-icon light>loading</v-icon>
                       </span>
                   </v-btn>
+                <v-col class="ml-n3" col="12" xl="5" lg="5" md="5" sm="12" xs="12">
+                    <v-alert v-show="showSucTips2" dismissible dense prominent type="success">password modified!</v-alert>
+                    <v-alert v-show="showErrTips2" dismissible dense prominent type="error">something error!</v-alert>
+                </v-col>
                 </v-flex>
               </v-layout>
             </form>
@@ -289,6 +303,10 @@
       image: '',
       dialog: false,
       collection: ['My Favourites'],
+      showSucTips: false,
+      showErrTips: false,
+      showSucTips2: false,
+      showErrTips2: false,
       //Area3
       // elevations: ['My Reviews'],
       //Area4
@@ -299,6 +317,14 @@
           if(!curval) {
             this.dialog = false;
           }
+      },
+      loading (curval, oldval) {
+        if(!curval) {
+            this.showSucTips = true;
+            setTimeout(() => (this.showSucTips = false), 4000)
+            this.showSucTips2 = true;
+            setTimeout(() => (this.showSucTips2 = false), 4000)
+        }
       },
     },
     mounted() {
@@ -407,6 +433,10 @@
       },
       modifyPassword() {
         this.$store.dispatch('updatePassword', this.newPassword)
+      },
+      navToRate(item) {
+        // console.log(item);return
+        this.$router.replace('/rate/'+ item);
       }
     }
   }

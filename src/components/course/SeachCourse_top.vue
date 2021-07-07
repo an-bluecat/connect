@@ -8,9 +8,13 @@
         item-value="Course"
         label="Search your courses"
         placeholder="Start typing to Search"
-        prepend-icon="mdi-database-search"
+        prepend-inner-icon="mdi-database-search"
         append-icon=""
-        
+        filled
+        rounded
+        solo-inverted
+        dense
+
         @change="onchangeclass()"
     ></v-autocomplete>
 </template>

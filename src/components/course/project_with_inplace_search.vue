@@ -1,6 +1,6 @@
 <template>
   <v-app id="inspire">
-    
+
     <v-navigation-drawer v-model="drawer" app>
       <v-sheet color="grey lighten-4" class="pa-4">
         <v-breadcrumbs :items="items" large></v-breadcrumbs>
@@ -22,17 +22,13 @@
           </v-list-item-content>
         </v-list-item>
       </v-list>
-      
     </v-navigation-drawer>
 
-    <v-app-bar app class="pl-6">
-      
+    <v-app-bar app>
       <v-app-bar-nav-icon @click="drawer = !drawer"></v-app-bar-nav-icon>
- 
-      <v-toolbar-title v-if="this.$vuetify.breakpoint.name!='xs' ">{{name}}</v-toolbar-title>
-      <v-toolbar-title class="ml-6 mt-15 mr-16" ><SearchCourse ></SearchCourse></v-toolbar-title>
-      
-      <!-- <v-autocomplete
+
+      <v-toolbar-title>{{name}}</v-toolbar-title>
+      <v-autocomplete
           v-model="model"
           :items="lists"
           color="white"
@@ -45,7 +41,7 @@
           append-icon=""
           
           @change="onchangeclass()"
-      ></v-autocomplete> -->
+      ></v-autocomplete>
     </v-app-bar>
 
     <v-main>
@@ -105,11 +101,7 @@
 
 <script>
 import courseimport from './coursecsv/courseimport.json';
-import SearchCourse from "./SeachCourse_top";
   export default {
-    components: {
-    SearchCourse,
-    },
     data: () => ({
       cards: ['area1', 'area2'],
       drawer: null,

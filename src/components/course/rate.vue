@@ -1,17 +1,19 @@
 <template>
     <v-container>
+      <!-- <v-app-bar app dense fixed class="pt-7"> -->
       <!-- 面包屑 + search -->
       <v-row no-gutters>
         <v-col cols="12" xs="12" sm="12" md="3" lg="3" xl="3">
           <v-breadcrumbs :items="bitems" large></v-breadcrumbs>
         </v-col>
-        <v-col cols="12" xs="12" sm="12" md="7" lg="7" xl="7">
+        <v-col cols="12" xs="12" sm="12" md="7" lg="7" xl="7" class="mt-2">
           <SearchCourse></SearchCourse>
         </v-col>
       </v-row>
+      <!-- </v-app-bar> -->
 
       <!-- 科目信息 + 评分 -->
-      <v-row no-gutters>
+      <v-row no-gutters class="mt-2">
         <v-col cols="12" xs="12" sm="12" md="6" lg="6" xl="6">
               <v-list-item-title :class="titleStyle" class="d-flex">
                 {{ title }}
@@ -140,10 +142,17 @@
 
                 <v-list-item :key="index">
                   <v-list-item-avatar>
+                    <!-- {{item.show_name}} -->
                     <v-img v-if="item.show_name" :src="item.avatar"></v-img>
                     <v-avatar v-else color="#55798F" size="40">
                       <v-icon dark> mdi-account-circle </v-icon>
                     </v-avatar>
+
+                  <!-- <v-avatar class="mb-4" :color="userLoggedIn ? 'primary':'grey'">
+                    <v-icon dark v-if="!userLoggedIn"> mdi-account-circle</v-icon>
+                    <img v-else-if="item.show_name" :src="item.avatar" alt="avatar">
+                    <span v-else class="white--text headline">{{ getSX }}</span>
+                  </v-avatar> -->
                   </v-list-item-avatar>
 
                   <v-list-item-content>
@@ -217,6 +226,40 @@
         </v-col>
       </v-row>
       <!-- 评论 -->
+      <v-dialog
+          v-model="signInVisible"
+          width="300"
+      >
+        <v-card>
+          <v-toolbar
+              color="primary"
+              dark
+          >Sign In</v-toolbar>
+
+          <signin></signin>
+          <div class="link" @click="signInVisible=false;signupVisible=true">sign up</div>
+          <v-btn style="width: 100%;"  @click="signInVisible=false;">
+            cancel
+          </v-btn>
+        </v-card>
+      </v-dialog>
+      <v-dialog
+          v-model="signupVisible"
+          width="300"
+      >
+        <v-card>
+          <v-toolbar
+              color="primary"
+              dark
+          >Sign Up</v-toolbar>
+
+          <signup></signup>
+          <div class="link" @click="signInVisible=true;signupVisible=false">sign in</div>
+          <v-btn style="width: 100%;" @click="signupVisible=false">
+            cancel
+          </v-btn>
+        </v-card>
+      </v-dialog>
     </v-container>
 </template>
 
@@ -224,9 +267,14 @@
 import coursedesc from "./coursedesc.json";
 import courseimport from "./coursecsv/courseimport.json";
 import SearchCourse from "./SeachCourse_top";
+import Signup from '../User/Signup';
+import Signin from '../User/Signin';
+
 export default {
   components: {
     SearchCourse,
+    Signin,
+    Signup
   },
   data: () => ({
     // used for the rating botton
@@ -249,7 +297,10 @@ export default {
     pdata1: courseimport,
     km: "",
     src: require("../../assets/star.png"),
-    src1: require("../../assets/star-outline.png")
+    src1: require("../../assets/star-outline.png"),
+    //log
+    signInVisible: false,
+    signupVisible: false
   }),
   created() {
     // console.log(this.$vuetify.breakpoint.xs);
@@ -292,7 +343,14 @@ export default {
     //getFavs
     this.$store.dispatch("loadedFav", this.$route.params.name);
   },
-  computed: {    
+  computed: {   
+    userLoggedIn(){
+      return this.$store.getters.user != null ;
+    }, 
+    getSX() {
+      let Abbreviations = this.$store.getters.user != null ? this.$store.getters.user.email.substr(0, 1).toUpperCase() : 'unknown'
+      return Abbreviations;
+    },
     loadedFav() {
       return this.$store.getters.loadedFav;
     },
@@ -515,7 +573,12 @@ export default {
       this.difficultyRating = -1;
     },
     addcomment() {
-      this.$router.push("/addrating/" + this.title);
+      //判断是否登录
+      if(this.userLoggedIn) {
+        this.$router.push("/addrating/" + this.title);
+      }else {
+        this.signInVisible = true;
+      }
     },
     addfile() {
       this.$router.push("/addfile/" + this.title);
@@ -551,11 +614,14 @@ export default {
       }
     },
     addFav(tag) {
-      console.log(tag);
-      var time = new Date();
-      const now =
-        time.getFullYear() + "-" + (time.getMonth() + 1) + "-" + time.getDate();
-      this.$store.dispatch("addFav",{tag: tag, classname: this.title, time: now})
+      if(this.userLoggedIn) {
+        var time = new Date();
+        const now =
+          time.getFullYear() + "-" + (time.getMonth() + 1) + "-" + time.getDate();
+        this.$store.dispatch("addFav",{tag: tag, classname: this.title, time: now})
+      }else {
+        this.signInVisible = true;
+      }
     }
   },
 };
@@ -568,4 +634,9 @@ export default {
   flex-direction: column;
   justify-content: space-between;
 } */
+.link{
+  color: #0d47a1;
+  cursor: pointer;
+  padding: 0 30px 12px;
+}
 </style>

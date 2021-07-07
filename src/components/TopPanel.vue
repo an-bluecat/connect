@@ -104,7 +104,11 @@ export default {
     },
     goProfile() {
       if(this.userLoggedIn){
-        this.$router.push("/profile");
+        if(this.$route.path == '/profile') {
+          this.$router.go(0);
+        }else {
+          this.$router.push("/profile");
+        }
       }
     },
     Logout() {
