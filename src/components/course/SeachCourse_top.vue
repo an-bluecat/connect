@@ -12,7 +12,7 @@
         append-icon=""
         filled
         rounded
-        solo-inverted
+        solo
         dense
 
         @change="onchangeclass()"

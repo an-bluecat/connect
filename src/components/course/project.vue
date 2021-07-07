@@ -57,9 +57,9 @@
 
               <v-list>
                 <template two-line v-for="(item,index) in plist">
-                  <v-list-item :key="index">
-                    <v-list-item-avatar color="grey darken-1">
-                    </v-list-item-avatar>
+                  <v-list-item :key="index" link>
+                    <!-- <v-list-item-avatar color="grey darken-1">
+                    </v-list-item-avatar> -->
 
                     <v-list-item-content @click="navToRate(item)" >
                       <a >
@@ -74,7 +74,7 @@
                   <v-divider
                     v-if="index !== (list1.length-1)"
                     :key="`divider-${index}`"
-                    inset
+                    
                   ></v-divider>
                 </template>
               </v-list>

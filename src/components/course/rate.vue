@@ -126,12 +126,9 @@
 
 
       </v-row>
+
       <!-- 附件 -->
       <!-- 评论 -->
-      <!-- <v-row class="mt-6 mb-3 pl-3">
-      <v-list-item-title class="text-h5 font-weight-medium">Reviews</v-list-item-title>
-      </v-row> -->
-
       <v-row>
       
         <v-col col="12" xl="10" lg="10" md="10" sm="12" xs="12">
@@ -148,11 +145,6 @@
                       <v-icon dark> mdi-account-circle </v-icon>
                     </v-avatar>
 
-                  <!-- <v-avatar class="mb-4" :color="userLoggedIn ? 'primary':'grey'">
-                    <v-icon dark v-if="!userLoggedIn"> mdi-account-circle</v-icon>
-                    <img v-else-if="item.show_name" :src="item.avatar" alt="avatar">
-                    <span v-else class="white--text headline">{{ getSX }}</span>
-                  </v-avatar> -->
                   </v-list-item-avatar>
 
                   <v-list-item-content>
@@ -225,7 +217,9 @@
           </v-list>
         </v-col>
       </v-row>
-      <!-- 评论 -->
+
+      <!-- 注册提示 -->
+      <!-- 登录 -->
       <v-dialog
           v-model="signInVisible"
           width="300"
@@ -237,12 +231,14 @@
           >Sign In</v-toolbar>
 
           <signin></signin>
+
           <div class="link" @click="signInVisible=false;signupVisible=true">sign up</div>
           <v-btn style="width: 100%;"  @click="signInVisible=false;">
             cancel
           </v-btn>
         </v-card>
       </v-dialog>
+      <!-- 注册 -->
       <v-dialog
           v-model="signupVisible"
           width="300"
@@ -254,8 +250,17 @@
           >Sign Up</v-toolbar>
 
           <signup></signup>
-          <div class="link" @click="signInVisible=true;signupVisible=false">sign in</div>
-          <v-btn style="width: 100%;" @click="signupVisible=false">
+          <div  v-if="skipLoginVisible"
+          align="center" 
+          class="mt-n4">
+            <v-btn style="width:78%;" color="secondary" @click="signupVisible=false;skipLoginVisible=false;routeToComment()">
+            continue as guest
+            </v-btn>
+          </div>
+
+          <div class="link ma-2" @click="signInVisible=true;signupVisible=false"><a>have an account? Log in</a></div>
+          
+          <v-btn style="width: 100%;" @click="signupVisible=false;skipLoginVisible=false">
             cancel
           </v-btn>
         </v-card>
@@ -300,7 +305,8 @@ export default {
     src1: require("../../assets/star-outline.png"),
     //log
     signInVisible: false,
-    signupVisible: false
+    signupVisible: false,
+    skipLoginVisible: false //是否在signup页面show skip login
   }),
   created() {
     // console.log(this.$vuetify.breakpoint.xs);
@@ -577,9 +583,15 @@ export default {
       if(this.userLoggedIn) {
         this.$router.push("/addrating/" + this.title);
       }else {
-        this.signInVisible = true;
+        this.signupVisible = true;
+        this.skipLoginVisible = true;
       }
     },
+
+    routeToComment() {
+        this.$router.push("/addrating/" + this.title);
+      },
+
     addfile() {
       this.$router.push("/addfile/" + this.title);
     },

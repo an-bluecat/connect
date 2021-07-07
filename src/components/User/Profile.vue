@@ -34,8 +34,8 @@
 
       <v-toolbar-title>Profile</v-toolbar-title>
     </v-app-bar>
-    <!-- 四块右侧区域 -->
-
+    <!-- 3块右侧区域 -->
+    <!-- 基本信息 -->
     <v-main v-show="showArea1">
       <v-container
         class="py-16 px-10"
