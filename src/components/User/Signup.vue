@@ -71,9 +71,9 @@
         password: '',
         confirmPassword: '',
         emailRules: [
-          v => !!v || 'E-mail is required',
-          v => /.+@.+\..+/.test(v) || 'E-mail must be valid',
-          v => (v.endsWith("utoronto.ca")) || 'Please use your U of T Email',
+          // v => !!v || 'E-mail is required',
+          // v => /.+@.+\..+/.test(v) || 'E-mail must be valid',
+          // v => (v.endsWith("utoronto.ca")) || 'Please use your U of T Email',
         ],
       }
     },
@@ -108,11 +108,11 @@
     },
     methods: {
       onSignup () {
-        if(this.email.endsWith("utoronto.ca")){
+        // if(this.email.endsWith("utoronto.ca")){
           this.$store.dispatch('signUserUp', {email: this.email, password: this.password});
           // this.$router.replace('/');
           // location.reload();
-        }
+        // }
         
       },
       onDismissed () {

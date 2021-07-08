@@ -37,7 +37,7 @@ export default {
             // window.open(routeData.href, '_blank');
             // 域名需要除去课名，只留下代码
             var coursecode=this.model.split(" ")[0];
-            this.$router.push({path: './'+ coursecode});
+            this.$router.push({path: '/rate/'+ coursecode});
             location.reload();
         }
     },

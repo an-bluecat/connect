@@ -31,21 +31,23 @@
  
       <v-toolbar-title v-if="this.$vuetify.breakpoint.name!='xs' ">{{name}}</v-toolbar-title>
       <v-toolbar-title class="ml-6 mt-15 mr-16" ><SearchCourse ></SearchCourse></v-toolbar-title>
-      
-      <!-- <v-autocomplete
-          v-model="model"
-          :items="lists"
-          color="white"
-          hide-selected
-          item-text="Description"
-          item-value="Course"
-          label="Search your courses"
-          placeholder="Start typing to Search"
-          prepend-icon="mdi-database-search"
-          append-icon=""
-          
-          @change="onchangeclass()"
-      ></v-autocomplete> -->
+      <!-- <v-col col="12" xl="10" lg="10" md="10" sm="10" xs="10">
+        <v-autocomplete
+            v-model="model"
+            :items="lists"
+            color="white"
+            hide-selected
+            item-text="Description"
+            item-value="Course"
+            label="Search your courses"
+            placeholder="Start typing to Search"
+            prepend-icon="mdi-database-search"
+            append-icon=""
+            class="mt-5 ml-2"
+            @change="onchangeclass()"
+        ></v-autocomplete>
+      </v-col> -->
+
     </v-app-bar>
 
     <v-main>

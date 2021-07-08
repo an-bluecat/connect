@@ -91,11 +91,18 @@
             elevation="6"
             large
             rounded
-            @click="addcomment()"
+            @click="addcomment('top')"
           ><v-icon left>
             mdi-pencil
           </v-icon>
           rate/comment</v-btn>
+          <v-alert
+            class="mt-4 mb-n4"
+            v-if="showAlert1"
+            dismissible
+            dense
+            type="error"
+          >Verify your email first</v-alert>
         </v-col>
       </v-row>
       <!-- 评分键 -->
@@ -149,7 +156,7 @@
 
                   <v-list-item-content>
                     <v-list-item-title class="mb-2 font-weight-medium" v-if="item.show_name">{{ item.displayname }}</v-list-item-title>
-                    <v-list-item-title class="mb-2 font-weight-medium" v-else>Anonymous student</v-list-item-title>
+                    <v-list-item-title class="mb-2 font-weight-medium" v-else>Anonymous <{{discipline}}> student</v-list-item-title>
                         
                     <v-row>
                       <v-col cols="12" xs="6" sm="6" md="6" lg="6" xl="6">
@@ -202,7 +209,14 @@
             <v-row>
               <v-col align="center">
                 <div class="text-xs-center text-sm-center">
-                  <v-btn @click="addcomment()">add comment</v-btn>
+                  <v-btn @click="addcomment('bottom')">add comment</v-btn>
+                  <v-alert
+                    class="mt-4 mb-n4"
+                    v-if="showAlert2"
+                    dismissible
+                    dense
+                    type="error"
+                  >Verify email first</v-alert>
                   <div class="text-center mt-4">
                     <v-pagination
                       v-model="page"
@@ -306,7 +320,11 @@ export default {
     //log
     signInVisible: false,
     signupVisible: false,
-    skipLoginVisible: false //是否在signup页面show skip login
+    skipLoginVisible: false, //是否在signup页面show skip login
+    //Alert
+    showAlert1: false,
+    showAlert2: false,
+    discipline: ''
   }),
   created() {
     // console.log(this.$vuetify.breakpoint.xs);
@@ -348,10 +366,15 @@ export default {
     // console.log(111);
     //getFavs
     this.$store.dispatch("loadedFav", this.$route.params.name);
+    this.discipline = '';
+    this.discipline = this.$store.getters.userProfile.discipline;
   },
   computed: {   
     userLoggedIn(){
       return this.$store.getters.user != null ;
+    }, 
+    emailVerified(){
+      return this.$store.getters.userProfile.emailVerified;
     }, 
     getSX() {
       let Abbreviations = this.$store.getters.user != null ? this.$store.getters.user.email.substr(0, 1).toUpperCase() : 'unknown'
@@ -578,10 +601,20 @@ export default {
       this.pressedRate = false;
       this.difficultyRating = -1;
     },
-    addcomment() {
+    addcomment(position) {
       //判断是否登录
       if(this.userLoggedIn) {
-        this.$router.push("/addrating/" + this.title);
+        if(!this.emailVerified) {
+            if(position == 'top') {
+              this.showAlert1 = true;
+              setTimeout(() => (this.showAlert1 = false), 4000)
+            }else {
+              this.showAlert2 = true;
+              setTimeout(() => (this.showAlert2 = false), 4000)
+            }
+        }else {
+          this.$router.push("/addrating/" + this.title);
+        }
       }else {
         this.signupVisible = true;
         this.skipLoginVisible = true;
@@ -627,10 +660,15 @@ export default {
     },
     addFav(tag) {
       if(this.userLoggedIn) {
-        var time = new Date();
-        const now =
-          time.getFullYear() + "-" + (time.getMonth() + 1) + "-" + time.getDate();
-        this.$store.dispatch("addFav",{tag: tag, classname: this.title, time: now})
+        if(!this.emailVerified) {
+              this.showAlert1 = true;
+              setTimeout(() => (this.showAlert1 = false), 4000)
+        }else {
+          var time = new Date();
+          const now =
+            time.getFullYear() + "-" + (time.getMonth() + 1) + "-" + time.getDate();
+          this.$store.dispatch("addFav",{tag: tag, classname: this.title, time: now})
+        }
       }else {
         this.signInVisible = true;
       }

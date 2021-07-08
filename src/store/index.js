@@ -23,6 +23,7 @@ export const store = new Vuex.Store({
     signLoading: false,
     saveLoading: false,
     uploadLoading: false,
+    verifyLoading: false,
     loading: false,
     error: null,
     loadedcurrentUploads: 1,
@@ -75,6 +76,9 @@ export const store = new Vuex.Store({
     },
     setUploadLoading (state, payload) {
       state.uploadLoading = payload
+    },
+    setVerifyLoading (state, payload) {
+      state.verifyLoading = payload
     },
     setError (state, payload) {
       state.error = payload
@@ -383,13 +387,13 @@ export const store = new Vuex.Store({
       firebase.auth().createUserWithEmailAndPassword(payload.email, payload.password)
         .then(
           user => {
-            
             commit('setSignLoading', false) // not loading anymore
             const newUser = {
               id: user.uid,
               registeredfileUploads: []
             }
-            commit('setUser', newUser)
+            // commit('setUser', newUser)
+            firebase.auth().currentUser.sendEmailVerification()
           }
         )
         .catch(
@@ -429,44 +433,64 @@ export const store = new Vuex.Store({
     },
     getUserProfile ({commit}) {
       firebase.auth().onAuthStateChanged((user) => {
+        // console.log(JSON.stringify(user));
         if (user) {
-          // User is signed in, see docs for a list of available properties
-          // https://firebase.google.com/docs/reference/js/firebase.User
-          var profile = {
-            uid: user.uid,
-            displayName: user.displayName,
-            photoURL: user.photoURL,
-            email: user.email
-          }
-          // ...
-          commit('setUserProfile', profile)
+          const uid = this.state.userProfile.uid;
+          // const discipline = firebase.database().ref('user/-'+ uid).child('discipline').once('value');
+          firebase.database().ref('user/-'+ uid).child('discipline').once('value')
+          .then((data) => {
+            const discipline = data.val();
+            var profile = {
+              uid: user.uid,
+              displayName: user.displayName,
+              photoURL: user.photoURL,
+              email: user.email,
+              emailVerified: user.emailVerified,
+              discipline: discipline
+            }
+            commit('setUserProfile', profile)
+          })
         } else {
           // User is signed out
           // ...
         }
       });
-      // const user = firebase.auth().currentUser;
-      // if (user !== null) {
-      //   user.providerData.forEach((profile) => {
-      //     var profile = {
-      //       uid: profile.uid,
-      //       displayName: profile.displayName,
-      //       email: profile.email,
-      //       photoURL: profile.photoURL
-      //     }
-      //     commit('setUserProfile', profile)
-      //   });
-      // }
     },
-    //改 user name
+    sendEmailVerification({commit}, payload) {
+      commit('setVerifyLoading', true);
+      firebase.auth().currentUser.sendEmailVerification()
+      .then(() => {
+        // Email verification sent!
+        // ...
+        commit('setVerifyLoading', false);
+      }).catch((error) => {
+        console.log(error);
+        commit('setVerifyLoading', false);
+      });
+    },
+    //改 user name + discipline
     updateProfile ({commit}, payload) {
       commit('setSaveLoading', true);
       const user = firebase.auth().currentUser;
       user.updateProfile({
         displayName: payload.displayName,
+        // photoURL: user.photoURL
+      }).then(() => {
+        if(payload.discipline != '') {
+          const uid = this.state.userProfile.uid;
+          const userdata = {
+            discipline: payload.discipline,
+          }
+          firebase.database().ref('user/-'+uid).set(userdata)
+          .then((data) => {
+            // ...
+          })
+        }
       }).then(() => {
         var profile = {
           displayName: payload.displayName,
+          photoURL: user.photoURL,
+          emailVerified: user.emailVerified
         }
         commit('setUserProfile', profile)
         commit('setSaveLoading', false)
@@ -678,6 +702,9 @@ export const store = new Vuex.Store({
     },
     uploadloading (state) {
       return state.uploadLoading
+    },
+    verifyloading (state) {
+      return state.verifyLoading
     },
     error (state) {
       return state.error

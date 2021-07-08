@@ -35,14 +35,12 @@
       <v-toolbar-title>Profile</v-toolbar-title>
     </v-app-bar>
     <!-- 3块右侧区域 -->
-
-    <!-- 基本信息 & favorite -->
+    <!-- 基本信息 -->
     <v-main v-show="showArea1">
       <v-container
         class="py-16 px-10"
         fluid
       >
-        <!-- 基本信息 -->
         <v-card  elevation="5" class="py-5">
           <v-subheader class="text-h5">Basic information</v-subheader>
           <v-card-text class="px-7">
@@ -66,37 +64,56 @@
                     ></v-file-input>
                 </v-flex>
               </v-layout>
-              <v-list-item-title class="text-h6 font-weight-medium pt-6 black--text">User name</v-list-item-title>
+              <v-list-item-title class="text-h6 font-weight-medium pt-6 black--text">Email Verified</v-list-item-title>
+              <v-list-item-subtitle class="headline mt-4">
+                Status：
+                  <v-btn v-if="!emailVerified" @click="verify" color="primary" :disabled="verifyloading" :loading="verifyloading">
+                    Go to verify
+                      <span slot="loader" class="custom-loader">
+                      <v-icon light>loading</v-icon>
+                      </span>
+                  </v-btn>
+                  <v-btn v-if="emailVerified" text>
+                    Verified
+                  </v-btn>
+                  <v-col col="12" xl="4" lg="4" md="4" sm="12" xs="12">
+                    <v-alert v-show="showEmailSuccess" dismissible dense type="success">Mail has been sent!</v-alert>
+                  </v-col>
+              </v-list-item-subtitle>
+              <v-list-item-title class="text-h6 font-weight-medium black--text">User name</v-list-item-title>
               <v-layout row class="py-3">
-                <!-- <v-flex > -->
-                <v-col col="12" xl="5" lg="5" md="5" sm="12" xs="12">
+                <v-col col="12" xl="5" lg="5" md="5" sm="10" xs="10">
                   <v-text-field
                     name="displayName"
                     label="Displayed name"
                     id="displayName"
                     v-model="displayName"
                     type="text"
-                    filled
                     required></v-text-field>
-                <!-- </v-flex> -->
-              <!-- </v-layout> -->
-              <!-- <v-layout row>
-                <v-flex > -->
                 </v-col>
-                <v-col col="12" xl="5" lg="5" md="5" sm="12" xs="12">
-                  <v-btn class="btn" color="primary" type="submit" :disabled="loading" :loading="loading">
-                    Save
-                      <span slot="loader" class="custom-loader">
-                      <v-icon light>loading</v-icon>
-                      </span>
-                  </v-btn>
-                </v-col>
-                <v-col class="mt-n8" col="12" xl="5" lg="5" md="5" sm="12" xs="12">
-                    <v-alert v-show="showSucTips" dismissible dense prominent type="success">username saved!</v-alert>
-                    <v-alert v-show="showErrTips" dismissible dense prominent type="error">something error!</v-alert>
-                </v-col>
-                <!-- </v-flex> -->
+
               </v-layout>
+              <v-list-item-title class="text-h6 font-weight-medium black--text">Disciplines</v-list-item-title>
+              <v-col col="12" xl="5" lg="5" md="5" sm="5" xs="5">
+                <v-select
+                  :items="disciplines"
+                  label="discipline"
+                  v-model="discipline"
+                ></v-select>
+              </v-col>
+              <v-col col="12" xl="5" lg="5" md="5" sm="10" xs="10">
+                <v-btn class="btn" color="primary" type="submit" :disabled="loading" :loading="loading">
+                  Save
+                    <span slot="loader" class="custom-loader">
+                    <v-icon light>loading</v-icon>
+                    </span>
+                </v-btn>
+              </v-col>
+              <v-col class="mt-2" col="12" xl="5" lg="5" md="5" sm="5" xs="5">
+                  <v-alert v-show="showSucTips" dismissible dense prominent type="success">profile saved!</v-alert>
+                  <v-alert v-show="showErrTips" dismissible dense prominent type="error">something error!</v-alert>
+              </v-col>
+
             </form>
           </v-card-text>
         </v-card>
@@ -120,8 +137,6 @@
             </v-card-text>
           </v-card>
         </v-dialog>
-
-        <!-- 收藏课程 -->
         <v-row class="mt-4">
           <v-col
             v-for="card in collection"
@@ -311,6 +326,9 @@
       showErrTips: false,
       showSucTips2: false,
       showErrTips2: false,
+      showEmailSuccess: false,
+      discipline: '',
+      disciplines: ['Chem', 'Civ', 'ECE', 'EngSci', 'Indy', 'MSE', 'Mech', 'Min', 'Others'],
       //Area3
       // elevations: ['My Reviews'],
       //Area4
@@ -330,12 +348,22 @@
             setTimeout(() => (this.showSucTips2 = false), 4000)
         }
       },
+      verifyloading (curval, oldval) {
+        if(!curval) {
+          this.showEmailSuccess = true;
+          setTimeout(() => (this.showEmailSuccess = false), 4000)
+        }
+      },
     },
     mounted() {
       if(this.userLoggedIn) {
         this.$store.dispatch('getUserProfile', {})
+        this.displayName = '';this.discipline = '';
         this.displayName = this.$store.getters.userProfile.displayName;
+        this.discipline = this.$store.getters.userProfile.discipline;
         // console.log(JSON.stringify(this.$store.getters.userProfile));
+        //getdis
+        this.$store.dispatch('getMyFav', {})
         //getMyFav
         this.$store.dispatch('getMyFav', {})
         // console.log(JSON.stringify(this.$store.getters.loadedFavs));
@@ -353,6 +381,9 @@
         // console.log("this.$store.getters.user", this.$store.getters.user)
         return this.$store.getters.user != null ;
       },
+      emailVerified(){
+        return this.$store.getters.userProfile.emailVerified;
+      }, 
       getUserProfile() {
         return this.$store.getters.userProfile.photoURL != null ;
       },
@@ -368,6 +399,9 @@
       },
       uploadloading() {
         return this.$store.getters.uploadloading
+      },
+      verifyloading() {
+        return this.$store.getters.verifyloading
       },
       getMyFav() {
         return this.$store.getters.loadedFavs;
@@ -433,7 +467,7 @@
         this.$store.dispatch('updatePhoto', {photoURL: this.image})
       },
       updateProfile() {
-        this.$store.dispatch('updateProfile', {displayName: this.displayName})
+        this.$store.dispatch('updateProfile', {displayName: this.displayName,discipline: this.discipline})
       },
       modifyPassword() {
         this.$store.dispatch('updatePassword', this.newPassword)
@@ -441,6 +475,9 @@
       navToRate(item) {
         // console.log(item);return
         this.$router.replace('/rate/'+ item);
+      },
+      verify() {
+        this.$store.dispatch('sendEmailVerification', {})
       }
     }
   }

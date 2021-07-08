@@ -1,8 +1,8 @@
 
 <template>
-  <v-container>
+  <v-container class="mt-10">
     <v-layout row>
-      <v-flex xs12 sm6 offset-sm3>
+      <v-flex col="12" xl="10" lg="10" md="10" sm="10" xs="10">
         <h4>Upload a new file for {{classname}}</h4>
       </v-flex>
     </v-layout>
@@ -10,7 +10,7 @@
       <v-flex xs12>
         <form @submit.prevent="onCreatefileUpload">
           <v-layout row>
-            <v-flex xs12 sm6 offset-sm3>
+            <v-flex class="mx-4" col="12" xl="10" lg="10" md="10" sm="10" xs="10">
               <!-- <v-text-field
                 name="type"
                 label="type"
@@ -25,7 +25,7 @@
             </v-flex>
           </v-layout>
           <v-layout row>
-            <v-flex xs12 sm6 offset-sm3>
+            <v-flex class="mx-4" col="12" xl="10" lg="10" md="10" sm="10" xs="10">
               
             
             <v-file-input chips label="Upload File" @change="onFilePicked"></v-file-input>
@@ -43,7 +43,7 @@
             </v-flex>
           </v-layout>
           <v-layout row>
-            <v-flex xs12 sm6 offset-sm3>
+            <v-flex class="ml-4" col="12" xl="12" lg="12" md="12" sm="12" xs="12">
               <v-btn
                 class="primary"
                 :disabled="!formIsValid"
