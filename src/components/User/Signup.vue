@@ -123,7 +123,8 @@
     methods: {
       onSignup () {
         // if(this.email.endsWith("utoronto.ca")){
-          this.$store.dispatch('signUserUp', {email: this.email, password: this.password});
+          console.log("this.email",this.email)
+          this.$store.dispatch('signUserUp', {"email": this.email, "password": this.password});
           // this.$router.replace('/');
           // location.reload();
         // }

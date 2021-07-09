@@ -409,24 +409,28 @@ export const store = new Vuex.Store({
     },    
     signUserUp ({commit}, payload) {
       // loading
-      commit('setSignLoading', true)
-      commit('clearError')
+      commit('setSignLoading', true);
+      commit('clearError');
+      var actionCodeSettings = {
+        url: 'https://uofthub.ca',
+        // url: 'https://uofthub.ca/?email=' + firebase.auth().currentUser.email,
+        // url: 'https://uofthub.firebaseapp.com//?email=' + firebase.auth().currentUser.email,
+        handleCodeInApp: false,
+        // dynamicLinkDomain: "example.page.link"
+      };
+      console.log("payload",payload)
+      // firebase.auth().sendSignInLinkToEmail(payload.email, actionCodeSettings)
       firebase.auth().createUserWithEmailAndPassword(payload.email, payload.password)
-        .then(
+      .then(
           user => {
-            // commit('setSignLoading', false) // not loading anymore
-            commit('reset');
+            commit('setSignLoading', false) // not loading anymore
+            // commit('reset');
             const newUser = {
               id: user.uid,
               registeredfileUploads: []
             }
             // commit('setUser', newUser)
-            var actionCodeSettings = {
-              // url: 'https://uofthub.com/?email=' + firebase.auth().currentUser.email,
-              url: 'https://uofthub.ca/?email=' + firebase.auth().currentUser.email,
-              // handleCodeInApp: false,
-              // dynamicLinkDomain: "example.page.link"
-            };
+            
             firebase.auth().currentUser.sendEmailVerification(actionCodeSettings)
             // firebase.auth().sendSignInLinkToEmail(payload.email, actionCodeSettings)
             // .then(() => {

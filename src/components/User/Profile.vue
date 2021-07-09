@@ -38,14 +38,14 @@
     <!-- 基本信息 -->
     <v-main v-show="showArea1">
       <v-container
-        class="py-16 px-10"
+        class="py-3 px-3"
         fluid
       >
-        <v-card  elevation="5" class="py-5">
+      <v-card  elevation="5" class="py-1">
           <v-subheader class="text-h5">Basic information</v-subheader>
           <v-card-text class="px-7">
             <form @submit.prevent="updateProfile">
-              <v-layout row class="py-4 px-3">
+              <v-layout row class="pb-1 px-3">
                 <v-list-item-title class="text-h6 font-weight-medium py-3 black--text">Profile picture</v-list-item-title>
                 <v-flex class="d-flex">
                   <v-avatar class="mb-4" :color="userLoggedIn ? 'primary':'grey'">
@@ -91,23 +91,18 @@
                     v-model="displayName"
                     type="text"
                     required></v-text-field>
-                </v-col>
-
-              </v-layout>
-              
-              <v-col col="12" xl="5" lg="5" md="5" sm="10" xs="10">
-                <v-btn class="btn" color="primary" type="submit" :disabled="loading" :loading="loading">
-                  Save
+                    <v-btn class="mt-n3" color="primary" type="submit" :disabled="loading" :loading="loading">
+                    Save
                     <span slot="loader" class="custom-loader">
                     <v-icon light>loading</v-icon>
                     </span>
                 </v-btn>
-              </v-col>
+                </v-col>
 
-
+              </v-layout>
             </form>
-            <v-list-item-title class="text-h6 font-weight-medium black--text">Discipline</v-list-item-title>
-              <v-col col="12" xl="5" lg="5" md="5" sm="5" xs="5">
+            <v-list-item-title class="text-h6 font-weight-medium black--text mt-3" >Discipline</v-list-item-title>
+              <v-col class="ml-n2 mt-n3 mb-n8" col="12" xl="5" lg="5" md="5" sm="5" xs="5">
                 <v-select 
                   :items="disciplines"
                   label="discipline"
@@ -127,7 +122,7 @@
           persistent
           width="300"
         >
-          <v-card
+        <v-card
             color="primary"
             dark
           >
@@ -359,7 +354,7 @@
         }
       },
     },
-    mounted() {
+    created() {
       if(this.userLoggedIn) {
         this.$store.dispatch('getUserProfile', {})
         this.displayName = this.$store.getters.userProfile.displayName;

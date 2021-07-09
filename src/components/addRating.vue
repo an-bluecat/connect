@@ -134,16 +134,17 @@ export default {
   },
   created() {
       setInterval(this.getNow, 1000);
-
-  },
-  mounted() {
-
-    if(this.$store.getters.user != null) {
+      if(this.$store.getters.user != null) {
         this.$store.dispatch('getUserProfile', {})
         // this.displayName = this.$store.getters.userProfile.displayName;
         // this.formData.discipline = this.$store.getters.userProfile.discipline;
         // console.log("this.formData.discipline",this.formData.discipline)
     }
+
+  },
+  mounted() {
+
+
 
   },
   computed: {

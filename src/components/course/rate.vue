@@ -363,16 +363,10 @@ export default {
 
   },
   mounted() {
-    // console.log(111);
+
     //getFavs
     this.$store.dispatch("loadedFav", this.$route.params.name);
-    if(this.userLoggedIn) {
-        this.$store.dispatch('getUserProfile', {})
-        // this.displayName = this.$store.getters.userProfile.displayName;
-        this.discipline = this.$store.getters.userProfile.discipline;
-    }
-    // this.discipline = '';
-    // this.discipline = this.$store.getters.userProfile.discipline;
+
   },
   computed: {   
     userLoggedIn(){
