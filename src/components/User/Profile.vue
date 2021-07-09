@@ -205,7 +205,9 @@
                 <template >
                   <v-list-item>
                     <v-list-item-content>
-                      <v-list-item-title class="font-weight-medium">
+                    <v-list-item-title class="font-weight-medium mb-2">{{item.classname}}</v-list-item-title>
+
+                      <v-list-item-subtitle class="font-weight-normal">
                         Difficulty
                         <v-rating
                           :value="item.rate"
@@ -217,8 +219,8 @@
                           :readonly="true"
                           size="15"
                         ></v-rating>
-                      </v-list-item-title>
-                      <v-list-item-title class="font-weight-medium">
+                      </v-list-item-subtitle>
+                      <v-list-item-subtitle class="font-weight-normal">
                         Usefulness
                         <v-rating
                           :value="item.usefulness"
@@ -230,7 +232,7 @@
                           :readonly="true"
                           size="15"
                         ></v-rating>
-                      </v-list-item-title>
+                      </v-list-item-subtitle>
                       {{ item.comment }}
                       <v-list-item-subtitle>{{ item.time }}</v-list-item-subtitle>
 
@@ -408,6 +410,7 @@
         return this.$store.getters.loadedFavs.length - 1;
       },
       getMyRecords() {
+        console.log(this.$store.getters.loadedRecords)
         return this.$store.getters.loadedRecords;
       }
     },

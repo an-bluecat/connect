@@ -711,6 +711,7 @@ export const store = new Vuex.Store({
           const obj = data.val()
           for (let key in obj) {
             records.push({
+              classname: obj[key].classname,
               id: key,
               comment: obj[key].comment,
               time: obj[key].time,
