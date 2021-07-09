@@ -146,17 +146,17 @@
 
                 <v-list-item :key="index">
                   <v-list-item-avatar>
-                    <!-- {{item.show_name}} -->
-                    <v-img v-if="item.show_name" :src="item.avatar"></v-img>
-                    <v-avatar v-else color="#55798F" size="40">
-                      <v-icon dark> mdi-account-circle </v-icon>
+                    <v-avatar color="#55798F" size="40">
+                      <v-img v-if="item.user && item.show_name && item.avatar" :src="item.avatar"></v-img>
+                      <span v-else-if="item.user && item.show_name">{{getSX(item.displayname)}}</span>
+                      <v-icon v-else dark> mdi-account-circle </v-icon>
                     </v-avatar>
-
                   </v-list-item-avatar>
 
                   <v-list-item-content>
-                    <v-list-item-title class="mb-2 font-weight-medium" v-if="item.show_name">{{ item.displayname }}</v-list-item-title>
-                    <v-list-item-title class="mb-2 font-weight-medium" v-else>Anonymous <{{discipline}}> student</v-list-item-title>
+                    <v-list-item-title class="mb-2 font-weight-medium" v-if="item.user && item.show_name">{{ item.displayname }}</v-list-item-title>
+                    <v-list-item-title class="mb-2 font-weight-medium" v-else-if="item.discipline ">Anonymous {{item.discipline}}  student</v-list-item-title>
+                    <v-list-item-title class="mb-2 font-weight-medium" v-else>Anonymous student</v-list-item-title>
                         
                     <v-row>
                       <v-col cols="12" xs="6" sm="6" md="6" lg="6" xl="6">
@@ -366,7 +366,7 @@ export default {
     // console.log(111);
     //getFavs
     this.$store.dispatch("loadedFav", this.$route.params.name);
-    this.discipline = '';
+    // this.discipline = '';
     this.discipline = this.$store.getters.userProfile.discipline;
   },
   computed: {   
@@ -377,7 +377,15 @@ export default {
       return this.$store.getters.userProfile.emailVerified;
     }, 
     getSX() {
-      let Abbreviations = this.$store.getters.user != null ? this.$store.getters.user.email.substr(0, 1).toUpperCase() : 'unknown'
+      return function(value) {
+        if(value.length > 0) {
+          return value.substr(0, 1).toUpperCase();
+        }else {
+          return '';
+        }
+        
+      }
+      let Abbreviations = this.$store.getters.user != null ? displayName.substr(0, 1).toUpperCase() : ''
       return Abbreviations;
     },
     loadedFav() {
@@ -485,7 +493,7 @@ export default {
 
       const files = this.$store.getters.loadedComments;
       var targetFile = [];
-
+      
       for (let filenum in this.$store.getters.loadedComments) {
         targetFile.push(files[filenum]);
       }

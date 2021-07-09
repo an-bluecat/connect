@@ -32,6 +32,13 @@ export const store = new Vuex.Store({
   // mutate state
   // called by commit "actions" part of this same file
   mutations: {
+    reset (state) {
+      state.signLoading = false;
+      state.saveLoading = false;
+      state.uploadLoading = false;
+      state.verifyLoading = false;
+      state.loading = false;
+    },
     setLoadedfileUploads (state, payload) {
       state.loadedfileUploads = payload
     },
@@ -114,12 +121,14 @@ export const store = new Vuex.Store({
             })
           }
           commit('setLoadedfileUploads', fileUploads)
-          commit('setLoading', false)
+          // commit('setLoading', false)
+          commit('reset');
         })
         .catch(
           (error) => {
             console.log(error)
-            commit('setLoading', false)
+            // commit('setLoading', false)
+            commit('reset');
           }
         )
     },
@@ -146,12 +155,14 @@ export const store = new Vuex.Store({
             })
           }
           commit('setLoadedRatings', fileUploads)
-          commit('setLoading', false)
+          // commit('setLoading', false)
+          commit('reset');
         })
         .catch(
           (error) => {
             console.log(error)
-            commit('setLoading', false)
+            // commit('setLoading', false)
+            commit('reset');
           }
         )
     },
@@ -196,6 +207,7 @@ export const store = new Vuex.Store({
                 show_name: obj[key].show_name,
                 avatar: obj[key].avatar,
                 displayname: obj[key].displayname,
+                discipline: obj[key].discipline,
               })
             }
           }
@@ -210,12 +222,14 @@ export const store = new Vuex.Store({
           //   })
           // }
           commit('setLoadedComments', fileUploads)
-          commit('setLoading', false)
+          // commit('setLoading', false)
+          commit('reset');
         })
         .catch(
           (error) => {
             console.log(error)
-            commit('setLoading', false)
+            // commit('setLoading', false)
+            commit('reset');
           }
         )
     },
@@ -325,7 +339,16 @@ export const store = new Vuex.Store({
     addComment ({commit, getters}, payload) {
       let key
       const classname = payload.classname
-
+      if(payload.user) {
+        var photoURL = firebase.auth().currentUser.photoURL ? firebase.auth().currentUser.photoURL : '';
+        var displayname = firebase.auth().currentUser.displayName ? firebase.auth().currentUser.displayName :　firebase.auth().currentUser.email
+        var discipline = '';
+        
+      }else {
+        var photoURL = "";
+        var displayname = "";
+        var discipline = payload.discipline;
+      }
       const fileUpload = {
         user: payload.user,
         comment: payload.comment,
@@ -336,8 +359,9 @@ export const store = new Vuex.Store({
         usefulness: payload.usefulness,
         pname: payload.pname, // prof's name
         show_name: payload.show_name,
-        avatar: firebase.auth().currentUser.photoURL,
-        displayname: firebase.auth().currentUser.displayName
+        avatar: photoURL,
+        displayname: displayname,
+        discipline: discipline
       }
       // push json information to database
       firebase.database().ref(classname).child('comment').push(fileUpload)
@@ -355,30 +379,33 @@ export const store = new Vuex.Store({
         .catch((error) => {
           console.log(error)
         })
-        //push user records
-        let userRecords = {
-          comment: payload.comment,
-          pname: payload.pname,
-          classname: payload.classname,
-          rate: payload.rate,
-          time: payload.time,
-          usefulness: payload.usefulness,
-          show_name: payload.show_name,
-          avatar: firebase.auth().currentUser.photoURL,
-          displayname: firebase.auth().currentUser.displayName
+        if(payload.user) {
+          //push user records
+          let userRecords = {
+            comment: payload.comment,
+            pname: payload.pname,
+            classname: payload.classname,
+            rate: payload.rate,
+            time: payload.time,
+            usefulness: payload.usefulness,
+            show_name: payload.show_name,
+            avatar: firebase.auth().currentUser.photoURL,
+            displayname: firebase.auth().currentUser.displayName,
+            discipline: payload.discipline
+          }
+          const uid = this.state.userProfile.uid;
+          // firebase.database().ref('user/-'+uid).child('fav').once('value')
+          firebase.database().ref('user/-' + uid).child('records').push(userRecords)
+          .then((data) => {
+            return data.key
+          })
+          .then(() => {
+            // commit('addRating', {...userRecords,id:key})
+            console.log('success');
+          }).catch((error) => {
+            console.log(error);
+          })
         }
-        const uid = this.state.userProfile.uid;
-        // firebase.database().ref('user/-'+uid).child('fav').once('value')
-        firebase.database().ref('user/-' + uid).child('records').push(userRecords)
-        .then((data) => {
-          return data.key
-        })
-        .then(() => {
-          // commit('addRating', {...userRecords,id:key})
-          console.log('success');
-        }).catch((error) => {
-          console.log(error);
-        })
     },    
     signUserUp ({commit}, payload) {
       // loading
@@ -387,13 +414,20 @@ export const store = new Vuex.Store({
       firebase.auth().createUserWithEmailAndPassword(payload.email, payload.password)
         .then(
           user => {
-            commit('setSignLoading', false) // not loading anymore
+            // commit('setSignLoading', false) // not loading anymore
+            commit('reset');
             const newUser = {
               id: user.uid,
               registeredfileUploads: []
             }
             // commit('setUser', newUser)
-            firebase.auth().currentUser.sendEmailVerification()
+            var actionCodeSettings = {
+              // url: 'https://uofthub.com/?email=' + firebase.auth().currentUser.email,
+              url: 'https://uofthub.firebaseapp.com/?email=' + firebase.auth().currentUser.email,
+              // handleCodeInApp: false,
+              // dynamicLinkDomain: "example.page.link"
+            };
+            firebase.auth().currentUser.sendEmailVerification(actionCodeSettings)
             // firebase.auth().sendSignInLinkToEmail(payload.email, actionCodeSettings)
             // .then(() => {
             //   // The link was successfully sent. Inform the user.
@@ -411,7 +445,8 @@ export const store = new Vuex.Store({
         )
         .catch(
           error => {
-            commit('setSignLoading', false) // not loading anymore
+            // commit('setSignLoading', false) // not loading anymore
+            commit('reset');
             commit('setError', error) // saves the error
             console.log(error)
           }
@@ -428,7 +463,8 @@ export const store = new Vuex.Store({
             if(user.user.emailVerified==false){
               firebase.auth().signOut()
               commit('setError', Error("Email not verified, please check your junk box for the link"))
-              commit('setSignLoading', false)
+              // commit('setSignLoading', false)
+              commit('reset');
             }
             else{
               const newUser = {
@@ -437,13 +473,15 @@ export const store = new Vuex.Store({
                 email: payload.email
               }
               commit('setUser', newUser)
-              commit('setSignLoading', false)
+              // commit('setSignLoading', false)
+              commit('reset');
             }
           }
         )
         .catch(
           error => {
-            commit('setSignLoading', false)
+            // commit('setSignLoading', false)
+            commit('reset');
             commit('setError', error)
             console.log(error)
           }
@@ -483,10 +521,12 @@ export const store = new Vuex.Store({
       .then(() => {
         // Email verification sent!
         // ...
-        commit('setVerifyLoading', false);
+        // commit('setVerifyLoading', false);
+        commit('reset');
       }).catch((error) => {
         console.log(error);
-        commit('setVerifyLoading', false);
+        // commit('setVerifyLoading', false);
+        commit('reset');
       });
     },
     //改 user name + discipline
@@ -505,19 +545,28 @@ export const store = new Vuex.Store({
           firebase.database().ref('user/-'+uid).set(userdata)
           .then((data) => {
             // ...
+            var profile = {
+              displayName: payload.displayName,
+              photoURL: user.photoURL,
+              emailVerified: user.emailVerified,
+              discipline: payload.discipline,
+            }
+            commit('setUserProfile', profile)
           })
         }
       }).then(() => {
         var profile = {
           displayName: payload.displayName,
           photoURL: user.photoURL,
-          emailVerified: user.emailVerified
+          emailVerified: user.emailVerified,
         }
         commit('setUserProfile', profile)
-        commit('setSaveLoading', false)
+        // commit('setSaveLoading', false)
+        commit('reset');
       })
       .catch((error) => {
-        commit('setSaveLoading', false)
+        // commit('setSaveLoading', false)
+        commit('reset');
         console.log(error)
       }); 
     },
@@ -544,15 +593,18 @@ export const store = new Vuex.Store({
             photoURL: imageUrl
           }
           commit('setUserProfile', profile)
-          commit('setUploadLoading', false);
+          // commit('setUploadLoading', false);
+          commit('reset');
         })
       }).catch((error) => {
         console.log(error)
-        commit('setUploadLoading', false);
+        // commit('setUploadLoading', false);
+        commit('reset');
       }); 
     },
     logout ({commit}) {
-      commit('setSignLoading', false)
+      // commit('setSignLoading', false)
+      commit('reset');
       firebase.auth().signOut()
       sessionStorage.clear()
       commit('setUser', null)
@@ -662,10 +714,12 @@ export const store = new Vuex.Store({
       commit('setSaveLoading', true)
       user.updatePassword(newPassword).then(() => {
         // Update successful.
-        commit('setSaveLoading', false)
+        // commit('setSaveLoading', false)
+        commit('reset');
       }).catch((error) => {
         // An error ocurred
-        commit('setSaveLoading', false)
+        // commit('setSaveLoading', false)
+        commit('reset');
         console.log(error);
       });
     }

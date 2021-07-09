@@ -55,6 +55,13 @@
                         <v-icon light>loading</v-icon>
                        </span>
                     </v-btn>
+                    <v-alert
+                      v-if="showEmailSucc"
+                      class="mt-2 mb-n1"
+                      dense
+                      dismissible
+                      type="success"
+                    >Verification email sent! Check your junk box for the link.</v-alert>
                   </v-flex>
                 </v-layout>
               </form>
@@ -75,12 +82,13 @@
           // v => /.+@.+\..+/.test(v) || 'E-mail must be valid',
           // v => (v.endsWith("utoronto.ca")) || 'Please use your U of T Email',
         ],
+        showEmailSucc: false
       }
     },
     computed: {
       // check if password and confirmPassword input is the same
       comparePasswords () {
-        return this.password !== this.confirmPassword ? 'Passwords do not match' : ''
+        return this.password !== this.confirmPassword ? 'Passwords do not match' : true
       },
       // checkMail () {
       //   var correct = this.email.endsWith("utoronto.ca")
@@ -105,6 +113,12 @@
       //     this.$router.push('/about')
       //   }
       // }
+      loading (curval, oldval) {
+        if(!curval) {
+          this.showEmailSucc = true;
+          setTimeout(() => (this.showEmailSucc = false), 4000)
+        }
+      },
     },
     methods: {
       onSignup () {

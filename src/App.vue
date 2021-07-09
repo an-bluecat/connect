@@ -1,6 +1,6 @@
 <template>
 
-  <v-app>
+  <v-app id="sprite">
 
     <div style="position: absolute;top:0;right:0;z-index: 11">
       <TopPanel/>
@@ -16,27 +16,25 @@
     </main>
 
 
-    <!-- <v-footer
-      app
-      color="primary lighten-1"
-      padless
-      
-    >
-      <v-row
-        justify="center"
-        no-gutters
-      >
+    <v-row>
+      <v-col>
         <v-btn
-          v-for="link in links"
-          :key="link"
-          color="white"
-          text
-          rounded
+          v-show="showContact"
+          class="contact"
+          color="primary"
+          dark
+          href="mailto:uofthub@gmail.com"
         >
-          {{ link }}
+          contact us
+          <v-icon
+            dark
+            right
+          >
+            mdi-email
+          </v-icon>
         </v-btn>
-      </v-row>
-    </v-footer> -->
+      </v-col>
+    </v-row>
 
     
   </v-app>
@@ -56,10 +54,13 @@ export default {
     return {
       path: '',
       showPath: true,
-      links: [
-        'Contact Us',
-      ],
+      scroll: '',
+      showContact: false,
+      height: ''
     }
+  },
+  created() {
+    this.$store.commit('reset');
   },
   computed: {
     userIsAuthenticated () {
@@ -80,6 +81,18 @@ export default {
       this.showPath = true;
     }else {
       this.showPath = false;
+    }
+    //监听滚动高度
+    window.addEventListener('scroll',this.handleScroll)
+  },
+  methods: {
+    handleScroll(){
+        this.scroll = document.documentElement.scrollTop || document.body.scrollTop
+        if(this.scroll >　100) {
+          this.showContact = true;
+        }else {
+          this.showContact = false;
+        }
     }
   },
   watch:{
@@ -105,5 +118,10 @@ export default {
 .inspire {
   height: 100vh;
   width: 100vw;
+}
+.contact {
+  position:fixed;
+  bottom:0;
+  right:0;
 }
 </style>

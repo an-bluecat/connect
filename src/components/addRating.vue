@@ -72,9 +72,19 @@
             <v-layout row v-show="showArea">
               <v-flex  cols="12" xs="12" sm="12" md="9" lg="9" xl="9">
                 <v-checkbox
+                  v-show="showUserName"
                   v-model="formData.showName"
                   label="show your username and profule picture"
                 ></v-checkbox>
+                <!-- <v-list-item-title class="text-h8 font-weight-medium black--text">Disciplines</v-list-item-title> -->
+                <v-col class="mt-n4 ml-n2" col="12" xl="5" lg="5" md="5" sm="5" xs="5">
+                  <v-select
+                    v-show="!showUserName"
+                    :items="disciplines"
+                    label="your discipline(optional)"
+                    v-model="formData.discipline"
+                  ></v-select>
+                </v-col>
               </v-flex>
             </v-layout>
             <v-layout row>
@@ -113,11 +123,13 @@ export default {
         usefulness: -1,
         timestamp: "",
         pname: "",
-        showName: true
+        showName: true,
+        discipline: ''
       },
       // rateoptions: [0,1,2,3,4,5],
       //userinfo
       email: '',
+      disciplines: ['Chem', 'Civ', 'ECE', 'EngSci', 'Indy', 'MSE', 'Mech', 'Min', 'Others'],
     }
   },
   created() {
@@ -172,6 +184,9 @@ export default {
     },
     showArea() {
       return this.formData.comment == '' ? false : true
+    },
+    showUserName() {
+      return this.$store.getters.user ? true : false
     }
   },
 
@@ -202,7 +217,7 @@ export default {
         var time = new Date();
 
         const now = time.getFullYear()+'-'+(time.getMonth()+1)+'-'+time.getDate();
-        const user = this.$store.getters.user ? this.$store.getters.user : 'unknown';
+        const user = this.$store.getters.user ? this.$store.getters.user : '';
         const comment = {
           "classname": this.classname, 
           "user": user, 
@@ -212,7 +227,8 @@ export default {
           "rate": this.formData.rate,
           "pname": this.formData.pname,
           "usefulness": this.formData.usefulness,
-          "show_name": this.formData.showName
+          "show_name": this.formData.showName,
+          "discipline": this.formData.discipline
         }
         this.$store.dispatch('addRating', comment)
         if (this.formData.comment.trim()!=""){
