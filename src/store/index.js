@@ -342,7 +342,7 @@ export const store = new Vuex.Store({
       if(payload.user) {
         var photoURL = firebase.auth().currentUser.photoURL ? firebase.auth().currentUser.photoURL : '';
         var displayname = firebase.auth().currentUser.displayName ? firebase.auth().currentUser.displayName :　firebase.auth().currentUser.email
-        var discipline = '';
+        var discipline = payload.discipline;
         
       }else {
         var photoURL = "";
@@ -423,7 +423,7 @@ export const store = new Vuex.Store({
             // commit('setUser', newUser)
             var actionCodeSettings = {
               // url: 'https://uofthub.com/?email=' + firebase.auth().currentUser.email,
-              url: 'https://uofthub.firebaseapp.com/?email=' + firebase.auth().currentUser.email,
+              url: 'https://uofthub.ca/?email=' + firebase.auth().currentUser.email,
               // handleCodeInApp: false,
               // dynamicLinkDomain: "example.page.link"
             };
@@ -529,7 +529,7 @@ export const store = new Vuex.Store({
         commit('reset');
       });
     },
-    //改 user name + discipline
+    //改 user name
     updateProfile ({commit}, payload) {
       commit('setSaveLoading', true);
       const user = firebase.auth().currentUser;
@@ -537,39 +537,49 @@ export const store = new Vuex.Store({
         displayName: payload.displayName,
         // photoURL: user.photoURL
       }).then(() => {
-        if(payload.discipline != '') {
-          const uid = this.state.userProfile.uid;
-          const userdata = {
-            discipline: payload.discipline,
-          }
-          firebase.database().ref('user/-'+uid).set(userdata)
-          .then((data) => {
-            // ...
-            var profile = {
-              displayName: payload.displayName,
-              photoURL: user.photoURL,
-              emailVerified: user.emailVerified,
-              discipline: payload.discipline,
-            }
-            commit('setUserProfile', profile)
-          })
-        }
-      }).then(() => {
         var profile = {
           displayName: payload.displayName,
           photoURL: user.photoURL,
           emailVerified: user.emailVerified,
         }
         commit('setUserProfile', profile)
-        // commit('setSaveLoading', false)
+        commit('setSaveLoading', false)
         commit('reset');
       })
       .catch((error) => {
+        commit('setSaveLoading', false)
+        commit('reset');
+        console.log(error)
+      }); 
+    },
+
+
+
+    // 改 discipline
+    updateDiscipline ({commit}, payload) {
+      commit('setSaveLoading', true);
+      const user = firebase.auth().currentUser;
+      const uid = this.state.userProfile.uid;
+      firebase.database().ref('user/-'+uid).child('discipline').set(payload)
+      .then((data) => {
+        // ...
+        var profile = {
+          displayName: this.state.userProfile.displayName,
+          photoURL: user.photoURL,
+          emailVerified: user.emailVerified,
+          discipline: payload,
+        }
+        commit('setUserProfile', profile)
+        commit('setSaveLoading', false)
+      }).catch((error) => {
         // commit('setSaveLoading', false)
         commit('reset');
         console.log(error)
       }); 
     },
+
+
+
     //上传用户图片
     updatePhoto ({commit}, payload) {
       commit('setUploadLoading', true);

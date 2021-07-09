@@ -74,7 +74,7 @@
                 <v-checkbox
                   v-show="showUserName"
                   v-model="formData.showName"
-                  label="show your username and profule picture"
+                  label="Show your username and profile picture"
                 ></v-checkbox>
                 <!-- <v-list-item-title class="text-h8 font-weight-medium black--text">Disciplines</v-list-item-title> -->
                 <v-col class="mt-n4 ml-n2" col="12" xl="5" lg="5" md="5" sm="5" xs="5">
@@ -123,7 +123,7 @@ export default {
         usefulness: -1,
         timestamp: "",
         pname: "",
-        showName: true,
+        showName: false,
         discipline: ''
       },
       // rateoptions: [0,1,2,3,4,5],
@@ -136,8 +136,21 @@ export default {
       setInterval(this.getNow, 1000);
 
   },
+  mounted() {
+
+    if(this.$store.getters.user != null) {
+        this.$store.dispatch('getUserProfile', {})
+        // this.displayName = this.$store.getters.userProfile.displayName;
+        // this.formData.discipline = this.$store.getters.userProfile.discipline;
+        // console.log("this.formData.discipline",this.formData.discipline)
+    }
+
+  },
   computed: {
     // make sure rating is completed / rating 必填，其他选填
+    userLoggedIn(){
+      return this.$store.getters.user != null ;
+    }, 
     formIsValid () {
       return this.formData.rate!=-1 && this.formData.usefulness!=-1;
       //return this.rate == 0 || this.rate == 1 || this.rate == 2 || this.rate == 3 || this.rate == 4 || this.rate == 5
@@ -218,6 +231,10 @@ export default {
 
         const now = time.getFullYear()+'-'+(time.getMonth()+1)+'-'+time.getDate();
         const user = this.$store.getters.user ? this.$store.getters.user : '';
+        if(this.userLoggedIn){
+          this.formData.discipline = this.$store.getters.userProfile.discipline;
+          console.log("this.formData.discipline",this.formData.discipline)
+        }
         const comment = {
           "classname": this.classname, 
           "user": user, 

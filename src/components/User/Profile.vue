@@ -64,7 +64,8 @@
                     ></v-file-input>
                 </v-flex>
               </v-layout>
-              <v-list-item-title class="text-h6 font-weight-medium pt-6 black--text">Email Verified</v-list-item-title>
+              <!-- 邮件部分 -->
+              <!-- <v-list-item-title class="text-h6 font-weight-medium pt-6 black--text">Email Verified</v-list-item-title>
               <v-list-item-subtitle class="headline mt-4">
                 Status：
                   <v-btn v-if="!emailVerified" @click="verify" color="primary" :disabled="verifyloading" :loading="verifyloading">
@@ -79,9 +80,9 @@
                   <v-col col="12" xl="4" lg="4" md="4" sm="12" xs="12">
                     <v-alert v-show="showEmailSuccess" dismissible dense type="success">Mail has been sent!</v-alert>
                   </v-col>
-              </v-list-item-subtitle>
+              </v-list-item-subtitle> -->
               <v-list-item-title class="text-h6 font-weight-medium black--text">User name</v-list-item-title>
-              <v-layout row class="py-3">
+              <v-layout row>
                 <v-col col="12" xl="5" lg="5" md="5" sm="10" xs="10">
                   <v-text-field
                     name="displayName"
@@ -93,14 +94,7 @@
                 </v-col>
 
               </v-layout>
-              <v-list-item-title class="text-h6 font-weight-medium black--text">Disciplines</v-list-item-title>
-              <v-col col="12" xl="5" lg="5" md="5" sm="5" xs="5">
-                <v-select
-                  :items="disciplines"
-                  label="discipline"
-                  v-model="discipline"
-                ></v-select>
-              </v-col>
+              
               <v-col col="12" xl="5" lg="5" md="5" sm="10" xs="10">
                 <v-btn class="btn" color="primary" type="submit" :disabled="loading" :loading="loading">
                   Save
@@ -109,12 +103,22 @@
                     </span>
                 </v-btn>
               </v-col>
-              <v-col class="mt-2" col="12" xl="5" lg="5" md="5" sm="5" xs="5">
-                  <v-alert v-show="showSucTips" dismissible dense prominent type="success">profile saved!</v-alert>
-                  <v-alert v-show="showErrTips" dismissible dense prominent type="error">something error!</v-alert>
-              </v-col>
+
 
             </form>
+            <v-list-item-title class="text-h6 font-weight-medium black--text">Discipline</v-list-item-title>
+              <v-col col="12" xl="5" lg="5" md="5" sm="5" xs="5">
+                <v-select 
+                  :items="disciplines"
+                  label="discipline"
+                  v-model="discipline"
+                  @change="updateDiscipline()"
+                ></v-select>
+              </v-col>
+              <v-col class="mt-2" col="12" xl="5" lg="5" md="5" sm="5" xs="5">
+                  <v-alert v-show="showSucTips" dismissible dense prominent type="success">profile saved!</v-alert>
+                  <v-alert v-show="showErrTips" dismissible dense prominent type="error">error!</v-alert>
+              </v-col>
           </v-card-text>
         </v-card>
         <v-dialog
@@ -358,7 +362,6 @@
     mounted() {
       if(this.userLoggedIn) {
         this.$store.dispatch('getUserProfile', {})
-        this.displayName = '';this.discipline = '';
         this.displayName = this.$store.getters.userProfile.displayName;
         this.discipline = this.$store.getters.userProfile.discipline;
         // console.log(JSON.stringify(this.$store.getters.userProfile));
@@ -467,7 +470,10 @@
         this.$store.dispatch('updatePhoto', {photoURL: this.image})
       },
       updateProfile() {
-        this.$store.dispatch('updateProfile', {displayName: this.displayName,discipline: this.discipline})
+        this.$store.dispatch('updateProfile', {displayName: this.displayName})
+      },
+      updateDiscipline() {
+        this.$store.dispatch('updateDiscipline', this.discipline)
       },
       modifyPassword() {
         this.$store.dispatch('updatePassword', this.newPassword)
