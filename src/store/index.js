@@ -417,20 +417,28 @@ export const store = new Vuex.Store({
           }
         )
     },
+
+    // signin有漏洞，以后改！
     signUserIn ({commit}, payload) {
       commit('setSignLoading', true)
       commit('clearError')
       firebase.auth().signInWithEmailAndPassword(payload.email, payload.password)
         .then(
           user => {
-            commit('setSignLoading', false)
-            const newUser = {
-              // id: user.uid, buggy???
-              id: user.user.uid,
-              registeredfileUploads: [],
-              email: payload.email
+            if(user.user.emailVerified==false){
+              firebase.auth().signOut()
+              commit('setError', Error("Email not verified, please check your junk box for the link"))
+              commit('setSignLoading', false)
             }
-            commit('setUser', newUser)
+            else{
+              const newUser = {
+                id: user.user.uid,
+                registeredfileUploads: [],
+                email: payload.email
+              }
+              commit('setUser', newUser)
+              commit('setSignLoading', false)
+            }
           }
         )
         .catch(

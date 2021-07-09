@@ -478,7 +478,7 @@ export default {
           targetFile.push(files[filenum]);
         }
       }
-      this.$store.dispatch("loadfileUploads", this.$route.params.name);
+      // this.$store.dispatch("loadfileUploads", this.$route.params.name);
       return targetFile;
     },
     showComments() {
