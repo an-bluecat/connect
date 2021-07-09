@@ -69,7 +69,9 @@
                   ></v-textarea>
               </v-flex>
             </v-layout>
-            <v-layout row v-show="showArea">
+            <!-- <v-layout row v-show="showArea"> -->
+            <v-layout row>
+
               <v-flex  cols="12" xs="12" sm="12" md="9" lg="9" xl="9">
                 <v-checkbox
                   v-show="showUserName"
@@ -81,7 +83,7 @@
                   <v-select
                     v-show="!showUserName"
                     :items="disciplines"
-                    label="your discipline(optional)"
+                    label="Your discipline(optional)"
                     v-model="formData.discipline"
                   ></v-select>
                 </v-col>
@@ -130,6 +132,8 @@ export default {
       //userinfo
       email: '',
       disciplines: ['Chem', 'Civ', 'ECE', 'EngSci', 'Indy', 'MSE', 'Mech', 'Min', 'Others'],
+      // disciplines: ['ECE', 'EngSci', 'Indy', 'Chem', 'Mech', 'Civ', 'MSE', 'Min', 'Others'],
+
     }
   },
   created() {
@@ -142,11 +146,7 @@ export default {
     }
 
   },
-  mounted() {
 
-
-
-  },
   computed: {
     // make sure rating is completed / rating 必填，其他选填
     userLoggedIn(){

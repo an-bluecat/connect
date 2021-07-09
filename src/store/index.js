@@ -38,6 +38,7 @@ export const store = new Vuex.Store({
       state.uploadLoading = false;
       state.verifyLoading = false;
       state.loading = false;
+      state.error = null
     },
     setLoadedfileUploads (state, payload) {
       state.loadedfileUploads = payload
@@ -120,7 +121,6 @@ export const store = new Vuex.Store({
               // creatorId: obj[key].creatorId
             })
           }
-          commit('setLoadedfileUploads', fileUploads)
           // commit('setLoading', false)
           commit('reset');
         })
@@ -184,16 +184,17 @@ export const store = new Vuex.Store({
               obj[arr[i][1]] = arr[i][0];
           }
           
+          const comment_per_page=6;
           //先组一个数组
           const mlist = [];
-          let mkey = (payload.page-1)*4;
+          let mkey = (payload.page-1)*comment_per_page;
           if(obj != null) {
-            if((Object.keys(obj).length-mkey) < 4) {var limit = Object.keys(obj).length-mkey}else {var limit = 4}
+            if((Object.keys(obj).length-mkey) < comment_per_page) {var limit = Object.keys(obj).length-mkey}else {var limit = comment_per_page}
             for(var i=0;i<limit;i++) {
               mlist.push(mkey+i);
             }
             for(var i=0;i<mlist.length;i++) {
-              //根据payload.page 和  来决定输出  1=> 0-4 2=>5->9
+              //根据payload.page 和  来决定输出  1=> 0-6 2=>6->12
               let key = Object.keys(obj)[mlist[i]];
               fileUploads.push({
                 id: key,
@@ -418,33 +419,34 @@ export const store = new Vuex.Store({
         handleCodeInApp: false,
         // dynamicLinkDomain: "example.page.link"
       };
-      console.log("payload",payload)
+
       // firebase.auth().sendSignInLinkToEmail(payload.email, actionCodeSettings)
       firebase.auth().createUserWithEmailAndPassword(payload.email, payload.password)
       .then(
           user => {
             commit('setSignLoading', false) // not loading anymore
             // commit('reset');
-            const newUser = {
-              id: user.uid,
-              registeredfileUploads: []
-            }
-            // commit('setUser', newUser)
+            // const newUser = {
+            //   id: user.uid,
+            //   registeredfileUploads: []
+            // }
+
+            //设置用户名为邮箱前缀
+            console.log(payload.email.split("@")[0])
+            var user1 = firebase.auth().currentUser;
+            user1.updateProfile({
+              displayName: payload.email.split("@")[0]
+              // photoURL: user.photoURL
+            })
             
             firebase.auth().currentUser.sendEmailVerification(actionCodeSettings)
-            // firebase.auth().sendSignInLinkToEmail(payload.email, actionCodeSettings)
-            // .then(() => {
-            //   // The link was successfully sent. Inform the user.
-            //   // Save the email locally so you don't need to ask the user for it again
-            //   // if they open the link on the same device.
-            //   window.localStorage.setItem('emailForSignIn', email);
-            //   // ...
-            // })
-            // .catch((error) => {
-            //   var errorCode = error.code;
-            //   var errorMessage = error.message;
-            //   // ...
-            // });
+            console.log(user1)
+            console.log(user)
+            //设置discipline！
+            // dispatch('updateDiscipline', payload.discipline)
+            const uid = user1.uid;
+            firebase.database().ref('user/-'+uid).child('discipline').set(payload.discipline)
+            
           }
         )
         .catch(
@@ -466,9 +468,10 @@ export const store = new Vuex.Store({
           user => {
             if(user.user.emailVerified==false){
               firebase.auth().signOut()
+              console.log("Email not verified")
               commit('setError', Error("Email not verified, please check your junk box for the link"))
-              // commit('setSignLoading', false)
-              commit('reset');
+              commit('setSignLoading', false)
+              // commit('reset');
             }
             else{
               const newUser = {

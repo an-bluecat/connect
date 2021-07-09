@@ -49,6 +49,17 @@
                 </v-layout>
                 <v-layout row>
                   <v-flex xs12>
+                    <v-select 
+                      :items="disciplines"
+                      label="discipline"
+                      v-model="discipline"
+                    >
+                    <!-- <input:required="!discipline"/> -->
+                    </v-select>
+                  </v-flex>
+                </v-layout>
+                <v-layout row>
+                  <v-flex xs12>
                     <v-btn color="primary" style="width: 100%;" type="submit" :disabled="loading" :loading="loading">
                       Sign up
                        <span slot="loader" class="custom-loader">
@@ -82,13 +93,18 @@
           // v => /.+@.+\..+/.test(v) || 'E-mail must be valid',
           // v => (v.endsWith("utoronto.ca")) || 'Please use your U of T Email',
         ],
-        showEmailSucc: false
+        showEmailSucc: false,
+        discipline: "",
+        disciplines: ['Chem', 'Civ', 'ECE', 'EngSci', 'Indy', 'MSE', 'Mech', 'Min', 'Others'],
       }
     },
     computed: {
       // check if password and confirmPassword input is the same
       comparePasswords () {
         return this.password !== this.confirmPassword ? 'Passwords do not match' : true
+      },
+      disciplinereq() {
+        return this.discipline !== "" ? "Please select your discipline" : true
       },
       // checkMail () {
       //   var correct = this.email.endsWith("utoronto.ca")
@@ -124,7 +140,7 @@
       onSignup () {
         // if(this.email.endsWith("utoronto.ca")){
           console.log("this.email",this.email)
-          this.$store.dispatch('signUserUp', {"email": this.email, "password": this.password});
+          this.$store.dispatch('signUserUp', {"email": this.email, "password": this.password, "discipline": this.discipline});
           // this.$router.replace('/');
           // location.reload();
         // }
