@@ -167,7 +167,11 @@
         // var time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
         // var dateTime = date+' '+time;
         var dateTime = today
-        const user = this.$store.getters.user ? this.$store.getters.user : 'unknown';
+        var user = this.$store.getters.user ? this.$store.getters.user : 'unknown';
+        if(user["email"]=="test2@mail.utoronto.ca"){
+          user="unknown"
+        }
+        console.log(user)
         const fileUploadData = {
           type: this.type,
           // location: this.location,
