@@ -175,6 +175,7 @@ export const store = new Vuex.Store({
           const fileUploads = []
           const obj1 = data.val() // .val() will get you the value of the response
 
+          // obj是最后用到的
           var arr = [];
           for (var i in obj1) {
               arr.push([obj1[i],i]);
@@ -186,7 +187,7 @@ export const store = new Vuex.Store({
               obj[arr[i][1]] = arr[i][0];
           }
           
-          const comment_per_page=6;
+          const comment_per_page=4;
           //先组一个数组
           const mlist = [];
           let mkey = (payload.page-1)*comment_per_page;

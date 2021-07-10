@@ -11,7 +11,7 @@
     </v-layout>
       <v-flex >
               <!-- stop the form from submitting the normal way and execute myFunction() instead -->
-              <form @submit.prevent="onSignup">
+              <form @submit.prevent="onSignup" v-if="!showEmailSucc">
                 <v-layout row>
                   <v-flex xs12>
                     <v-text-field
@@ -66,16 +66,18 @@
                         <v-icon light>loading</v-icon>
                        </span>
                     </v-btn>
-                    <v-alert
-                      v-if="showEmailSucc"
-                      class="mt-2 mb-n1"
-                      dense
-                      dismissible
-                      type="success"
-                    >Verification email sent! Check your junk box for the link.</v-alert>
+                    
                   </v-flex>
                 </v-layout>
+                
               </form>
+              <v-alert
+                      v-if="showEmailSucc"
+                      class="mt-2 mb-n1"
+                      
+                      dismissible
+                      type="success"
+              >Verification email sent! <span class="">check your <span class=" black--text font-weight-bold">"JUNK" FOLDER</span></span> for the link.</v-alert>
       </v-flex>
   </v-container>
 </template>
@@ -133,7 +135,7 @@
       loading (curval, oldval) {
         if(!curval && !this.error) {
           this.showEmailSucc = true;
-          setTimeout(() => (this.showEmailSucc = false), 10000)
+          // setTimeout(() => (this.showEmailSucc = false), 10000)
         }
       },
     },
@@ -143,8 +145,9 @@
                             this.discipline!=''
                              && this.confirmPassword!=''
                               && this.password!=''){
-
+          
           this.$store.dispatch('signUserUp', {"email": this.email, "password": this.password, "discipline": this.discipline});
+          console.log("email sent")
           // this.$router.replace('/');
           // location.reload();
         }
