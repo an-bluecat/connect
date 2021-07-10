@@ -105,6 +105,7 @@ export const store = new Vuex.Store({
       // once('value'): get the snapshot once
       firebase.database().ref(payload).child('files').once('value')
         .then((data) => {
+
           const fileUploads = []
           const obj = data.val() // .val() will get you the value of the response
           // data.val is an object, not an array
@@ -122,6 +123,7 @@ export const store = new Vuex.Store({
             })
           }
           // commit('setLoading', false)
+          commit('setLoadedfileUploads', fileUploads)
           commit('reset');
         })
         .catch(
@@ -461,12 +463,13 @@ export const store = new Vuex.Store({
 
     // signin有漏洞，以后改！
     signUserIn ({commit}, payload) {
+      const whitelist=["test2@mail.utoronto.ca"]
       commit('setSignLoading', true)
       commit('clearError')
       firebase.auth().signInWithEmailAndPassword(payload.email, payload.password)
         .then(
           user => {
-            if(user.user.emailVerified==false){
+            if(user.user.emailVerified==false && (whitelist.includes(payload.email)!=true)){
               firebase.auth().signOut()
               console.log("Email not verified")
               commit('setError', Error("Email not verified, please check your junk box for the link"))

@@ -339,6 +339,8 @@ export default {
       name: this.$route.params.name,
       page: this.page,
     });
+    
+    this.$store.dispatch("loadfileUploads", this.$route.params.name);
     const obj = this.pdata1;
     for (let key in obj) {
       for (var i = 0; i < obj[key].length; i++) {
@@ -479,6 +481,7 @@ export default {
     fileUploads() {
       //显示上传文件
       const files = this.$store.getters.loadedfileUploads;
+      console.log(files)
       var targetFile = [];
 
       if (files.length > 0) {
@@ -486,6 +489,7 @@ export default {
           targetFile.push(files[filenum]);
         }
       }
+      //这行是罪魁祸首：
       // this.$store.dispatch("loadfileUploads", this.$route.params.name);
       return targetFile;
     },

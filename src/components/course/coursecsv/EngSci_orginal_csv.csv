@@ -2,32 +2,32 @@ BME410 - Biomedical Systems Engineering,AER201H1 - Engineering Design,ACT370H1 -
 CIV102H1 - Structures and Materials - An Introduction to Engineering Design,AER210H1 - Vector Calculus and Fluid Mechanics,AER301H1 - Dynamics,AER302H1 - Aircraft Flight
 CSC180H1 - Introduction to Computer Programming,BME205H1 - Biomolecules and Cells,AER302H1 - Aircraft Flight,AER307H1 - Aerodynamics
 CSC190H1 - Computer Algorithms and Data Structures,CHE260H1 - Thermodynamics and Heat Transfer,AER303H1 - Aerospace Laboratory I,AER336H1 - Scientific Computing
-ECE159H1 - Fundamentals of Electric Circuits,ECE253H1 - Digital and Computer Systems,AER304H1 - Aerospace Laboratory II,AER406H1 - Aircraft Design
-ESC101H1 - Praxis I,ECE259H1 - Electromagnetism,AER307H1 - Aerodynamics,AER407H1 - Space Systems Design
-ESC102H1 - Praxis II,ECE286H1 - Probability and Applications,AER310H1 - Gasdynamics,AER501H1 - Advanced Mechanics of Structures
-ESC103H1 - Engineering Mathematics and Computation,ESC203H1 - Engineering and Society,AER315H1 - Combustion Processes,AER503H1 - Aeroelasticity
-ESC180H1 - Introduction to Computer Programming,MAT292H1 - Calculus III,AER336H1 - Scientific Computing,AER506H1 - Spacecraft Dynamics and Control
-MAT185H1 - Linear Algebra,PHY293H1 - Waves and Modern Physics,AER372H1 - Control Systems,AER507H1 - Introduction to Fusion Energy
-MAT194H1 - Calculus I,PHY294H1 - Quantum and Thermal Physics,AER373H1 - Mechanics of Solids and Structures,AER510H1 - Aerospace Propulsion
-MAT195H1 - Calculus II,STA286H1 - Probability and Statistics,AER507H1 - Introduction to Fusion Energy,AER521H1 - Mobile Robotics and Perception
-MSE160H1 - Molecules and Materials,,APM384H1 - Partial Differential Equations,AER525H1 - Robotics
-PHY180H1 - Classical Mechanics,,APS305H1 - Energy Policy,APM384H1 - Partial Differential Equations
-BME410 - Biomedical Systems Engineering,,APS360H1 - Artificial Intelligence Fundamentals,APM446H1 - Applied Nonlinear Equations
-ESC180H1 - Introduction to Computer Programming,,AST320H1 -,APM466H1 - Mathematical Theory of Finance
-,,AST325H1 -,APS301H1 - Technology in Society and the Biosphere I
-,,"BME344H1 - ""Modeling, Dynamics, and Control of Biological Systems""",BME350H1 - Biomedical Engineering I: Organ Systems
-,,BME346H1 - Biomedical Engineering and Omics Technologies,BME395H1 - Biomedical Engineering II: Cells and Tissues
-,,BME350H1 - Biomedical Engineering I: Organ Systems,BME428H1 - Biomedical Engineering IV: Computational Systems Biology
-,,BME358H1 - Molecular Biophysics,BME430H1 - Human Whole Body Biomechanics
-,,BME395H1 - Biomedical Engineering II: Cells and Tissues,BME445H1 - Neural Bioelectricity
-,,BME396H1 - Biomedical Engineering III: Molecules and Cells,BME489H1 - Biomedical Systems Engineering Design
-,,BME460H1 - Biomaterial and Medical Device Product Development,BME595H1 - Medical Imaging
-,,BME510H1 - Regenerative Medicine,CHE374H1 - Economic Analysis and Decision Making
-,,BME595H1 - Medical Imaging,CHE412H1 - Advanced Reactor Design
-,,CHE308H1 - Chemical Processes for Energy Generation and Storage,CHE451H1 - Petroleum Processing
-,,CHE374H1 - Economic Analysis and Decision Making,CHE467H1 - Environmental Engineering
-,,CHE375H1 - Engineering Finance and Economics,CHE469H1 - Fuel Cells and Electrochemical Conversion Devices
-,,CHE390H1 - Physical and Inorganic Chemistry,CHE471H1 - Modelling in Biological and Chemical Systems
+"CSC192H1 - Computer Programming, Algorithms, Data Structures and Languages",ECE253H1 - Digital and Computer Systems,AER304H1 - Aerospace Laboratory II,AER406H1 - Aircraft Design
+ECE159H1 - Fundamentals of Electric Circuits,ECE259H1 - Electromagnetism,AER307H1 - Aerodynamics,AER407H1 - Space Systems Design
+ESC101H1 - Praxis I,ECE286H1 - Probability and Applications,AER310H1 - Gasdynamics,AER501H1 - Advanced Mechanics of Structures
+ESC102H1 - Praxis II,ESC203H1 - Engineering and Society,AER315H1 - Combustion Processes,AER503H1 - Aeroelasticity
+ESC103H1 - Engineering Mathematics and Computation,MAT292H1 - Calculus III,AER336H1 - Scientific Computing,AER506H1 - Spacecraft Dynamics and Control
+ESC180H1 - Introduction to Computer Programming,PHY293H1 - Waves and Modern Physics,AER372H1 - Control Systems,AER507H1 - Introduction to Fusion Energy
+MAT185H1 - Linear Algebra,PHY294H1 - Quantum and Thermal Physics,AER373H1 - Mechanics of Solids and Structures,AER510H1 - Aerospace Propulsion
+MAT194H1 - Calculus I,STA286H1 - Probability and Statistics,AER507H1 - Introduction to Fusion Energy,AER521H1 - Mobile Robotics and Perception
+MAT195H1 - Calculus II,AER201H1 - Engineering Design,APM384H1 - Partial Differential Equations,AER525H1 - Robotics
+MSE160H1 - Molecules and Materials,AER210H1 - Vector Calculus and Fluid Mechanics,APS305H1 - Energy Policy,APM384H1 - Partial Differential Equations
+PHY180H1 - Classical Mechanics,BME205H1 - Biomolecules and Cells,APS360H1 - Artificial Intelligence Fundamentals,APM446H1 - Applied Nonlinear Equations
+BME410 - Biomedical Systems Engineering,CHE260H1 - Thermodynamics and Heat Transfer,AST320H1 -,APM466H1 - Mathematical Theory of Finance
+CIV102H1 - Structures and Materials - An Introduction to Engineering Design,ECE253H1 - Digital and Computer Systems,AST325H1 -,APS301H1 - Technology in Society and the Biosphere I
+CSC180H1 - Introduction to Computer Programming,ECE259H1 - Electromagnetism,"BME344H1 - ""Modeling, Dynamics, and Control of Biological Systems""",BME350H1 - Biomedical Engineering I: Organ Systems
+CSC190H1 - Computer Algorithms and Data Structures,ECE286H1 - Probability and Applications,BME346H1 - Biomedical Engineering and Omics Technologies,BME395H1 - Biomedical Engineering II: Cells and Tissues
+"CSC192H1 - Computer Programming, Algorithms, Data Structures and Languages",ESC203H1 - Engineering and Society,BME350H1 - Biomedical Engineering I: Organ Systems,BME428H1 - Biomedical Engineering IV: Computational Systems Biology
+ECE159H1 - Fundamentals of Electric Circuits,MAT292H1 - Calculus III,BME358H1 - Molecular Biophysics,BME430H1 - Human Whole Body Biomechanics
+ESC101H1 - Praxis I,PHY293H1 - Waves and Modern Physics,BME395H1 - Biomedical Engineering II: Cells and Tissues,BME445H1 - Neural Bioelectricity
+ESC102H1 - Praxis II,PHY294H1 - Quantum and Thermal Physics,BME396H1 - Biomedical Engineering III: Molecules and Cells,BME489H1 - Biomedical Systems Engineering Design
+ESC103H1 - Engineering Mathematics and Computation,STA286H1 - Probability and Statistics,BME460H1 - Biomaterial and Medical Device Product Development,BME595H1 - Medical Imaging
+ESC180H1 - Introduction to Computer Programming,,BME510H1 - Regenerative Medicine,CHE374H1 - Economic Analysis and Decision Making
+MAT185H1 - Linear Algebra,,BME595H1 - Medical Imaging,CHE412H1 - Advanced Reactor Design
+MAT194H1 - Calculus I,,CHE308H1 - Chemical Processes for Energy Generation and Storage,CHE451H1 - Petroleum Processing
+MAT195H1 - Calculus II,,CHE374H1 - Economic Analysis and Decision Making,CHE467H1 - Environmental Engineering
+MSE160H1 - Molecules and Materials,,CHE375H1 - Engineering Finance and Economics,CHE469H1 - Fuel Cells and Electrochemical Conversion Devices
+PHY180H1 - Classical Mechanics,,CHE390H1 - Physical and Inorganic Chemistry,CHE471H1 - Modelling in Biological and Chemical Systems
 ,,CHE391H1 - Organic Chemistry and Biochemistry,CHE507H1 - Data-based Modelling for Prediction and Control
 ,,CHE471H1 - Modelling in Biological and Chemical Systems,"CHE562H1 - ""Applied Chemistry IV - Applied Polymer Chemistry, Science and Engineering"""
 ,,CHE475H1 - Biocomposites: Mechanics and Bioinspiration,CHE565H1 - Aqueous Process Engineering
