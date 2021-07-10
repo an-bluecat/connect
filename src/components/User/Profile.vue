@@ -410,7 +410,6 @@
         return this.$store.getters.loadedFavs.length - 1;
       },
       getMyRecords() {
-        console.log(this.$store.getters.loadedRecords)
         return this.$store.getters.loadedRecords;
       }
     },

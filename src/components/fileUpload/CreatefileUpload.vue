@@ -171,7 +171,6 @@
         if(user["email"]=="test2@mail.utoronto.ca"){
           user="unknown"
         }
-        console.log(user)
         const fileUploadData = {
           type: this.type,
           // location: this.location,

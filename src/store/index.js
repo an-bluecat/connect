@@ -404,7 +404,7 @@ export const store = new Vuex.Store({
           })
           .then(() => {
             // commit('addRating', {...userRecords,id:key})
-            console.log('success');
+            // console.log('success');
           }).catch((error) => {
             console.log(error);
           })
@@ -427,14 +427,9 @@ export const store = new Vuex.Store({
       .then(
           user => {
             commit('setSignLoading', false) // not loading anymore
-            // commit('reset');
-            // const newUser = {
-            //   id: user.uid,
-            //   registeredfileUploads: []
-            // }
+
 
             //设置用户名为邮箱前缀
-            console.log(payload.email.split("@")[0])
             var user1 = firebase.auth().currentUser;
             user1.updateProfile({
               displayName: payload.email.split("@")[0]
@@ -442,8 +437,6 @@ export const store = new Vuex.Store({
             })
             
             firebase.auth().currentUser.sendEmailVerification(actionCodeSettings)
-            console.log(user1)
-            console.log(user)
             //设置discipline！
             // dispatch('updateDiscipline', payload.discipline)
             const uid = user1.uid;

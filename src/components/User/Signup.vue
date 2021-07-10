@@ -2,11 +2,11 @@
   <v-container class="wrap">
     <!-- alert component, from ./Shared/Alert -->
     <v-layout row v-if="error">
-      <v-flex xs12 sm6 offset-sm3>
+      <v-flex>
           <!-- app-alert component is a self defined component, registered in main.js -->
           <!-- listen to dismissed event, called by onClose in alert.vue -->
           <!-- pass error.message to Alert -->
-        <app-alert @dismissed="onDismissed" :text="error.message"></app-alert>
+        <app-alert @dismissed="onDismissed" :text="error.message" width="100%"></app-alert>
       </v-flex>
     </v-layout>
       <v-flex >

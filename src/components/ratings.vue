@@ -148,7 +148,6 @@
         this.$router.push('/addrating/' + this.classname)
       },
       onclickoptions(option) {
-        console.log("option", option)
         if(option['title'] == "Discussion"){
           return this.$router.push('/course/' + this.classname)
         }

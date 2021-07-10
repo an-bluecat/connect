@@ -1,8 +1,8 @@
 <template>
   <v-container class="wrap">
     <v-layout row v-if="error">
-      <v-flex style="padding: 0 12px" >
-        <app-alert @dismissed="onDismissed" :text="error.message"></app-alert>
+      <v-flex style="padding: 0 2px" >
+        <app-alert @dismissed="onDismissed" :text="error.message" width="100%"></app-alert>
       </v-flex>
     </v-layout>
     <v-layout row>
@@ -63,7 +63,6 @@
         return this.$store.getters.error
       },
       loading () {
-        // console.log("this.$store.getters.signloading", this.$store.getters.signloading)
         return this.$store.getters.signloading
         // return false;
       }

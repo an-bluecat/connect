@@ -51,7 +51,7 @@
         >Sign In</v-toolbar>
 
         <signin></signin>
-        <div class="link" @click="signInVisible=false;signupVisible=true">sign up</div>
+        <div class="link" @click="signupClicked()">sign up</div>
         <v-btn style="width: 100%;"  @click="signInVisible=false;">
           cancel
         </v-btn>
@@ -68,7 +68,7 @@
         >Sign Up</v-toolbar>
 
         <signup></signup>
-        <div class="link" @click="signInVisible=true;signupVisible=false">sign in</div>
+        <div class="link" @click="signinClicked()">sign in</div>
         <v-btn style="width: 100%;" @click="signupVisible=false">
           cancel
         </v-btn>
@@ -175,6 +175,18 @@ export default {
       return this.$store.getters.userProfile.photoURL;
     },
   },
+  methods:{
+    signupClicked() {
+      this.signInVisible=false;
+      this.signupVisible=true;
+      this.$store.dispatch('clearError');
+    },
+    signinClicked() {
+      this.signInVisible=true;
+      this.signupVisible=false;
+      this.$store.dispatch('clearError')
+    }
+  }
 
 }
 </script>
