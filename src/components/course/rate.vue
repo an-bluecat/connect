@@ -146,9 +146,10 @@
 
                 <v-list-item :key="index">
                   <v-list-item-avatar>
-                    <v-avatar color="#55798F" size="40">
+                    <!-- <v-avatar color="#55798F" size="40"> -->
+                    <v-avatar :color="item.show_name ? 'primary':'#55798F'" size="40">
                       <v-img v-if="item.user && item.show_name && item.avatar" :src="item.avatar"></v-img>
-                      <span v-else-if="item.user && item.show_name">{{getSX(item.displayname)}}</span>
+                      <span v-else-if="item.user && item.show_name" class="white--text headline">{{getSX(item.displayname)}}</span>
                       <v-icon v-else dark> mdi-account-circle </v-icon>
                     </v-avatar>
                   </v-list-item-avatar>

@@ -89,9 +89,9 @@
         password: '',
         confirmPassword: '',
         emailRules: [
-          // v => !!v || 'E-mail is required',
-          // v => /.+@.+\..+/.test(v) || 'E-mail must be valid',
-          // v => (v.endsWith("utoronto.ca")) || 'Please use your U of T Email',
+          v => !!v || 'E-mail is required',
+          v => /.+@.+\..+/.test(v) || 'E-mail must be valid',
+          v => (v.endsWith("utoronto.ca")) || 'Please use your U of T Email',
         ],
         showEmailSucc: false,
         discipline: "",
@@ -103,6 +103,7 @@
       comparePasswords () {
         return this.password !== this.confirmPassword ? 'Passwords do not match' : true
       },
+      //doesn't work right now
       disciplinereq() {
         return this.discipline !== "" ? "Please select your discipline" : true
       },
@@ -130,20 +131,23 @@
       //   }
       // }
       loading (curval, oldval) {
-        if(!curval) {
+        if(!curval && !this.error) {
           this.showEmailSucc = true;
-          setTimeout(() => (this.showEmailSucc = false), 4000)
+          setTimeout(() => (this.showEmailSucc = false), 10000)
         }
       },
     },
     methods: {
       onSignup () {
-        // if(this.email.endsWith("utoronto.ca")){
-          console.log("this.email",this.email)
+        if(this.email.endsWith("utoronto.ca") && 
+                            this.discipline!=''
+                             && this.confirmPassword!=''
+                              && this.password!=''){
+
           this.$store.dispatch('signUserUp', {"email": this.email, "password": this.password, "discipline": this.discipline});
           // this.$router.replace('/');
           // location.reload();
-        // }
+        }
         
       },
       onDismissed () {
