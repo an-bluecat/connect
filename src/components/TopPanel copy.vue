@@ -1,30 +1,32 @@
 <template>
   <div class="wrap" style="display: flex;align-items: center">
     <div style="flex: 1"></div>
-<!--    <v-tabs-->
-<!--        fixed-tabs-->
-<!--        dark-->
-<!--        background-color="#343a40"-->
-<!--    >-->
-<!--      <v-tab @click="$router.push('/').catch(()=>{})">-->
-<!--        Home-->
-<!--      </v-tab>-->
-<!--      &lt;!&ndash; <v-tab @click="$router.push('/courses').catch(()=>{})">-->
-<!--          Courses-->
-<!--      </v-tab> &ndash;&gt;-->
-<!--      <v-tab @click="$router.push('/about').catch(()=>{})">-->
-<!--        About-->
-<!--      </v-tab>-->
-<!--    </v-tabs>-->
+   <!-- <v-tabs
+       fixed-tabs
+       dark
+       background-color="#343a40"
+   >
+     <v-tab @click="$router.push('/').catch(()=>{})">
+       Home
+     </v-tab>
+     &lt;!&ndash; <v-tab @click="$router.push('/courses').catch(()=>{})">
+         Courses
+     </v-tab> &ndash;&gt;
+     <v-tab @click="$router.push('/about').catch(()=>{})">
+       About
+     </v-tab>
+   </v-tabs> -->
     <v-menu offset-y>
-      <template v-slot:activator="{ on, attrs }">
-        <v-avatar  class="avatar" :color="userLoggedIn ? 'primary':'grey'" v-on="on"
+      <!-- <template> -->
+        <v-list-item>测试！！</v-list-item>
+        <v-avatar :color="userLoggedIn ? 'primary':'grey'" 
         @click="goProfile">
+        
           <v-icon dark v-if="!userLoggedIn"> mdi-account-circle</v-icon>
           <img v-else-if="getUserProfile" :src="getPhotoURL" alt="avatar">
-          <span v-else class="white--text headline">{{ getSX() }}</span>
+          <span v-else class="white--text headline">{{ getSX }}</span>
         </v-avatar>
-      </template>
+      <!-- </template> -->
       <v-list v-if="!userLoggedIn">
         <!-- <v-list-item v-if="userLoggedIn" @click="goProfile">
           <v-list-item-title>View profile</v-list-item-title>
@@ -94,13 +96,8 @@ export default {
   },
   mounted() {
     if(this.userLoggedIn) {
-      // this.signupVisible=false;
-      this.getCookie();
+      // this.getCookie();
       this.$store.dispatch('getUserProfile', {})
-    }else{
-      if(this.$route.path == '/'){
-        this.signupVisible=true;
-      }
     }
   },
   methods: {
@@ -113,9 +110,6 @@ export default {
       this.signInVisible=true;
       this.signupVisible=false;
       this.$store.dispatch('clearError');
-    },
-    getSX() {
-      return this.email.substr(0, 1).toUpperCase();
     },
     goProfile() {
       if(this.userLoggedIn){
@@ -181,7 +175,10 @@ export default {
     },
     userLoggedIn(){
       // console.log("this.$store.getters.user", this.$store.getters.user)
-      return this.$store.getters.user != null ;
+      return this.$store.getters.user != null;
+    },
+    getSX() {
+      return this.email.substr(0, 1).toUpperCase();
     },
     getUserProfile() {
       return this.$store.getters.userProfile.photoURL != null ;
@@ -190,6 +187,7 @@ export default {
       return this.$store.getters.userProfile.photoURL;
     },
   },
+
 
 }
 </script>

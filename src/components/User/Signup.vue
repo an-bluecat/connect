@@ -85,7 +85,7 @@
     name: "Signup",
     data () {
       return {
-        email: '',
+        email: 'your.name@mail.utoronto.ca',
         password: '',
         confirmPassword: '',
         emailRules: [

@@ -3,7 +3,8 @@
   <v-app id="sprite">
 
     <div style="position: absolute;top:0;right:0;z-index: 11">
-      <TopPanel/>
+      <TopPanel></TopPanel>
+      
     </div>
     <!-- <v-app-bar app>
       <TopPanel/>

@@ -199,9 +199,9 @@
           
           <v-col cols="12">
           
-            <v-card elevation="5" class="my-5" v-for="(item, index) in getMyRecords">
+            <v-card elevation="5" class="my-5" v-for="(item, index) in getMyRecords" :key="index">
               
-              <v-list :key="index" two-line >
+              <v-list  two-line >
                 <template >
                   <v-list-item>
                     <v-list-item-content>

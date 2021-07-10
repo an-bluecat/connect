@@ -481,7 +481,7 @@ export default {
     fileUploads() {
       //显示上传文件
       const files = this.$store.getters.loadedfileUploads;
-      console.log(files)
+      // console.log(files)
       var targetFile = [];
 
       if (files.length > 0) {

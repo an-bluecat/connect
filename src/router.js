@@ -39,7 +39,7 @@ export default new Router({
       children:[
         {
           path:"course/:name",
-          name: "class-details",
+          name: "course-details",
           component: courseInstance
         }
       ]
@@ -51,7 +51,7 @@ export default new Router({
       children:[
         {
           path:"project/:name",
-          name: "class-details",
+          name: "descipline-details",
           component: project
         }
       ]
