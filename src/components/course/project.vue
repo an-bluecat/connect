@@ -114,7 +114,7 @@ import SearchCourse from "./SeachCourse_top";
     },
     data: () => ({
       cards: ['area1', 'area2'],
-      drawer: null,
+      drawer: true,
       links: [ 
         // ['mdi-inbox-arrow-down', 'First year courses'],
         // ['mdi-send', 'Second year courses'],

@@ -126,9 +126,13 @@
                 v-for="fileUpload in fileUploads"
                 :key="fileUpload.id"
               >
-                <a :href="fileUpload.imageUrl" target="_blank"
+                <a :href="fileUpload.imageUrl" target="_blank" v-if="userLoggedIn"
                   >{{ fileUpload.type }} - {{ fileUpload.filename }}</a
                 >
+                <a @click="signupVisible = true;" v-else
+                  >{{ fileUpload.type }} - {{ fileUpload.filename }}
+                </a>
+                
               </v-list-item-subtitle>
 
 
