@@ -68,7 +68,7 @@
         >Sign Up</v-toolbar>
 
         <signup></signup>
-        <div class="link" @click="signinClicked">sign in</div>
+        <div class="link my-2" @click="signinClicked">Have an account? LOG IN</div>
         <v-btn style="width: 100%;" @click="signupVisible=false">
           cancel
         </v-btn>

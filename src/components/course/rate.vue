@@ -238,8 +238,9 @@
       <v-dialog
           v-model="signInVisible"
           width="300"
+          v-if="!userLoggedIn"
       >
-        <v-card>
+        <v-card >
           <v-toolbar
               color="primary"
               dark
@@ -268,9 +269,10 @@
           <div  v-if="skipLoginVisible"
           align="center" 
           class="mt-n4">
-            <v-btn style="width:78%;" color="secondary" @click="signupVisible=false;skipLoginVisible=false;routeToComment()">
+            <!-- 暂时先不让continue as guest！！！ -->
+            <!-- <v-btn style="width:78%;" color="secondary" @click="signupVisible=false;skipLoginVisible=false;routeToComment()">
             continue as guest
-            </v-btn>
+            </v-btn> -->
           </div>
 
           <div class="link ma-2" @click="signInVisible=true;signupVisible=false"><a>have an account? Log in</a></div>

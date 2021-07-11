@@ -1,19 +1,19 @@
-BME410 - Biomedical Systems Engineering,AER201H1 - Engineering Design,ACT370H1 -,ACT460H1 -
-CIV102H1 - Structures and Materials - An Introduction to Engineering Design,AER210H1 - Vector Calculus and Fluid Mechanics,AER301H1 - Dynamics,AER302H1 - Aircraft Flight
-CSC180H1 - Introduction to Computer Programming,BME205H1 - Biomolecules and Cells,AER302H1 - Aircraft Flight,AER307H1 - Aerodynamics
-CSC190H1 - Computer Algorithms and Data Structures,CHE260H1 - Thermodynamics and Heat Transfer,AER303H1 - Aerospace Laboratory I,AER336H1 - Scientific Computing
-ECE159H1 - Fundamentals of Electric Circuits,ECE253H1 - Digital and Computer Systems,AER304H1 - Aerospace Laboratory II,AER406H1 - Aircraft Design
-ESC101H1 - Praxis I,ECE259H1 - Electromagnetism,AER307H1 - Aerodynamics,AER407H1 - Space Systems Design
-ESC102H1 - Praxis II,ECE286H1 - Probability and Applications,AER310H1 - Gasdynamics,AER501H1 - Advanced Mechanics of Structures
-ESC103H1 - Engineering Mathematics and Computation,ESC203H1 - Engineering and Society,AER315H1 - Combustion Processes,AER503H1 - Aeroelasticity
-ESC180H1 - Introduction to Computer Programming,MAT292H1 - Calculus III,AER336H1 - Scientific Computing,AER506H1 - Spacecraft Dynamics and Control
-MAT185H1 - Linear Algebra,PHY293H1 - Waves and Modern Physics,AER372H1 - Control Systems,AER507H1 - Introduction to Fusion Energy
-MAT194H1 - Calculus I,PHY294H1 - Quantum and Thermal Physics,AER373H1 - Mechanics of Solids and Structures,AER510H1 - Aerospace Propulsion
-MAT195H1 - Calculus II,STA286H1 - Probability and Statistics,AER507H1 - Introduction to Fusion Energy,AER521H1 - Mobile Robotics and Perception
-MSE160H1 - Molecules and Materials,,APM384H1 - Partial Differential Equations,AER525H1 - Robotics
-PHY180H1 - Classical Mechanics,,APS305H1 - Energy Policy,APM384H1 - Partial Differential Equations
-BME410 - Biomedical Systems Engineering,,APS360H1 - Artificial Intelligence Fundamentals,APM446H1 - Applied Nonlinear Equations
-ESC180H1 - Introduction to Computer Programming,,AST320H1 -,APM466H1 - Mathematical Theory of Finance
+CIV102H1 - Structures and Materials - An Introduction to Engineering Design,AER201H1 - Engineering Design,ACT370H1 -,ACT460H1 -
+CSC180H1 - Introduction to Computer Programming,AER210H1 - Vector Calculus and Fluid Mechanics,AER301H1 - Dynamics,AER302H1 - Aircraft Flight
+CSC190H1 - Computer Algorithms and Data Structures,BME205H1 - Biomolecules and Cells,AER302H1 - Aircraft Flight,AER307H1 - Aerodynamics
+ECE159H1 - Fundamentals of Electric Circuits,CHE260H1 - Thermodynamics and Heat Transfer,AER303H1 - Aerospace Laboratory I,AER336H1 - Scientific Computing
+ESC101H1 - Praxis I,ECE253H1 - Digital and Computer Systems,AER304H1 - Aerospace Laboratory II,AER406H1 - Aircraft Design
+ESC102H1 - Praxis II,ECE259H1 - Electromagnetism,AER307H1 - Aerodynamics,AER407H1 - Space Systems Design
+ESC103H1 - Engineering Mathematics and Computation,ECE286H1 - Probability and Applications,AER310H1 - Gasdynamics,AER501H1 - Advanced Mechanics of Structures
+ESC180H1 - Introduction to Computer Programming,ESC203H1 - Engineering and Society,AER315H1 - Combustion Processes,AER503H1 - Aeroelasticity
+MAT185H1 - Linear Algebra,MAT292H1 - Calculus III,AER336H1 - Scientific Computing,AER506H1 - Spacecraft Dynamics and Control
+MAT194H1 - Calculus I,PHY293H1 - Waves and Modern Physics,AER372H1 - Control Systems,AER507H1 - Introduction to Fusion Energy
+MAT195H1 - Calculus II,PHY294H1 - Quantum and Thermal Physics,AER373H1 - Mechanics of Solids and Structures,AER510H1 - Aerospace Propulsion
+MSE160H1 - Molecules and Materials,STA286H1 - Probability and Statistics,AER507H1 - Introduction to Fusion Energy,AER521H1 - Mobile Robotics and Perception
+PHY180H1 - Classical Mechanics,,APM384H1 - Partial Differential Equations,AER525H1 - Robotics
+ESC180H1 - Introduction to Computer Programming,,APS305H1 - Energy Policy,APM384H1 - Partial Differential Equations
+,,APS360H1 - Artificial Intelligence Fundamentals,APM446H1 - Applied Nonlinear Equations
+,,AST320H1 -,APM466H1 - Mathematical Theory of Finance
 ,,AST325H1 -,APS301H1 - Technology in Society and the Biosphere I
 ,,"BME344H1 - ""Modeling, Dynamics, and Control of Biological Systems""",BME350H1 - Biomedical Engineering I: Organ Systems
 ,,BME346H1 - Biomedical Engineering and Omics Technologies,BME395H1 - Biomedical Engineering II: Cells and Tissues
@@ -350,3 +350,4 @@ ESC180H1 - Introduction to Computer Programming,,AST320H1 -,APM466H1 - Mathemati
 ,,,RSM434H1 -
 ,,,STA410H1 - Statistical Computation
 ,,,STA447H1 - Stochastic Processes
+,,,BME410 - Biomedical Systems Engineering
