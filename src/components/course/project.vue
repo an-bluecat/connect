@@ -30,7 +30,7 @@
       <v-app-bar-nav-icon @click="drawer = !drawer"></v-app-bar-nav-icon>
  
       <v-toolbar-title v-if="this.$vuetify.breakpoint.name!='xs' ">{{name}}</v-toolbar-title>
-      <v-toolbar-title class="ml-6 mt-15 mr-16" ><SearchCourse ></SearchCourse></v-toolbar-title>
+      <v-toolbar-title :class="searchbarStyle" ><SearchCourse></SearchCourse></v-toolbar-title>
       <!-- <v-col col="12" xl="10" lg="10" md="10" sm="10" xs="10">
         <v-autocomplete
             v-model="model"
@@ -183,6 +183,15 @@ import SearchCourse from "./SeachCourse_top";
           }
           return result
       }, 
+      searchbarStyle() {
+      switch (this.$vuetify.breakpoint.name) {
+          case 'xs': return "ml-n3 mt-15 mr-16 pr-10"
+          case 'sm': return "ml-6 mt-15 mr-16 "
+          case 'md': return "ml-6 mt-15 mr-16 "
+          case 'lg': return "ml-6 mt-15 mr-16 "
+          case 'xl': return "ml-6 mt-15 mr-16 "
+        }
+      }
     },
     methods: {
       onclickoptions(option) {
