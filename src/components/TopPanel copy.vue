@@ -1,6 +1,6 @@
 <template>
   <div class="wrap" style="display: flex;align-items: center">
-    <div style="flex: 1"></div>
+    <!-- <div style="flex: 1"></div> -->
    <!-- <v-tabs
        fixed-tabs
        dark
@@ -16,10 +16,10 @@
        About
      </v-tab>
    </v-tabs> -->
-    <v-menu offset-y>
+    <v-menu class="my-4" offset-y>
       <!-- <template> -->
-        <v-list-item>测试！！</v-list-item>
         <v-avatar :color="userLoggedIn ? 'primary':'grey'" 
+        
         @click="goProfile">
         
           <v-icon dark v-if="!userLoggedIn"> mdi-account-circle</v-icon>

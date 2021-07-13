@@ -2,7 +2,7 @@
 
   <v-app id="sprite">
 
-    <div style="position: absolute;top:0;right:0;z-index: 11">
+    <div style="position: absolute;top:0;right:0;z-index: 11" class="my-2">
       <TopPanel></TopPanel>
       
     </div>

@@ -99,7 +99,7 @@ export default {
       this.$store.dispatch('getUserProfile', {})
     }else{
       if(this.$route.path == '/'){
-        this.signupVisible=true;
+        // this.signupVisible=true;
       }
     }
   },
