@@ -38,6 +38,9 @@
                         <v-icon light>loading</v-icon>
                        </span>
                     </v-btn>
+                    <v-btn class="mt-2" style="width:100%;" color="" @click="onGoogleSignin()">
+                      <v-icon class="mr-2" color="">mdi-google</v-icon>Continue with Google
+                    </v-btn>
                   </v-flex>
                 </v-layout>
               </form>
@@ -84,6 +87,9 @@
       },
       onDismissed () {
         this.$store.dispatch('clearError')
+      },
+      onGoogleSignin(){
+        this.$store.dispatch("googleSignin",{})
       },
       //设置cookie
       setCookie(c_name, c_pwd, exdays) {

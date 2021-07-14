@@ -377,7 +377,16 @@ export default {
     this.$store.dispatch("loadedFav", this.$route.params.name);
 
   },
-  computed: {   
+  watch: {
+    user(value) {
+      if (value !== null && value !== undefined) {
+        this.signInVisible = false
+        this.signupVisible = false
+        this.getCookie()
+      }
+    },
+  },
+  computed: {
     userLoggedIn(){
       return this.$store.getters.user != null ;
     }, 
