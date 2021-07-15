@@ -27,7 +27,7 @@ export const store = new Vuex.Store({
     loading: false,
     error: null,
     loadedcurrentUploads: 1,
-    userProfile: []
+    userProfile: {}
   },
   // mutate state
   // called by commit "actions" part of this same file
@@ -67,9 +67,19 @@ export const store = new Vuex.Store({
     addComment (state, payload) {
       state.loadedComments.push(payload)
     },
+    // only set the ones in payload
     setUserProfile (state, payload) {
-      state.userProfile = payload
+      // console.log("payload",payload)
+      for(let key in payload){
+        // console.log(key)
+        state.userProfile[key] = payload[key]
+      }
     },
+    // clear it
+    cleanUserProfile(state){
+      state.userProfile={};
+    },
+
     setUser (state, payload) {
       state.user = payload
     },
@@ -456,7 +466,7 @@ export const store = new Vuex.Store({
     },
 
     // signin有漏洞，以后改！
-    signUserIn ({commit}, payload) {
+    signUserIn ({commit, dispatch}, payload) {
       const whitelist=["test2@mail.utoronto.ca"]
       commit('setSignLoading', true)
       commit('clearError')
@@ -471,13 +481,20 @@ export const store = new Vuex.Store({
               // commit('reset');
             }
             else{
+
+              // email verified, continue signin
               const newUser = {
                 id: user.user.uid,
                 registeredfileUploads: [],
                 email: payload.email
               }
               commit('setUser', newUser)
-              // commit('setSignLoading', false)
+              
+
+              // set the new profile
+              dispatch('getUserProfile');
+
+              commit('setSignLoading', false)
               commit('reset');
             }
           }
@@ -492,7 +509,7 @@ export const store = new Vuex.Store({
         )
     },
 
-    googleSignin({commit}, payload) {
+    googleSignin({commit, dispatch}, payload) {
       var provider = new firebase.auth.GoogleAuthProvider();
       // provider.addScope('https://www.googleapis.com/auth/contacts.readonly');
       firebase.auth()
@@ -505,8 +522,8 @@ export const store = new Vuex.Store({
           var token = credential.accessToken;
           // The signed-in user info.
           var user = result.user;
-          console.log("user",user.uid)
-          console.log(token)
+          // console.log("user",user.uid)
+          // console.log(token)
 
 
           const newUser = {
@@ -515,7 +532,11 @@ export const store = new Vuex.Store({
                 email: user.email
               }
               commit('setUser', newUser)
-              // commit('setSignLoading', false)
+             
+
+              // get user profile
+              // dispatch('getUserProfile');
+
               commit('reset');
         }).catch((error) => {
           // Handle Errors here.
@@ -528,14 +549,20 @@ export const store = new Vuex.Store({
           // ...
         });
     },
+
     autoSignIn ({commit}, payload) {
       commit('setUser', {id: payload.uid, registeredfileUploads: []})
     },
+
+    // the first time getting and setting user profile 
     getUserProfile ({commit}) {
       firebase.auth().onAuthStateChanged((user) => {
+      // const user = firebase.auth().currentUser;
         // console.log(JSON.stringify(user));
         if (user) {
-          const uid = this.state.userProfile.uid;
+          // const uid = this.state.userProfile.uid;
+          const uid = user.uid;
+
           // const discipline = firebase.database().ref('user/-'+ uid).child('discipline').once('value');
           firebase.database().ref('user/-'+ uid).child('discipline').once('value')
           .then((data) => {
@@ -554,7 +581,7 @@ export const store = new Vuex.Store({
           // User is signed out
           // ...
         }
-      });
+    });
     },
     sendEmailVerification({commit}, payload) {
       commit('setVerifyLoading', true);
@@ -601,6 +628,7 @@ export const store = new Vuex.Store({
       commit('setSaveLoading', true);
       const user = firebase.auth().currentUser;
       const uid = this.state.userProfile.uid;
+      console.log("this.state.userProfile.uid in update discipline",this.state.userProfile.uid)
       firebase.database().ref('user/-'+uid).child('discipline').set(payload)
       .then((data) => {
         // ...
@@ -659,6 +687,9 @@ export const store = new Vuex.Store({
       firebase.auth().signOut()
       sessionStorage.clear()
       commit('setUser', null)
+      commit('cleanUserProfile')
+
+
     },
     
     clearError ({commit}) {

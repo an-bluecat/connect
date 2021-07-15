@@ -20,8 +20,8 @@
       <template v-slot:activator="{ on, attrs }">
         <v-avatar  class="avatar" :color="userLoggedIn ? 'primary':'grey'" v-on="on"
         @click="goProfile">
-          <v-icon dark v-if="!userLoggedIn"> mdi-account-circle</v-icon>
-          <img v-else-if="getUserProfile" :src="getPhotoURL" alt="avatar">
+          <v-icon dark v-if="userLoggedIn==false"> mdi-account-circle</v-icon>
+          <img v-else-if="photoURLExist" :src="getPhotoURL" alt="avatar">
           <span v-else class="white--text headline">{{ getSX() }}</span>
         </v-avatar>
       </template>
@@ -176,17 +176,19 @@ export default {
   },
   computed: {
     user() {
-      // console.log("user:", this.$store.getters.user);
+
       return this.$store.getters.user
     },
     userLoggedIn(){
-      // console.log("this.$store.getters.user", this.$store.getters.user)
+      console.log("this.$store.getters.user != null ",this.$store.getters.user != null )
       return this.$store.getters.user != null ;
     },
-    getUserProfile() {
+    photoURLExist() {
+      console.log("this.$store.getters.userProfile.photoURL != null",this.$store.getters.userProfile.photoURL != null)
       return this.$store.getters.userProfile.photoURL != null ;
     },
     getPhotoURL() {
+      console.log("here",this.$store.getters.userProfile.photoURL)
       return this.$store.getters.userProfile.photoURL;
     },
   },

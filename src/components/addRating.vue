@@ -142,7 +142,7 @@ export default {
         this.$store.dispatch('getUserProfile', {})
         // this.displayName = this.$store.getters.userProfile.displayName;
         // this.formData.discipline = this.$store.getters.userProfile.discipline;
-        // console.log("this.formData.discipline",this.formData.discipline)
+
     }
 
   },
@@ -224,7 +224,7 @@ export default {
         // .then(({ ip }) => {
         //     myIP = ip;
         // });
-        // console.log("myIP",myIP)
+
 
 
         // get time: this will get zulu time

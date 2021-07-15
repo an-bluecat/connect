@@ -170,11 +170,11 @@ export default {
   },
   computed: {
     user() {
-      // console.log("user:", this.$store.getters.user);
+
       return this.$store.getters.user
     },
     userLoggedIn(){
-      // console.log("this.$store.getters.user", this.$store.getters.user)
+
       return this.$store.getters.user != null;
     },
     getSX() {
