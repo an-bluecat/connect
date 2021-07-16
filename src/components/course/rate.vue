@@ -381,10 +381,12 @@ export default {
     user(value) {
       if (value !== null && value !== undefined) {
         this.signInVisible = false
-        this.signupVisible = false
+        this.signupVisible =false
+        this.$router.go()
         this.getCookie()
       }
     },
+    
   },
   computed: {
     userLoggedIn(){

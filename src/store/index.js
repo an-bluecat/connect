@@ -304,7 +304,7 @@ export const store = new Vuex.Store({
           })
           //此刻上传才完毕，需要告知前台 修改loadedcurrentUploads = 0
           this.state.loadedcurrentUploads = 0;
-          // console.log(this.state.loadedcurrentUploads);
+
         })
         .catch((error) => {
           console.log(error)
@@ -536,8 +536,13 @@ export const store = new Vuex.Store({
 
               // get user profile
               // dispatch('getUserProfile');
+              // console.log(this.state.userProfile.photoURL)
 
               commit('reset');
+        }).then((result)=>{
+          dispatch('getUserProfile');
+        }).then((result)=>{
+          // console.log("this.state.userProfile",this.state.userProfile)
         }).catch((error) => {
           // Handle Errors here.
           var errorCode = error.code;
@@ -628,7 +633,7 @@ export const store = new Vuex.Store({
       commit('setSaveLoading', true);
       const user = firebase.auth().currentUser;
       const uid = this.state.userProfile.uid;
-      console.log("this.state.userProfile.uid in update discipline",this.state.userProfile.uid)
+      // console.log("this.state.userProfile.uid in update discipline",this.state.userProfile.uid)
       firebase.database().ref('user/-'+uid).child('discipline').set(payload)
       .then((data) => {
         // ...

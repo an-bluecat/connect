@@ -11,76 +11,36 @@
     </v-layout>
       <v-flex >
               <!-- stop the form from submitting the normal way and execute myFunction() instead -->
-              <form @submit.prevent="onSignup" v-if="!showEmailSucc">
-                <v-layout row>
-                  <v-flex xs12>
-                    <v-text-field
-                      name="email"
-                      label="U of T Email"
-                      id="email"
-                      v-model="email"
-                      type="email"
-                      required
-                      :rules="emailRules"
-                      ></v-text-field>
-                  </v-flex>
-                </v-layout>
-                <v-layout row>
-                  <v-flex xs12>
-                    <v-text-field
-                      name="password"
-                      label="Password"
-                      id="password"
-                      v-model="password"
-                      type="password"
-                      required></v-text-field>
-                  </v-flex>
-                </v-layout>
-                <v-layout row>
-                  <v-flex xs12>
-                    <v-text-field
-                      name="confirmPassword"
-                      label="Confirm Password"
-                      id="confirmPassword"
-                      v-model="confirmPassword"
-                      type="password"
-                      :rules="[comparePasswords]"></v-text-field>
-                  </v-flex>
-                </v-layout>
-                <v-layout row>
+              <form @submit.prevent="onSubmit">
+              <v-list-item-title class="my-2">Please select your discipline</v-list-item-title>
+              
+                <v-layout row class="my-4">
                   <v-flex xs12>
                     <v-select 
                       :items="disciplines"
                       label="discipline"
                       v-model="discipline"
+                      @change="updateDiscipline()"
                     >
                     <!-- <input:required="!discipline"/> -->
                     </v-select>
                   </v-flex>
                 </v-layout>
-                <v-layout row>
+                <!-- <v-layout row>
                   <v-flex xs12>
                     <v-btn color="primary" style="width: 100%;" type="submit" :disabled="loading" :loading="loading">
-                      Sign up
+                      Submit
                        <span slot="loader" class="custom-loader">
                         <v-icon light>loading</v-icon>
                        </span>
                     </v-btn>
-                    <v-btn class="mt-2" type="submit" style="width:100%;" color="" @click="onGoogleSignin()">
-                      <v-icon class="mr-2" color="">mdi-google</v-icon>Continue with Google
-                    </v-btn>
+
                     
                   </v-flex>
-                </v-layout>
+                </v-layout> -->
                 
               </form>
-              <v-alert
-                      v-if="showEmailSucc"
-                      class="mt-2 mb-n1"
-                      
-                      dismissible
-                      type="success"
-              >Verification email sent! <span class="">check your <span class=" black--text font-weight-bold">"JUNK" FOLDER</span></span> for the link.</v-alert>
+              
       </v-flex>
   </v-container>
 </template>
@@ -143,17 +103,12 @@
       },
     },
     methods: {
-      onSignup () {
-        if(this.email.endsWith("utoronto.ca") && 
-                            this.discipline!=''
-                             && this.confirmPassword!=''
-                              && this.password!=''){
-          
-          this.$store.dispatch('signUserUp', {"email": this.email, "password": this.password, "discipline": this.discipline});
-          console.log("email sent")
+      updateDiscipline () {
+        this.$store.dispatch('updateDiscipline', this.discipline)
+      
           // this.$router.replace('/');
           // location.reload();
-        }
+        
         
       },
       onGoogleSignin(){

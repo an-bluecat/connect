@@ -40,6 +40,7 @@
         </v-list-item>
       </v-list>
     </v-menu>
+    <!-- 登录 -->
     <v-dialog
         v-model="signInVisible"
         width="300"
@@ -57,6 +58,8 @@
         </v-btn>
       </v-card>
     </v-dialog>
+
+    <!-- 注册 -->
     <v-dialog
         v-model="signupVisible"
         width="300"
@@ -74,29 +77,53 @@
         </v-btn>
       </v-card>
     </v-dialog>
+
+    <v-dialog
+        v-model="disciplineVisible"
+        width="300"
+    >
+      <v-card>
+        <v-toolbar
+            color="primary"
+            dark
+        >Specify Discipline</v-toolbar>
+
+        <writeDiscipline></writeDiscipline>
+        <v-btn style="width: 100%;" @click="disciplineVisible=false">
+          cancel
+        </v-btn>
+      </v-card>
+    </v-dialog>
   </div>
 </template>
 
 <script>
 import Signup from './User/Signup'
 import Signin from './User/Signin'
+import writeDiscipline from './User/writeDiscipline'
 
 
 export default {
-  components:{Signin,Signup},
+  components:{Signin,Signup, writeDiscipline},
   data() {
     return {
       signInVisible: false,
       signupVisible: false,
+      disciplineVisible: false,
       // showLoginInfo: false,
       email: '',
     }
   },
-  mounted() {
+  created() {
     if(this.userLoggedIn) {
       // this.signupVisible=false;
       this.getCookie();
       this.$store.dispatch('getUserProfile', {})
+      // let discipline = this.$store.getters.userProfile.discipline
+      if(this.$store.getters.userProfile.discipline==undefined){
+          this.disciplineVisible=true
+      }
+
     }else{
       if(this.$route.path == '/'){
         // this.signupVisible=true;
@@ -170,25 +197,34 @@ export default {
     user(value) {
       if (value !== null && value !== undefined) {
         this.signInVisible = false
+        this.signupVisible =false
+        this.$router.go()
         this.getCookie()
       }
     },
+    discipline(value) {
+      if (value !== null && value !== undefined) {
+        this.disciplineVisible=false
+      }
+    }
   },
   computed: {
     user() {
-
       return this.$store.getters.user
     },
+    discipline() {
+      return this.$store.getters.userProfile.discipline
+    },
     userLoggedIn(){
-      console.log("this.$store.getters.user != null ",this.$store.getters.user != null )
+      // console.log("this.$store.getters.user != null ",this.$store.getters.user != null )
       return this.$store.getters.user != null ;
     },
     photoURLExist() {
-      console.log("this.$store.getters.userProfile.photoURL != null",this.$store.getters.userProfile.photoURL != null)
-      return this.$store.getters.userProfile.photoURL != null ;
+      // console.log("this.$store.getters.userProfile.photoURL != null",this.$store.getters.userProfile.photoURL != null)
+      return this.$store.getters.userProfile.photoURL!=null;
     },
     getPhotoURL() {
-      console.log("here",this.$store.getters.userProfile.photoURL)
+      // console.log("here",this.$store.getters.userProfile.photoURL)
       return this.$store.getters.userProfile.photoURL;
     },
   },
