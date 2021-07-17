@@ -13,6 +13,7 @@
     <main>
       <!-- <v-container fluid> -->
         <router-view></router-view>
+        <footer>this is the test Footer</footer>
       <!-- </v-container> -->
     </main>
 

@@ -12,9 +12,9 @@
       <v-flex >
               <!-- stop the form from submitting the normal way and execute myFunction() instead -->
               <form @submit.prevent="onSubmit">
-              <v-list-item-title class="my-2">Please select your discipline</v-list-item-title>
+                <v-list-item-title class="">Your discipline</v-list-item-title>
               
-                <v-layout row class="my-4">
+                <v-layout row class="mb-2">
                   <v-flex xs12>
                     <v-select 
                       :items="disciplines"
@@ -26,18 +26,22 @@
                     </v-select>
                   </v-flex>
                 </v-layout>
-                <!-- <v-layout row>
+                
+                <v-list-item-title class="">Class of</v-list-item-title>
+              
+                <v-layout row class="mb-2">
                   <v-flex xs12>
-                    <v-btn color="primary" style="width: 100%;" type="submit" :disabled="loading" :loading="loading">
-                      Submit
-                       <span slot="loader" class="custom-loader">
-                        <v-icon light>loading</v-icon>
-                       </span>
-                    </v-btn>
-
-                    
+                    <v-select 
+                      :items="gradyears"
+                      label="grad year"
+                      v-model="gradyear"
+                      @change="updateGradYear()"
+                    >
+                    <!-- <input:required="!discipline"/> -->
+                    </v-select>
                   </v-flex>
-                </v-layout> -->
+                </v-layout>
+              
                 
               </form>
               
@@ -50,17 +54,10 @@
     name: "Signup",
     data () {
       return {
-        email: 'your.name@mail.utoronto.ca',
-        password: '',
-        confirmPassword: '',
-        emailRules: [
-          v => !!v || 'E-mail is required',
-          v => /.+@.+\..+/.test(v) || 'E-mail must be valid',
-          v => (v.endsWith("utoronto.ca")) || 'Please use your U of T Email',
-        ],
-        showEmailSucc: false,
         discipline: "",
         disciplines: ['Chem', 'Civ', 'ECE', 'EngSci', 'Indy', 'MSE', 'Mech', 'Min', 'Others'],
+        gradyear: "",
+        gradyears: ["2T5","2T4","2T3","2T2","2T1","2T0","1T9","1T8",]
       }
     },
     computed: {
@@ -108,14 +105,11 @@
       
           // this.$router.replace('/');
           // location.reload();
-        
-        
       },
-      onGoogleSignin(){
-        this.$store.dispatch("googleSignin",{})
-        // this.$router.go();
-        // this.$forceUpdate();
+      updateGradYear () {
+        this.$store.dispatch('updateGradYear', this.gradyear)
       },
+
       onDismissed () {
         this.$store.dispatch('clearError')
       }

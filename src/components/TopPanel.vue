@@ -120,7 +120,7 @@ export default {
       this.getCookie();
       this.$store.dispatch('getUserProfile', {})
       // let discipline = this.$store.getters.userProfile.discipline
-      if(this.$store.getters.userProfile.discipline==undefined){
+      if(this.$store.getters.userProfile.discipline==undefined || this.$store.getters.userProfile.gradyear==undefined){
           this.disciplineVisible=true
       }
 
@@ -194,6 +194,7 @@ export default {
     }
   },
   watch: {
+    // 关注user，当user signin是自动取消signin框， 并且刷新
     user(value) {
       if (value !== null && value !== undefined) {
         this.signInVisible = false
@@ -202,11 +203,19 @@ export default {
         this.getCookie()
       }
     },
+
+    //关注discipline和grad year选项，如果有了则马上turn off
     discipline(value) {
-      if (value !== null && value !== undefined) {
+      if (value !== null && value !== undefined && this.gradyear!==null) {
+        this.disciplineVisible=false
+      }
+    },
+    gradyear(value) {
+      if (value !== null && value !== undefined && this.discipline!==null) {
         this.disciplineVisible=false
       }
     }
+
   },
   computed: {
     user() {
@@ -214,6 +223,9 @@ export default {
     },
     discipline() {
       return this.$store.getters.userProfile.discipline
+    },
+    gradyear() {
+      return this.$store.getters.userProfile.gradyear
     },
     userLoggedIn(){
       // console.log("this.$store.getters.user != null ",this.$store.getters.user != null )

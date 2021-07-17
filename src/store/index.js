@@ -568,6 +568,7 @@ export const store = new Vuex.Store({
           // const uid = this.state.userProfile.uid;
           const uid = user.uid;
 
+          // get discipline
           // const discipline = firebase.database().ref('user/-'+ uid).child('discipline').once('value');
           firebase.database().ref('user/-'+ uid).child('discipline').once('value')
           .then((data) => {
@@ -582,6 +583,17 @@ export const store = new Vuex.Store({
             }
             commit('setUserProfile', profile)
           })
+
+          firebase.database().ref('user/-'+ uid).child('gradyear').once('value')
+          .then((data) => {
+            const gradyear = data.val();
+            var profile = {
+              gradyear: gradyear
+            }
+            commit('setUserProfile', profile)
+          })
+
+
         } else {
           // User is signed out
           // ...
@@ -652,6 +664,25 @@ export const store = new Vuex.Store({
       }); 
     },
 
+    // 改 discipline
+    updateGradYear ({commit}, payload) {
+      commit('setSaveLoading', true);
+      const user = firebase.auth().currentUser;
+      const uid = this.state.userProfile.uid;
+      // console.log("this.state.userProfile.uid in update discipline",this.state.userProfile.uid)
+      firebase.database().ref('user/-'+uid).child('gradyear').set(payload)
+      .then((data) => {
+        var profile = {
+          gradyear: payload,
+        }
+        commit('setUserProfile', profile)
+        commit('setSaveLoading', false)
+      }).catch((error) => {
+        // commit('setSaveLoading', false)
+        commit('reset');
+        console.log(error)
+      }); 
+    },
 
 
     //上传用户图片
