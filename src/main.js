@@ -8,7 +8,8 @@ import 'bootstrap/dist/css/bootstrap.css'
 import 'bootstrap-vue/dist/bootstrap-vue.css'
 import Vue from 'vue'
 import App from './App.vue'
-import router from './router'
+import index from './router'
+import rotmanRouter from './rotmanRouter'
 import vuetify from './plugins/vuetify'
 import { store } from './store' // automatically find ./store/index
 import AlertCmp from './components/Shared/Alert.vue'
@@ -17,17 +18,34 @@ import AlertCmp from './components/Shared/Alert.vue'
 Vue.use(VeeValidate);
 // Install BootstrapVue
 Vue.use(BootstrapVue)
-// Optionally install the BootstrapVue icon components plugin
+// Optionally install the BootstrapVue icon component plugin
 Vue.use(IconsPlugin)
 Vue.config.productionTip = false
 
+const host = window.location.host;
+const parts = host.split('.');
+console.log(parts[0]);
+const domainLength = 3; // route1.example.com => domain length = 3
+
+const router = () => {
+  let routes;
+  if (parts.length === (domainLength - 1) || parts[0] === 'uofthub') {
+    routes = index;
+  } else if (parts[0] === 'rotman') {
+    routes = rotmanRouter;
+  } else {
+    // If you want to do something else just comment the line below
+    routes = index;
+  }
+  return routes;
+};
 // register vue component 
 Vue.component('app-alert', AlertCmp)
 
 
 
 new Vue({
-  router,
+  router: router(),
   store,
   vuetify,
   render: function (h) { return h(App) },
