@@ -47,7 +47,9 @@
                 </v-tooltip>
                 
               </v-list-item-title>
-              <v-list-item-title :class="kmStyle">{{ km }}</v-list-item-title>
+              <v-list-item-title :class="classnameStyle">{{ classname }}</v-list-item-title>
+
+
         </v-col>
         <v-col cols="12" xs="12" sm="12" md="6" lg="6" xl="6">
           <v-list-item :class="diffStyle">
@@ -321,7 +323,7 @@ export default {
     showPage: false,
     //课名数据
     pdata1: courseimport,
-    km: "",
+    classname: "",
     src: require("../../assets/star.png"),
     src1: require("../../assets/star-outline.png"),
     //log
@@ -354,12 +356,12 @@ export default {
         // console.log(obj[key][i]);
         for (var j = 0; j < obj[key][i].length; j++) {
           if (this.title == obj[key][i][j][0]) {
-            this.km = obj[key][i][j][1];
+            this.classname = obj[key][i][j][1];
             break;
           }
         }
         // if(this.title == obj[key][i][0][0]) {
-        //   this.km = obj[key][i][0][1];
+        //   this.classname = obj[key][i][0][1];
         //   break;
         // }
         // }
@@ -549,7 +551,7 @@ export default {
           case 'xl': return "text-h4 font-weight-bold"
         }
     },
-    kmStyle() {
+    classnameStyle() {
       switch (this.$vuetify.breakpoint.name) {
           case 'xs': return "text-h5 "
           case 'sm': return "text-h5 "
