@@ -2,6 +2,13 @@ import csv
 import os
 import json
 
+coursedesc={}
+
+# load previous courses, add rotman's onto them!
+with open('./src/components/course/coursedesc.json', 'r') as fp:
+    coursedesc=json.load(fp)
+
+# print(coursedesc)
 
 run = True
 
@@ -9,6 +16,8 @@ run = True
 ################################ getting courseIndexSearch.json
 
 courseIndexSearch=[]
+
+
 def getCourseIndex(discipline):
     id = 0
     filename = "./src/components/course/coursecsv/rotman/"+discipline+".csv"
@@ -58,10 +67,13 @@ def getCourseIndex(discipline):
                 if name!="" and name[0]==" ":
                     name=name[1:]
                 
+                # key=code, value=["desc","coursename","prerequisites"]
+                coursedesc[code]=[row[1],name,row[2]]
+                
 
 
 
-disciplines=["Accounting"]
+disciplines=["Accounting","Finance","Management"]
 for name in disciplines:
     getCourseIndex(name)
 
@@ -71,3 +83,6 @@ for name in disciplines:
 if run:
     with open('./src/components/course/courseIndexSearchList_rotman.json', 'w') as fp:
         json.dump(courseIndexSearch, fp)
+    with open('./src/components/course/coursedesc_rotman.json', 'w') as fp:
+        json.dump(coursedesc,fp)
+
