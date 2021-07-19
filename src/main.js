@@ -25,11 +25,11 @@ Vue.config.productionTip = false
 const host = window.location.host;
 const parts = host.split('.');
 console.log(parts[0]);
-const domainLength = 3; // route1.example.com => domain length = 3
+const domainLength = 4; // route1.example.com => domain length = 3
 
 const router = () => {
   let routes;
-  if (parts.length === (domainLength - 1) || parts[0] === 'uofthub') {
+  if (parts.length === (domainLength - 1) || parts[0] === 'uofthubtesting') {
     routes = index;
   } else if (parts[0] === 'rotman') {
     routes = rotmanRouter;
