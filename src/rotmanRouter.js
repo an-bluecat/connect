@@ -27,12 +27,13 @@ export default new Router({
     }
   },
   routes: [
+      //using for testing 
     {
-      path: '/',
-      name: 'main',
-      component: Welcome
-    },
-    {
+      path: '/signup',
+      name: 'signup',
+      component: Signin
+    }
+  /*  {
       path: '/',
       name: 'course',
       component: courseInstance,
@@ -127,6 +128,6 @@ export default new Router({
     // {
     //   path: 'https://firebasestorage.googleapis.com',
     //   beforeEnter() {location.href = 'https://firebasestorage.googleapis.com'}
-    // }
+    // }*/
   ]
 })
