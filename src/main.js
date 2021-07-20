@@ -24,12 +24,16 @@ Vue.config.productionTip = false
 
 const host = window.location.host;
 const parts = host.split('.');
-console.log(parts[0]);
-const domainLength = 4; // route1.example.com => domain length = 3
+console.log(parts[2]);
+const domainLength = 3; // rotman.uofthub.com => domain length = 3
 
 const router = () => {
+  if (parts[2]==='com'){
+    window.location.assign(http://www.google.com);
+  }
+
   let routes;
-  if (parts.length === (domainLength - 1) || parts[0] === 'uofthubtesting') {
+  if (parts.length === (domainLength - 1) || parts[0] === 'uofthubtest') {
     routes = index;
   } else if (parts[0] === 'rotman') {
     routes = rotmanRouter;
@@ -38,6 +42,7 @@ const router = () => {
     routes = index;
   }
   return routes;
+  
 };
 // register vue component 
 Vue.component('app-alert', AlertCmp)
