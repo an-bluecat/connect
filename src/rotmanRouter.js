@@ -15,6 +15,10 @@ import Profile from './components/User/Profile'
 import ratings from './components/ratings'
 import fileUploads from './components/fileUpload/fileUploads'
 
+/*
+This file is only used for rotman courses (rotman.uofthub.ca)
+*/
+
 Vue.use(Router)
 
 export default new Router({

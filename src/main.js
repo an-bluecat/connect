@@ -24,12 +24,14 @@ Vue.config.productionTip = false
 
 const host = window.location.host;
 const parts = host.split('.');
-console.log(parts[2]);
 const domainLength = 3; // rotman.uofthub.com => domain length = 3
 
 const router = () => {
-  if (parts[2]==='app'){
-    window.location.assign('http://www.google.com');
+  //redirec the url to .ca if accessing .com 
+  if (parts[1]==='com'){
+    window.location.assign('https://uofthub.ca/');
+  }else if (parts[2]==='com'){
+    window.location.assign('https://rotman.uofthub.ca/');
   }
   let routes;
   if (parts.length === (domainLength - 1) || parts[0] === 'uofthubtest') {
