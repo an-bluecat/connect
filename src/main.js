@@ -28,10 +28,9 @@ console.log(parts[2]);
 const domainLength = 3; // rotman.uofthub.com => domain length = 3
 
 const router = () => {
-  if (parts[2]==='com'){
-    window.location.assign(http://www.google.com);
+  if (parts[2]==='app'){
+    window.location.assign('http://www.google.com');
   }
-
   let routes;
   if (parts.length === (domainLength - 1) || parts[0] === 'uofthubtest') {
     routes = index;
