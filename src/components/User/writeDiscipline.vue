@@ -55,9 +55,9 @@
     data () {
       return {
         discipline: "",
-        disciplines: ['Chem', 'Civ', 'ECE', 'EngSci', 'Indy', 'MSE', 'Mech', 'Min', 'Others'],
+        disciplines: ['Chem', 'Civ', 'ECE', 'EngSci', 'Indy', 'MSE', 'Mech', 'Min', 'Rotman-Finance','Rotman-Accounting','Rotman-Management','Others'],
         gradyear: "",
-        gradyears: ["2T5","2T4","2T3","2T2","2T1","2T0","1T9","1T8",]
+        gradyears: ["2025","2024","2023","2022","2021","2020","2019","2018",]
       }
     },
     computed: {

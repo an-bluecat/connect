@@ -199,6 +199,8 @@ export default {
       if (value !== null && value !== undefined) {
         this.signInVisible = false
         this.signupVisible =false
+        this.$store.dispatch('getUserProfile', {})
+        //不知道为什么需要刷新，以后改！！！
         this.$router.go()
         this.getCookie()
       }

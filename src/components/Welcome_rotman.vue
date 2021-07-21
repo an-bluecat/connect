@@ -9,13 +9,13 @@
             <h1><center>Welcome to U of T Hub</center></h1>
             <v-card width="80%">
               <v-card-text>
-                <SearchCourse></SearchCourse>
+                <SearchCourse :courses="courseIndexSearchList"></SearchCourse>
               </v-card-text>
             </v-card>
           </v-parallax>
         <!-- </v-row> -->
         <h4 id="title"><center>Search By Program</center></h4>
-        <v-row>
+        <!-- <v-row>
           <v-col
             v-for="(item, index) in items"
             :key="index"
@@ -42,7 +42,7 @@
               <v-divider class="mx-4"></v-divider>
             </v-card>
           </v-col>
-        </v-row>
+        </v-row> -->
       <!-- </v-container> -->
     </v-main>
   </v-app>
@@ -52,6 +52,8 @@
 import courseList from "./course/courseList";
 import TopPanel from "./TopPanel";
 import SearchCourse from "./course/SeachCourse";
+import courseIndexSearchList from './course/courseIndexSearchList_rotman'
+
 
 export default {
   components: {
@@ -59,6 +61,7 @@ export default {
     SearchCourse,
   },
   data: () => ({
+    courseIndexSearchList: courseIndexSearchList,
     selection: 1,
     alignments: ["start", "center", "end"],
     items: [

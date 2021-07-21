@@ -9,7 +9,7 @@
             <h1><center>Welcome to U of T Hub</center></h1>
             <v-card width="80%">
               <v-card-text>
-                <SearchCourse></SearchCourse>
+                <SearchCourse :courses="courseIndexSearchList"></SearchCourse>
               </v-card-text>
             </v-card>
           </v-parallax>
@@ -52,6 +52,7 @@
 import courseList from "./course/courseList";
 import TopPanel from "./TopPanel";
 import SearchCourse from "./course/SeachCourse";
+import courseIndexSearchList from './course/courseIndexSearchList'
 
 export default {
   components: {
@@ -59,6 +60,7 @@ export default {
     SearchCourse,
   },
   data: () => ({
+    courseIndexSearchList: courseIndexSearchList,
     selection: 1,
     alignments: ["start", "center", "end"],
     items: [

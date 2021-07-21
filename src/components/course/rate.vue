@@ -292,7 +292,7 @@
 </template>
 
 <script>
-import coursedesc from "./coursedesc.json";
+import coursedesc from "./coursedesc_rotman_and_eng.json";
 import courseimport from "./coursecsv/courseimport.json";
 import SearchCourse from "./SeachCourse_top";
 import Signup from '../User/Signup';
@@ -341,13 +341,13 @@ export default {
     //面包屑
     this.bitems[1].text = this.title;
     this.bitems[1].href = "/#/rate/" + this.title;
-    // this.$store.dispatch('loadRatings', this.$props.classname)
     this.$store.dispatch("loadRatings", this.$route.params.name);
     this.$store.dispatch("loadComments", {
       name: this.$route.params.name,
       page: this.page,
     });
     
+    // getting classname from courseimport.json(includes data for 4 years)
     this.$store.dispatch("loadfileUploads", this.$route.params.name);
     const obj = this.pdata1;
     for (let key in obj) {
@@ -367,7 +367,13 @@ export default {
         // }
       }
     }
+    // try get classname 
+    if(this.pdata[this.title].length>1){
+      this.classname=this.pdata[this.title][1];
+    }
 
+
+    // getting description
     if (this.pdata[this.title] != undefined) {
       this.desc = this.pdata[this.title][0];
     }

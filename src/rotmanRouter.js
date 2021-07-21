@@ -8,6 +8,7 @@ import courseList from './components/course/courseList';
 import addRating from './components/addRating'
 import addComment from './components/addComment'
 import Welcome from './components/Welcome';
+import Welcome_rotman from './components/Welcome_rotman';
 import CreatefileUpload from './components/fileUpload/CreatefileUpload'
 import Signup from './components/User/Signup'
 import Signin from './components/User/Signin'
@@ -27,13 +28,12 @@ export default new Router({
     }
   },
   routes: [
-      //using for testing 
     {
-      path: '/signup',
-      name: 'signup',
-      component: Signin
-    }
-  /*  {
+      path: '/',
+      name: 'main',
+      component: Welcome_rotman
+    },
+    {
       path: '/',
       name: 'course',
       component: courseInstance,
@@ -100,7 +100,7 @@ export default new Router({
     {
       path: '/signup',
       name: 'Signup',
-      component: Signup
+      component: Signin
     },
     {
       path: '/signin',
@@ -128,6 +128,6 @@ export default new Router({
     // {
     //   path: 'https://firebasestorage.googleapis.com',
     //   beforeEnter() {location.href = 'https://firebasestorage.googleapis.com'}
-    // }*/
+    // }
   ]
 })

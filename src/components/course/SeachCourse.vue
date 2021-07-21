@@ -18,9 +18,10 @@
 import courseimport from './courseIndexSearchList'
 
 export default {
+    props: ['courses'],
     data: () => ({
         model: null,
-        courses: courseimport
+        // courses: courseimport
     }),
     methods: {
         onchangeclass(){

@@ -329,7 +329,7 @@
       showErrTips2: false,
       showEmailSuccess: false,
       discipline: '',
-      disciplines: ['Chem', 'Civ', 'ECE', 'EngSci', 'Indy', 'MSE', 'Mech', 'Min', 'Others'],
+      disciplines: ['Chem', 'Civ', 'ECE', 'EngSci', 'Indy', 'MSE', 'Mech', 'Min', 'Rotman-Finance','Rotman-Accounting','Rotman-Management','Others'],
       //Area3
       // elevations: ['My Reviews'],
       //Area4
