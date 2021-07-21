@@ -8,7 +8,7 @@ import 'bootstrap/dist/css/bootstrap.css'
 import 'bootstrap-vue/dist/bootstrap-vue.css'
 import Vue from 'vue'
 import App from './App.vue'
-import index from './router'
+import engRouter from './router'
 import rotmanRouter from './rotmanRouter'
 import vuetify from './plugins/vuetify'
 import { store } from './store' // automatically find ./store/index
@@ -28,16 +28,26 @@ console.log(parts[0]);
 const domainLength = 3; // route1.example.com => domain length = 3
 
 const router = () => {
+
+  // redirec the url to .ca if accessing .com 
+  if (parts[1]==='com'){
+    window.location.assign('https://uofthub.ca/');
+  }else if (parts[2]==='com'){
+    window.location.assign('https://rotman.uofthub.ca/');
+  }
+
+  // assign routers according to uofthub.ca / rotman.uofthub.ca
   let routes;
   if (parts.length === (domainLength - 1) || parts[0] === 'uofthub') {
-    routes = index;
+    routes = engRouter;
   } else if (parts[0] === 'rotman') {
     routes = rotmanRouter;
   } else {
     // If you want to do something else just comment the line below
-    routes = index;
+    routes = engRouter;
   }
   return routes;
+  
 };
 // register vue component 
 Vue.component('app-alert', AlertCmp)

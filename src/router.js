@@ -1,3 +1,8 @@
+
+/*
+This file is used for engineering courses
+*/
+
 import Vue from 'vue'
 import Router from 'vue-router'
 import courseInstance from './components/course/courseInstance.vue'
@@ -14,6 +19,7 @@ import Signin from './components/User/Signin'
 import Profile from './components/User/Profile'
 import ratings from './components/ratings'
 import fileUploads from './components/fileUpload/fileUploads'
+
 
 Vue.use(Router)
 
