@@ -66,7 +66,8 @@
                         <v-icon light>loading</v-icon>
                        </span>
                     </v-btn>
-                    <v-btn class="mt-2" type="submit" style="width:100%;" color="secondary" @click="onGoogleSignin()">
+                    <v-btn class="mt-2 white--text" style="width:100%;" color="#ea4335"  @click="onGoogleSignin()">
+                    <!-- <v-btn class="mt-2" type="submit" style="width:100%;" color="secondary" @click="onGoogleSignin()"> -->
                       <v-icon class="mr-2" color="">mdi-google</v-icon>Continue with Google
                     </v-btn>
                     
