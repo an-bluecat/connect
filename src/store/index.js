@@ -113,7 +113,7 @@ export const store = new Vuex.Store({
       // reach out to the fileUpload node
       // on('value'): listen to any value changes and get push notifications
       // once('value'): get the snapshot once
-      firebase.database().ref(payload).child('files').once('value')
+      firebase.database().ref("courses/"+payload).child('files').once('value')
         .then((data) => {
 
           const fileUploads = []
@@ -149,7 +149,7 @@ export const store = new Vuex.Store({
       // reach out to the fileUpload node
       // on('value'): listen to any value changes and get push notifications
       // once('value'): get the snapshot once
-      firebase.database().ref(payload).child('rating').once('value')
+      firebase.database().ref("courses/"+payload).child('rating').once('value')
         .then((data) => {
           const fileUploads = []
           const obj = data.val() // .val() will get you the value of the response
@@ -180,7 +180,7 @@ export const store = new Vuex.Store({
     },
     loadComments ({commit}, payload) {
       commit('setLoading', true)
-      firebase.database().ref(payload.name).child('comment').once('value')
+      firebase.database().ref("courses/"+payload.name).child('comment').once('value')
         .then((data) => {
           const fileUploads = []
           const obj1 = data.val() // .val() will get you the value of the response
@@ -264,7 +264,7 @@ export const store = new Vuex.Store({
       this.state.loadedcurrentUploads = 1;
       //************** STEP 1: ******************
       // push json information to database
-      firebase.database().ref(classname).child('files').push(fileUpload)
+      firebase.database().ref("courses/"+classname).child('files').push(fileUpload)
         .then((data) => {
           key = data.key // data we get back from firebase contains the key of this object
           return key
@@ -292,7 +292,7 @@ export const store = new Vuex.Store({
           imageUrl = snapshot.downloadURL
           //************** STEP 3: ******************
           // update a node "fileUploads", child(key)
-          return firebase.database().ref(classname).child('files').child(key).update({imageUrl: imageUrl})
+          return firebase.database().ref("courses/"+classname).child('files').child(key).update({imageUrl: imageUrl})
         })
         // commit in local store
         //************** STEP 4: ******************
@@ -334,7 +334,7 @@ export const store = new Vuex.Store({
       
       
       // push json information to database
-      firebase.database().ref(classname).child('rating').push(fileUpload)
+      firebase.database().ref("courses/"+classname).child('rating').push(fileUpload)
         .then((data) => {
           key = data.key // data we get back from firebase contains the key of this object
           return key
@@ -378,7 +378,7 @@ export const store = new Vuex.Store({
         discipline: discipline
       }
       // push json information to database
-      firebase.database().ref(classname).child('comment').push(fileUpload)
+      firebase.database().ref("courses/"+classname).child('comment').push(fileUpload)
         .then((data) => {
           key = data.key // data we get back from firebase contains the key of this object
           return key
