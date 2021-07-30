@@ -310,10 +310,16 @@ export const store = new Vuex.Store({
           console.log(error)
         })
     },
+    // add current rating to firebase, also recalculate the average
+    // TODO: current design needs to be reordered???
     addRating ({commit, getters}, payload) {
       let key
       const classname = payload.classname
-      var fileUpload;
+      var fileUpload,avg_use,avg_diff;
+      var total_useRate=0;
+      var total_diffRate=0;
+      var ratings=0;
+    
       if("user" in payload){
         var fileUpload= {
           rate: payload.rate,
@@ -331,8 +337,48 @@ export const store = new Vuex.Store({
           usefulness: payload.usefulness,
         }
       }
+      //calculate the average rating 
+      //load previous rating
+
+     
+      // reach out to the fileUpload node
+      // on('value'): listen to any value changes and get push notifications
+      // once('value'): get the snapshot once
+      firebase.database().ref("courses/"+classname).child('rating').once('value')
+        .then((data) => {
+
+          const obj = data.val() // .val() will get you the value of the response
+          // data.val is an object, not an array
+          // The "let" statement declares a block-scoped local variable, optionally initializing it to a value.
+          // loop through the object, same as for(key in obj), but limit key to block scope by "let"
+          for (let key in obj) {
+              total_useRate+=obj[key].usefulness;
+              total_diffRate+=obj[key].rate;   
+              ratings+=1; 
+              console.log(obj[key]);
+              console.log("total_diff: "+total_diffRate);
+              console.log("ratings: "+ratings);
+          }
+          avg_use=total_useRate/ratings;
+          avg_diff=total_diffRate/ratings;
+          console.log("avg_use:"+ avg_use);     
+          console.log("avg_diff:"+ avg_diff);   
+        })
+        .catch((error) => {
+          console.log(error)
+        }).then(()=>{
+          // upload new calculated avg usefulness
+          firebase.database().ref("courses/"+classname).child('avg_use').set(avg_use);
+          //upload new calculated avg diff
+          firebase.database().ref("courses/"+classname).child('avg_diff').set(avg_diff);
+          //upload num of rating
+          firebase.database().ref("courses/"+classname).child('num_rate').set(ratings);
+        })
       
       
+  
+      
+   
       // push json information to database
       firebase.database().ref("courses/"+classname).child('rating').push(fileUpload)
         .then((data) => {
