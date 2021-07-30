@@ -20,7 +20,7 @@
 </template>
 
 <script>
-import courseimport from './courseIndexSearchList'
+import courseimport from './courseIndexSearchListCscEngRot'
 
 export default {
     data: () => ({
