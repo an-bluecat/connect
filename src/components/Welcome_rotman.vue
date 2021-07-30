@@ -52,7 +52,7 @@
 import courseList from "./course/courseList";
 import TopPanel from "./TopPanel";
 import SearchCourse from "./course/SeachCourse";
-import courseIndexSearchList from './course/courseIndexSearchList_rotman'
+import courseIndexSearchList from './course/courseIndexSearchListCscEngRot'
 
 
 export default {

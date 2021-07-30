@@ -1,11 +1,7 @@
 <template>
   <v-app>
     <v-main>
-      <!-- <v-container fluid ma-0 pa-0 fill-height> -->
-      <!-- <v-container fluid> -->
-        <!-- <v-row> -->
           <v-parallax src="@/assets/building.jpeg">
-          <!-- <v-parallax src="@/assets/background.jpg"> -->
             <h1><center>Welcome to U of T Hub</center></h1>
             <v-card width="80%">
               <v-card-text>
@@ -13,7 +9,6 @@
               </v-card-text>
             </v-card>
           </v-parallax>
-        <!-- </v-row> -->
         <h4 id="title"><center>Search By Program</center></h4>
         <v-row>
           <v-col
@@ -43,7 +38,6 @@
             </v-card>
           </v-col>
         </v-row>
-      <!-- </v-container> -->
     </v-main>
   </v-app>
 </template>
@@ -52,7 +46,7 @@
 import courseList from "./course/courseList";
 import TopPanel from "./TopPanel";
 import SearchCourse from "./course/SeachCourse";
-import courseIndexSearchList from './course/courseIndexSearchList'
+import courseIndexSearchList from './course/courseIndexSearchListCscEngRot'
 
 export default {
   components: {

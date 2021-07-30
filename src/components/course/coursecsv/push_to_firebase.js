@@ -9,7 +9,7 @@ firebase.initializeApp({
     storageBucket: 'uofthub.appspot.com'
   });
 
-firebase.auth().signInWithEmailAndPassword("jerryyu8883@gmail.com", "123456")
+firebase.auth().signInWithEmailAndPassword("jerryyu8883@gmail.com", "000000")
 .then(
 console.log("good")
 )
@@ -21,13 +21,14 @@ console.log("good")
   }
 )
 
-const fileUpload = {
-  rate: "0",
-  user: "user"
-  // creatorId: getters.user.id
-}
-firebase.database().ref("ECE110").child('rating').once('value').then((data)=>{
-  console.log(data)
+// const fileUpload = {
+//   rate: "0",
+//   user: "user"
+//   // creatorId: getters.user.id
+// }
+firebase.database().ref("courses/"+"ECE110").child('rating').once('value')
+.then((data)=>{
+  console.log(data.val())
 }).catch((error)=>{
   console.log("error:",error)
 })

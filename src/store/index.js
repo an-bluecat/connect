@@ -67,7 +67,7 @@ export const store = new Vuex.Store({
     addComment (state, payload) {
       state.loadedComments.push(payload)
     },
-    // only set the ones in payload
+    // only set the ones in payload!!! Don't overwrite
     setUserProfile (state, payload) {
       // console.log("payload",payload)
       for(let key in payload){
@@ -629,7 +629,7 @@ export const store = new Vuex.Store({
             }
             commit('setUserProfile', profile)
           })
-
+          // get graduation year
           firebase.database().ref('user/-'+ uid).child('gradyear').once('value')
           .then((data) => {
             const gradyear = data.val();

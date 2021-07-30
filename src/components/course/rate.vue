@@ -292,7 +292,7 @@
 </template>
 
 <script>
-import coursedesc from "./coursedesc_rotman_and_eng.json";
+import coursedesc from "./coursedescCscEngRot.json";
 import courseimport from "./coursecsv/courseimport.json";
 import SearchCourse from "./SeachCourse_top";
 import Signup from '../User/Signup';
