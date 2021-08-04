@@ -52,7 +52,8 @@
         >Sign In</v-toolbar>
 
         <signin></signin>
-        <div class="link" @click="signupClicked">sign up</div>
+        <!-- switch to sign up -->
+        <div class="link text-decoration-underline" @click="signupClicked">sign up</div>
         <v-btn style="width: 100%;"  @click="signInVisible=false;">
           cancel
         </v-btn>
@@ -71,7 +72,9 @@
         >Sign Up</v-toolbar>
 
         <signup></signup>
-        <div class="link my-2" @click="signinClicked">Have an account? LOG IN</div>
+
+        <!-- switch to sign in -->
+        <div class="link my-2 text-decoration-underline" @click="signinClicked">Log In</div>
         <v-btn style="width: 100%;" @click="signupVisible=false">
           cancel
         </v-btn>

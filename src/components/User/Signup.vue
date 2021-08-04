@@ -47,17 +47,18 @@
                       :rules="[comparePasswords]"></v-text-field>
                   </v-flex>
                 </v-layout>
-                <v-layout row>
+                <!-- discipline temporarily disabled -->
+                <!-- <v-layout row>
                   <v-flex xs12>
                     <v-select 
                       :items="disciplines"
                       label="discipline"
                       v-model="discipline"
                     >
-                    <!-- <input:required="!discipline"/> -->
                     </v-select>
                   </v-flex>
-                </v-layout>
+                </v-layout> -->
+
                 <v-layout row>
                   <v-flex xs12>
                     <v-btn color="primary" style="width: 100%;" type="submit" :disabled="loading" :loading="loading">
@@ -66,6 +67,9 @@
                         <v-icon light>loading</v-icon>
                        </span>
                     </v-btn>
+
+                    <p class="text-center mt-2 mb-n1 font-weight-medium">OR</p>
+
                     <v-btn class="mt-2 white--text" style="width:100%;" color="#ea4335"  @click="onGoogleSignin()">
                     <!-- <v-btn class="mt-2" type="submit" style="width:100%;" color="secondary" @click="onGoogleSignin()"> -->
                       <v-icon class="mr-2" color="">mdi-google</v-icon>Continue with Google
@@ -91,7 +95,8 @@
     name: "Signup",
     data () {
       return {
-        email: 'your.name@mail.utoronto.ca',
+        email: '',
+        // email: 'your.name@mail.utoronto.ca',
         password: '',
         confirmPassword: '',
         emailRules: [
@@ -145,12 +150,16 @@
     },
     methods: {
       onSignup () {
-        if(this.email.endsWith("utoronto.ca") && 
-                            this.discipline!=''
+        if(this.email.endsWith("utoronto.ca") 
+                            //&& this.discipline!=''
                              && this.confirmPassword!=''
                               && this.password!=''){
           
-          this.$store.dispatch('signUserUp', {"email": this.email, "password": this.password, "discipline": this.discipline});
+          this.$store.dispatch('signUserUp', {
+            "email": this.email, 
+            "password": this.password,
+          //  "discipline": this.discipline
+           });
           console.log("email sent")
           // this.$router.replace('/');
           // location.reload();
