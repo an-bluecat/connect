@@ -200,9 +200,11 @@
                       </v-col>
                       <v-col cols="12" xs="12" sm="12" md="12" lg="12" xl="12" class="pr-5">
                         {{ item.comment }}
-                        <v-list-item-subtitle class="mt-1">{{ item.time }}</v-list-item-subtitle>
 
-                        <v-list-item-subtitle v-if="item.pname != ''"
+                        <!-- temporarily disable comment time -->
+                        <!-- <v-list-item-subtitle class="mt-1">{{ item.time }}</v-list-item-subtitle> -->
+
+                        <v-list-item-subtitle class="mt-2" v-if="item.pname != ''"
                           >Taught by {{ item.pname }}</v-list-item-subtitle
                         >
                       </v-col>
