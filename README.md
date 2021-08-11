@@ -20,6 +20,10 @@ npm run build
 See [Configuration Reference](https://cli.vuejs.org/config/).
 
 
+### deploy
+firebase deploy 
+firebase deploy --only hosting:uofthubtest
+
 
 
 

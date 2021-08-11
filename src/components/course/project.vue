@@ -160,7 +160,7 @@ import SearchCourse from "./SeachCourse_top";
     created() {
       this.name = this.$route.params.name;
       //面包屑
-      this.items[1].text = this.name;this.items[1].href = '/project/'+this.name;
+      this.items[1].text = this.name;this.items[1].href = '/program/'+this.name;
       //把数据填充到右侧区域
       const pdata = this.pdata[this.name];
       this.list1 = [];this.list2 = [];this.list3 = [];this.list4 = [];
@@ -212,9 +212,17 @@ import SearchCourse from "./SeachCourse_top";
         }
       },
       navToRate(item) {
-        // let routeData = this.$router.resolve('./rate/'+ item[0]);
-        // window.open(routeData.href, '_blank');
-        this.$router.push('/rate/'+ item[0]);
+        // for mobile: no new window
+        if(this.$vuetify.breakpoint.name=="xs" || this.$vuetify.breakpoint.name=="sm"){
+          this.$router.push('/rate/'+ item[0]);
+        }
+        // for laptop: open a new window for the course clicked
+        else{
+          let routeData = this.$router.resolve('/rate/'+ item[0]);
+          window.open(routeData.href, '_blank');
+        }
+        
+        // 
       },
       onchangeclass(){
         this.result = '';

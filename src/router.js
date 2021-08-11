@@ -52,11 +52,11 @@ export default new Router({
     },
     {
       path: '/',
-      name: 'project',
+      name: 'program',
       component: project,
       children:[
         {
-          path:"project/:name",
+          path:"program/:name",
           name: "descipline-details",
           component: project
         }

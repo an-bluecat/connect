@@ -55,7 +55,7 @@
     data () {
       return {
         discipline: "",
-        disciplines: ['Chem', 'Civ', 'ECE', 'EngSci', 'Indy', 'MSE', 'Mech', 'Min', 'Rotman-Finance','Rotman-Accounting','Rotman-Management','Others'],
+        disciplines: ['Chem', 'Civ', 'ECE', 'EngSci', 'Indy', 'MSE', 'Mech', 'Min', 'Finance','Accounting','Management','Others'],
         gradyear: "",
         gradyears: ["2025","2024","2023","2022","2021","2020","2019","2018",]
       }
