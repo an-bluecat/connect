@@ -111,6 +111,14 @@
       <!-- 描述 -->
       <v-row no-gutters class="mt-6">
         <v-col col="12" lg="10" md="10" sm="12" xs="12">
+          <v-alert
+            border="top"
+            colored-border
+            type="info"
+            elevation="2"
+          >
+            Rate 3 courses to get $10 gift cards from us!
+          </v-alert>
           <p class="text-h5 font-weight-medium">Description</p>
           <p class="text-justify">{{ desc }}</p>
         </v-col>
