@@ -1,7 +1,6 @@
 <template>
   <v-app id="inspire">
-    
-    <v-navigation-drawer v-model="drawer" app>
+    <v-navigation-drawer v-model="drawer" app :class="drawerResponsive">
       <v-sheet color="grey lighten-4" class="pa-4">
         <v-breadcrumbs :items="items" large></v-breadcrumbs>
       </v-sheet>
@@ -190,6 +189,12 @@ import SearchCourse from "./SeachCourse_top";
           case 'md': return "ml-6 mt-15 mr-16 "
           case 'lg': return "ml-6 mt-15 mr-16 "
           case 'xl': return "ml-6 mt-15 mr-16 "
+        }
+      },
+      drawerResponsive() {
+        switch (this.$vuetify.breakpoint.name) {
+          case 'xs': return this.drawer = false
+          case 'sm': return this.drawer = false
         }
       }
     },
