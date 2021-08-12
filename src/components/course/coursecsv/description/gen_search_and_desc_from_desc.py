@@ -21,6 +21,9 @@ run = True
 
 
 id=0
+# ensure no duplicated course!
+courseSet=set()
+
 def getCourseIndex(discipline):
     global id
     filename = "./src/components/course/coursecsv/description/"+discipline+".csv"
@@ -53,32 +56,40 @@ def getCourseIndex(discipline):
                 if "Y1" in courseStr:
                     if "PHY1" not in courseStr:
                         courseStr = courseStr.replace("Y1", "")
-
-                temp={}
-                temp['id']=id
-                temp['name']=courseStr
-                id+=1
-                courseIndexSearch.append(temp)
+                if "\ufeff" in courseStr:
+                    courseStr = courseStr.replace("\ufeff", "")
 
 
-                # desc
+                # only do the following once for each course Str to avoid duplicates
+                if courseStr not in courseSet:
+                    courseSet.add(courseStr)
 
-                courseStr=courseStr.split("-",maxsplit=2)
-                code=courseStr[0]
-                name=courseStr[1]
-                # get ride of space
-                if code[-1]==" ":
-                    code=code[:-1]
-                if name!="" and name[0]==" ":
-                    name=name[1:]
+                    # search 
+                    temp={}
+                    temp['id']=id
+                    temp['name']=courseStr
+                    id+=1
+                    courseIndexSearch.append(temp)
+
+
+                    # desc
+                    courseStr=courseStr.split("-",maxsplit=2)
+                    code=courseStr[0]
+                    name=courseStr[1]
+                    # get ride of space
+                    if code[-1]==" ":
+                        code=code[:-1]
+                    if name!="" and name[0]==" ":
+                        name=name[1:]
+                    
+                    # order: ["desc","coursename","prerequisites"]
+                    coursedesc[code]=[row[1],name,row[2]]
                 
-                # order: ["desc","coursename","prerequisites"]
-                coursedesc[code]=[row[1],name,row[2]]
-                
 
 
 
-disciplines=["Accounting","Finance","Management","Comp_sci", "Engineering"]
+# disciplines=["Accounting","Finance","Management","Comp_sci", "Engineering"]
+disciplines=["Accounting","Finance","Management"]
 for name in disciplines:
     getCourseIndex(name)
 
@@ -86,10 +97,11 @@ for name in disciplines:
 
 
 if run:
-    with open('./src/components/course/courseIndexSearchListCscEngRot.json', 'w') as fp:
+    # with open('./src/components/course/courseIndexSearchListCscEngRot.json', 'w') as fp:
+    with open('./src/components/course/courseIndexSearchList_rotman.json', 'w') as fp:
         json.dump(courseIndexSearch, fp)
-    with open('./src/components/course/coursedescCscEngRot.json', 'w') as fp:
-        json.dump(coursedesc,fp)
+    # with open('./src/components/course/coursedescCscEngRot.json', 'w') as fp:
+    #     json.dump(coursedesc,fp)
 
 # disciplines=["artsci_course_description"]
 # for name in disciplines:

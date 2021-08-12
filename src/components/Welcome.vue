@@ -37,7 +37,10 @@
               <v-divider class="mx-4"></v-divider>
             </v-card>
           </v-col>
+          
         </v-row>
+        <!-- <DataTable :courses="courseIndexSearchList"></DataTable> -->
+        
     </v-main>
   </v-app>
 </template>
@@ -48,13 +51,19 @@ import TopPanel from "./TopPanel";
 import SearchCourse from "./course/SeachCourse";
 import courseIndexSearchList from './course/courseIndexSearchListCscEngRot'
 
+// import courseIndexSearchList_rotman from './course/courseIndexSearchList_rotman';
+import DataTable from "./course/datatable";
+
 export default {
   components: {
     courseList,
     SearchCourse,
+    DataTable,
   },
   data: () => ({
+    // courseIndexSearchList_rotman: courseIndexSearchList_rotman,
     courseIndexSearchList: courseIndexSearchList,
+    
     selection: 1,
     alignments: ["start", "center", "end"],
     items: [
@@ -128,9 +137,9 @@ export default {
     navToProject(name) {
       // let routeData = this.$router.resolve('./project/'+ name);
       // window.open(routeData.href, '_blank');
-      this.$router.push("./project/" + name);
+      this.$router.push("./program/" + name);
     },
-  },
+  }
 };
 </script>
 

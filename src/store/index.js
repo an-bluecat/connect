@@ -13,6 +13,7 @@ export const store = new Vuex.Store({
 
   // stored data
   state: {
+    loadedTableData: [],
     loadedfileUploads:[],
     loadedRatings: [],
     loadedFavs: [],
@@ -43,6 +44,15 @@ export const store = new Vuex.Store({
     setLoadedfileUploads (state, payload) {
       state.loadedfileUploads = payload
     },
+    // for data table
+    clearTableData (state){
+      state.loadedTableData=[]
+    },
+    addTableData (state, payload){
+      console.log("pushed")
+      state.loadedTableData.push(payload)
+    },
+
     setLoadedRatings (state, payload){
       state.loadedRatings = payload
     },
@@ -108,6 +118,95 @@ export const store = new Vuex.Store({
 
   // asynchronous tasks
   actions: {
+    // fetch data for course table
+    // loadTableData({commit,dispatch}, payload){
+      
+    // },
+
+    // fetch data for individule course
+    loadcourseRating({commit}, fullname){
+      var courseCode=fullname.split("-")[0].trim();
+      if(courseCode=="RSM100"){
+        courseCode="\ufeffRSM100"
+      }
+      commit('setLoading', true)
+      var usefulness=0
+      var diff=0
+      var num_rating=0
+
+
+    // get usefulness, difficulty, rating
+    firebase.database().ref("courses/"+courseCode).child('avg_use').once('value')
+    .then((data) => {
+        // console.log("1")
+        // console.log("data",data.val())
+        // console.log("courseCodeInside", courseCode)
+        if(data.val()==null){
+          var courseInfo={
+            courseName: fullname,
+            difficulty: 0,
+            usefulness: 0,
+            numRatings: 0
+          }
+          commit('addTableData', courseInfo)
+        }
+        usefulness = data.val().toFixed(1) // .val() will get you the value of the response
+        firebase.database().ref("courses/"+courseCode).child('avg_diff').once('value')
+        .then((data) => {
+          diff = data.val().toFixed(1) // .val() will get you the value of the response
+          // console.log("2")
+          firebase.database().ref("courses/"+courseCode).child('num_rate').once('value')
+          .then((data) => {
+            // console.log("3")
+            
+            // console.log("fullname",fullname)
+            // console.log("courseCode", courseCode)
+            // console.log("diff",diff)
+
+            
+            if(data.val()==null){
+              var courseInfo={
+                courseName: fullname,
+                difficulty: 0,
+                usefulness: 0,
+                numRatings: 0
+              }
+              
+            }
+            else{
+              num_rating = data.val() // .val() will get you the value of the response
+
+              //get an object and append into loadedTableData
+              var courseInfo={
+                courseName: fullname,
+                difficulty: diff,
+                usefulness: usefulness,
+                numRatings: num_rating
+            }
+            }
+            
+            console.log("courseInfo",courseInfo)
+            commit('addTableData', courseInfo)
+            commit('reset')
+          })
+
+       })
+    })
+    .catch(
+      (error) => {
+        console.log(error)
+        // commit('setLoading', false)
+        commit('reset');
+      }
+    )
+
+    // push into course data
+    
+
+
+    },
+
+
     loadfileUploads ({commit}, payload) {
       commit('setLoading', true)
       // reach out to the fileUpload node
@@ -890,6 +989,9 @@ export const store = new Vuex.Store({
     }
   },
   getters: {
+    loadedTableData (state){
+      return state.loadedTableData
+    },
     loadedfileUploads (state) {
       return state.loadedfileUploads
       // return state.loadedfileUploads.sort((fileUploadA, fileUploadB) => {

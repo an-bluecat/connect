@@ -15,6 +15,7 @@
           </v-parallax>
         <!-- </v-row> -->
         <h4 id="title"><center>Search By Program</center></h4>
+        <DataTable :courses="courseIndexSearchList_rotman"></DataTable>
         <!-- <v-row>
           <v-col
             v-for="(item, index) in items"
@@ -52,16 +53,22 @@
 import courseList from "./course/courseList";
 import TopPanel from "./TopPanel";
 import SearchCourse from "./course/SeachCourse";
-import courseIndexSearchList from './course/courseIndexSearchListCscEngRot'
+
+import courseIndexSearchList from './course/courseIndexSearchListCscEngRot';
+import courseIndexSearchList_rotman from './course/courseIndexSearchList_rotman';
+import DataTable from "./course/datatable";
 
 
 export default {
   components: {
     courseList,
     SearchCourse,
+    DataTable,
   },
   data: () => ({
     courseIndexSearchList: courseIndexSearchList,
+    courseIndexSearchList_rotman: courseIndexSearchList_rotman,
+
     selection: 1,
     alignments: ["start", "center", "end"],
     items: [

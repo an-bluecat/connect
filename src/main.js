@@ -24,7 +24,7 @@ Vue.config.productionTip = false
 
 const host = window.location.host;
 const parts = host.split('.');
-console.log(parts[0]);
+// console.log(parts[0]);
 const domainLength = 3; // route1.example.com => domain length = 3
 
 const router = () => {
