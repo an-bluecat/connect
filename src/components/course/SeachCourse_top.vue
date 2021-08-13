@@ -1,7 +1,7 @@
 <template>
     <v-autocomplete
         v-model="model"
-        :items="items"
+        :items="autofillList"
         color="white"
         hide-selected
         item-text="Description"
@@ -16,6 +16,7 @@
         dense
 
         @change="onchangeclass()"
+        @update:search-input="onchangeinput"
     ></v-autocomplete>
 </template>
 
@@ -25,7 +26,9 @@ import courseimport from './courseIndexSearchListCscEngRot'
 export default {
     data: () => ({
         model: null,
-        courses: courseimport
+        courses: courseimport,
+        autofillList: []
+
     }),
     methods: {
         onchangeclass(){
@@ -39,6 +42,13 @@ export default {
             var coursecode=this.model.split(" ")[0];
             this.$router.push({path: '/rate/'+ coursecode});
             location.reload();
+        },
+        onchangeinput(input){
+            if(input){
+                this.autofillList = this.items
+            }else{
+                this.autofillList = []
+            }
         }
     },
     computed: {
