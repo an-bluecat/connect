@@ -2,7 +2,6 @@
     <v-autocomplete
         v-model="model"
         :items="autofillList"
-        color="white"
         hide-selected
         item-text="Description"
         item-value="Course"
@@ -14,6 +13,7 @@
         rounded
         solo
         dense
+        hide-no-data
 
         @change="onchangeclass()"
         @update:search-input="onchangeinput"

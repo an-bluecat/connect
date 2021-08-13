@@ -2,13 +2,13 @@
     <v-autocomplete
         v-model="model"
         :items="autofillList"
-        color="white"
         hide-selected
         item-text="Description"
         item-value="Course"
         label="Search your Courses"
         placeholder="Start typing to Search"
         prepend-icon="mdi-database-search"
+        hide-no-data
         @change="onchangeclass()"
         @update:search-input="onchangeinput"
     ></v-autocomplete>
