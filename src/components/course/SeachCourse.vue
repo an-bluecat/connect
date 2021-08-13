@@ -1,7 +1,7 @@
 <template>
     <v-autocomplete
         v-model="model"
-        :items="items"
+        :items="autofillList"
         color="white"
         hide-selected
         item-text="Description"
@@ -9,8 +9,8 @@
         label="Search your Courses"
         placeholder="Start typing to Search"
         prepend-icon="mdi-database-search"
-        
         @change="onchangeclass()"
+        @update:search-input="onchangeinput"
     ></v-autocomplete>
 </template>
 
@@ -22,6 +22,7 @@ export default {
     data: () => ({
         model: null,
         // courses: courseimport
+        autofillList: []
     }),
     methods: {
         onchangeclass(){
@@ -34,6 +35,13 @@ export default {
             // 域名需要除去课名，只留下代码
             var coursecode=this.model.split(" ")[0];
             this.$router.push('./rate/'+ coursecode);
+        },
+        onchangeinput(input){
+            if(input){
+                this.autofillList = this.items
+            }else{
+                this.autofillList = []
+            }
         }
     },
     computed: {
