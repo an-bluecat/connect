@@ -136,72 +136,52 @@ export const store = new Vuex.Store({
 
 
     // get usefulness, difficulty, rating
-    firebase.database().ref("courses/"+courseCode).child('avg_use').once('value')
-    .then((data) => {
-        // console.log("1")
-        // console.log("data",data.val())
-        // console.log("courseCodeInside", courseCode)
-        if(data.val()==null){
-          var courseInfo={
-            courseName: fullname,
-            difficulty: 0,
-            usefulness: 0,
-            numRatings: 0
-          }
-          commit('addTableData', courseInfo)
-        }
-        usefulness = data.val().toFixed(1) // .val() will get you the value of the response
-        firebase.database().ref("courses/"+courseCode).child('avg_diff').once('value')
-        .then((data) => {
-          diff = data.val().toFixed(1) // .val() will get you the value of the response
-          // console.log("2")
-          firebase.database().ref("courses/"+courseCode).child('num_rate').once('value')
-          .then((data) => {
-            // console.log("3")
-            
-            // console.log("fullname",fullname)
-            // console.log("courseCode", courseCode)
-            // console.log("diff",diff)
+      firebase.database().ref("courses/"+courseCode).child('avg_use').once('value')
+      .then((data) => {
 
-            
-            if(data.val()==null){
-              var courseInfo={
-                courseName: fullname,
-                difficulty: 0,
-                usefulness: 0,
-                numRatings: 0
-              }
-              
+          // if not in database ->no comment yet, push all 0s
+          if(data.val()==null){
+            var courseInfo={
+              courseName: fullname,
+              difficulty: 0,
+              usefulness: 0,
+              numRatings: 0
             }
-            else{
-              num_rating = data.val() // .val() will get you the value of the response
-
-              //get an object and append into loadedTableData
-              var courseInfo={
-                courseName: fullname,
-                difficulty: diff,
-                usefulness: usefulness,
-                numRatings: num_rating
-            }
-            }
-            
-            console.log("courseInfo",courseInfo)
             commit('addTableData', courseInfo)
-            commit('reset')
-          })
+          }
+          // if in database, then continue to get the other specs
+          else{
+            usefulness = data.val().toFixed(1)
+            firebase.database().ref("courses/"+courseCode).child('avg_diff').once('value')
+            .then((data) => {
+              diff = data.val().toFixed(1)
+              // console.log("2")
+              firebase.database().ref("courses/"+courseCode).child('num_rate').once('value')
+              .then((data) => {
+                  num_rating = data.val()
+                  //create an object and append into loadedTableData
+                  var courseInfo={
+                    courseName: fullname,
+                    difficulty: diff,
+                    usefulness: usefulness,
+                    numRatings: num_rating
+                  }
+                commit('addTableData', courseInfo)
+                commit('reset')
+              })
+            })
+          }
+      })
+      .catch(
+        (error) => {
+          console.log(error)
+          // commit('setLoading', false)
+          commit('reset');
+        }
+      )
 
-       })
-    })
-    .catch(
-      (error) => {
-        console.log(error)
-        // commit('setLoading', false)
-        commit('reset');
-      }
-    )
-
-    // push into course data
-    
+      // push into course data
+      
 
 
     },
