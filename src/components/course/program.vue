@@ -1,24 +1,9 @@
+// this is for all other programs except for engineering. We don't know the grade information
+
 <template>
     <div id="app">
     <v-app id="inspire">
-        <v-card>
-        <v-card-title>
-            Course Data
-            <v-spacer></v-spacer>
-            <v-text-field
-            v-model="search"
-            append-icon="mdi-magnify"
-            label="Search"
-            single-line
-            hide-details
-            ></v-text-field>
-        </v-card-title>
-        <v-data-table
-            :headers="headers"
-            :items="courseData"
-            :search="search"
-        ></v-data-table>
-        </v-card>
+
     </v-app>
 </div>
 </template>
@@ -26,27 +11,27 @@
 <script>
 
 
+import DataTable from "./datatable";
 
-import * as firebase from 'firebase'
 
 
 export default {
-    props: ['courses'],
+
     data: () => ({
-        search: '',
-        headers: [
-        {
-          text: 'Course Name',
-          align: 'start',
-          sortable: false,
-          value: 'courseName',
-        },
-        { text: 'Ratings', value: 'numRatings' },
-        { text: 'Difficulty', value: 'difficulty' },
-        { text: 'Usefulness', value: 'usefulness' },
+    //     search: '',
+    //     headers: [
+    //     {
+    //       text: 'Course Name',
+    //       align: 'start',
+    //       sortable: false,
+    //       value: 'courseName',
+    //     },
+    //     { text: 'Ratings', value: 'numRatings' },
+    //     { text: 'Difficulty', value: 'difficulty' },
+    //     { text: 'Usefulness', value: 'usefulness' },
         
-      ],
-    //   courseData:[],
+    //   ],
+    // //   courseData:[],
 
     }),
     created(){

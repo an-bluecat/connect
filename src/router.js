@@ -5,13 +5,12 @@ This file is used for engineering courses
 
 import Vue from 'vue'
 import Router from 'vue-router'
-// import courseInstance from './components/course/courseInstance.vue'
+
 import project from './components/course/project.vue'
+import program from './components/course/program.vue'
 import rate from './components/course/rate.vue'
 import About from './components/About.vue'
-// import courseList from './components/course/courseList';
 import addRating from './components/addRating'
-// import addComment from './components/addComment'
 import Welcome from './components/Welcome';
 import Welcome_rotman from './components/Welcome_rotman'
 import CreatefileUpload from './components/fileUpload/CreatefileUpload'
@@ -20,6 +19,9 @@ import Signin from './components/User/Signin'
 import Profile from './components/User/Profile'
 // import ratings from './components/ratings'
 // import fileUploads from './components/fileUpload/fileUploads'
+// import addComment from './components/addComment'
+// import courseList from './components/course/courseList';
+// import courseInstance from './components/course/courseInstance.vue'
 
 
 Vue.use(Router)
@@ -54,6 +56,18 @@ export default new Router({
           path:"program/:name",
           name: "descipline-details",
           component: project
+        }
+      ]
+    },
+    {
+      path: '/',
+      name: 'artsci',
+      component: program,
+      children:[
+        {
+          path:"artsci/:name",
+          name: "descipline-details",
+          component: program
         }
       ]
     },

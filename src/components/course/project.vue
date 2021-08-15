@@ -1,3 +1,5 @@
+// this is for engineering only. Tthe grade information is retrieved from skule.ca
+
 <template>
   <v-app id="inspire">
     

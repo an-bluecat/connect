@@ -84,7 +84,6 @@ def getCourseIndex(discipline):
                     
                     # order: ["desc","coursename","prerequisites"]
                     coursedesc[code]=[row[1],name,row[2]]
-                
 
 
 
