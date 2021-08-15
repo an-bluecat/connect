@@ -294,7 +294,7 @@
 </template>
 
 <script>
-import coursedesc from "./coursedescCscEngRot.json";
+import coursedesc from "./coursejson/coursedesc_all.json";
 import courseimport from "./coursecsv/courseimport.json";
 import SearchCourse from "./SeachCourse_top";
 import Signup from '../User/Signup';

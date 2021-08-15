@@ -50,18 +50,18 @@
 </template>
 
 <script>
-import courseList from "./course/courseList";
+
 import TopPanel from "./TopPanel";
 import SearchCourse from "./course/SeachCourse";
 
-import courseIndexSearchList from './course/courseIndexSearchListCscEngRot';
-import courseIndexSearchList_rotman from './course/courseIndexSearchList_rotman';
+import courseIndexSearchList from './course/coursejson/courseIndexSearchListCscEngRot';
+import courseIndexSearchList_rotman from './course/coursejson/courseIndexSearchList_rotman';
 import DataTable from "./course/datatable";
 
 
 export default {
   components: {
-    courseList,
+
     SearchCourse,
     DataTable,
   },

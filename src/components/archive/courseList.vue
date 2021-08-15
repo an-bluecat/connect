@@ -68,7 +68,7 @@
 
 <script>
 import axios from "axios";
-import courseimport from './courseIndexSearchList'
+import courseimport from './coursejson/courseIndexSearchList'
 // const baseURL="https://connectheroserver.herokuapp.com/courses";
 
 

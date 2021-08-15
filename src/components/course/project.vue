@@ -140,19 +140,19 @@ import SearchCourse from "./SeachCourse_top";
         {text: '', disabled: false, href: ''}
       ],
       // veutify: data table
-      search: '',
-      headers: [
-        {
-          text: 'Course Code',
-          align: 'start',
-          // sortable: false,
-          value: 'name',
-        },
-        { text: 'Course Name', value: 'calories' },
-        { text: 'Difficulty(0-5)', value: 'fat' },
-        { text: 'rate difficulty', value: 'carbs' },
-      ],
-      tableData: [],
+      // search: '',
+      // headers: [
+      //   {
+      //     text: 'Course Code',
+      //     align: 'start',
+      //     // sortable: false,
+      //     value: 'name',
+      //   },
+      //   { text: 'Course Name', value: 'calories' },
+      //   { text: 'Difficulty(0-5)', value: 'fat' },
+      //   { text: 'rate difficulty', value: 'carbs' },
+      // ],
+      // tableData: [],
       //search
       model: null,
       result: ''

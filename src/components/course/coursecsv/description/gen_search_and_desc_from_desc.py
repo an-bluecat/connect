@@ -53,8 +53,8 @@ def getCourseIndex(discipline):
                     courseStr = courseStr.replace("H1Y", "")
                 if "H1" in courseStr:
                     courseStr = courseStr.replace("H1", "")
-                if "Y1" in courseStr:
-                    if "PHY1" not in courseStr:
+                # avoid cases like psy100 and phy180
+                if "Y1" in courseStr[5:]:
                         courseStr = courseStr.replace("Y1", "")
                 if "\ufeff" in courseStr:
                     courseStr = courseStr.replace("\ufeff", "")
@@ -88,8 +88,9 @@ def getCourseIndex(discipline):
 
 
 
-# disciplines=["Accounting","Finance","Management","Comp_sci", "Engineering"]
-disciplines=["Accounting","Finance","Management"]
+disciplines=["Accounting","Finance","Management","Comp_sci", "Engineering", "ECO","MAT","STA","PSY"]
+# disciplines=["Accounting","Finance","Management"]
+
 for name in disciplines:
     getCourseIndex(name)
 
@@ -98,20 +99,9 @@ for name in disciplines:
 
 if run:
     # with open('./src/components/course/courseIndexSearchListCscEngRot.json', 'w') as fp:
-    with open('./src/components/course/courseIndexSearchList_rotman.json', 'w') as fp:
+    with open('./src/components/course/coursejson/courseIndexSearchList_all.json', 'w') as fp:
         json.dump(courseIndexSearch, fp)
-    # with open('./src/components/course/coursedescCscEngRot.json', 'w') as fp:
-    #     json.dump(coursedesc,fp)
-
-# disciplines=["artsci_course_description"]
-# for name in disciplines:
-#     getCourseIndex(name)
+    with open('./src/components/course/coursejson/coursedesc_all.json', 'w') as fp:
+        json.dump(coursedesc,fp)
 
 
-
-
-# if run:
-#     with open('./src/components/course/courseIndexSearchList_all.json', 'w') as fp:
-#         json.dump(courseIndexSearch, fp)
-#     with open('./src/components/course/coursedesc_all.json', 'w') as fp:
-#         json.dump(coursedesc,fp)

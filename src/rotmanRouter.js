@@ -8,7 +8,7 @@ import Router from 'vue-router'
 import project from './components/course/project.vue'
 import rate from './components/course/rate.vue'
 import About from './components/About.vue'
-import courseList from './components/course/courseList';
+// import courseList from './components/course/courseList';
 import addRating from './components/addRating'
 // import addComment from './components/addComment'
 import Welcome from './components/Welcome';
@@ -91,11 +91,11 @@ export default new Router({
     //   name: 'about',
     //   component: About
     // },
-    {
-      path: '/courses',
-      name: 'courses', 
-      component: courseList
-    },
+    // {
+    //   path: '/courses',
+    //   name: 'courses', 
+    //   component: courseList
+    // },
     {
       path: '/addfile/:classname',
       name: 'addfile',

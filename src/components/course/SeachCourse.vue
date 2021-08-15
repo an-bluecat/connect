@@ -15,7 +15,7 @@
 </template>
 
 <script>
-import courseimport from './courseIndexSearchList'
+
 
 export default {
     props: ['courses'],
