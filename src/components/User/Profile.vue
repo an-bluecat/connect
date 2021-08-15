@@ -477,7 +477,7 @@
       },
       navToRate(item) {
         // console.log(item);return
-        this.$router.replace('/rate/'+ item);
+        this.$router.replace('/course/'+ item);
       },
       verify() {
         this.$store.dispatch('sendEmailVerification', {})

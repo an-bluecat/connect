@@ -4,21 +4,21 @@ This file is only used for rotman courses (rotman.uofthub.ca)
 
 import Vue from 'vue'
 import Router from 'vue-router'
-import courseInstance from './components/course/courseInstance.vue'
+// import courseInstance from './components/course/courseInstance.vue'
 import project from './components/course/project.vue'
 import rate from './components/course/rate.vue'
 import About from './components/About.vue'
 import courseList from './components/course/courseList';
 import addRating from './components/addRating'
-import addComment from './components/addComment'
+// import addComment from './components/addComment'
 import Welcome from './components/Welcome';
 import Welcome_rotman from './components/Welcome_rotman';
 import CreatefileUpload from './components/fileUpload/CreatefileUpload'
 import Signup from './components/User/Signup'
 import Signin from './components/User/Signin'
 import Profile from './components/User/Profile'
-import ratings from './components/ratings'
-import fileUploads from './components/fileUpload/fileUploads'
+// import ratings from './components/ratings'
+// import fileUploads from './components/fileUpload/fileUploads'
 
 
 Vue.use(Router)
@@ -38,18 +38,18 @@ export default new Router({
       name: 'main',
       component: Welcome_rotman
     },
-    {
-      path: '/',
-      name: 'course',
-      component: courseInstance,
-      children:[
-        {
-          path:"course/:name",
-          name: "course-details",
-          component: courseInstance
-        }
-      ]
-    },
+    // {
+    //   path: '/',
+    //   name: 'course',
+    //   component: courseInstance,
+    //   children:[
+    //     {
+    //       path:"course/:name",
+    //       name: "course-details",
+    //       component: courseInstance
+    //     }
+    //   ]
+    // },
     {
       path: '/',
       name: 'project',
@@ -80,12 +80,12 @@ export default new Router({
       props: true,
       component: addRating
     },
-    {
-      path: '/addcomment/:classname',
-      name: 'addcomment',
-      props: true,
-      component: addComment
-    },
+    // {
+    //   path: '/addcomment/:classname',
+    //   name: 'addcomment',
+    //   props: true,
+    //   component: addComment
+    // },
     // {
     //   path: '/about',
     //   name: 'about',
@@ -117,18 +117,18 @@ export default new Router({
       name: 'Profile',
       component: Profile
     },
-    {
-      path: '/course/:classname/ratings',
-      name: 'ratings',
-      props: true,
-      component: ratings
-    },
-    {
-      path: '/course/:classname/resources',
-      name: 'resources',
-      props: true,
-      component: fileUploads
-    }
+    // {
+    //   path: '/course/:classname/ratings',
+    //   name: 'ratings',
+    //   props: true,
+    //   component: ratings
+    // },
+    // {
+    //   path: '/course/:classname/resources',
+    //   name: 'resources',
+    //   props: true,
+    //   component: fileUploads
+    // }
     // redirect all the firebasestorage link to http:// firebasestorage.xxx.com
     // {
     //   path: 'https://firebasestorage.googleapis.com',

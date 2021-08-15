@@ -1,3 +1,6 @@
+// currently not used!!!!!!
+// src/components/course/project_with_inplace_search.vue
+
 <template>
   <v-app id="inspire">
 
@@ -193,9 +196,9 @@ import courseimport from './coursecsv/courseimport.json';
         }
       },
       navToRate(item) {
-        // let routeData = this.$router.resolve('./rate/'+ item[0]);
+        // let routeData = this.$router.resolve('./course/'+ item[0]);
         // window.open(routeData.href, '_blank');
-        this.$router.push('/rate/'+ item[0]);
+        this.$router.push('/course/'+ item[0]);
       },
       onchangeclass(){
         this.result = '';

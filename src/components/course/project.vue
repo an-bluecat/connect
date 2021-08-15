@@ -214,11 +214,11 @@ import SearchCourse from "./SeachCourse_top";
       navToRate(item) {
         // for mobile: no new window
         if(this.$vuetify.breakpoint.name=="xs" || this.$vuetify.breakpoint.name=="sm"){
-          this.$router.push('/rate/'+ item[0]);
+          this.$router.push('/course/'+ item[0]);
         }
         // for laptop: open a new window for the course clicked
         else{
-          let routeData = this.$router.resolve('/rate/'+ item[0]);
+          let routeData = this.$router.resolve('/course/'+ item[0]);
           window.open(routeData.href, '_blank');
         }
         

@@ -255,8 +255,8 @@ export default {
         
         // this.$router.push('/course/' + this.classname)
         // http://localhost:8080/#/project/rate/APS100H1
-        // this.$router.push('/rate/' + this.classname)
-        this.$router.replace('/rate/' + this.classname)
+        // this.$router.push('/course/' + this.classname)
+        this.$router.replace('/course/' + this.classname)
       
     }
   }

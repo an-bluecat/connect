@@ -121,7 +121,7 @@
         }
         if(curval == 0) {
           this.dialog = false
-          this.$router.replace('/rate/' + this.classname)
+          this.$router.replace('/course/' + this.classname)
         }
       }
     },

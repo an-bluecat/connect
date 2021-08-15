@@ -36,11 +36,11 @@ export default {
                 return
             }
             // this.$router.push('./course/'+ this.model)
-            // let routeData = this.$router.resolve('./project/rate/'+ this.model);
+            // let routeData = this.$router.resolve('./project/course/'+ this.model);
             // window.open(routeData.href, '_blank');
             // 域名需要除去课名，只留下代码
             var coursecode=this.model.split(" ")[0];
-            this.$router.push({path: '/rate/'+ coursecode});
+            this.$router.push({path: '/course/'+ coursecode});
             location.reload();
         },
         onchangeinput(input){
