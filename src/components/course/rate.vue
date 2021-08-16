@@ -135,7 +135,7 @@
               max-width="212"
               class="mt-1 ml-1"
               >
-              <v-list-item>
+              <v-list-item :href="fileUpload.imageUrl" target="_blank">
                 <v-list-item-avatar tile>
                     <v-img :src='"../../assets/fileicon/"+fileUpload.fileType+".svg"' ></v-img>
                 </v-list-item-avatar>
@@ -144,7 +144,7 @@
                     {{fileUpload.type}}
                   </v-list-item-title>
                   <v-list-item-subtitle>
-                    <a :href="fileUpload.imageUrl" target="_blank" v-if="userLoggedIn"
+                    <a  v-if="userLoggedIn"
                       >{{ fileUpload.filename }}</a
                     >
                     <a @click="signupVisible = true;" v-else
