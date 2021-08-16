@@ -201,7 +201,6 @@ import SearchCourse from "./SeachCourse_top";
     methods: {
       onclickoptions(option) {
         this.plist = [];
-        this.drawer = false;
         switch(option) {
           case "1st year courses":
             this.plist = this.list1;
@@ -215,6 +214,10 @@ import SearchCourse from "./SeachCourse_top";
           case "4th year courses":
             this.plist = this.list4;
             break;                             
+        }
+        switch (this.$vuetify.breakpoint.name) {
+          case 'xs': return this.drawer = false
+          case 'sm': return this.drawer = false
         }
       },
       navToRate(item) {
