@@ -87,8 +87,8 @@ def getCourseIndex(discipline):
 
 
 
-disciplines=["Accounting","Finance","Management","Comp_sci", "Engineering", "ECO","MAT","STA","PSY"]
-# disciplines=["Accounting","Finance","Management"]
+# disciplines=["Accounting","Finance","Management","Comp_sci", "Engineering", "ECO","MAT","STA","PSY"]
+disciplines=["PSY"]
 
 for name in disciplines:
     getCourseIndex(name)
@@ -98,9 +98,9 @@ for name in disciplines:
 
 if run:
     # with open('./src/components/course/courseIndexSearchListCscEngRot.json', 'w') as fp:
-    with open('./src/components/course/coursejson/courseIndexSearchList_all.json', 'w') as fp:
+    with open('./src/components/course/coursejson/courseIndexSearchList_PSY.json', 'w') as fp:
         json.dump(courseIndexSearch, fp)
-    with open('./src/components/course/coursejson/coursedesc_all.json', 'w') as fp:
-        json.dump(coursedesc,fp)
+    # with open('./src/components/course/coursejson/coursedesc_all.json', 'w') as fp:
+    #     json.dump(coursedesc,fp)
 
 
