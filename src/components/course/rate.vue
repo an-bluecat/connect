@@ -113,9 +113,11 @@
         <v-col col="12" lg="10" md="10" sm="12" xs="12">
           <v-alert
             border="top"
+            dismissible
             colored-border
             type="info"
             elevation="2"
+            transition="scale-transition"
           >
             Rate 3 courses to get $10 gift cards from us!
           </v-alert>
