@@ -201,6 +201,7 @@ import SearchCourse from "./SeachCourse_top";
     methods: {
       onclickoptions(option) {
         this.plist = [];
+        this.drawer = false;
         switch(option) {
           case "1st year courses":
             this.plist = this.list1;
