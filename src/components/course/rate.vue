@@ -117,27 +117,45 @@
       </v-row>
       <!-- 描述 -->
       <!-- 附件 -->
-      <v-row class="my-6 pl-3">
+      <v-row no-gutters class="mt-6">
+        <v-col col="12" lg="10" md="10" sm="12" xs="12">
+          <v-list-item-title class="text-h5 font-weight-medium">
+            Resources
+            <v-btn class="info ml-2" x-small @click="addfile">upload</v-btn>
+          </v-list-item-title>
+        </v-col>
+      </v-row>
 
-
-              <v-list-item-title class="text-h5 font-weight-medium">
-                Resources
-                <v-btn class="info ml-2" x-small @click="addfile">upload</v-btn>
-              </v-list-item-title>
-              <v-list-item-subtitle
-                v-for="fileUpload in fileUploads"
-                :key="fileUpload.id"
+      <v-row no-gutters class="mt-6">
+        <v-col col="12" lg="10" md="10" sm="12" xs="12">
+          <v-layout row wrap>
+            <v-card
+              outlined
+              v-for="fileUpload in fileUploads" :key="fileUpload.id"
+              max-width="212"
+              class="mt-1 ml-1"
               >
-                <a :href="fileUpload.imageUrl" target="_blank" v-if="userLoggedIn"
-                  >{{ fileUpload.type }} - {{ fileUpload.filename }}</a
-                >
-                <a @click="signupVisible = true;" v-else
-                  >{{ fileUpload.type }} - {{ fileUpload.filename }}
-                </a>
-                
-              </v-list-item-subtitle>
-
-
+              <v-list-item>
+                <v-list-item-avatar tile>
+                    <v-img :src='"../../assets/fileicon/"+fileUpload.fileType+".svg"' ></v-img>
+                </v-list-item-avatar>
+                <v-list-item-content>
+                  <v-list-item-title class=" mb-2 font-weight-medium">
+                    {{fileUpload.type}}
+                  </v-list-item-title>
+                  <v-list-item-subtitle>
+                    <a :href="fileUpload.imageUrl" target="_blank" v-if="userLoggedIn"
+                      >{{ fileUpload.filename }}</a
+                    >
+                    <a @click="signupVisible = true;" v-else
+                      >{{ fileUpload.filename }}
+                    </a>
+                  </v-list-item-subtitle>
+                </v-list-item-content>
+              </v-list-item>
+            </v-card>
+          </v-layout>
+        </v-col>
       </v-row>
 
       <!-- 附件 -->
@@ -297,6 +315,7 @@
 import coursedesc from "./coursedescCscEngRot.json";
 import courseimport from "./coursecsv/courseimport.json";
 import SearchCourse from "./SeachCourse_top";
+import fileicon from "../../assets/fileicon/fileicon.json";
 import Signup from '../User/Signup';
 import Signin from '../User/Signin';
 
@@ -513,8 +532,47 @@ export default {
 
       if (files.length > 0) {
         for (let filenum in this.$store.getters.loadedfileUploads) {
-          targetFile.push(files[filenum]);
+          let fileName = files[filenum].filename
+          let fileExtension = fileName.split(".")[fileName.split(".").length-1]
+          let fileType = "other"
+          if (fileExtension in fileicon){
+            fileType=fileExtension
+          }
+          targetFile.push(
+            {
+              ...files[filenum],
+              fileType: fileType
+            }
+            );
         }
+        /* TESTING MULTIPLE FILES
+        targetFile.push(
+          {
+            id: 2,
+            type: "Syllabus",
+            filename: "Test filename.doc",
+            fileType: 'doc'
+          },
+          {
+            id: 2,
+            type: "Syllabus",
+            filename: "Test filename.doc",
+            fileType: 'doc'
+          },
+          {
+            id: 2,
+            type: "Syllabus",
+            filename: "Test filename.xls",
+            fileType: 'xls'
+          },
+          {
+            id: 2,
+            type: "Syllabus",
+            filename: "Test filename.aaa",
+            fileType: 'other'
+          },
+        )
+        */
       }
       //这行是罪魁祸首：
       // this.$store.dispatch("loadfileUploads", this.$route.params.name);
