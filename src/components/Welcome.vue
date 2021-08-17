@@ -63,6 +63,9 @@ export default {
   data: () => ({
     // courseIndexSearchList_rotman: courseIndexSearchList_rotman,
     courseIndexSearchList: courseIndexSearchList,
+
+    // to add ArtSci section--> 
+    //courseIndexSearchList_artsci: courseIndexSearchList_artsci,
     
     selection: 1,
     alignments: ["start", "center", "end"],
@@ -131,13 +134,45 @@ export default {
         nums: "100",
         title: "Mineral Engineering",
       },
+      {
+        name: "test1",
+        src: require("../assets/test_img_1.jpg"),
+        rate: 4.5,
+        nums: "100",
+        title: "test1 title",
+      },
+      {
+        name: "test2",
+        src: require("../assets/test_img_1.jpg"),
+        rate: 4.5,
+        nums: "100",
+        title: "test2 title",
+      },
+      {
+        name: "test3",
+        src: require("../assets/test_img_1.jpg"),
+        rate: 4.5,
+        nums: "100",
+        title: "test3 title",
+      },
+      {
+        name: "test4",
+        src: require("../assets/test_img_1.jpg"),
+        rate: 4.5,
+        nums: "100",
+        title: "test4 title",
+      },
     ],
   }),
   methods: {
     navToProject(name) {
       // let routeData = this.$router.resolve('./project/'+ name);
       // window.open(routeData.href, '_blank');
+    
+
       this.$router.push("./program/" + name);
+
+      
     },
   }
 };
