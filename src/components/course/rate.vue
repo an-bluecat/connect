@@ -2,7 +2,7 @@
     <v-container v-bind:style="[alertGiftCard ? { 'padding-top': '0px' } : { 'padding-top': '12px'}]">
       <!-- <v-app-bar app dense fixed class="pt-7"> -->
       <v-row no-gutters style="display: flex; justify-content: center">
-        <v-alert
+        <!-- <v-alert
           style="width: fit-content"
           v-model="alertGiftCard"
           border="top"
@@ -13,8 +13,27 @@
           transition="slide-y-transition"
           @input="setAlertState"
         >
-          Rate 3 courses to get $10 gift cards from us!
-        </v-alert>
+          
+        </v-alert> -->
+      <v-snackbar
+        v-model="alertGiftCard"
+        :multi-line="true"
+        timeout="100000"
+      >
+        Rate 5 courses and get $10!
+        <!-- <br /> -->
+        An Amazon giftcard will be sent to your email in 24 hours.
+        <template v-slot:action="{ attrs }">
+          <v-btn
+            color="red"
+            text
+            v-bind="attrs"
+            @click="setAlertState"
+          >
+            Close
+          </v-btn>
+        </template>
+      </v-snackbar>
       </v-row>
       <!-- 面包屑 + search -->
       <v-row no-gutters>
@@ -324,6 +343,7 @@ export default {
   },
   data: () => ({
     // used for the rating botton
+    snackbar: true,
     pressedRate: false,
     difficultyRating: -1,
     //科目信息
