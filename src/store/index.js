@@ -28,7 +28,8 @@ export const store = new Vuex.Store({
     loading: false,
     error: null,
     loadedcurrentUploads: 1,
-    userProfile: {}
+    userProfile: {},
+    alertGiftCard: true,
   },
   // mutate state
   // called by commit "actions" part of this same file
@@ -113,6 +114,9 @@ export const store = new Vuex.Store({
     },
     clearError (state) {
       state.error = null
+    },
+    setAlertState (state, payload) {
+      state.alertGiftCard = payload
     }
   },
 
@@ -966,6 +970,9 @@ export const store = new Vuex.Store({
         commit('reset');
         console.log(error);
       });
+    },
+    setAlertState({commit}, payload) {
+      return commit('setAlertState', payload)
     }
   },
   getters: {
@@ -1030,6 +1037,9 @@ export const store = new Vuex.Store({
     },
     error (state) {
       return state.error
+    },
+    alertGiftCard(state) {
+      return state.alertGiftCard
     }
   }
 })

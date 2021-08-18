@@ -1,6 +1,40 @@
 <template>
-    <v-container>
+    <v-container v-bind:style="[alertGiftCard ? { 'padding-top': '0px' } : { 'padding-top': '12px'}]">
       <!-- <v-app-bar app dense fixed class="pt-7"> -->
+      <v-row no-gutters style="display: flex; justify-content: center">
+        <!-- <v-alert
+          style="width: fit-content"
+          v-model="alertGiftCard"
+          border="top"
+          dismissible
+          colored-border
+          type="info"
+          elevation="2"
+          transition="slide-y-transition"
+          @input="setAlertState"
+        >
+          
+        </v-alert> -->
+      <v-snackbar
+        v-model="alertGiftCard"
+        :multi-line="true"
+        timeout="100000"
+      >
+        Rate 5 courses and get $10!
+        <!-- <br /> -->
+        An Amazon giftcard will be sent to your email in 24 hours.
+        <template v-slot:action="{ attrs }">
+          <v-btn
+            color="red"
+            text
+            v-bind="attrs"
+            @click="setAlertState"
+          >
+            Close
+          </v-btn>
+        </template>
+      </v-snackbar>
+      </v-row>
       <!-- 面包屑 + search -->
       <v-row no-gutters>
         <v-col cols="12" xs="12" sm="12" md="3" lg="3" xl="3">
@@ -318,6 +352,7 @@ import SearchCourse from "./SeachCourse_top";
 import fileicon from "../../assets/fileicon/fileicon.json";
 import Signup from '../User/Signup';
 import Signin from '../User/Signin';
+import { mapState } from 'vuex';
 
 export default {
   components: {
@@ -327,6 +362,7 @@ export default {
   },
   data: () => ({
     // used for the rating botton
+    snackbar: true,
     pressedRate: false,
     difficultyRating: -1,
     //科目信息
@@ -404,7 +440,6 @@ export default {
 
     //getFavs
     this.$store.dispatch("loadedFav", this.$route.params.name);
-
   },
   watch: {
     user(value) {
@@ -415,9 +450,18 @@ export default {
         this.getCookie()
       }
     },
-    
   },
   computed: {
+    ...mapState(['alertGiftCard']),
+    alertGiftCard: {
+      get() {
+        return this.$store.getters.alertGiftCard
+      },
+      set(newState) {
+        console.log(newState)
+        return newState
+      }
+    },
     userLoggedIn(){
       return this.$store.getters.user != null ;
     }, 
@@ -656,6 +700,9 @@ export default {
   },
   
   methods: {
+    setAlertState() {
+      return this.$store.dispatch("setAlertState", false)
+    },
     pressRate() {
       //按rate触发这个
       this.pressedRate = true;
