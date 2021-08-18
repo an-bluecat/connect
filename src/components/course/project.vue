@@ -193,8 +193,8 @@ import SearchCourse from "./SeachCourse_top";
       },
       drawerResponsive() {
         switch (this.$vuetify.breakpoint.name) {
-          case 'xs': return this.drawer = false
-          case 'sm': return this.drawer = false
+          // case 'xs': return this.drawer = false
+          // case 'sm': return this.drawer = false
         }
       }
     },
