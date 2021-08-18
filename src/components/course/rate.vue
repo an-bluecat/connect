@@ -1,6 +1,21 @@
 <template>
-    <v-container>
+    <v-container v-bind:style="[alertGiftCard ? { 'padding-top': '0px' } : { 'padding-top': '12px'}]">
       <!-- <v-app-bar app dense fixed class="pt-7"> -->
+      <v-row no-gutters style="display: flex; justify-content: center">
+        <v-alert
+          style="width: fit-content"
+          v-model="alertGiftCard"
+          border="top"
+          dismissible
+          colored-border
+          type="info"
+          elevation="2"
+          transition="slide-y-transition"
+          @input="setAlertState"
+        >
+          Rate 3 courses to get $10 gift cards from us!
+        </v-alert>
+      </v-row>
       <!-- 面包屑 + search -->
       <v-row no-gutters>
         <v-col cols="12" xs="12" sm="12" md="3" lg="3" xl="3">
@@ -111,16 +126,6 @@
       <!-- 描述 -->
       <v-row no-gutters class="mt-6">
         <v-col col="12" lg="10" md="10" sm="12" xs="12">
-          <v-alert
-            border="top"
-            dismissible
-            colored-border
-            type="info"
-            elevation="2"
-            transition="scale-transition"
-          >
-            Rate 3 courses to get $10 gift cards from us!
-          </v-alert>
           <p class="text-h5 font-weight-medium">Description</p>
           <p class="text-justify">{{ desc }}</p>
         </v-col>
@@ -309,6 +314,7 @@ import courseimport from "./coursecsv/courseimport.json";
 import SearchCourse from "./SeachCourse_top";
 import Signup from '../User/Signup';
 import Signin from '../User/Signin';
+import { mapState } from 'vuex';
 
 export default {
   components: {
@@ -395,7 +401,6 @@ export default {
 
     //getFavs
     this.$store.dispatch("loadedFav", this.$route.params.name);
-
   },
   watch: {
     user(value) {
@@ -406,9 +411,18 @@ export default {
         this.getCookie()
       }
     },
-    
   },
   computed: {
+    ...mapState(['alertGiftCard']),
+    alertGiftCard: {
+      get() {
+        return this.$store.getters.alertGiftCard
+      },
+      set(newState) {
+        console.log(newState)
+        return newState
+      }
+    },
     userLoggedIn(){
       return this.$store.getters.user != null ;
     }, 
@@ -608,6 +622,9 @@ export default {
   },
   
   methods: {
+    setAlertState() {
+      return this.$store.dispatch("setAlertState", false)
+    },
     pressRate() {
       //按rate触发这个
       this.pressedRate = true;
