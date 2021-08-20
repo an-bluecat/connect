@@ -75,7 +75,7 @@
                   </v-list-item>
 
                   <v-divider
-                    v-if="index !== (list1.length-1)"
+                    v-if="index !== (plist.length-1)"
                     :key="`divider-${index}`"
                     
                   ></v-divider>
