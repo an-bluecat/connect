@@ -60,7 +60,7 @@
               <!-- <v-subheader>area</v-subheader> -->
 
               <v-list>
-                <template two-line v-for="(item,index) in plist">
+                <template two-line v-for="(item, index) in plist">
                   <v-list-item :key="index" link>
                     <!-- <v-list-item-avatar color="grey darken-1">
                     </v-list-item-avatar> -->
@@ -76,7 +76,7 @@
                   </v-list-item>
 
                   <v-divider
-                    v-if="index !== (list1.length-1)"
+                    v-if="index !== (plist.length-1)"
                     :key="`divider-${index}`"
                     
                   ></v-divider>

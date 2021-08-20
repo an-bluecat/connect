@@ -252,12 +252,12 @@ export default {
         if (this.formData.comment.trim()!=""){
           this.$store.dispatch('addComment', comment);
         }
-        
+        this.$store.dispatch('addUserRatingRecord', comment);
         // this.$router.push('/course/' + this.classname)
         // http://localhost:8080/#/project/rate/APS100H1
         // this.$router.push('/course/' + this.classname)
         this.$router.replace('/course/' + this.classname)
-      
+
     }
   }
 }
