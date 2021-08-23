@@ -28,7 +28,8 @@ export const store = new Vuex.Store({
     loading: false,
     error: null,
     loadedcurrentUploads: 1,
-    userProfile: {}
+    userProfile: {},
+    alertGiftCard: true,
   },
   // mutate state
   // called by commit "actions" part of this same file
@@ -113,6 +114,9 @@ export const store = new Vuex.Store({
     },
     clearError (state) {
       state.error = null
+    },
+    setAlertState (state, payload) {
+      state.alertGiftCard = payload
     }
   },
 
@@ -329,6 +333,7 @@ export const store = new Vuex.Store({
     createfileUpload ({commit, getters}, payload) {
       let imageUrl
       let key
+      let uid = this.state.userProfile.uid
       const classname = payload.classname
       const fileUpload = {
         type: payload.type,
@@ -346,6 +351,11 @@ export const store = new Vuex.Store({
       firebase.database().ref("courses/"+classname).child('files').push(fileUpload)
         .then((data) => {
           key = data.key // data we get back from firebase contains the key of this object
+
+          //add a copy of the data to user/files database
+          firebase.database().ref('user/-' + uid).child('files').push(
+            {...fileUpload, classname: classname, filekey: key}
+          )
           return key
         })
         //************** STEP 2 ******************
@@ -518,34 +528,37 @@ export const store = new Vuex.Store({
         .catch((error) => {
           console.log(error)
         })
-        if(payload.user) {
-          //push user records
-          let userRecords = {
-            comment: payload.comment,
-            pname: payload.pname,
-            classname: payload.classname,
-            rate: payload.rate,
-            time: payload.time,
-            usefulness: payload.usefulness,
-            show_name: payload.show_name,
-            avatar: firebase.auth().currentUser.photoURL,
-            displayname: firebase.auth().currentUser.displayName,
-            discipline: payload.discipline
-          }
-          const uid = this.state.userProfile.uid;
-          // firebase.database().ref('user/-'+uid).child('fav').once('value')
-          firebase.database().ref('user/-' + uid).child('records').push(userRecords)
-          .then((data) => {
-            return data.key
-          })
-          .then(() => {
-            // commit('addRating', {...userRecords,id:key})
-            // console.log('success');
-          }).catch((error) => {
-            console.log(error);
-          })
+
+    },   
+    addUserRatingRecord({commit},payload){
+      if(payload.user) {
+        //push user records
+        let userRecords = {
+          comment: payload.comment,
+          pname: payload.pname,
+          classname: payload.classname,
+          rate: payload.rate,
+          time: payload.time,
+          usefulness: payload.usefulness,
+          show_name: payload.show_name,
+          avatar: firebase.auth().currentUser.photoURL,
+          displayname: firebase.auth().currentUser.displayName,
+          discipline: payload.discipline
         }
-    },    
+        const uid = this.state.userProfile.uid;
+        // firebase.database().ref('user/-'+uid).child('fav').once('value')
+        firebase.database().ref('user/-' + uid).child('records').push(userRecords)
+        .then((data) => {
+          return data.key
+        })
+        .then(() => {
+          // commit('addRating', {...userRecords,id:key})
+          // console.log('success');
+        }).catch((error) => {
+          console.log(error);
+        })
+      }
+    },
     signUserUp ({commit}, payload) {
       // loading
       commit('setSignLoading', true);
@@ -966,6 +979,9 @@ export const store = new Vuex.Store({
         commit('reset');
         console.log(error);
       });
+    },
+    setAlertState({commit}, payload) {
+      return commit('setAlertState', payload)
     }
   },
   getters: {
@@ -1030,6 +1046,9 @@ export const store = new Vuex.Store({
     },
     error (state) {
       return state.error
+    },
+    alertGiftCard(state) {
+      return state.alertGiftCard
     }
   }
 })

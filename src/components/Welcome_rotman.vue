@@ -54,7 +54,7 @@
 import TopPanel from "./TopPanel";
 import SearchCourse from "./course/SeachCourse";
 
-import courseIndexSearchList from './course/coursejson/courseIndexSearchListCscEngRot';
+import courseIndexSearchList from './course/coursejson/courseIndexSearchList_all';
 import courseIndexSearchList_rotman from './course/coursejson/courseIndexSearchList_rotman';
 import DataTable from "./course/datatable";
 
