@@ -67,7 +67,6 @@ export default {
         courseData () {
             // console.log("this.$store.getters.loadedTableData", this.$store.getters.loadedTableData)
             return this.$store.getters.loadedTableData;
-            this.$router.push("./datatable/" );
         },
     },
 }
