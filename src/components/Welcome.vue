@@ -63,6 +63,9 @@ export default {
   data: () => ({
     // courseIndexSearchList_rotman: courseIndexSearchList_rotman,
     courseIndexSearchList: courseIndexSearchList,
+
+    // to add ArtSci section--> 
+    //courseIndexSearchList_artsci: courseIndexSearchList_artsci,
     
     selection: 1,
     alignments: ["start", "center", "end"],
@@ -131,13 +134,59 @@ export default {
         nums: "100",
         title: "Mineral Engineering",
       },
+      {
+        name: "Rotman",
+        src: require("../assets/rotman.jpg"),
+        rate: 4.5,
+        nums: "100",
+        title: "Rotman Commerce",
+      },
+      {
+        name: "CS",
+        src: require("../assets/CS.jpg"),
+        rate: 4.5,
+        nums: "100",
+        title: "Computer Science",
+      },
+      {
+        name: "Stats",
+        src: require("../assets/stats.jpg"),
+        rate: 4.5,
+        nums: "100",
+        title: "Statistical Sciences",
+      },
+      {
+        name: "Math",
+        src: require("../assets/math.jpg"),
+        rate: 4.5,
+        nums: "100",
+        title: "Mathematics",
+      },
+      {
+        name: "Econ",
+        src: require("../assets/econ.jpg"),
+        rate: 4.5,
+        nums: "100",
+        title: "Economics",
+      },
+           {
+        name: "Psychology",
+        src: require("../assets/psychology.jpg"),
+        rate: 4.5,
+        nums: "100",
+        title: "Psychology",
+      },
     ],
   }),
   methods: {
     navToProject(name) {
       // let routeData = this.$router.resolve('./project/'+ name);
       // window.open(routeData.href, '_blank');
+    
+
       this.$router.push("./program/" + name);
+
+      
     },
   }
 };

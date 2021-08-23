@@ -1,5 +1,7 @@
 // this is for engineering only. Tthe grade information is retrieved from skule.ca
 
+
+
 <template>
   <v-app id="inspire">
     
@@ -159,6 +161,7 @@ import SearchCourse from "./SeachCourse_top";
       model: null,
       result: ''
     }),
+
     created() {
       this.name = this.$route.params.name;
       //面包屑
@@ -267,6 +270,7 @@ import SearchCourse from "./SeachCourse_top";
   }
 </script>
 <style scoped>
+
  .link {
    cursor: pointer;
  }
@@ -283,4 +287,5 @@ import SearchCourse from "./SeachCourse_top";
   background-color: yellow;
   width: 4rem;
 }
+
 </style>
