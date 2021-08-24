@@ -161,13 +161,15 @@
       </v-row>
 
       <v-row no-gutters class="mt-6">
-        <v-col col="12" lg="10" md="10" sm="12" xs="12">
-          <v-layout row wrap>
+        <v-col >
+          <v-row no-gutters>
+            <v-col md="3" cols="12"
+            v-for="fileUpload in fileUploads" :key="fileUpload.id"
+            > 
             <v-card
+              class="mx-auto"
+              width="100%"
               outlined
-              v-for="fileUpload in fileUploads" :key="fileUpload.id"
-              max-width="212"
-              class="mt-1 ml-1"
               >
               <v-list-item :href="fileUpload.imageUrl" target="_blank">
                 <v-list-item-avatar tile>
@@ -188,7 +190,8 @@
                 </v-list-item-content>
               </v-list-item>
             </v-card>
-          </v-layout>
+        </v-col>
+          </v-row>
         </v-col>
       </v-row>
 
@@ -578,15 +581,9 @@ export default {
         for (let filenum in this.$store.getters.loadedfileUploads) {
           let fileName = files[filenum].filename
           let fileExtension = fileName.split(".")[fileName.split(".").length-1]
-          let fileType = "other"
-          if (fileExtension in fileicon){
-            fileType=fileExtension
-          }
+
           targetFile.push(
-            {
-              ...files[filenum],
-              fileType: fileType
-            }
+            files[filenum],
             );
         }
         /* TESTING MULTIPLE FILES

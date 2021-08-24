@@ -18,7 +18,7 @@
     </main>
 
 
-    <v-row>
+    <v-row style="z-index:12">
       <v-col>
         <v-btn
           v-show="showContact"

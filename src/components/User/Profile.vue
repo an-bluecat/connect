@@ -195,58 +195,161 @@
         fluid
       >
       <v-subheader class="text-h5">My Reviews</v-subheader>
+          <v-expansion-panels
+          v-model="panel"
+          hover
+          multiple
+          >
         <v-row>
-          
-          <v-col cols="12">
-          
-            <v-card elevation="5" class="my-5" v-for="(item, index) in getMyRecords" :key="index">
-              
-              <v-list  two-line >
-                <template >
-                  <v-list-item>
-                    <v-list-item-content>
-                    <v-list-item-title class="font-weight-medium mb-2">{{item.classname}}</v-list-item-title>
+          <v-container >
+        <v-expansion-panel>
+          <v-expansion-panel-header><h5>My Reviews</h5></v-expansion-panel-header>
+            <v-expansion-panel-content>
+              <v-col cols="12">
+                <v-card elevation="5" class="my-5" v-for="(item, index) in getMyReviews" :key="index">
+                  
+                  <v-list  two-line >
+                    <template >
+                      <v-list-item>
+                        <v-list-item-content>
+                        <v-list-item-title class="font-weight-medium mb-2">{{item.classname}}</v-list-item-title>
+                          <v-list-item-subtitle class="font-weight-normal">
+                            Difficulty
+                            <v-rating
+                              :value="item.rate"
+                              color="yellow darken-3"
+                              background-color="grey darken-1"
+                              half-increments
+                              dense
+                              :hover="true"
+                              :readonly="true"
+                              size="15"
+                            ></v-rating>
+                          </v-list-item-subtitle>
+                          <v-list-item-subtitle class="font-weight-normal">
+                            Usefulness
+                            <v-rating
+                              :value="item.usefulness"
+                              color="yellow darken-3"
+                              background-color="grey darken-1"
+                              half-increments
+                              dense
+                              :hover="true"
+                              :readonly="true"
+                              size="15"
+                            ></v-rating>
+                          </v-list-item-subtitle>
+                          {{ item.comment }}
+                          <v-list-item-subtitle>{{ item.time }}</v-list-item-subtitle>
+                          <v-list-item-subtitle v-if="item.pname != ''"
+                            >taught by {{ item.pname }}</v-list-item-subtitle
+                          >
+                        </v-list-item-content>
+                      </v-list-item>
+                    </template>
+                  </v-list>
+                </v-card>
+              </v-col>
+            </v-expansion-panel-content>
+          </v-expansion-panel>
 
-                      <v-list-item-subtitle class="font-weight-normal">
-                        Difficulty
-                        <v-rating
-                          :value="item.rate"
-                          color="yellow darken-3"
-                          background-color="grey darken-1"
-                          half-increments
-                          dense
-                          :hover="true"
-                          :readonly="true"
-                          size="15"
-                        ></v-rating>
-                      </v-list-item-subtitle>
-                      <v-list-item-subtitle class="font-weight-normal">
-                        Usefulness
-                        <v-rating
-                          :value="item.usefulness"
-                          color="yellow darken-3"
-                          background-color="grey darken-1"
-                          half-increments
-                          dense
-                          :hover="true"
-                          :readonly="true"
-                          size="15"
-                        ></v-rating>
-                      </v-list-item-subtitle>
-                      {{ item.comment }}
-                      <v-list-item-subtitle>{{ item.time }}</v-list-item-subtitle>
+        <v-expansion-panel>
+          <v-expansion-panel-header><h5>My Ratings</h5></v-expansion-panel-header>
+            <v-expansion-panel-content>
+              <v-col cols="12">
+                <v-card elevation="5" class="my-5" v-for="(item, index) in getMyRatings" :key="index">
+                  
+                  <v-list  two-line >
+                    <template >
+                      <v-list-item>
+                        <v-list-item-content>
+                        <v-list-item-title class="font-weight-medium mb-2">{{item.classname}}</v-list-item-title>
+                          <v-list-item-subtitle class="font-weight-normal">
+                            Difficulty
+                            <v-rating
+                              :value="item.rate"
+                              color="yellow darken-3"
+                              background-color="grey darken-1"
+                              half-increments
+                              dense
+                              :hover="true"
+                              :readonly="true"
+                              size="15"
+                            ></v-rating>
+                          </v-list-item-subtitle>
+                          <v-list-item-subtitle class="font-weight-normal">
+                            Usefulness
+                            <v-rating
+                              :value="item.usefulness"
+                              color="yellow darken-3"
+                              background-color="grey darken-1"
+                              half-increments
+                              dense
+                              :hover="true"
+                              :readonly="true"
+                              size="15"
+                            ></v-rating>
+                          </v-list-item-subtitle>
+                          {{ item.comment }}
+                          <v-list-item-subtitle>{{ item.time }}</v-list-item-subtitle>
+                          <v-list-item-subtitle v-if="item.pname != ''"
+                            >taught by {{ item.pname }}</v-list-item-subtitle
+                          >
+                        </v-list-item-content>
+                      </v-list-item>
+                    </template>
+                  </v-list>
+                </v-card>
+              </v-col>
+            </v-expansion-panel-content>
+          </v-expansion-panel>
 
-                      <v-list-item-subtitle v-if="item.pname != ''"
-                        >taught by {{ item.pname }}</v-list-item-subtitle
-                      >
-                    </v-list-item-content>
-                  </v-list-item>
-                </template>
-              </v-list>
+        <v-expansion-panel>
+                    <v-expansion-panel-header><h5>My Files</h5></v-expansion-panel-header>
+
+        <v-expansion-panel-content>
+
+      <v-row no-gutters class="mt-6">
+        <v-col >
+          <v-row no-gutters>
+            <v-col md="3" cols="12"
+            v-for="(fileUpload, index) in getMyFiles" :key="index"
+            > 
+            <v-card
+              class="mx-auto"
+              width="100%"
+              outlined
+              >
+              <v-list-item :href="fileUpload.imageUrl" target="_blank">
+                <v-list-item-avatar tile>
+                    <v-img :src='"../../assets/fileicon/"+fileUpload.fileType+".svg"' ></v-img>
+                </v-list-item-avatar>
+                <v-list-item-content>
+                  <v-list-item-title class=" mb-2 font-weight-medium">
+                    {{fileUpload.type}}
+                  </v-list-item-title>
+                  <v-list-item-subtitle>
+                    <a  v-if="userLoggedIn"
+                      >{{ fileUpload.filename }}</a
+                    >
+                    <a @click="signupVisible = true;" v-else
+                      >{{ fileUpload.filename }}
+                    </a>
+                  </v-list-item-subtitle>
+                </v-list-item-content>
+              </v-list-item>
             </v-card>
-            
-          </v-col>
-        </v-row>
+        </v-col>
+          </v-row>
+        </v-col>
+      </v-row>
+        </v-expansion-panel-content>
+        </v-expansion-panel>
+        </v-container>
+      </v-row>
+
+      </v-expansion-panels>
+
       </v-container>
     </v-main>
 
@@ -333,7 +436,9 @@
       //Area3
       // elevations: ['My Reviews'],
       //Area4
-      newPassword: ''
+      newPassword: '',
+      panel: [0,1,2]
+
     }),
     watch: {
       uploadloading (curval, oldval) {
@@ -369,6 +474,7 @@
         // console.log(JSON.stringify(this.$store.getters.loadedFavs));
         //getMyRecords
         this.$store.dispatch('getMyRecords', {})
+        this.$store.dispatch('getMyFiles', {})
         // console.log(JSON.stringify(this.$store.getters.loadedRecords));
       }
     },
@@ -410,7 +516,20 @@
         return this.$store.getters.loadedFavs.length - 1;
       },
       getMyRecords() {
-        return this.$store.getters.loadedRecords;
+        return this.$store.getters.loadedRecords
+      },
+      getMyReviews(){
+        return this.$store.getters.loadedRecords.filter(record=>{
+          return record.comment!=""
+        })
+      },
+      getMyRatings(){
+        return this.$store.getters.loadedRecords.filter(record=>{
+          return record.comment==""
+        })
+      },
+      getMyFiles() {
+        return this.$store.getters.loadedFiles;
       }
     },
     methods: {
