@@ -775,6 +775,87 @@ export const store = new Vuex.Store({
         console.log(error)
       }); 
     },
+    deleteComment ({ commit }, payload) {
+      const userEmail = this.state.user.email;
+      const uid = this.state.userProfile.uid;
+      const records = this.state.loadedRecords;
+      records.splice(payload.commentIndex, 1)
+      firebase.database().ref('user/-' + uid).child('records').set(records)
+        .then((data) => {
+          // return
+          commit('setLoadedRecords', records)
+        }).catch((error) => {
+          console.log(error);
+        })
+      let obj1 = {};
+      firebase.database().ref("courses/"+payload.className).child('comment').once('value')
+        .then((data) => {
+          obj1 = data.val() // .val() will get you the value of the response
+          for (let i in obj1) {
+            if (obj1[i].user.email === userEmail) {
+              delete obj1[i];
+            }
+          };
+        })
+        .catch(
+          (error) => {
+              console.log(error)
+              commit('reset');
+            }
+          )
+      firebase.database().ref("courses/" + payload.className).child('comment').set(obj1)
+        .then((data) => {
+          commit('reset');
+        })
+        .catch((error) => {
+          console.error(error)
+          commit('reset');
+        })
+      let obj = {};
+      let total_useRate = 0;
+      let total_diffRate = 0;
+      let ratings = 0;
+      let avg_diff, avg_use;
+      firebase.database().ref("courses/" + payload.className).child('rating').once('value')
+        .then((data) => {
+          obj = data.val()
+          for (let key in obj) {
+            if (obj[key].user.email === userEmail) {
+              delete obj[key];
+            } else {
+              total_useRate += obj[key].usefulness;
+              total_diffRate += obj[key].rate;
+              ratings += 1;
+              console.log(obj[key]);
+              console.log("ratings: " + ratings);
+            }
+          };
+          avg_use = total_useRate / ratings;
+          avg_diff = total_diffRate / ratings;
+          console.log("avg_use:" + avg_use);
+          console.log("avg_diff:" + avg_diff);
+        })
+        .catch((error) => {
+          console.log(error)
+        })
+        .then(() => {
+          // upload new calculated avg usefulness
+          firebase.database().ref("courses/" + payload.className).child('avg_use').set(avg_use);
+          // //upload new calculated avg diff
+          firebase.database().ref("courses/" + payload.className).child('avg_diff').set(avg_diff);
+          // //upload num of rating
+          firebase.database().ref("courses/" + payload.className).child('num_rate').set(ratings);
+        })
+
+        firebase.database().ref("courses/" + payload.className).child('rating').set(obj)
+          .then((data) => {
+            commit('reset');
+          })
+          .catch((error) => {
+            console.error(error)
+            commit('reset');
+          })
+    },
 
 
 
