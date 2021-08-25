@@ -9,34 +9,56 @@
               </v-card-text>
             </v-card>
           </v-parallax>
-        <h4 id="title"><center>Search By Program</center></h4>
+        <h4 id="title" class="mb-5"><center>Search By Program</center></h4>
         <v-row>
-          <v-col
-            v-for="(item, index) in items"
-            :key="index"
-            cols="12"
-            md="3"
-            xs="3"
-            sm="3"
-            lg="3"
-            xl="3"
-          >
-            <v-card
-              class="mx-auto"
-              width="100%"
-              @click="navToProject(item.name)"
+          <v-container>
+
+          <v-expansion-panels
+          v-model="panel"
+          multiple
+          hover>
+
+            <v-expansion-panel
+            v-for="(faculty, index) in items"
+          :key="index"
+              >
+              <v-expansion-panel-header>
+                <h5>Faculty of {{faculty.name}}</h5>
+              </v-expansion-panel-header>
+              <v-expansion-panel-content>
+                <v-row>
+            <v-col
+              v-for="(program, index) in faculty.programs"
+              :key="index"
+              cols="12"
+              md="3"
             >
-              <v-img height="250" :src="item.src"></v-img>
-              <v-card-title>{{ item.name }}</v-card-title>
-              <v-card-text>
-                <div class="my-4 subtitle-1">
-                  {{ item.title }}
-                </div>
-                <div>{{ item.desc }}</div>
-              </v-card-text>
-              <v-divider class="mx-4"></v-divider>
-            </v-card>
+              <v-card
+                class="mx-auto"
+                width="100%"
+                @click="navToProject(program.name, faculty.name)"
+              >
+                <v-img height="250" :src='"../assets/"+program.src+""'></v-img>
+                <v-card-title>{{ program.name }}</v-card-title>
+                <v-card-text>
+                  <div class="my-4 subtitle-1">
+                    {{ program.title }}
+                  </div>
+                  <div>{{ program.desc }}</div>
+                </v-card-text>
+                <v-divider class="mx-4"></v-divider>
+              </v-card>
+
           </v-col>
+        </v-row>
+
+        </v-expansion-panel-content>
+
+        </v-expansion-panel>
+
+            </v-expansion-panels>
+                  </v-container>
+
           
         </v-row>
         <!-- <DataTable :courses="courseIndexSearchList"></DataTable> -->
@@ -50,6 +72,7 @@
 import TopPanel from "./TopPanel";
 import SearchCourse from "./course/SeachCourse";
 import courseIndexSearchList from './course/coursejson/courseIndexSearchList_all'
+import programList from './course/coursejson/program_all'
 
 // import courseIndexSearchList_rotman from './course/courseIndexSearchList_rotman';
 import DataTable from "./course/datatable";
@@ -69,122 +92,19 @@ export default {
     
     selection: 1,
     alignments: ["start", "center", "end"],
-    items: [
-      // {name: 'Chem',src:require('../assets/chem.jpg'),rate:4.5,nums:'107',title:'Chemical Engineering',desc:'Chemical Engineering'},
-      // {name: 'Civ',src:'../assets/civ.jpg',rate:1,nums:'10',title:'Civil Engineering',desc:'Civil Engineering'},
-      // {name: 'ECE',src:'../assets/ece.jpg',rate:3,nums:'302',title:'Electrical and Computer Engineering',desc:'Electrical and Computer Engineering'},
-      // {name: 'EngSci',src:'../assets/engsci.jpg',rate:5,nums:'2',title:'Engineering Science',desc:'Engineering Science'},
-      // {name: 'Indy',src:'../assets/indy.jpg',rate:4,nums:'432',title:'Industrial Engineering',desc:'Industrial Engineering has been traditionall'},
-      // {name: 'MSE',src:'../assets/indy.jpg',rate:2,nums:'20',title:'Material Science and Engineering',desc:'Material Science and Engineering'},
-      // {name: 'Mech',src:'../assets/mech.jpg',rate:2.5,nums:'236',title:'Mechanical Engineering',desc:'Mechanical Engineering'},
-      // {name: 'Min',src:'../assets/min.jpg',rate:4.5,nums:'100',title:'Mineral Engineering',desc:'Mineral Engineering'},
-      {
-        name: "Chem",
-        src: require("../assets/chem.jpg"),
-        rate: 4.5,
-        nums: "107",
-        title: "Chemical Engineering",
-      },
-      {
-        name: "Civ",
-        src: require("../assets/civ.jpg"),
-        rate: 1,
-        nums: "10",
-        title: "Civil Engineering",
-      },
-      {
-        name: "ECE",
-        src: require("../assets/ece.jpeg"),
-        rate: 3,
-        nums: "302",
-        title: "Electrical & Computer Engineering",
-      },
-      {
-        name: "EngSci",
-        src: require("../assets/engsci.jpg"),
-        rate: 5,
-        nums: "2",
-        title: "Engineering Science",
-      },
-      {
-        name: "Indy",
-        src: require("../assets/indy.jpg"),
-        rate: 4,
-        nums: "432",
-        title: "Industrial Engineering",
-      },
-      {
-        name: "MSE",
-        src: require("../assets/mse.jpg"),
-        rate: 2,
-        nums: "20",
-        title: "Material Science and Engineering",
-      },
-      {
-        name: "Mech",
-        src: require("../assets/mech.jpg"),
-        rate: 2.5,
-        nums: "236",
-        title: "Mechanical Engineering",
-      },
-      {
-        name: "Min",
-        src: require("../assets/min.jpg"),
-        rate: 4.5,
-        nums: "100",
-        title: "Mineral Engineering",
-      },
-      {
-        name: "Rotman",
-        src: require("../assets/rotman.jpg"),
-        rate: 4.5,
-        nums: "100",
-        title: "Rotman Commerce",
-      },
-      {
-        name: "CS",
-        src: require("../assets/CS.jpg"),
-        rate: 4.5,
-        nums: "100",
-        title: "Computer Science",
-      },
-      {
-        name: "Stats",
-        src: require("../assets/stats.jpg"),
-        rate: 4.5,
-        nums: "100",
-        title: "Statistical Sciences",
-      },
-      {
-        name: "Math",
-        src: require("../assets/math.jpg"),
-        rate: 4.5,
-        nums: "100",
-        title: "Mathematics",
-      },
-      {
-        name: "Econ",
-        src: require("../assets/econ.jpg"),
-        rate: 4.5,
-        nums: "100",
-        title: "Economics",
-      },
-           {
-        name: "Psychology",
-        src: require("../assets/psychology.jpg"),
-        rate: 4.5,
-        nums: "100",
-        title: "Psychology",
-      },
-    ],
+    items: programList,
+    panel: [0,1]
   }),
   methods: {
-    navToProject(name) {
+    navToProject(code, facultyName) {
       // let routeData = this.$router.resolve('./project/'+ name);
       // window.open(routeData.href, '_blank');
-    
+      if(facultyName=="Engineering"){
+        this.$router.push("./program/" + code);
+      }else{
+        this.$router.push("./artsci/" + code);
+      }
 
-      this.$router.push("./program/" + name);
 
       
     },
@@ -208,7 +128,6 @@ export default {
 .v-card {
   width: 60%;
   position: relative;
-  bottom: -120px;
   align-self: center;
 }
 .sep {

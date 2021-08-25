@@ -96,6 +96,8 @@
 </template>
 
 <script>
+import fileicon from "../../assets/fileicon/fileicon.json";
+
   export default {
     name: "CreatefileUpload",
     props: ["classname"],
