@@ -264,7 +264,45 @@
                       >
                     </v-list-item-content>
                     <v-col class="shrink" style="min-width: auto">
-                      <v-btn style="background-color: red; color: white" @click="deleteComment(index, item.classname)">Delete</v-btn>
+                      <div class="text-center">
+                        <v-dialog v-model="dialog" width="500">
+                          <template v-slot:activator="{ on, attrs }">
+                            <v-btn
+                              color="red"
+                              dark
+                              v-bind="attrs"
+                              v-on="on"
+                            >
+                              Delete
+                            </v-btn>
+                          </template>
+
+                          <v-card>
+                            <v-card-title class="text-h5">
+                              Delete {{ item.classname }}'s review?
+                            </v-card-title>
+
+                            <v-card-text>
+                              This action cannot be undone. Are you sure?
+                            </v-card-text>
+
+                            <v-divider></v-divider>
+
+                            <v-card-actions>
+                              <v-spacer></v-spacer>
+
+                              <v-btn text @click="dialog = false">
+                                Cancel
+                              </v-btn>
+                              <v-btn
+                                style="background-color: red; color: white"
+                                @click="deleteComment(index, item.classname)"
+                                >Delete</v-btn
+                              >
+                            </v-card-actions>
+                          </v-card>
+                        </v-dialog>
+                      </div>
                     </v-col>
                   </v-list-item>
                 </template>
@@ -397,6 +435,7 @@ export default {
     // elevations: ['My Reviews'],
     //Area4
     newPassword: "",
+    dialog: false,
   }),
   watch: {
     uploadloading(curval, oldval) {
@@ -552,8 +591,12 @@ export default {
       this.$store.dispatch("sendEmailVerification", {});
     },
     deleteComment(index, classname) {
-      this.$store.dispatch("deleteComment", { commentIndex: index, className: classname });
-    }
+      this.dialog = false;
+      this.$store.dispatch("deleteComment", {
+        commentIndex: index,
+        className: classname,
+      });
+    },
   },
 };
 </script>
