@@ -67,7 +67,7 @@
                     <!-- <v-list-item-avatar color="grey darken-1">
                     </v-list-item-avatar> -->
 
-                    <v-list-item-content @click="navToRate(item)" >
+                    <v-list-item-content @click="navToRate(nameToCourseCode(item.name))" >
                       <a >
                       <v-list-item-title :id="item[0]" :class="{underline: true, searchStyle: item[0] == result}">
                         {{ nameToCourseCode(item.name) }}
@@ -228,11 +228,11 @@ import SearchCourse from "./SeachCourse_top";
       navToRate(item) {
         // for mobile: no new window
         if(this.$vuetify.breakpoint.name=="xs" || this.$vuetify.breakpoint.name=="sm"){
-          this.$router.push('/course/'+ item[0]);
+          this.$router.push('/course/'+ item);
         }
         // for laptop: open a new window for the course clicked
         else{
-          let routeData = this.$router.resolve('/course/'+ item[0]);
+          let routeData = this.$router.resolve('/course/'+ item);
           window.open(routeData.href, '_blank');
         }
         

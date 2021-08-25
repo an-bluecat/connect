@@ -14,7 +14,7 @@
           <v-container>
 
           <v-expansion-panels
-          v-model="panel"
+          v-model="defaultExpansionSetting"
           multiple
           hover>
 
@@ -36,16 +36,14 @@
               <v-card
                 class="mx-auto"
                 width="100%"
+                height="100%"
                 @click="navToProject(program.name, faculty.name)"
               >
                 <v-img height="250" :src='"../assets/"+program.src+""'></v-img>
                 <v-card-title>{{ program.name }}</v-card-title>
-                <v-card-text>
-                  <div class="my-4 subtitle-1">
+                <v-card-subtitle>
                     {{ program.title }}
-                  </div>
-                  <div>{{ program.desc }}</div>
-                </v-card-text>
+                </v-card-subtitle>
                 <v-divider class="mx-4"></v-divider>
               </v-card>
 
@@ -93,8 +91,14 @@ export default {
     selection: 1,
     alignments: ["start", "center", "end"],
     items: programList,
-    panel: [0,1]
+    defaultExpansionSetting: [0,1]
   }),
+  mounted(){
+    let breakpointName = this.$vuetify.breakpoint.name;
+    if(breakpointName=="xs"||breakpointName=="sm"){
+      this.defaultExpansionSetting=[]
+    }
+  },
   methods: {
     navToProject(code, facultyName) {
       // let routeData = this.$router.resolve('./project/'+ name);
