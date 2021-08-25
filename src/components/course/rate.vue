@@ -173,7 +173,10 @@
               >
               <v-list-item :href="fileUpload.imageUrl" target="_blank">
                 <v-list-item-avatar tile>
-                    <v-img :src='"../../assets/fileicon/"+fileUpload.fileType+".svg"' ></v-img>
+                  <!-- This command return error since there is no fileType property, and the "type" property returns "Syllabus", which was undefined in assets file -->
+                    <!-- <v-img :src='"../../assets/fileicon/"+fileUpload.type+"pdf.svg"' ></v-img> -->
+                    <!-- Temporary solution -->
+                    <v-img :src='"../../assets/fileicon/pdf.svg"' ></v-img>
                 </v-list-item-avatar>
                 <v-list-item-content>
                   <v-list-item-title class=" mb-2 font-weight-medium">
