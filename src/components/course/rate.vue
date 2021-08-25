@@ -20,9 +20,9 @@
         :multi-line="true"
         timeout="100000"
       >
-        Rate 5 courses and get $10!
+        Comment 5 courses and get $10!
         <!-- <br /> -->
-        An Amazon giftcard will be sent to your email in 24 hours.
+        An Amazon giftcard will be sent to you in 24 hours.
         <template v-slot:action="{ attrs }">
           <v-btn
             color="red"
