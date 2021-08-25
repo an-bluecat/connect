@@ -2,6 +2,7 @@ import Vue from 'vue'
 import Vuex from 'vuex'
 import * as firebase from 'firebase'
 import createPersistedState from "vuex-persistedstate";
+import fileicon from "../assets/fileicon/fileicon.json";
 
 
 Vue.use(Vuex)
@@ -19,6 +20,7 @@ export const store = new Vuex.Store({
     loadedFavs: [],
     loadedFav: false,
     loadedRecords: [],
+    loadedFiles:[],
     loadedComments: [],
     user: null, // default: no user
     signLoading: false,
@@ -65,6 +67,9 @@ export const store = new Vuex.Store({
     },
     setLoadedRecords (state, payload){
       state.loadedRecords = payload
+    },
+    setLoadedFiles (state, payload){
+      state.loadedFiles = payload
     },
     setLoadedComments (state, payload){
       state.loadedComments = payload
@@ -211,7 +216,8 @@ export const store = new Vuex.Store({
               // description: obj[key].description,
               imageUrl: obj[key].imageUrl,
               date: obj[key].date,
-              filename: obj[key].filename
+              filename: obj[key].filename,
+              fileType: obj[key].fileType
               // creatorId: obj[key].creatorId
             })
           }
@@ -335,12 +341,14 @@ export const store = new Vuex.Store({
       let key
       let uid = this.state.userProfile.uid
       const classname = payload.classname
+      const fileExtension = payload.image.name.split(".")[payload.image.name.split(".").length-1]
       const fileUpload = {
         type: payload.type,
         date: payload.date.toISOString(),
         // time_log: payload.time_log.toISOString(),
         user: payload.user,
         filename: payload.image.name,
+        fileType: fileExtension in fileicon ? fileExtension : "other"
         // description: payload.description,
         // classname: payload.classname
         // creatorId: getters.user.id
@@ -775,7 +783,7 @@ export const store = new Vuex.Store({
         console.log(error)
       }); 
     },
-    deleteComment ({ commit }, payload) {
+    async deleteComment ({ commit }, payload) {
       const userEmail = this.state.user.email;
       const uid = this.state.userProfile.uid;
       const records = this.state.loadedRecords;
@@ -788,9 +796,9 @@ export const store = new Vuex.Store({
           console.log(error);
         })
       let obj1 = {};
-      firebase.database().ref("courses/"+payload.className).child('comment').once('value')
-        .then((data) => {
-          obj1 = data.val() // .val() will get you the value of the response
+      await firebase.database().ref("courses/"+payload.className).child('comment').once('value')
+        .then(async (data) => {
+          obj1 = await data.val() // .val() will get you the value of the response
           for (let i in obj1) {
             if (obj1[i].user.email === userEmail) {
               delete obj1[i];
@@ -816,9 +824,9 @@ export const store = new Vuex.Store({
       let total_diffRate = 0;
       let ratings = 0;
       let avg_diff, avg_use;
-      firebase.database().ref("courses/" + payload.className).child('rating').once('value')
-        .then((data) => {
-          obj = data.val()
+      await firebase.database().ref("courses/" + payload.className).child('rating').once('value')
+        .then(async (data) => {
+          obj = await data.val()
           for (let key in obj) {
             if (obj[key].user.email === userEmail) {
               delete obj[key];
@@ -1046,6 +1054,21 @@ export const store = new Vuex.Store({
           console.log(error);
         })
     },
+    getMyFiles({commit}) {
+      const uid = this.state.userProfile.uid;
+      const userFiles = []
+      firebase.database().ref('user/-'+uid).child('files').once('value')
+        .then((data) => {
+          const obj = data.val()
+          for (let key in obj) {
+            userFiles.push(
+              obj[key]
+            )
+          }
+        })
+
+        commit('setLoadedFiles', userFiles)
+    },
     updatePassword({commit}, payload) {
       const user = firebase.auth().currentUser;
       const newPassword = payload;
@@ -1103,6 +1126,9 @@ export const store = new Vuex.Store({
     loadedRecords (state) {
       return state.loadedRecords
     }, 
+    loadedFiles (state) {
+      return state.loadedFiles
+    },
     loadedComments (state) {
       return state.loadedComments
     },

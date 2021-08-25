@@ -20,9 +20,9 @@
         :multi-line="true"
         timeout="100000"
       >
-        Rate 5 courses and get $10!
+        Comment 5 courses and get $10!
         <!-- <br /> -->
-        An Amazon giftcard will be sent to your email in 24 hours.
+        An Amazon giftcard will be sent to you in 24 hours.
         <template v-slot:action="{ attrs }">
           <v-btn
             color="red"
@@ -161,17 +161,22 @@
       </v-row>
 
       <v-row no-gutters class="mt-6">
-        <v-col col="12" lg="10" md="10" sm="12" xs="12">
-          <v-layout row wrap>
+        <v-col >
+          <v-row no-gutters>
+            <v-col md="3" cols="12"
+            v-for="fileUpload in fileUploads" :key="fileUpload.id"
+            > 
             <v-card
+              class="mx-auto"
+              width="100%"
               outlined
-              v-for="fileUpload in fileUploads" :key="fileUpload.id"
-              max-width="212"
-              class="mt-1 ml-1"
               >
               <v-list-item :href="fileUpload.imageUrl" target="_blank">
                 <v-list-item-avatar tile>
-                    <v-img :src='"../../assets/fileicon/"+fileUpload.fileType+".svg"' ></v-img>
+                  <!-- This command return error since there is no fileType property, and the "type" property returns "Syllabus", which was undefined in assets file -->
+                    <!-- <v-img :src='"../../assets/fileicon/"+fileUpload.type+"pdf.svg"' ></v-img> -->
+                    <!-- Temporary solution -->
+                    <v-img :src='"../../assets/fileicon/pdf.svg"' ></v-img>
                 </v-list-item-avatar>
                 <v-list-item-content>
                   <v-list-item-title class=" mb-2 font-weight-medium">
@@ -188,7 +193,8 @@
                 </v-list-item-content>
               </v-list-item>
             </v-card>
-          </v-layout>
+        </v-col>
+          </v-row>
         </v-col>
       </v-row>
 
@@ -578,15 +584,9 @@ export default {
         for (let filenum in this.$store.getters.loadedfileUploads) {
           let fileName = files[filenum].filename
           let fileExtension = fileName.split(".")[fileName.split(".").length-1]
-          let fileType = "other"
-          if (fileExtension in fileicon){
-            fileType=fileExtension
-          }
+
           targetFile.push(
-            {
-              ...files[filenum],
-              fileType: fileType
-            }
+            files[filenum],
             );
         }
         /* TESTING MULTIPLE FILES
