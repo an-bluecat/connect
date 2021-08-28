@@ -211,7 +211,7 @@
 
     <v-main v-show="showArea3">
       <v-container class="py-8 px-6" fluid>
-        <v-subheader class="text-h5">My Reviews</v-subheader>
+        <!-- <v-subheader class="text-h5">My Reviews</v-subheader> -->
         <v-expansion-panels v-model="panel" hover multiple>
           <v-row>
             <v-container>
