@@ -142,7 +142,22 @@ export default {
         this.$store.dispatch('getUserProfile', {})
         // this.displayName = this.$store.getters.userProfile.displayName;
         // this.formData.discipline = this.$store.getters.userProfile.discipline;
-
+        this.$store.dispatch('getMyRecords',{}).then(
+          ()=>{
+            this.$store.getters.loadedRecords.map(
+              (myRecord)=>{
+                if(myRecord.classname==this.classname){
+                  for(let key in myRecord){
+                    if(myRecord[key]){
+                      console.log(key, myRecord[key])
+                      this.formData[key] = myRecord[key]
+                    }
+                  }
+                }
+              }
+            )
+          }
+        )
     }
 
   },
@@ -201,7 +216,15 @@ export default {
     },
     showUserName() {
       return this.$store.getters.user ? true : false
-    }
+    },
+    getMyOldReview() {
+      this.$store.getters.loadedRecords.map(record=>{
+        if(record.classname==this.classname){
+          return record
+        }
+      })
+      return
+    },
   },
 
   methods: {
@@ -248,16 +271,18 @@ export default {
           "show_name": this.formData.showName,
           "discipline": this.formData.discipline
         }
-        this.$store.dispatch('addRating', comment)
-        if (this.formData.comment.trim()!=""){
-          this.$store.dispatch('addComment', comment);
-        }
-        this.$store.dispatch('addUserRatingRecord', comment);
-        // this.$router.push('/course/' + this.classname)
-        // http://localhost:8080/#/project/rate/APS100H1
-        // this.$router.push('/course/' + this.classname)
-        this.$router.replace('/course/' + this.classname)
-
+        this.$store.dispatch('purgeUserReview',comment).then(
+          ()=>{
+            this.$store.dispatch('addRating', comment)
+            if (this.formData.comment.trim()!=""){
+              this.$store.dispatch('addComment', comment);
+            }
+            this.$store.dispatch('addUserRatingRecord', comment);
+            // this.$router.push('/course/' + this.classname)
+            // http://localhost:8080/#/project/rate/APS100H1
+            // this.$router.push('/course/' + this.classname)
+            this.$router.replace('/course/' + this.classname)
+          })
     }
   }
 }

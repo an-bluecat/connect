@@ -434,43 +434,7 @@ export const store = new Vuex.Store({
           usefulness: payload.usefulness,
         }
       }
-      //calculate the average rating 
-      //load previous rating
 
-     
-      // reach out to the fileUpload node
-      // on('value'): listen to any value changes and get push notifications
-      // once('value'): get the snapshot once
-      firebase.database().ref("courses/"+classname).child('rating').once('value')
-        .then((data) => {
-
-          const obj = data.val() // .val() will get you the value of the response
-          // data.val is an object, not an array
-          // The "let" statement declares a block-scoped local variable, optionally initializing it to a value.
-          // loop through the object, same as for(key in obj), but limit key to block scope by "let"
-          for (let key in obj) {
-              total_useRate+=obj[key].usefulness;
-              total_diffRate+=obj[key].rate;   
-              ratings+=1; 
-              console.log(obj[key]);
-              console.log("total_diff: "+total_diffRate);
-              console.log("ratings: "+ratings);
-          }
-          avg_use=total_useRate/ratings;
-          avg_diff=total_diffRate/ratings;
-          console.log("avg_use:"+ avg_use);     
-          console.log("avg_diff:"+ avg_diff);   
-        })
-        .catch((error) => {
-          console.log(error)
-        }).then(()=>{
-          // upload new calculated avg usefulness
-          firebase.database().ref("courses/"+classname).child('avg_use').set(avg_use);
-          //upload new calculated avg diff
-          firebase.database().ref("courses/"+classname).child('avg_diff').set(avg_diff);
-          //upload num of rating
-          firebase.database().ref("courses/"+classname).child('num_rate').set(ratings);
-        })
       
       
   
@@ -492,6 +456,7 @@ export const store = new Vuex.Store({
         .catch((error) => {
           console.log(error)
         })
+
     },
     addComment ({commit, getters}, payload) {
       let key
@@ -566,6 +531,50 @@ export const store = new Vuex.Store({
           console.log(error);
         })
       }
+    },async purgeUserReview({commit}, payload){
+      let uid = payload.user.id
+      let className = payload.classname
+      //Delete the review record from user/records, course/rating, and course/comments
+      //Remove from database if the comment is from the uid AND class
+      //(1) Remove User/Record
+      await firebase.database().ref('user/-'+ uid).child('records').once('value')
+      .then((data) => {
+        const records = data.val();
+        if(records){
+          for (let recordId in records) {
+            if (records[recordId].classname == className) {
+              console.log(records[recordId].classname)
+              delete records[recordId]
+            }
+          }
+          firebase.database().ref('user/-' + uid).child('records').set(records)
+        }
+       }
+      )
+      //(2) Remove courses/comment
+      await firebase.database().ref('courses/'+ className).child('comment').once('value')
+      .then((data) => {
+        const comments = data.val();
+        if(comments){
+        for (let commentId in comments) {
+          if (comments[commentId].user.id == uid) {
+            delete comments[commentId]
+          }}
+        firebase.database().ref('courses/' + className).child('comment').set(comments)
+        }
+      })
+      //(3) Remove courses/rating
+      await firebase.database().ref('courses/'+ className).child('rating').once('value')
+      .then((data) => {
+        const ratings = data.val();
+        if(ratings){
+        for (let ratingId in ratings) {
+          if (ratings[ratingId].user.id == uid) {
+            delete ratings[ratingId]
+          }}
+        firebase.database().ref('courses/' + className).child('rating').set(ratings)
+        }
+      })
     },
     signUserUp ({commit}, payload) {
       // loading
