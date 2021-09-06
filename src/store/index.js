@@ -876,14 +876,19 @@ export const store = new Vuex.Store({
 
 
 
-    // 改 discipline
+    // write user's discipline to database
     updateDiscipline ({commit}, payload) {
       commit('setSaveLoading', true);
       const user = firebase.auth().currentUser;
       const uid = this.state.userProfile.uid;
+
+      //if (eng) is present in the payload, then we remove it
+      payload = payload.replace("(Eng) ", "");
+      console.log(payload)
       // console.log("this.state.userProfile.uid in update discipline",this.state.userProfile.uid)
       firebase.database().ref('user/-'+uid).child('discipline').set(payload)
       .then((data) => {
+        
         // ...
         var profile = {
           displayName: this.state.userProfile.displayName,
