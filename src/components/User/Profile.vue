@@ -272,7 +272,7 @@
                             </v-list-item-content>
                             <v-col class="shrink" style="min-width: auto">
                               <div class="text-center">
-                                <v-dialog v-model="dialog" width="500">
+                                <v-dialog v-model="commentDialog" width="500">
                                   <template v-slot:activator="{ on, attrs }">
                                     <v-btn
                                       color="red"
@@ -299,7 +299,7 @@
                                     <v-card-actions>
                                       <v-spacer></v-spacer>
 
-                                      <v-btn text @click="dialog = false">
+                                      <v-btn text @click="commentDialog = false">
                                         Cancel
                                       </v-btn>
                                       <v-btn
@@ -308,7 +308,7 @@
                                           color: white;
                                         "
                                         @click="
-                                          deleteComment(index, item.classname)
+                                          deleteComment(item.classname)
                                         "
                                         >Delete</v-btn
                                       >
@@ -339,7 +339,7 @@
                     >
                       <v-list two-line>
                         <template>
-                          <v-list-item>
+                          <v-list-item style="align-items: flex-end">
                             <v-list-item-content>
                               <v-list-item-title
                                 class="font-weight-medium mb-2"
@@ -380,6 +380,53 @@
                                 {{ item.pname }}</v-list-item-subtitle
                               >
                             </v-list-item-content>
+                            <v-col class="shrink" style="min-width: auto">
+                              <div class="text-center">
+                                <v-dialog v-model="ratingDialog" width="500">
+                                  <template v-slot:activator="{ on, attrs }">
+                                    <v-btn
+                                      color="red"
+                                      dark
+                                      v-bind="attrs"
+                                      v-on="on"
+                                    >
+                                      Delete
+                                    </v-btn>
+                                  </template>
+
+                                  <v-card>
+                                    <v-card-title class="text-h5">
+                                      Delete {{ item.classname }}'s ratings?
+                                    </v-card-title>
+
+                                    <v-card-text>
+                                      This action cannot be undone. Are you
+                                      sure?
+                                    </v-card-text>
+
+                                    <v-divider></v-divider>
+
+                                    <v-card-actions>
+                                      <v-spacer></v-spacer>
+
+                                      <v-btn text @click="ratingDialog = false">
+                                        Cancel
+                                      </v-btn>
+                                      <v-btn
+                                        style="
+                                          background-color: red;
+                                          color: white;
+                                        "
+                                        @click="
+                                          deleteRatings(item.classname)
+                                        "
+                                        >Delete</v-btn
+                                      >
+                                    </v-card-actions>
+                                  </v-card>
+                                </v-dialog>
+                              </div>
+                            </v-col>
                           </v-list-item>
                         </template>
                       </v-list>
@@ -518,7 +565,8 @@
 export default {
   data: () => ({
     drawer: null,
-    dialog: false,
+    commentDialog: false,
+    ratingDialog: false,
     links: [
       ["mdi-information", "Basic information"],
       ["mdi-comment-quote-outline", "My Reviews"],
@@ -744,13 +792,18 @@ export default {
     verify() {
       this.$store.dispatch("sendEmailVerification", {});
     },
-    deleteComment(index, classname) {
-      this.dialog = false;
+    deleteComment(classname) {
+      this.commentDialog = false;
       this.$store.dispatch("deleteComment", {
-        commentIndex: index,
         className: classname,
       });
     },
+    deleteRatings(classname) {
+      this.ratingDialog = false;
+      this.$store.dispatch("deleteRating", {
+        className: classname,
+      });
+    }
   },
 };
 </script>
