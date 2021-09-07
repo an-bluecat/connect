@@ -275,12 +275,14 @@
                                 <v-dialog v-model="commentDialog" width="500">
                                   <template v-slot:activator="{ on, attrs }">
                                     <v-btn
-                                      color="red"
-                                      dark
+                                      text
+                                      style="padding: 0px; min-width: 0px;"
                                       v-bind="attrs"
                                       v-on="on"
                                     >
-                                      Delete
+                                      <v-icon dark color="red">
+                                        mdi-delete
+                                      </v-icon>
                                     </v-btn>
                                   </template>
 
@@ -385,12 +387,14 @@
                                 <v-dialog v-model="ratingDialog" width="500">
                                   <template v-slot:activator="{ on, attrs }">
                                     <v-btn
-                                      color="red"
-                                      dark
+                                      text
+                                      style="padding: 0px; min-width: 0px;"
                                       v-bind="attrs"
                                       v-on="on"
                                     >
-                                      Delete
+                                      <v-icon dark color="red">
+                                        mdi-delete
+                                      </v-icon>
                                     </v-btn>
                                   </template>
 
@@ -484,13 +488,15 @@
                                   <v-dialog v-model="fileDialog" width="500">
                                     <template v-slot:activator="{ on, attrs }">
                                       <v-btn
-                                        color="red"
-                                        dark
-                                        v-bind="attrs"
-                                        v-on="on"
-                                      >
-                                        Delete
-                                      </v-btn>
+                                      text
+                                      style="padding: 0px; min-width: 0px;"
+                                      v-bind="attrs"
+                                      v-on="on"
+                                    >
+                                      <v-icon dark color="red">
+                                        mdi-delete
+                                      </v-icon>
+                                    </v-btn>
                                     </template>
 
                                     <v-card>
