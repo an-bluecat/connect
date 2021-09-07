@@ -445,7 +445,7 @@
                     <v-col>
                       <v-row no-gutters>
                         <v-col
-                          md="3"
+                          md="6"
                           cols="12"
                           v-for="(fileUpload, index) in getMyFiles"
                           :key="index"
@@ -479,6 +479,53 @@
                                   </a>
                                 </v-list-item-subtitle>
                               </v-list-item-content>
+                              <v-col class="shrink" style="min-width: auto">
+                                <div class="text-center">
+                                  <v-dialog v-model="fileDialog" width="500">
+                                    <template v-slot:activator="{ on, attrs }">
+                                      <v-btn
+                                        color="red"
+                                        dark
+                                        v-bind="attrs"
+                                        v-on="on"
+                                      >
+                                        Delete
+                                      </v-btn>
+                                    </template>
+
+                                    <v-card>
+                                      <v-card-title class="text-h5">
+                                        Delete {{ fileUpload.classname }}'s file?
+                                      </v-card-title>
+
+                                      <v-card-text>
+                                        This action cannot be undone. Are you
+                                        sure?
+                                      </v-card-text>
+
+                                      <v-divider></v-divider>
+
+                                      <v-card-actions>
+                                        <v-spacer></v-spacer>
+
+                                        <v-btn text @click="fileDialog = false">
+                                          Cancel
+                                        </v-btn>
+                                        <v-btn
+                                          style="
+                                            background-color: red;
+                                            color: white;
+                                          "
+                                          @click="
+                                            deleteFile(index, fileUpload.classname)
+                                          "
+                                          >Delete</v-btn
+                                        >
+                                      </v-card-actions>
+                                    </v-card>
+                                  </v-dialog>
+                                </div>
+                              </v-col>
                             </v-list-item>
                           </v-card>
                         </v-col>
@@ -567,6 +614,7 @@ export default {
     drawer: null,
     commentDialog: false,
     ratingDialog: false,
+    fileDialog: false,
     links: [
       ["mdi-information", "Basic information"],
       ["mdi-comment-quote-outline", "My Reviews"],
@@ -801,6 +849,13 @@ export default {
     deleteRatings(classname) {
       this.ratingDialog = false;
       this.$store.dispatch("deleteRating", {
+        className: classname,
+      });
+    },
+    deleteFile(index, classname) {
+      this.fileDialog = false;
+      this.$store.dispatch("deleteFile", {
+        index: index,
         className: classname,
       });
     }

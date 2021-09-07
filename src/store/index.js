@@ -946,6 +946,47 @@ export const store = new Vuex.Store({
         }
       }
     },
+    async deleteFile({
+      commit
+    }, payload) {
+      const uid = this.state.userProfile.uid;
+      const userFiles = this.state.loadedFiles;
+      userFiles.splice(payload.index, 1)
+      firebase.database().ref('user/-' + uid).child('files').set(userFiles)
+        .then((data) => {
+          commit('setLoadedFiles', userFiles)
+        }).catch((error) => {
+          console.log(error);
+        })
+
+      const userEmail = this.state.user.email;
+      let obj = {};
+      await firebase.database().ref("courses/" + payload.className).child('files').once('value')
+        .then(async (data) => {
+          obj = await data.val() // .val() will get you the value of the response
+          for (let i in obj) {
+            if (obj[i].user.email === userEmail) {
+              delete obj[i];
+            }
+          };
+        })
+        .catch(
+          (error) => {
+            console.log(error)
+            commit('reset');
+          }
+        )
+
+      await firebase.database().ref("courses/" + payload.className).child('files').set(obj)
+        .then((data) => {
+          commit('reset');
+        })
+        .catch((error) => {
+          console.error(error)
+          commit('reset');
+        })
+        return;
+    },
 
 
     // write user's discipline to database
