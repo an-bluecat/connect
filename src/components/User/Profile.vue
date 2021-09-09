@@ -273,11 +273,10 @@
                             <v-col class="shrink" style="min-width: auto">
                               <div class="text-center">
                                     <v-btn
-                                      color="blue"
-                                      dark
-                                      style="width:100%;"
+                                      text
+                                      style="padding: 0px; min-width: 0px;"
                                       @click="navToAddRating(item.classname)"
-                                    >Edit</v-btn>
+                                    ><v-icon dark color="blue">mdi-pencil</v-icon></v-btn>
                                 <v-dialog v-model="commentDialog" width="500">
                                   <template v-slot:activator="{ on, attrs }">
                                     <v-btn
@@ -391,11 +390,10 @@
                             <v-col class="shrink" style="min-width: auto">
                               <div class="text-center">
                                     <v-btn
-                                      color="blue"
-                                      dark
-                                      style="width:100%;"
+                                      text
+                                      style="padding: 0px; min-width: 0px;"
                                       @click="navToAddRating(item.classname)"
-                                    >Edit</v-btn>
+                                    ><v-icon dark color="blue">mdi-pencil</v-icon></v-btn>
                                 <v-dialog v-model="ratingDialog" width="500">
                                   <template v-slot:activator="{ on, attrs }">
                                     <v-btn
