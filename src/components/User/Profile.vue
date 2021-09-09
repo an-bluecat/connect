@@ -272,6 +272,12 @@
                             </v-list-item-content>
                             <v-col class="shrink" style="min-width: auto">
                               <div class="text-center">
+                                    <v-btn
+                                      color="blue"
+                                      dark
+                                      style="width:100%;"
+                                      @click="navToAddRating(item.classname)"
+                                    >Edit</v-btn>
                                 <v-dialog v-model="commentDialog" width="500">
                                   <template v-slot:activator="{ on, attrs }">
                                     <v-btn
@@ -384,6 +390,12 @@
                             </v-list-item-content>
                             <v-col class="shrink" style="min-width: auto">
                               <div class="text-center">
+                                    <v-btn
+                                      color="blue"
+                                      dark
+                                      style="width:100%;"
+                                      @click="navToAddRating(item.classname)"
+                                    >Edit</v-btn>
                                 <v-dialog v-model="ratingDialog" width="500">
                                   <template v-slot:activator="{ on, attrs }">
                                     <v-btn
@@ -461,11 +473,7 @@
                             >
                               <v-list-item-avatar tile>
                                 <v-img
-                                  :src="
-                                    '../../assets/fileicon/' +
-                                    fileUpload.fileType +
-                                    '.svg'
-                                  "
+                                  :src='"../../assets/fileicon/pdf.svg"'
                                 ></v-img>
                               </v-list-item-avatar>
                               <v-list-item-content>
@@ -842,6 +850,9 @@ export default {
     navToRate(item) {
       // console.log(item);return
       this.$router.replace("/course/" + item);
+    },
+    navToAddRating(classname){
+      this.$router.push("/addRating/" + classname)
     },
     verify() {
       this.$store.dispatch("sendEmailVerification", {});
