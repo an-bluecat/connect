@@ -587,10 +587,9 @@ export const store = new Vuex.Store({
           if (comments) {
             for (let commentId in comments) {
               if (comments[commentId].user.id == uid) {
-                delete comments[commentId]
+                firebase.database().ref('courses/' + className).child('comment').child(commentId).remove()
               }
             }
-            firebase.database().ref('courses/' + className).child('comment').set(comments)
           }
         })
       //(3) Remove courses/rating
@@ -600,10 +599,9 @@ export const store = new Vuex.Store({
           if (ratings) {
             for (let ratingId in ratings) {
               if (ratings[ratingId].user.id == uid) {
-                delete ratings[ratingId]
+                firebase.database().ref('courses/' + className).child('rating').child(ratingId).remove()
               }
             }
-            firebase.database().ref('courses/' + className).child('rating').set(ratings)
           }
         })
     },
@@ -851,9 +849,12 @@ export const store = new Vuex.Store({
           obj1 = await data.val() // .val() will get you the value of the response
           for (let i in obj1) {
             if (obj1[i].user.email === userEmail) {
-              delete obj1[i];
+              firebase.database().ref("courses/" + payload.className).child('comment').child(i).remove()
             }
           };
+        })
+        .then((data) => {
+          commit('reset');
         })
         .catch(
           (error) => {
@@ -861,15 +862,6 @@ export const store = new Vuex.Store({
               commit('reset');
             }
           )
-      firebase.database().ref("courses/" + payload.className).child('comment').set(obj1)
-        .then((data) => {
-          commit('reset');
-        })
-        .catch((error) => {
-          console.error(error)
-          commit('reset');
-        })
-
       this.dispatch('deleteRating', payload)
     },
     async deleteRating({
@@ -887,7 +879,7 @@ export const store = new Vuex.Store({
           obj = await data.val()
           for (let key in obj) {
             if (obj[key].user.email === userEmail) {
-              delete obj[key];
+              firebase.database().ref("courses/" + payload.className).child('rating').child(key).remove()
             } else {
               total_useRate += obj[key].usefulness;
               total_diffRate += obj[key].rate;
@@ -917,9 +909,7 @@ export const store = new Vuex.Store({
           // //upload num of rating
           firebase.database().ref("courses/" + payload.className).child('num_rate').set(ratings);
         })
-
-      firebase.database().ref("courses/" + payload.className).child('rating').set(obj)
-        .then((data) => {
+        .then(() => {
           commit('reset');
         })
         .catch((error) => {
@@ -966,7 +956,7 @@ export const store = new Vuex.Store({
           obj = await data.val() // .val() will get you the value of the response
           for (let i in obj) {
             if (obj[i].user.email === userEmail) {
-              delete obj[i];
+              await firebase.database().ref("courses/" + payload.className).child('files').child(i).remove()
             }
           };
         })
@@ -976,8 +966,6 @@ export const store = new Vuex.Store({
             commit('reset');
           }
         )
-
-      await firebase.database().ref("courses/" + payload.className).child('files').set(obj)
         .then((data) => {
           commit('reset');
         })
