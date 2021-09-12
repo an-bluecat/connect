@@ -69,7 +69,7 @@
 
 import TopPanel from "./TopPanel";
 import SearchCourse from "./course/SeachCourse";
-import courseIndexSearchList from './course/coursejson/courseIndexSearchList_all'
+import courseIndexSearchList from './course/coursejson/courseIndexSearchList_artsci_eng'
 import programList from './course/coursejson/program_all'
 
 // import courseIndexSearchList_rotman from './course/courseIndexSearchList_rotman';
