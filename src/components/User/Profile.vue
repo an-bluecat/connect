@@ -272,62 +272,65 @@
                             </v-list-item-content>
                             <v-col class="shrink" style="min-width: auto">
                               <div class="text-center">
-                                    <v-btn
-                                      text
-                                      style="padding: 0px; min-width: 0px;"
-                                      @click="navToAddRating(item.classname)"
-                                    ><v-icon dark color="blue">mdi-pencil</v-icon></v-btn>
-                                <v-dialog v-model="commentDialog" width="500">
-                                  <template v-slot:activator="{ on, attrs }">
-                                    <v-btn
-                                      text
-                                      style="padding: 0px; min-width: 0px;"
-                                      v-bind="attrs"
-                                      v-on="on"
-                                    >
-                                      <v-icon dark color="red">
-                                        mdi-delete
-                                      </v-icon>
-                                    </v-btn>
-                                  </template>
-
-                                  <v-card>
-                                    <v-card-title class="text-h5">
-                                      Delete {{ item.classname }}'s review?
-                                    </v-card-title>
-
-                                    <v-card-text>
-                                      This action cannot be undone. Are you
-                                      sure?
-                                    </v-card-text>
-
-                                    <v-divider></v-divider>
-
-                                    <v-card-actions>
-                                      <v-spacer></v-spacer>
-
-                                      <v-btn text @click="commentDialog = false">
-                                        Cancel
-                                      </v-btn>
-                                      <v-btn
-                                        style="
-                                          background-color: red;
-                                          color: white;
-                                        "
-                                        @click="
-                                          deleteComment(item.classname)
-                                        "
-                                        >Delete</v-btn
-                                      >
-                                    </v-card-actions>
-                                  </v-card>
-                                </v-dialog>
+                                <v-btn
+                                  text
+                                  style="padding: 0px; min-width: 0px"
+                                  @click="navToAddRating(item.classname)"
+                                >
+                                  <v-icon dark color="blue">mdi-pencil</v-icon>
+                                </v-btn>
+                                <v-btn
+                                  text
+                                  style="padding: 0px; min-width: 0px"
+                                  @click="() => {
+                                    commentDialog = true;
+                                    deleteClassName = item.classname;
+                                  }"
+                                >
+                                  <v-icon dark color="red">
+                                    mdi-delete
+                                  </v-icon>
+                                </v-btn>
                               </div>
                             </v-col>
                           </v-list-item>
                         </template>
                       </v-list>
                     </v-card>
+                    <v-dialog v-model="commentDialog" width="500" :retain-focus="false">
+                      <v-card>
+                        <v-card-title class="text-h5">
+                          Delete {{ deleteClassName }}'s review?
+                        </v-card-title>
+
+                        <v-card-text>
+                          This action cannot be undone. Are you
+                          sure?
+                        </v-card-text>
+
+                        <v-divider></v-divider>
+
+                        <v-card-actions>
+                          <v-spacer></v-spacer>
+                          <v-btn
+                            text
+                            @click="commentDialog = false"
+                          >
+                            Cancel
+                          </v-btn>
+                          <v-btn
+                            style="
+                              background-color: red;
+                              color: white;
+                            "
+                            
+                             @click="deleteComment(deleteClassName)"
+                          >
+                            Delete
+                          </v-btn>
+                        </v-card-actions>
+                      </v-card>
+                    </v-dialog>
                   </v-col>
                 </v-expansion-panel-content>
               </v-expansion-panel>
@@ -389,62 +392,66 @@
                             </v-list-item-content>
                             <v-col class="shrink" style="min-width: auto">
                               <div class="text-center">
-                                    <v-btn
-                                      text
-                                      style="padding: 0px; min-width: 0px;"
-                                      @click="navToAddRating(item.classname)"
-                                    ><v-icon dark color="blue">mdi-pencil</v-icon></v-btn>
-                                <v-dialog v-model="ratingDialog" width="500">
-                                  <template v-slot:activator="{ on, attrs }">
-                                    <v-btn
-                                      text
-                                      style="padding: 0px; min-width: 0px;"
-                                      v-bind="attrs"
-                                      v-on="on"
-                                    >
-                                      <v-icon dark color="red">
-                                        mdi-delete
-                                      </v-icon>
-                                    </v-btn>
-                                  </template>
-
-                                  <v-card>
-                                    <v-card-title class="text-h5">
-                                      Delete {{ item.classname }}'s ratings?
-                                    </v-card-title>
-
-                                    <v-card-text>
-                                      This action cannot be undone. Are you
-                                      sure?
-                                    </v-card-text>
-
-                                    <v-divider></v-divider>
-
-                                    <v-card-actions>
-                                      <v-spacer></v-spacer>
-
-                                      <v-btn text @click="ratingDialog = false">
-                                        Cancel
-                                      </v-btn>
-                                      <v-btn
-                                        style="
-                                          background-color: red;
-                                          color: white;
-                                        "
-                                        @click="
-                                          deleteRatings(item.classname)
-                                        "
-                                        >Delete</v-btn
-                                      >
-                                    </v-card-actions>
-                                  </v-card>
-                                </v-dialog>
+                                <v-btn
+                                  text
+                                  style="padding: 0px; min-width: 0px"
+                                  @click="navToAddRating(item.classname)"
+                                  ><v-icon dark color="blue"
+                                    >mdi-pencil</v-icon
+                                  ></v-btn
+                                >
+                                <v-btn
+                                  text
+                                  style="padding: 0px; min-width: 0px"
+                                  @click="() => {
+                                    ratingDialog = true;
+                                    deleteClassName = item.classname;
+                                  }"
+                                >
+                                  <v-icon dark color="red">
+                                    mdi-delete
+                                  </v-icon>
+                                </v-btn>
                               </div>
                             </v-col>
                           </v-list-item>
                         </template>
                       </v-list>
                     </v-card>
+                    <v-dialog v-model="ratingDialog" width="500" :retain-focus="false">
+                      <v-card>
+                        <v-card-title class="text-h5">
+                          Delete {{ deleteClassName }}'s ratings?
+                        </v-card-title>
+
+                        <v-card-text>
+                          This action cannot be undone. Are you
+                          sure?
+                        </v-card-text>
+
+                        <v-divider></v-divider>
+
+                        <v-card-actions>
+                          <v-spacer></v-spacer>
+                          <v-btn
+                            text
+                            @click="ratingDialog = false"
+                          >
+                            Cancel
+                          </v-btn>
+                          <v-btn
+                            style="
+                              background-color: red;
+                              color: white;
+                            "
+                            
+                             @click="deleteRatings(deleteClassName)"
+                          >
+                            Delete
+                          </v-btn>
+                        </v-card-actions>
+                      </v-card>
+                    </v-dialog>
                   </v-col>
                 </v-expansion-panel-content>
               </v-expansion-panel>
@@ -471,7 +478,7 @@
                             >
                               <v-list-item-avatar tile>
                                 <v-img
-                                  :src='"../../assets/fileicon/pdf.svg"'
+                                  :src="'../../assets/fileicon/pdf.svg'"
                                 ></v-img>
                               </v-list-item-avatar>
                               <v-list-item-content>
@@ -491,55 +498,56 @@
                               </v-list-item-content>
                               <v-col class="shrink" style="min-width: auto">
                                 <div class="text-center">
-                                  <v-dialog v-model="fileDialog" width="500">
-                                    <template v-slot:activator="{ on, attrs }">
-                                      <v-btn
-                                      text
-                                      style="padding: 0px; min-width: 0px;"
-                                      v-bind="attrs"
-                                      v-on="on"
-                                    >
-                                      <v-icon dark color="red">
-                                        mdi-delete
-                                      </v-icon>
-                                    </v-btn>
-                                    </template>
-
-                                    <v-card>
-                                      <v-card-title class="text-h5">
-                                        Delete {{ fileUpload.classname }}'s file?
-                                      </v-card-title>
-
-                                      <v-card-text>
-                                        This action cannot be undone. Are you
-                                        sure?
-                                      </v-card-text>
-
-                                      <v-divider></v-divider>
-
-                                      <v-card-actions>
-                                        <v-spacer></v-spacer>
-
-                                        <v-btn text @click="fileDialog = false">
-                                          Cancel
-                                        </v-btn>
-                                        <v-btn
-                                          style="
-                                            background-color: red;
-                                            color: white;
-                                          "
-                                          @click="
-                                            deleteFile(index, fileUpload.classname)
-                                          "
-                                          >Delete</v-btn
-                                        >
-                                      </v-card-actions>
-                                    </v-card>
-                                  </v-dialog>
+                                  <v-btn
+                                    text
+                                    style="padding: 0px; min-width: 0px"
+                                    @click="() => {
+                                      fileDialog = true;
+                                      fileIndex = index;
+                                      deleteClassName = fileUpload.classname;
+                                    }"
+                                  >
+                                    <v-icon dark color="red">
+                                      mdi-delete
+                                    </v-icon>
+                                  </v-btn>
                                 </div>
                               </v-col>
                             </v-list-item>
                           </v-card>
+                          <v-dialog v-model="fileDialog" width="500" :retain-focus="false">
+                            <v-card>
+                              <v-card-title class="text-h5">
+                                Delete {{ deleteClassName }}'s file?
+                              </v-card-title>
+
+                              <v-card-text>
+                                This action cannot be undone. Are you
+                                sure?
+                              </v-card-text>
+
+                              <v-divider></v-divider>
+
+                              <v-card-actions>
+                                <v-spacer></v-spacer>
+                                <v-btn
+                                  text
+                                  @click="fileDialog = false"
+                                >
+                                  Cancel
+                                </v-btn>
+                                <v-btn
+                                  style="
+                                    background-color: red;
+                                    color: white;
+                                  "
+                                  @click="deleteFile(fileIndex, deleteClassName)"
+                                >
+                                  Delete
+                                </v-btn>
+                              </v-card-actions>
+                            </v-card>
+                          </v-dialog>
                         </v-col>
                       </v-row>
                     </v-col>
@@ -627,6 +635,8 @@ export default {
     commentDialog: false,
     ratingDialog: false,
     fileDialog: false,
+    fileIndex: 0,
+    deleteClassName: "",
     links: [
       ["mdi-information", "Basic information"],
       ["mdi-comment-quote-outline", "My Reviews"],
@@ -849,8 +859,8 @@ export default {
       // console.log(item);return
       this.$router.replace("/course/" + item);
     },
-    navToAddRating(classname){
-      this.$router.push("/addRating/" + classname)
+    navToAddRating(classname) {
+      this.$router.push("/addRating/" + classname);
     },
     verify() {
       this.$store.dispatch("sendEmailVerification", {});
@@ -873,7 +883,7 @@ export default {
         index: index,
         className: classname,
       });
-    }
+    },
   },
 };
 </script>
