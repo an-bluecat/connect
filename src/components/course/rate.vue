@@ -81,7 +81,7 @@
                 </v-tooltip>
                 
               </v-list-item-title>
-              <v-list-item-title :class="classnameStyle">{{ classname }}</v-list-item-title>
+              <v-list-item-title :class="classnameStyle">{{ loadedCourseDesc.course_name }}</v-list-item-title>
 
 
         </v-col>
@@ -146,7 +146,7 @@
       <v-row no-gutters class="mt-6">
         <v-col col="12" lg="10" md="10" sm="12" xs="12">
           <p class="text-h5 font-weight-medium">Description</p>
-          <p class="text-justify">{{ desc }}</p>
+          <p class="text-justify">{{ loadedCourseDesc.course_desc }}</p>
         </v-col>
       </v-row>
       <!-- 描述 -->
@@ -352,7 +352,7 @@
 </template>
 
 <script>
-import coursedesc from "./coursejson/coursedesc_all.json";
+//import coursedesc from "./coursejson/coursedesc_all.json";
 import courseimport from "./coursecsv/courseimport.json";
 import SearchCourse from "./SeachCourse_top";
 import fileicon from "../../assets/fileicon/fileicon.json";
@@ -373,7 +373,6 @@ export default {
     difficultyRating: -1,
     //科目信息
     title: "",
-    pdata: coursedesc,
     desc: "",
     //面包屑导航
     bitems: [
@@ -385,7 +384,6 @@ export default {
     pageLength: 0,
     showPage: false,
     //课名数据
-    pdata1: courseimport,
     classname: "",
     src: require("../../assets/star.png"),
     src1: require("../../assets/star-outline.png"),
@@ -412,35 +410,7 @@ export default {
     
     // getting classname from courseimport.json(includes data for 4 years)
     this.$store.dispatch("loadfileUploads", this.$route.params.name);
-    const obj = this.pdata1;
-    for (let key in obj) {
-      for (var i = 0; i < obj[key].length; i++) {
-        // if(obj[key][i][0][0] != undefined) {
-        // console.log(obj[key][i]);
-        for (var j = 0; j < obj[key][i].length; j++) {
-          if (this.title == obj[key][i][j][0]) {
-            this.classname = obj[key][i][j][1];
-            break;
-          }
-        }
-        // if(this.title == obj[key][i][0][0]) {
-        //   this.classname = obj[key][i][0][1];
-        //   break;
-        // }
-        // }
-      }
-    }
-    // try get classname 
-    if(this.pdata[this.title].length>1){
-      this.classname=this.pdata[this.title][1];
-    }
-
-
-    // getting description
-    if (this.pdata[this.title] != undefined) {
-      this.desc = this.pdata[this.title][0];
-    }
-
+    this.$store.dispatch("loadCourseDesc", this.$route.params.name)
   },
   mounted() {
 
@@ -559,6 +529,9 @@ export default {
         }
       }
       // return 0;
+    },
+    loadedCourseDesc(){
+      return this.$store.getters.loadedCourseDesc 
     },
     // based on how many ratings
     numRating() {

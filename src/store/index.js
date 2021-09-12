@@ -15,13 +15,14 @@ export const store = new Vuex.Store({
   // stored data
   state: {
     loadedTableData: [],
-    loadedfileUploads:[],
+    loadedfileUploads: [],
     loadedRatings: [],
     loadedFavs: [],
     loadedFav: false,
     loadedRecords: [],
-    loadedFiles:[],
+    loadedFiles: [],
     loadedComments: [],
+    loadedCourseDesc:{},
     user: null, // default: no user
     signLoading: false,
     saveLoading: false,
@@ -36,7 +37,7 @@ export const store = new Vuex.Store({
   // mutate state
   // called by commit "actions" part of this same file
   mutations: {
-    reset (state) {
+    reset(state) {
       state.signLoading = false;
       state.saveLoading = false;
       state.uploadLoading = false;
@@ -44,83 +45,87 @@ export const store = new Vuex.Store({
       state.loading = false;
       state.error = null
     },
-    setLoadedfileUploads (state, payload) {
+    setLoadedfileUploads(state, payload) {
       state.loadedfileUploads = payload
     },
     // for data table
-    clearTableData (state){
-      state.loadedTableData=[]
+    clearTableData(state) {
+      state.loadedTableData = []
     },
-    addTableData (state, payload){
+    addTableData(state, payload) {
       console.log("pushed")
       state.loadedTableData.push(payload)
     },
 
-    setLoadedRatings (state, payload){
+    setLoadedRatings(state, payload) {
       state.loadedRatings = payload
     },
-    setLoadedFavs (state, payload){
+    setLoadedFavs(state, payload) {
       state.loadedFavs = payload
     },
-    setLoadedFav (state, payload){
+    setLoadedFav(state, payload) {
       state.loadedFav = payload
     },
-    setLoadedRecords (state, payload){
+    setLoadedRecords(state, payload) {
       state.loadedRecords = payload
     },
-    setLoadedFiles (state, payload){
+    setLoadedFiles(state, payload) {
       state.loadedFiles = payload
     },
-    setLoadedComments (state, payload){
+    setLoadedComments(state, payload) {
       state.loadedComments = payload
     },
-    createfileUpload (state, payload) {
+    setLoadedCourseDesc(state, payload){
+      console.log(payload)
+      state.loadedCourseDesc = payload
+    },
+    createfileUpload(state, payload) {
       state.loadedfileUploads.push(payload)
     },
-    addRating (state, payload) {
+    addRating(state, payload) {
       state.loadedRatings.push(payload)
     },
-    addComment (state, payload) {
+    addComment(state, payload) {
       state.loadedComments.push(payload)
     },
     // only set the ones in payload!!! Don't overwrite
-    setUserProfile (state, payload) {
+    setUserProfile(state, payload) {
       // console.log("payload",payload)
-      for(let key in payload){
+      for (let key in payload) {
         // console.log(key)
         state.userProfile[key] = payload[key]
       }
     },
     // clear it
-    cleanUserProfile(state){
-      state.userProfile={};
+    cleanUserProfile(state) {
+      state.userProfile = {};
     },
 
-    setUser (state, payload) {
+    setUser(state, payload) {
       state.user = payload
     },
-    setLoading (state, payload) {
+    setLoading(state, payload) {
       state.loading = payload
     },
-    setSignLoading (state, payload) {
+    setSignLoading(state, payload) {
       state.signLoading = payload
     },
-    setSaveLoading (state, payload) {
+    setSaveLoading(state, payload) {
       state.saveLoading = payload
     },
-    setUploadLoading (state, payload) {
+    setUploadLoading(state, payload) {
       state.uploadLoading = payload
     },
-    setVerifyLoading (state, payload) {
+    setVerifyLoading(state, payload) {
       state.verifyLoading = payload
     },
-    setError (state, payload) {
+    setError(state, payload) {
       state.error = payload
     },
-    clearError (state) {
+    clearError(state) {
       state.error = null
     },
-    setAlertState (state, payload) {
+    setAlertState(state, payload) {
       state.alertGiftCard = payload
     }
   },
@@ -129,28 +134,30 @@ export const store = new Vuex.Store({
   actions: {
     // fetch data for course table
     // loadTableData({commit,dispatch}, payload){
-      
+
     // },
 
     // fetch data for individule course
-    loadcourseRating({commit}, fullname){
-      var courseCode=fullname.split("-")[0].trim();
-      if(courseCode=="RSM100"){
-        courseCode="\ufeffRSM100"
+    loadcourseRating({
+      commit
+    }, fullname) {
+      var courseCode = fullname.split("-")[0].trim();
+      if (courseCode == "RSM100") {
+        courseCode = "\ufeffRSM100"
       }
       commit('setLoading', true)
-      var usefulness=0
-      var diff=0
-      var num_rating=0
+      var usefulness = 0
+      var diff = 0
+      var num_rating = 0
 
 
-    // get usefulness, difficulty, rating
-      firebase.database().ref("courses/"+courseCode).child('avg_use').once('value')
-      .then((data) => {
+      // get usefulness, difficulty, rating
+      firebase.database().ref("courses/" + courseCode).child('avg_use').once('value')
+        .then((data) => {
 
           // if not in database ->no comment yet, push all 0s
-          if(data.val()==null){
-            var courseInfo={
+          if (data.val() == null) {
+            var courseInfo = {
               courseName: fullname,
               difficulty: 0,
               usefulness: 0,
@@ -159,49 +166,51 @@ export const store = new Vuex.Store({
             commit('addTableData', courseInfo)
           }
           // if in database, then continue to get the other specs
-          else{
+          else {
             usefulness = data.val().toFixed(1)
-            firebase.database().ref("courses/"+courseCode).child('avg_diff').once('value')
-            .then((data) => {
-              diff = data.val().toFixed(1)
-              // console.log("2")
-              firebase.database().ref("courses/"+courseCode).child('num_rate').once('value')
+            firebase.database().ref("courses/" + courseCode).child('avg_diff').once('value')
               .then((data) => {
-                  num_rating = data.val()
-                  //create an object and append into loadedTableData
-                  var courseInfo={
-                    courseName: fullname,
-                    difficulty: diff,
-                    usefulness: usefulness,
-                    numRatings: num_rating
-                  }
-                commit('addTableData', courseInfo)
-                commit('reset')
+                diff = data.val().toFixed(1)
+                // console.log("2")
+                firebase.database().ref("courses/" + courseCode).child('num_rate').once('value')
+                  .then((data) => {
+                    num_rating = data.val()
+                    //create an object and append into loadedTableData
+                    var courseInfo = {
+                      courseName: fullname,
+                      difficulty: diff,
+                      usefulness: usefulness,
+                      numRatings: num_rating
+                    }
+                    commit('addTableData', courseInfo)
+                    commit('reset')
+                  })
               })
-            })
           }
-      })
-      .catch(
-        (error) => {
-          console.log(error)
-          // commit('setLoading', false)
-          commit('reset');
-        }
-      )
+        })
+        .catch(
+          (error) => {
+            console.log(error)
+            // commit('setLoading', false)
+            commit('reset');
+          }
+        )
 
       // push into course data
-      
+
 
 
     },
 
 
-    loadfileUploads ({commit}, payload) {
+    loadfileUploads({
+      commit
+    }, payload) {
       commit('setLoading', true)
       // reach out to the fileUpload node
       // on('value'): listen to any value changes and get push notifications
       // once('value'): get the snapshot once
-      firebase.database().ref("courses/"+payload).child('files').once('value')
+      firebase.database().ref("courses/" + payload).child('files').once('value')
         .then((data) => {
 
           const fileUploads = []
@@ -233,12 +242,14 @@ export const store = new Vuex.Store({
           }
         )
     },
-    loadRatings ({commit}, payload) {
+    loadRatings({
+      commit
+    }, payload) {
       commit('setLoading', true)
       // reach out to the fileUpload node
       // on('value'): listen to any value changes and get push notifications
       // once('value'): get the snapshot once
-      firebase.database().ref("courses/"+payload).child('rating').once('value')
+      firebase.database().ref("courses/" + payload).child('rating').once('value')
         .then((data) => {
           const fileUploads = []
           const obj = data.val() // .val() will get you the value of the response
@@ -267,9 +278,11 @@ export const store = new Vuex.Store({
           }
         )
     },
-    loadComments ({commit}, payload) {
+    loadComments({
+      commit
+    }, payload) {
       commit('setLoading', true)
-      firebase.database().ref("courses/"+payload.name).child('comment').once('value')
+      firebase.database().ref("courses/" + payload.name).child('comment').once('value')
         .then((data) => {
           const fileUploads = []
           const obj1 = data.val() // .val() will get you the value of the response
@@ -277,25 +290,29 @@ export const store = new Vuex.Store({
           // obj是最后用到的
           var arr = [];
           for (var i in obj1) {
-              arr.push([obj1[i],i]);
+            arr.push([obj1[i], i]);
           };
           arr.reverse();
           var len = arr.length;
           var obj = {};
           for (var i = 0; i < len; i++) {
-              obj[arr[i][1]] = arr[i][0];
+            obj[arr[i][1]] = arr[i][0];
           }
-          
-          const comment_per_page=4;
+
+          const comment_per_page = 4;
           //先组一个数组
           const mlist = [];
-          let mkey = (payload.page-1)*comment_per_page;
-          if(obj != null) {
-            if((Object.keys(obj).length-mkey) < comment_per_page) {var limit = Object.keys(obj).length-mkey}else {var limit = comment_per_page}
-            for(var i=0;i<limit;i++) {
-              mlist.push(mkey+i);
+          let mkey = (payload.page - 1) * comment_per_page;
+          if (obj != null) {
+            if ((Object.keys(obj).length - mkey) < comment_per_page) {
+              var limit = Object.keys(obj).length - mkey
+            } else {
+              var limit = comment_per_page
             }
-            for(var i=0;i<mlist.length;i++) {
+            for (var i = 0; i < limit; i++) {
+              mlist.push(mkey + i);
+            }
+            for (var i = 0; i < mlist.length; i++) {
               //根据payload.page 和  来决定输出  1=> 0-6 2=>6->12
               let key = Object.keys(obj)[mlist[i]];
               fileUploads.push({
@@ -336,12 +353,31 @@ export const store = new Vuex.Store({
           }
         )
     },
-    createfileUpload ({commit, getters}, payload) {
+    loadCourseDesc({
+      commit,
+      getters
+    }, course_name){
+      firebase.database().ref("descriptions").child(course_name).once('value')
+      .then((data)=>{
+        const courseRawData = data.val();
+        console.log(courseRawData[0])
+        let courseDesc = {
+          course_desc: courseRawData[0],
+          course_name: courseRawData[1],
+          course_code: courseRawData[2]
+        }
+        commit('setLoadedCourseDesc', courseDesc)
+      })
+    },
+    createfileUpload({
+      commit,
+      getters
+    }, payload) {
       let imageUrl
       let key
       let uid = this.state.userProfile.uid
       const classname = payload.classname
-      const fileExtension = payload.image.name.split(".")[payload.image.name.split(".").length-1]
+      const fileExtension = payload.image.name.split(".")[payload.image.name.split(".").length - 1]
       const fileUpload = {
         type: payload.type,
         date: payload.date.toISOString(),
@@ -356,14 +392,16 @@ export const store = new Vuex.Store({
       this.state.loadedcurrentUploads = 1;
       //************** STEP 1: ******************
       // push json information to database
-      firebase.database().ref("courses/"+classname).child('files').push(fileUpload)
+      firebase.database().ref("courses/" + classname).child('files').push(fileUpload)
         .then((data) => {
           key = data.key // data we get back from firebase contains the key of this object
 
           //add a copy of the data to user/files database
-          firebase.database().ref('user/-' + uid).child('files').push(
-            {...fileUpload, classname: classname, filekey: key}
-          )
+          firebase.database().ref('user/-' + uid).child('files').push({
+            ...fileUpload,
+            classname: classname,
+            filekey: key
+          })
           return key
         })
         //************** STEP 2 ******************
@@ -389,7 +427,9 @@ export const store = new Vuex.Store({
           imageUrl = snapshot.downloadURL
           //************** STEP 3: ******************
           // update a node "fileUploads", child(key)
-          return firebase.database().ref("courses/"+classname).child('files').child(key).update({imageUrl: imageUrl})
+          return firebase.database().ref("courses/" + classname).child('files').child(key).update({
+            imageUrl: imageUrl
+          })
         })
         // commit in local store
         //************** STEP 4: ******************
@@ -409,16 +449,19 @@ export const store = new Vuex.Store({
     },
     // add current rating to firebase, also recalculate the average
     // TODO: current design needs to be reordered???
-    addRating ({commit, getters}, payload) {
+    addRating({
+      commit,
+      getters
+    }, payload) {
       let key
       const classname = payload.classname
-      var fileUpload,avg_use,avg_diff;
-      var total_useRate=0;
-      var total_diffRate=0;
-      var ratings=0;
-    
-      if("user" in payload){
-        var fileUpload= {
+      var fileUpload, avg_use, avg_diff;
+      var total_useRate = 0;
+      var total_diffRate = 0;
+      var ratings = 0;
+
+      if ("user" in payload) {
+        var fileUpload = {
           rate: payload.rate,
           user: payload.user,
           time: payload.time,
@@ -426,8 +469,8 @@ export const store = new Vuex.Store({
           usefulness: payload.usefulness,
         }
 
-      }else{
-        var fileUpload= {
+      } else {
+        var fileUpload = {
           rate: payload.rate,
           time: payload.time,
           time_log: payload.time_log.toISOString(),
@@ -435,13 +478,13 @@ export const store = new Vuex.Store({
         }
       }
 
-      
-      
-  
-      
-   
+
+
+
+
+
       // push json information to database
-      firebase.database().ref("courses/"+classname).child('rating').push(fileUpload)
+      firebase.database().ref("courses/" + classname).child('rating').push(fileUpload)
         .then((data) => {
           key = data.key // data we get back from firebase contains the key of this object
           return key
@@ -458,15 +501,18 @@ export const store = new Vuex.Store({
         })
 
     },
-    addComment ({commit, getters}, payload) {
+    addComment({
+      commit,
+      getters
+    }, payload) {
       let key
       const classname = payload.classname
-      if(payload.user) {
+      if (payload.user) {
         var photoURL = firebase.auth().currentUser.photoURL ? firebase.auth().currentUser.photoURL : '';
-        var displayname = firebase.auth().currentUser.displayName ? firebase.auth().currentUser.displayName :　firebase.auth().currentUser.email
+        var displayname = firebase.auth().currentUser.displayName ? firebase.auth().currentUser.displayName : firebase.auth().currentUser.email
         var discipline = payload.discipline;
-        
-      }else {
+
+      } else {
         var photoURL = "";
         var displayname = "";
         var discipline = payload.discipline;
@@ -486,7 +532,7 @@ export const store = new Vuex.Store({
         discipline: discipline
       }
       // push json information to database
-      firebase.database().ref("courses/"+classname).child('comment').push(fileUpload)
+      firebase.database().ref("courses/" + classname).child('comment').push(fileUpload)
         .then((data) => {
           key = data.key // data we get back from firebase contains the key of this object
           return key
@@ -502,9 +548,11 @@ export const store = new Vuex.Store({
           console.log(error)
         })
 
-    },   
-    addUserRatingRecord({commit},payload){
-      if(payload.user) {
+    },
+    addUserRatingRecord({
+      commit
+    }, payload) {
+      if (payload.user) {
         //push user records
         let userRecords = {
           comment: payload.comment,
@@ -521,62 +569,66 @@ export const store = new Vuex.Store({
         const uid = this.state.userProfile.uid;
         // firebase.database().ref('user/-'+uid).child('fav').once('value')
         firebase.database().ref('user/-' + uid).child('records').push(userRecords)
-        .then((data) => {
-          return data.key
-        })
-        .then(() => {
-          // commit('addRating', {...userRecords,id:key})
-          // console.log('success');
-        }).catch((error) => {
-          console.log(error);
-        })
+          .then((data) => {
+            return data.key
+          })
+          .then(() => {
+            // commit('addRating', {...userRecords,id:key})
+            // console.log('success');
+          }).catch((error) => {
+            console.log(error);
+          })
       }
-    },async purgeUserReview({commit}, payload){
+    },
+    async purgeUserReview({
+      commit
+    }, payload) {
       let uid = payload.user.id
       let className = payload.classname
       //Delete the review record from user/records, course/rating, and course/comments
       //Remove from database if the comment is from the uid AND class
       //(1) Remove User/Record
-      await firebase.database().ref('user/-'+ uid).child('records').once('value')
-      .then((data) => {
-        const records = data.val();
-        if(records){
-          for (let recordId in records) {
-            if (records[recordId].classname == className) {
-              console.log(records[recordId].classname)
-              delete records[recordId]
+      await firebase.database().ref('user/-' + uid).child('records').once('value')
+        .then((data) => {
+          const records = data.val();
+          if (records) {
+            for (let recordId in records) {
+              if (records[recordId].classname == className) {
+                console.log(records[recordId].classname)
+                delete records[recordId]
+              }
+            }
+            firebase.database().ref('user/-' + uid).child('records').set(records)
+          }
+        })
+      //(2) Remove courses/comment
+      await firebase.database().ref('courses/' + className).child('comment').once('value')
+        .then((data) => {
+          const comments = data.val();
+          if (comments) {
+            for (let commentId in comments) {
+              if (comments[commentId].user.id == uid) {
+                firebase.database().ref('courses/' + className).child('comment').child(commentId).remove()
+              }
             }
           }
-          firebase.database().ref('user/-' + uid).child('records').set(records)
-        }
-       }
-      )
-      //(2) Remove courses/comment
-      await firebase.database().ref('courses/'+ className).child('comment').once('value')
-      .then((data) => {
-        const comments = data.val();
-        if(comments){
-        for (let commentId in comments) {
-          if (comments[commentId].user.id == uid) {
-            delete comments[commentId]
-          }}
-        firebase.database().ref('courses/' + className).child('comment').set(comments)
-        }
-      })
+        })
       //(3) Remove courses/rating
-      await firebase.database().ref('courses/'+ className).child('rating').once('value')
-      .then((data) => {
-        const ratings = data.val();
-        if(ratings){
-        for (let ratingId in ratings) {
-          if (ratings[ratingId].user.id == uid) {
-            delete ratings[ratingId]
-          }}
-        firebase.database().ref('courses/' + className).child('rating').set(ratings)
-        }
-      })
+      await firebase.database().ref('courses/' + className).child('rating').once('value')
+        .then((data) => {
+          const ratings = data.val();
+          if (ratings) {
+            for (let ratingId in ratings) {
+              if (ratings[ratingId].user.id == uid) {
+                firebase.database().ref('courses/' + className).child('rating').child(ratingId).remove()
+              }
+            }
+          }
+        })
     },
-    signUserUp ({commit}, payload) {
+    signUserUp({
+      commit
+    }, payload) {
       // loading
       commit('setSignLoading', true);
       commit('clearError');
@@ -590,7 +642,7 @@ export const store = new Vuex.Store({
 
       // firebase.auth().sendSignInLinkToEmail(payload.email, actionCodeSettings)
       firebase.auth().createUserWithEmailAndPassword(payload.email, payload.password)
-      .then(
+        .then(
           user => {
             commit('setSignLoading', false) // not loading anymore
 
@@ -601,13 +653,13 @@ export const store = new Vuex.Store({
               displayName: payload.email.split("@")[0]
               // photoURL: user.photoURL
             })
-            
+
             firebase.auth().currentUser.sendEmailVerification(actionCodeSettings)
             //设置discipline！
             // dispatch('updateDiscipline', payload.discipline)
             const uid = user1.uid;
-            firebase.database().ref('user/-'+uid).child('discipline').set(payload.discipline)
-            
+            firebase.database().ref('user/-' + uid).child('discipline').set(payload.discipline)
+
           }
         )
         .catch(
@@ -621,21 +673,23 @@ export const store = new Vuex.Store({
     },
 
     // signin有漏洞，以后改！
-    signUserIn ({commit, dispatch}, payload) {
-      const whitelist=["test2@mail.utoronto.ca"]
+    signUserIn({
+      commit,
+      dispatch
+    }, payload) {
+      const whitelist = ["test2@mail.utoronto.ca"]
       commit('setSignLoading', true)
       commit('clearError')
       firebase.auth().signInWithEmailAndPassword(payload.email, payload.password)
         .then(
           user => {
-            if(user.user.emailVerified==false && (whitelist.includes(payload.email)!=true)){
+            if (user.user.emailVerified == false && (whitelist.includes(payload.email) != true)) {
               firebase.auth().signOut()
               console.log("Email not verified")
               commit('setError', Error("Email not verified, please check your junk box for the link"))
               commit('setSignLoading', false)
               // commit('reset');
-            }
-            else{
+            } else {
 
               // email verified, continue signin
               const newUser = {
@@ -644,7 +698,7 @@ export const store = new Vuex.Store({
                 email: payload.email
               }
               commit('setUser', newUser)
-              
+
 
               // set the new profile
               dispatch('getUserProfile');
@@ -664,7 +718,10 @@ export const store = new Vuex.Store({
         )
     },
 
-    googleSignin({commit, dispatch}, payload) {
+    googleSignin({
+      commit,
+      dispatch
+    }, payload) {
       var provider = new firebase.auth.GoogleAuthProvider();
       // provider.addScope('https://www.googleapis.com/auth/contacts.readonly');
       firebase.auth()
@@ -682,21 +739,21 @@ export const store = new Vuex.Store({
 
 
           const newUser = {
-                id: user.uid,
-                registeredfileUploads: [],
-                email: user.email
-              }
-              commit('setUser', newUser)
-             
+            id: user.uid,
+            registeredfileUploads: [],
+            email: user.email
+          }
+          commit('setUser', newUser)
 
-              // get user profile
-              // dispatch('getUserProfile');
-              // console.log(this.state.userProfile.photoURL)
 
-              commit('reset');
-        }).then((result)=>{
+          // get user profile
+          // dispatch('getUserProfile');
+          // console.log(this.state.userProfile.photoURL)
+
+          commit('reset');
+        }).then((result) => {
           dispatch('getUserProfile');
-        }).then((result)=>{
+        }).then((result) => {
           // console.log("this.state.userProfile",this.state.userProfile)
         }).catch((error) => {
           // Handle Errors here.
@@ -710,14 +767,21 @@ export const store = new Vuex.Store({
         });
     },
 
-    autoSignIn ({commit}, payload) {
-      commit('setUser', {id: payload.uid, registeredfileUploads: []})
+    autoSignIn({
+      commit
+    }, payload) {
+      commit('setUser', {
+        id: payload.uid,
+        registeredfileUploads: []
+      })
     },
 
     // the first time getting and setting user profile 
-    getUserProfile ({commit}) {
+    getUserProfile({
+      commit
+    }) {
       firebase.auth().onAuthStateChanged((user) => {
-      // const user = firebase.auth().currentUser;
+        // const user = firebase.auth().currentUser;
         // console.log(JSON.stringify(user));
         if (user) {
           // const uid = this.state.userProfile.uid;
@@ -725,94 +789,93 @@ export const store = new Vuex.Store({
 
           // get discipline
           // const discipline = firebase.database().ref('user/-'+ uid).child('discipline').once('value');
-          firebase.database().ref('user/-'+ uid).child('discipline').once('value')
-          .then((data) => {
-            const discipline = data.val();
-            var profile = {
-              uid: user.uid,
-              displayName: user.displayName,
-              photoURL: user.photoURL,
-              email: user.email,
-              emailVerified: user.emailVerified,
-              discipline: discipline
-            }
-            commit('setUserProfile', profile)
-          })
+          firebase.database().ref('user/-' + uid).child('discipline').once('value')
+            .then((data) => {
+              const discipline = data.val();
+              var profile = {
+                uid: user.uid,
+                displayName: user.displayName,
+                photoURL: user.photoURL,
+                email: user.email,
+                emailVerified: user.emailVerified,
+                discipline: discipline
+              }
+              commit('setUserProfile', profile)
+            })
           // get graduation year
-          firebase.database().ref('user/-'+ uid).child('gradyear').once('value')
-          .then((data) => {
-            const gradyear = data.val();
-            var profile = {
-              gradyear: gradyear
-            }
-            commit('setUserProfile', profile)
-          })
+          firebase.database().ref('user/-' + uid).child('gradyear').once('value')
+            .then((data) => {
+              const gradyear = data.val();
+              var profile = {
+                gradyear: gradyear
+              }
+              commit('setUserProfile', profile)
+            })
 
 
         } else {
           // User is signed out
           // ...
         }
-    });
-    },
-    sendEmailVerification({commit}, payload) {
-      commit('setVerifyLoading', true);
-      firebase.auth().currentUser.sendEmailVerification()
-      .then(() => {
-        // Email verification sent!
-        // ...
-        // commit('setVerifyLoading', false);
-        commit('reset');
-      }).catch((error) => {
-        console.log(error);
-        // commit('setVerifyLoading', false);
-        commit('reset');
       });
     },
+    sendEmailVerification({
+      commit
+    }, payload) {
+      commit('setVerifyLoading', true);
+      firebase.auth().currentUser.sendEmailVerification()
+        .then(() => {
+          // Email verification sent!
+          // ...
+          // commit('setVerifyLoading', false);
+          commit('reset');
+        }).catch((error) => {
+          console.log(error);
+          // commit('setVerifyLoading', false);
+          commit('reset');
+        });
+    },
     //改 user name
-    updateProfile ({commit}, payload) {
+    updateProfile({
+      commit
+    }, payload) {
       commit('setSaveLoading', true);
       const user = firebase.auth().currentUser;
       user.updateProfile({
-        displayName: payload.displayName,
-        // photoURL: user.photoURL
-      }).then(() => {
-        var profile = {
           displayName: payload.displayName,
-          photoURL: user.photoURL,
-          emailVerified: user.emailVerified,
-        }
-        commit('setUserProfile', profile)
-        commit('setSaveLoading', false)
-        commit('reset');
-      })
-      .catch((error) => {
-        commit('setSaveLoading', false)
-        commit('reset');
-        console.log(error)
-      }); 
-    },
-    async deleteComment ({ commit }, payload) {
-      const userEmail = this.state.user.email;
-      const uid = this.state.userProfile.uid;
-      const records = this.state.loadedRecords;
-      records.splice(payload.commentIndex, 1)
-      firebase.database().ref('user/-' + uid).child('records').set(records)
-        .then((data) => {
-          // return
-          commit('setLoadedRecords', records)
-        }).catch((error) => {
-          console.log(error);
+          // photoURL: user.photoURL
+        }).then(() => {
+          var profile = {
+            displayName: payload.displayName,
+            photoURL: user.photoURL,
+            emailVerified: user.emailVerified,
+          }
+          commit('setUserProfile', profile)
+          commit('setSaveLoading', false)
+          commit('reset');
         })
+        .catch((error) => {
+          commit('setSaveLoading', false)
+          commit('reset');
+          console.log(error)
+        });
+    },
+    async deleteComment({
+      commit
+    }, payload) {
+      const userEmail = this.state.user.email;
       let obj1 = {};
       await firebase.database().ref("courses/"+payload.className).child('comment').once('value')
         .then(async (data) => {
           obj1 = await data.val() // .val() will get you the value of the response
           for (let i in obj1) {
             if (obj1[i].user.email === userEmail) {
-              delete obj1[i];
+              firebase.database().ref("courses/" + payload.className).child('comment').child(i).remove()
             }
           };
+        })
+        .then((data) => {
+          commit('reset');
         })
         .catch(
           (error) => {
@@ -820,14 +883,13 @@ export const store = new Vuex.Store({
               commit('reset');
             }
           )
-      firebase.database().ref("courses/" + payload.className).child('comment').set(obj1)
-        .then((data) => {
-          commit('reset');
-        })
-        .catch((error) => {
-          console.error(error)
-          commit('reset');
-        })
+      this.dispatch('deleteRating', payload)
+    },
+    async deleteRating({
+      commit
+    }, payload) {
+      this.dispatch('deleteUserRecord', payload)
+      const userEmail = this.state.user.email;
       let obj = {};
       let total_useRate = 0;
       let total_diffRate = 0;
@@ -838,7 +900,7 @@ export const store = new Vuex.Store({
           obj = await data.val()
           for (let key in obj) {
             if (obj[key].user.email === userEmail) {
-              delete obj[key];
+              firebase.database().ref("courses/" + payload.className).child('rating').child(key).remove()
             } else {
               total_useRate += obj[key].usefulness;
               total_diffRate += obj[key].rate;
@@ -847,6 +909,11 @@ export const store = new Vuex.Store({
               console.log("ratings: " + ratings);
             }
           };
+          if (ratings === 0) {
+            avg_use = 0;
+            avg_diff = 0;
+            return;
+          }
           avg_use = total_useRate / ratings;
           avg_diff = total_diffRate / ratings;
           console.log("avg_use:" + avg_use);
@@ -863,21 +930,78 @@ export const store = new Vuex.Store({
           // //upload num of rating
           firebase.database().ref("courses/" + payload.className).child('num_rate').set(ratings);
         })
+        .then(() => {
+          commit('reset');
+        })
+        .catch((error) => {
+          console.error(error)
+          commit('reset');
+        })
+    },
+    async deleteUserRecord({
+      commit
+    }, payload) {
+      const uid = this.state.userProfile.uid;
+      const records = this.state.loadedRecords;
+      for (let i = 0; i < records.length; i++) {
+        if (records[i].classname === payload.className) {
+          records.splice(i, 1)
+          firebase.database().ref('user/-' + uid).child('records').set(records)
+            .then((data) => {
+              // return
+              commit('setLoadedRecords', records)
+            }).catch((error) => {
+              console.log(error);
+            })
+          return;
+        }
+      }
+    },
+    async deleteFile({
+      commit
+    }, payload) {
+      const uid = this.state.userProfile.uid;
+      const userFiles = this.state.loadedFiles;
+      userFiles.splice(payload.index, 1)
+      firebase.database().ref('user/-' + uid).child('files').set(userFiles)
+        .then((data) => {
+          commit('setLoadedFiles', userFiles)
+        }).catch((error) => {
+          console.log(error);
+        })
 
-        firebase.database().ref("courses/" + payload.className).child('rating').set(obj)
-          .then((data) => {
+      const userEmail = this.state.user.email;
+      let obj = {};
+      await firebase.database().ref("courses/" + payload.className).child('files').once('value')
+        .then(async (data) => {
+          obj = await data.val() // .val() will get you the value of the response
+          for (let i in obj) {
+            if (obj[i].user.email === userEmail) {
+              await firebase.database().ref("courses/" + payload.className).child('files').child(i).remove()
+            }
+          };
+        })
+        .catch(
+          (error) => {
+            console.log(error)
             commit('reset');
-          })
-          .catch((error) => {
-            console.error(error)
-            commit('reset');
-          })
+          }
+        )
+        .then((data) => {
+          commit('reset');
+        })
+        .catch((error) => {
+          console.error(error)
+          commit('reset');
+        })
+        return;
     },
 
 
-
     // write user's discipline to database
-    updateDiscipline ({commit}, payload) {
+    updateDiscipline({
+      commit
+    }, payload) {
       commit('setSaveLoading', true);
       const user = firebase.auth().currentUser;
       const uid = this.state.userProfile.uid;
@@ -886,79 +1010,85 @@ export const store = new Vuex.Store({
       payload = payload.replace("(Eng) ", "");
       console.log(payload)
       // console.log("this.state.userProfile.uid in update discipline",this.state.userProfile.uid)
-      firebase.database().ref('user/-'+uid).child('discipline').set(payload)
-      .then((data) => {
-        
-        // ...
-        var profile = {
-          displayName: this.state.userProfile.displayName,
-          photoURL: user.photoURL,
-          emailVerified: user.emailVerified,
-          discipline: payload,
-        }
-        commit('setUserProfile', profile)
-        commit('setSaveLoading', false)
-      }).catch((error) => {
-        // commit('setSaveLoading', false)
-        commit('reset');
-        console.log(error)
-      }); 
+      firebase.database().ref('user/-' + uid).child('discipline').set(payload)
+        .then((data) => {
+
+          // ...
+          var profile = {
+            displayName: this.state.userProfile.displayName,
+            photoURL: user.photoURL,
+            emailVerified: user.emailVerified,
+            discipline: payload,
+          }
+          commit('setUserProfile', profile)
+          commit('setSaveLoading', false)
+        }).catch((error) => {
+          // commit('setSaveLoading', false)
+          commit('reset');
+          console.log(error)
+        });
     },
 
     // 改 discipline
-    updateGradYear ({commit}, payload) {
+    updateGradYear({
+      commit
+    }, payload) {
       commit('setSaveLoading', true);
       const user = firebase.auth().currentUser;
       const uid = this.state.userProfile.uid;
       // console.log("this.state.userProfile.uid in update discipline",this.state.userProfile.uid)
-      firebase.database().ref('user/-'+uid).child('gradyear').set(payload)
-      .then((data) => {
-        var profile = {
-          gradyear: payload,
-        }
-        commit('setUserProfile', profile)
-        commit('setSaveLoading', false)
-      }).catch((error) => {
-        // commit('setSaveLoading', false)
-        commit('reset');
-        console.log(error)
-      }); 
+      firebase.database().ref('user/-' + uid).child('gradyear').set(payload)
+        .then((data) => {
+          var profile = {
+            gradyear: payload,
+          }
+          commit('setUserProfile', profile)
+          commit('setSaveLoading', false)
+        }).catch((error) => {
+          // commit('setSaveLoading', false)
+          commit('reset');
+          console.log(error)
+        });
     },
 
 
     //上传用户图片
-    updatePhoto ({commit}, payload) {
+    updatePhoto({
+      commit
+    }, payload) {
       commit('setUploadLoading', true);
       let imageUrl;
       const user = firebase.auth().currentUser;
       const filename = payload.photoURL.name
       firebase.storage().ref('fileUploads/AVATAR/' + filename).put(payload.photoURL)
-      .then(snapshot => {
-        return new Promise((resolve, reject) => {
-          snapshot.ref.getDownloadURL().then(url => {
-            snapshot.downloadURL = url
-            resolve(snapshot)
+        .then(snapshot => {
+          return new Promise((resolve, reject) => {
+            snapshot.ref.getDownloadURL().then(url => {
+              snapshot.downloadURL = url
+              resolve(snapshot)
+            })
           })
-        })
-      }).then((snapshot) => {
-        imageUrl = snapshot.downloadURL;
-        return user.updateProfile({
-          photoURL: imageUrl
-        }).then(()=>{
-          var profile = {
+        }).then((snapshot) => {
+          imageUrl = snapshot.downloadURL;
+          return user.updateProfile({
             photoURL: imageUrl
-          }
-          commit('setUserProfile', profile)
+          }).then(() => {
+            var profile = {
+              photoURL: imageUrl
+            }
+            commit('setUserProfile', profile)
+            // commit('setUploadLoading', false);
+            commit('reset');
+          })
+        }).catch((error) => {
+          console.log(error)
           // commit('setUploadLoading', false);
           commit('reset');
-        })
-      }).catch((error) => {
-        console.log(error)
-        // commit('setUploadLoading', false);
-        commit('reset');
-      }); 
+        });
     },
-    logout ({commit}) {
+    logout({
+      commit
+    }) {
       // commit('setSignLoading', false)
       commit('reset');
       firebase.auth().signOut()
@@ -968,13 +1098,17 @@ export const store = new Vuex.Store({
 
 
     },
-    
-    clearError ({commit}) {
+
+    clearError({
+      commit
+    }) {
       commit('clearError')
     },
-    getMyFav({commit}) {
+    getMyFav({
+      commit
+    }) {
       const uid = this.state.userProfile.uid;
-      firebase.database().ref('user/-'+uid).child('fav').once('value')
+      firebase.database().ref('user/-' + uid).child('fav').once('value')
         .then((data) => {
           const favs = [];
           const obj = data.val()
@@ -991,14 +1125,16 @@ export const store = new Vuex.Store({
           console.log(error);
         })
     },
-    loadedFav({commit}, payload) {
+    loadedFav({
+      commit
+    }, payload) {
       commit('setLoadedFav', false)
       const uid = this.state.userProfile.uid;
-      firebase.database().ref('user/-'+uid).child('fav').once('value')
+      firebase.database().ref('user/-' + uid).child('fav').once('value')
         .then((data) => {
           const obj = data.val()
           for (let key in obj) {
-            if(obj[key].classname == payload) {
+            if (obj[key].classname == payload) {
               commit('setLoadedFav', true)
             }
           }
@@ -1006,48 +1142,52 @@ export const store = new Vuex.Store({
           console.log(error);
         })
     },
-    addFav({commit}, payload) {
-      if(payload.tag) {//添加数据
+    addFav({
+      commit
+    }, payload) {
+      if (payload.tag) { //添加数据
         const uid = this.state.userProfile.uid;
         const fav = {
           classname: payload.classname,
           time: payload.time
         }
-        firebase.database().ref('user/-'+uid).child('fav').push(fav)
+        firebase.database().ref('user/-' + uid).child('fav').push(fav)
           .then((data) => {
             return data.key
           })
-          .then(()=>{
+          .then(() => {
             commit('setLoadedFav', true)
           }).catch((error) => {
             console.log(error);
           })
-      }else {//删除数据
+      } else { //删除数据
         const uid = this.state.userProfile.uid;
-        firebase.database().ref('user/-'+uid).child('fav').once('value')
-        .then((data) => {
-          const obj = data.val()
-          for (let key in obj) {
-            if(obj[key].classname == payload.classname) {
-              // return firebase.database().ref('user/-'+uid).child('fav/'+key).remove();
-              firebase.database().ref('user/-'+uid).child('fav/'+key).remove()
-              .then((data) => {
-                commit('setLoadedFav', false)
-              }).catch((error) => {
-                console.log(error);
-              })
+        firebase.database().ref('user/-' + uid).child('fav').once('value')
+          .then((data) => {
+            const obj = data.val()
+            for (let key in obj) {
+              if (obj[key].classname == payload.classname) {
+                // return firebase.database().ref('user/-'+uid).child('fav/'+key).remove();
+                firebase.database().ref('user/-' + uid).child('fav/' + key).remove()
+                  .then((data) => {
+                    commit('setLoadedFav', false)
+                  }).catch((error) => {
+                    console.log(error);
+                  })
+              }
             }
-          }
-        }).catch((error) => {
-          console.log(error);
-        })
+          }).catch((error) => {
+            console.log(error);
+          })
       }
-      return 
+      return
 
     },
-    getMyRecords({commit}) {
+    getMyRecords({
+      commit
+    }) {
       const uid = this.state.userProfile.uid;
-      firebase.database().ref('user/-'+uid).child('records').once('value')
+      firebase.database().ref('user/-' + uid).child('records').once('value')
         .then((data) => {
           const records = [];
           const obj = data.val()
@@ -1068,10 +1208,12 @@ export const store = new Vuex.Store({
           console.log(error);
         })
     },
-    getMyFiles({commit}) {
+    getMyFiles({
+      commit
+    }) {
       const uid = this.state.userProfile.uid;
       const userFiles = []
-      firebase.database().ref('user/-'+uid).child('files').once('value')
+      firebase.database().ref('user/-' + uid).child('files').once('value')
         .then((data) => {
           const obj = data.val()
           for (let key in obj) {
@@ -1081,9 +1223,11 @@ export const store = new Vuex.Store({
           }
         })
 
-        commit('setLoadedFiles', userFiles)
+      commit('setLoadedFiles', userFiles)
     },
-    updatePassword({commit}, payload) {
+    updatePassword({
+      commit
+    }, payload) {
       const user = firebase.auth().currentUser;
       const newPassword = payload;
       commit('setSaveLoading', true)
@@ -1098,74 +1242,79 @@ export const store = new Vuex.Store({
         console.log(error);
       });
     },
-    setAlertState({commit}, payload) {
+    setAlertState({
+      commit
+    }, payload) {
       return commit('setAlertState', payload)
     }
   },
   getters: {
-    loadedTableData (state){
+    loadedTableData(state) {
       return state.loadedTableData
     },
-    loadedfileUploads (state) {
+    loadedfileUploads(state) {
       return state.loadedfileUploads
       // return state.loadedfileUploads.sort((fileUploadA, fileUploadB) => {
       //   return fileUploadA.date > fileUploadB.date
       // })
     },
-    featuredfileUploads (state, getters) {
+    featuredfileUploads(state, getters) {
       return getters.loadedfileUploads.slice(0, 5)
     },
-    loadedfileUpload (state) {
+    loadedfileUpload(state) {
       return (fileUploadId) => {
         return state.loadedfileUploads.find((fileUpload) => {
           return fileUpload.id === fileUploadId
         })
       }
     },
-    loadedcurrentUploads (state, getters) {
+    loadedcurrentUploads(state, getters) {
       return state.loadedcurrentUploads;
     },
-    userProfile (state, getters) {
+    userProfile(state, getters) {
       return state.userProfile;
     },
-    loadedRatings (state) {
+    loadedRatings(state) {
       return state.loadedRatings
     },
-    loadedFavs (state) {
+    loadedFavs(state) {
       return state.loadedFavs
-    }, 
-    loadedFav (state) {
+    },
+    loadedFav(state) {
       return state.loadedFav
-    }, 
-    loadedRecords (state) {
+    },
+    loadedRecords(state) {
       return state.loadedRecords
-    }, 
-    loadedFiles (state) {
+    },
+    loadedCourseDesc(state){
+      return state.loadedCourseDesc
+    },
+    loadedFiles(state) {
       return state.loadedFiles
     },
-    loadedComments (state) {
+    loadedComments(state) {
       return state.loadedComments
     },
 
-    user (state) {
+    user(state) {
       return state.user
     },
-    loading (state) {
+    loading(state) {
       return state.loading
     },
-    signloading (state) {
+    signloading(state) {
       return state.signLoading
     },
-    saveloading (state) {
+    saveloading(state) {
       return state.saveLoading
     },
-    uploadloading (state) {
+    uploadloading(state) {
       return state.uploadLoading
     },
-    verifyloading (state) {
+    verifyloading(state) {
       return state.verifyLoading
     },
-    error (state) {
+    error(state) {
       return state.error
     },
     alertGiftCard(state) {

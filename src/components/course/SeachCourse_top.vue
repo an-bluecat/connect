@@ -21,7 +21,7 @@
 </template>
 
 <script>
-import courseimport from './coursejson/courseIndexSearchList_all'
+import courseimport from './coursejson/courseIndexSearchList_artsci_eng'
 
 export default {
     data: () => ({

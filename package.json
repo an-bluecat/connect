@@ -8,7 +8,7 @@
     "start": "node server.js"
   },
   "dependencies": {
-    "axios": "^0.21.1",
+    "axios": "^0.21.2",
     "bootstrap-vue": "^2.15.0",
     "dotenv": "^8.2.0",
     "firebase": "^7.24.0",
