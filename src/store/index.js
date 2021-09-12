@@ -22,6 +22,7 @@ export const store = new Vuex.Store({
     loadedRecords: [],
     loadedFiles: [],
     loadedComments: [],
+    loadedCourseDesc:{},
     user: null, // default: no user
     signLoading: false,
     saveLoading: false,
@@ -73,6 +74,10 @@ export const store = new Vuex.Store({
     },
     setLoadedComments(state, payload) {
       state.loadedComments = payload
+    },
+    setLoadedCourseDesc(state, payload){
+      console.log(payload)
+      state.loadedCourseDesc = payload
     },
     createfileUpload(state, payload) {
       state.loadedfileUploads.push(payload)
@@ -347,6 +352,22 @@ export const store = new Vuex.Store({
             commit('reset');
           }
         )
+    },
+    loadCourseDesc({
+      commit,
+      getters
+    }, course_name){
+      firebase.database().ref("descriptions").child(course_name).once('value')
+      .then((data)=>{
+        const courseRawData = data.val();
+        console.log(courseRawData[0])
+        let courseDesc = {
+          course_desc: courseRawData[0],
+          course_name: courseRawData[1],
+          course_code: courseRawData[2]
+        }
+        commit('setLoadedCourseDesc', courseDesc)
+      })
     },
     createfileUpload({
       commit,
@@ -1264,6 +1285,9 @@ export const store = new Vuex.Store({
     },
     loadedRecords(state) {
       return state.loadedRecords
+    },
+    loadedCourseDesc(state){
+      return state.loadedCourseDesc
     },
     loadedFiles(state) {
       return state.loadedFiles
