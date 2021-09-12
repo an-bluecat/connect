@@ -103,7 +103,80 @@
         "rate": 4.5,
         "nums": "100",
         "title": "Psychology"
+    },
+    {
+        "name": "ACT",
+        "src": "acturial science.jpg",
+        "rate": 4.5,
+        "nums": "100",
+        "title": "Acturial Science"
+    },
+    {
+        "name": "BIO",
+        "src": "biology.jpg",
+        "rate": 4.5,
+        "nums": "100",
+        "title": "Biology"
+    },
+    {
+        "name": "CHM",
+        "src": "chemistry.jpg",
+        "rate": 4.5,
+        "nums": "100",
+        "title": "Chemistry"
+    },
+    {
+        "name": "HMB",
+        "src": "human biology.jpg",
+        "rate": 4.5,
+        "nums": "100",
+        "title": "Human Biology."
+    },
+    {
+        "name": "ENG",
+        "src": "english.jpg",
+        "rate": 4.5,
+        "nums": "100",
+        "title": "English"
+    },
+
+    {
+        "name": "PHL",
+        "src": "philosophy.jpg",
+        "rate": 4.5,
+        "nums": "100",
+        "title": "Philosophy"
+    },
+    {
+        "name": "LIN",
+        "src": "linguistics.jpg",
+        "rate": 4.5,
+        "nums": "100",
+        "title": "Linguistics"
+    },
+    {
+        "name": "MUS",
+        "src": "music.jpg",
+        "rate": 4.5,
+        "nums": "100",
+        "title": "Music"
+    },
+    {
+        "name": "MGY",
+        "src": "molecular genetics.jpg",
+        "rate": 4.5,
+        "nums": "100",
+        "title": "Molecular Genetics"
+    },
+    {
+        "name": "ESS",
+        "src": "earth science.jpg",
+        "rate": 4.5,
+        "nums": "100",
+        "title": "Earth Science"
     }
+    
+    
     ]
     }
 ]

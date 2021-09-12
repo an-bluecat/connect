@@ -3,7 +3,7 @@ from bs4 import BeautifulSoup
 import json
 
 # courses contains course codes of easy courses, this is not the full list of courses
-courses = ['ANT253', 'HPS100', 'MAT138', 'AST101', 'PHL285', 'CSC104', 'GGR252', 'FSL100', 'ANT100', 'PHL245', 'ENV100', 'PHL232', 'AST251', 'ESS105', 'BMS316', 'ENV335', 'FOR303', 'FAH102', 'GGR124', 'PHL101', 'NMC104', 'PCL102', 'EEB214', 'AST201', 'JWE206', 'CLA201']
+courses = ['ANT253', 'HPS100', 'MAT138', 'AST101', 'PHL285', 'CSC104', 'GGR252', 'FSL100', 'ANT100', 'PHL245', 'ENV100', 'PHL232', 'AST251', 'ESS105', 'BMS316', 'ENV335', 'FOR303', 'FAH102', 'GGR124', 'PHL101', 'NMC104', 'PCL102', 'EEB214', 'AST201', 'JWE206', 'CLA201', 'SOC100']
 
 for course in courses:
     # The url for each course on the arts and science calender differs by the course code

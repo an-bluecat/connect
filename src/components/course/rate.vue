@@ -22,7 +22,7 @@
       >
         Comment 5 courses and get $10!
         <!-- <br /> -->
-        An Amazon giftcard will be sent to you in 24 hours.
+        An Starbucks giftcard will be sent to you in 24 hours.
         <template v-slot:action="{ attrs }">
           <v-btn
             color="red"
