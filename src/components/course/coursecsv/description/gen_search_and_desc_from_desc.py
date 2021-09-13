@@ -26,7 +26,8 @@ courseSet=set()
 
 def getCourseIndex(discipline):
     global id
-    filename = "./src/components/course/coursecsv/description/"+discipline+".csv"
+    filename = "./src/components/course/coursecsv/description/physics.csv"
+    
     rows = [] 
     with open(filename, 'r') as csvfile: 
             # creating a csv reader object 
@@ -89,7 +90,7 @@ def getCourseIndex(discipline):
 
 # disciplines=["Accounting","Finance","Management","Comp_sci", "Engineering", "ECO","MAT","STA","PSY"]
 # disciplines=["PSY"]
-disciplines=["artsci_course_description","Engineering"]
+disciplines=["acturial_science",]
 
 for name in disciplines:
     getCourseIndex(name)
@@ -99,9 +100,9 @@ for name in disciplines:
 
 if run:
     # with open('./src/components/course/courseIndexSearchListCscEngRot.json', 'w') as fp:
-    with open('./src/components/course/coursejson/courseIndexSearchList_artsci_eng.json', 'w') as fp:
+    with open('./src/components/course/coursejson/courseIndexSearchList_artsci_physics.json', 'w') as fp:
         json.dump(courseIndexSearch, fp)
-    with open('./src/components/course/coursejson/coursedesc_artsci_eng.json', 'w') as fp:
-        json.dump(coursedesc,fp)
+#   with open('./src/components/course/coursejson/coursedesc_artsci_eng.json', 'w') as fp:
+#      json.dump(coursedesc,fp)
 
 
