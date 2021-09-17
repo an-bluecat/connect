@@ -32,7 +32,7 @@
       
       <v-app-bar-nav-icon @click="drawer = !drawer"></v-app-bar-nav-icon>
  
-      <v-toolbar-title v-if="this.$vuetify.breakpoint.name!='xs' ">{{name}}</v-toolbar-title>
+      <v-toolbar-title v-if="this.$vuetify.breakpoint.name!='xs' ">{{programName}}</v-toolbar-title>
       <v-toolbar-title :class="searchbarStyle" ><SearchCourse></SearchCourse></v-toolbar-title>
       <!-- <v-col col="12" xl="10" lg="10" md="10" sm="10" xs="10">
         <v-autocomplete
@@ -66,12 +66,12 @@
                     <!-- <v-list-item-avatar color="grey darken-1">
                     </v-list-item-avatar> -->
 
-                    <v-list-item-content @click="navToRate(nameToCourseCode(item.name))" >
+                    <v-list-item-content @click="navToRate(item.courseCode)" >
                       <a >
                       <v-list-item-title :id="item[0]" :class="{underline: true, searchStyle: item[0] == result}">
-                        {{ nameToCourseCode(item.name) }}
+                        {{ item.courseCode }}
                       </v-list-item-title>
-                      <v-list-item-subtitle>{{ nameToCourseDesc(item.name)}}</v-list-item-subtitle>
+                      <v-list-item-subtitle>{{ item.courseName}}</v-list-item-subtitle>
                       </a>
                     </v-list-item-content>
                   </v-list-item>
@@ -109,7 +109,7 @@
 </template>
 
 <script>
-import courseimport from './coursejson/artsci_course.json';
+import courseimport from './coursejson/all_course_list.json';
 import SearchCourse from "./SeachCourse_top";
   export default {
     components: {
@@ -129,7 +129,8 @@ import SearchCourse from "./SeachCourse_top";
         ['mdi-send', 'Level 400 courses'],
       ],
       //路由数据
-      name: '',
+      programName: '',
+      facultyName: '',
       //分科数据
       pdata: courseimport,
       plist: [],//中间数据
@@ -162,28 +163,19 @@ import SearchCourse from "./SeachCourse_top";
     }),
 
     created() {
-      this.name = this.$route.params.name;
-      //面包屑
-      this.items[1].text = this.name;this.items[1].href = '/artsci/'+this.name;
-      //把数据填充到右侧区域
-      const pdata = this.pdata[this.name];
-      this.list1 = [];this.list2 = [];this.list3 = [];this.list4 = [];
-      if(pdata.length > 0) {
-        pdata.map(
-          course => {
-            if(course.name[3]=="1"){
-              this.list1.push(course)
-            }else if(course.name[3]=="2"){
-              this.list2.push(course)
-            }else if(course.name[3]=="3"){
-              this.list3.push(course)
-            }else{
-              this.list4.push(course)
-            }
-          }
-        )
+      this.programName = this.$route.params.name;
+      this.facultyName = this.$route.path.split("/")[1] //either "engineering" or artsci
+      this.items[1].text = this.programName;this.items[1].href = '/' + this.facultyName + '/'+this.programName;
+      if (this.facultyName == "engineering" || this.facultyName == "artsci"){
+        let programCourseList = this.pdata[this.facultyName][this.programName]
+        this.list1 = programCourseList['yearOne']
+        this.list2 = programCourseList['yearTwo']
+        this.list3 = programCourseList['yearThree']
+        this.list4 = programCourseList['yearFour']
+        
+        this.plist = this.list1;
       }
-      this.plist = this.list1;
+
     },
     watch: {
 
@@ -236,12 +228,6 @@ import SearchCourse from "./SeachCourse_top";
         }
         
         // 
-      },
-      nameToCourseCode(courseName){
-        return courseName.substring(0,6)
-      },
-      nameToCourseDesc(courseName){
-        return courseName.split("- ")[1]
       },
       onchangeclass(){
         this.result = '';

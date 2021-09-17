@@ -49,13 +49,13 @@ export default new Router({
 
     {
       path: '/',
-      name: 'program',
-      component: project,
+      name: 'engineering',
+      component: program,
       children:[
         {
-          path:"program/:name",
+          path:"engineering/:name",
           name: "descipline-details",
-          component: project
+          component: program
         }
       ]
     },
@@ -63,6 +63,7 @@ export default new Router({
       path: '/',
       name: 'artsci',
       component: program,
+      props: true,
       children:[
         {
           path:"artsci/:name",
