@@ -208,7 +208,7 @@ import SearchCourse from "./SeachCourse_top";
           case 'lg': return "ml-6 mt-15 mr-16 "
           case 'xl': return "ml-6 mt-15 mr-16 "
         }
-      }
+      },
     },
     methods: {
       onclickoptions(option) {
@@ -226,6 +226,10 @@ import SearchCourse from "./SeachCourse_top";
           case "Level 400 courses":
             this.plist = this.list4;
             break;                             
+        }
+        switch (this.$vuetify.breakpoint.name) {
+          case 'xs': return this.drawer = false
+          case 'sm': return this.drawer = false
         }
       },
       navToRate(item) {
