@@ -104,7 +104,7 @@ export default {
       // let routeData = this.$router.resolve('./project/'+ name);
       // window.open(routeData.href, '_blank');
       if(facultyName=="Engineering"){
-        this.$router.push("./program/" + code);
+        this.$router.push("./engineering/" + code);
       }else{
         this.$router.push("./artsci/" + code);
       }

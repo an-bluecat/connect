@@ -2,14 +2,21 @@
     "name":"Engineering",
     "programs":[
         {
-        "name": "Chem",
+        "name": "Track One",
+        "src": "chem.jpg",
+        "rate": 4.5,
+        "nums": "107",
+        "title": "Track One"
+        },
+        {
+        "name": "CHE",
         "src": "chem.jpg",
         "rate": 4.5,
         "nums": "107",
         "title": "Chemical Engineering"
         },
         {
-        "name": "Civ",
+        "name": "CIV",
         "src": "civ.jpg",
         "rate": 1,
         "nums": "10",
@@ -23,14 +30,14 @@
         "title": "Electrical & Computer Engineering"
         },
         {
-        "name": "EngSci",
+        "name": "ESC",
         "src": "engsci.jpg",
         "rate": 5,
         "nums": "2",
         "title": "Engineering Science"
         },
         {
-        "name": "Indy",
+        "name": "MIE",
         "src": "indy.jpg",
         "rate": 4,
         "nums": "432",
@@ -44,14 +51,7 @@
         "title": "Material Science and Engineering"
         },
         {
-        "name": "Mech",
-        "src": "mech.jpg",
-        "rate": 2.5,
-        "nums": "236",
-        "title": "Mechanical Engineering"
-        },
-        {
-        "name": "Min",
+        "name": "MIN",
         "src": "min.jpg",
         "rate": 4.5,
         "nums": "100",

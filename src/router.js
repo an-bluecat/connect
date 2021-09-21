@@ -6,7 +6,6 @@ This file is used for engineering courses
 import Vue from 'vue'
 import Router from 'vue-router'
 
-import project from './components/course/project.vue'
 import program from './components/course/program.vue'
 import rate from './components/course/rate.vue'
 import About from './components/About.vue'
@@ -49,13 +48,13 @@ export default new Router({
 
     {
       path: '/',
-      name: 'program',
-      component: project,
+      name: 'engineering',
+      component: program,
       children:[
         {
-          path:"program/:name",
+          path:"engineering/:name",
           name: "descipline-details",
-          component: project
+          component: program
         }
       ]
     },
