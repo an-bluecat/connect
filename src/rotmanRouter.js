@@ -5,7 +5,7 @@ This file is only used for rotman courses (rotman.uofthub.ca)
 import Vue from 'vue'
 import Router from 'vue-router'
 // import courseInstance from './components/course/courseInstance.vue'
-import project from './components/course/project.vue'
+import program from './components/course/program.vue'
 import rate from './components/course/rate.vue'
 import About from './components/About.vue'
 // import courseList from './components/course/courseList';
@@ -52,13 +52,13 @@ export default new Router({
     // },
     {
       path: '/',
-      name: 'project',
-      component: project,
+      name: 'program',
+      component: program,
       children:[
         {
-          path:"project/:name",
+          path:"program/:name",
           name: "descipline-details",
-          component: project
+          component: program
         }
       ]
     },
