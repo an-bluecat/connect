@@ -676,48 +676,48 @@ export default {
     setAlertState() {
       return this.$store.dispatch("setAlertState", false)
     },
-    pressRate() {
-      //按rate触发这个
-      this.pressedRate = true;
-    },
-    addrating() {
-      //按了confirm之后触发这个
+    // pressRate() {
+    //   //按rate触发这个
+    //   this.pressedRate = true;
+    // },
+    // addrating() {
+    //   //按了confirm之后触发这个
 
-      var time = new Date();
-      const now =
-        time.getFullYear() + "-" + (time.getMonth() + 1) + "-" + time.getDate();
-      var currating;
-      const user = this.$store.getters.user
-        ? this.$store.getters.user
-        : "unknown";
-      if (user != "unknown") {
-        currating = {
-          classname: this.$route.params.name,
-          user: user,
-          // "comment": this.formData.comment,
-          time: now,
-          time_log: time,
-          rate: this.difficultyRating,
-          // "pname": this.formData.pname
-        };
-      } else {
-        currating = {
-          classname: this.$route.params.name,
-          time_log: time,
-          time: now,
-          rate: this.difficultyRating,
-          // "pname": this.formData.pname
-        };
-      }
+    //   var time = new Date();
+    //   const now =
+    //     time.getFullYear() + "-" + (time.getMonth() + 1) + "-" + time.getDate();
+    //   var currating;
+    //   const user = this.$store.getters.user
+    //     ? this.$store.getters.user
+    //     : "unknown";
+    //   if (user != "unknown") {
+    //     currating = {
+    //       classname: this.$route.params.name,
+    //       user: user,
+    //       // "comment": this.formData.comment,
+    //       time: now,
+    //       time_log: time,
+    //       rate: this.difficultyRating,
+    //       // "pname": this.formData.pname
+    //     };
+    //   } else {
+    //     currating = {
+    //       classname: this.$route.params.name,
+    //       time_log: time,
+    //       time: now,
+    //       rate: this.difficultyRating,
+    //       // "pname": this.formData.pname
+    //     };
+    //   }
 
-      if (this.difficultyRating != -1) {
-        this.$store.dispatch("addRating", currating);
-      }
+    //   if (this.difficultyRating != -1) {
+    //     this.$store.dispatch("addRating", currating);
+    //   }
 
-      // return to normal
-      this.pressedRate = false;
-      this.difficultyRating = -1;
-    },
+    //   // return to normal
+    //   this.pressedRate = false;
+    //   this.difficultyRating = -1;
+    // },
     addcomment(position) {
       //判断是否登录
       if(this.userLoggedIn) {

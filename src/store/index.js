@@ -583,6 +583,12 @@ export const store = new Vuex.Store({
     async purgeUserReview({
       commit
     }, payload) {
+      // make an exception for the following email, allow them to do multiple reviews for a course!
+      if (payload.user.email="uofthub@gmail.com"){
+        return
+      }
+
+
       let uid = payload.user.id
       let className = payload.classname
       //Delete the review record from user/records, course/rating, and course/comments
