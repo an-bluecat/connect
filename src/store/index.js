@@ -584,7 +584,7 @@ export const store = new Vuex.Store({
       commit
     }, payload) {
       // make an exception for the following email, allow them to do multiple reviews for a course!
-      if (payload.user.email="uofthub@gmail.com"){
+      if (payload.user.email=="uofthub@gmail.com"){
         return
       }
 

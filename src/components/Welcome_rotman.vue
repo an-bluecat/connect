@@ -6,7 +6,7 @@
         <!-- <v-row> -->
           <v-parallax src="@/assets/building.jpeg">
           <!-- <v-parallax src="@/assets/background.jpg"> -->
-            <h1><center>Welcome to U of T Hub</center></h1>
+            <h1><center>U of T's Course Rating Website</center></h1>
             <v-card width="80%">
               <v-card-text>
                 <SearchCourse :courses="courseIndexSearchList"></SearchCourse>
