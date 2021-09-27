@@ -1014,6 +1014,7 @@ export const store = new Vuex.Store({
 
       //if (eng) is present in the payload, then we remove it
       payload = payload.replace("(Eng) ", "");
+      payload = payload.replace("(Engineering) ", "");
       console.log(payload)
       // console.log("this.state.userProfile.uid in update discipline",this.state.userProfile.uid)
       firebase.database().ref('user/-' + uid).child('discipline').set(payload)
