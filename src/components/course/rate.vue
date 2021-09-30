@@ -15,13 +15,12 @@
         >
           
         </v-alert> -->
-      <v-snackbar
+      <!-- <v-snackbar
         v-model="alertGiftCard"
         :multi-line="true"
         timeout="100000"
       >
         Comment 5 courses and get $10!
-        <!-- <br /> -->
         An Starbucks giftcard will be sent to your email in 24 hours.
         <template v-slot:action="{ attrs }">
           <v-btn
@@ -33,7 +32,7 @@
             Close
           </v-btn>
         </template>
-      </v-snackbar>
+      </v-snackbar> -->
       </v-row>
       <!-- 面包屑 + search -->
       <v-row no-gutters>
