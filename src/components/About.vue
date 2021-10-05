@@ -1,142 +1,78 @@
 <template>
-  <v-card
-    class="mx-auto mt-16"
-    max-width="344"
-    outlined
-  >
-    <v-sheet v-show="showLoginInfo">
-      <v-list-item three-line>
-        <v-list-item-content>
-          <div class="overline mb-4">
-            Login Info
-          </div>
-          <v-list-item-title class="headline mb-1">
-            {{email}}
-          </v-list-item-title>
-          <v-list-item-subtitle>Registered User</v-list-item-subtitle>
-        </v-list-item-content>
+  <v-app>
+    <v-content>
+      <section>
+        <v-parallax src="@/assets/building.jpeg" style="height: 100vh">
+          <v-layout column align-center justify-center class="white--text">
+            <h1 class="white--text mb-2 display-1 text-xs-center" style="font-weight: 900; text-shadow: 3px 2px #000000">UofT Web Project Club</h1>
+            <div class="white--text subheading mb-3 text-xs-center" style="font-weight: 900; text-shadow: 2px 2px #000000">Some brief description</div>
+            <v-btn class="blue lighten-2 mt-5" dark large href="#desc">
+              Get Started
+            </v-btn>
+          </v-layout>
+        </v-parallax>
+      </section>
 
-        <v-list-item-avatar tile size="80" color="indigo">
-          <span class="white--text headline">{{getSX()}}</span>
-        </v-list-item-avatar>
-      </v-list-item>
+      <section>
+        <v-layout
+          column
+          wrap
+          id="desc"
+          class="my-5"
+          align-center
+          justify-center
+          style="text-align: center; margin: auto; width: 50%"
+        >
+          <v-flex class="my-3">
+            <div class="text-xs-center">
+              <h2 class="headline">About Us</h2>
+              <span class="subheading">
+                Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book
+              </span>
+            </div>
+          </v-flex>
+        </v-layout>
+      </section>
 
-      <v-card-actions>
-        <v-btn outlined rounded text @click="Logout">
-          LogOut
-        </v-btn>
-      </v-card-actions>
-    </v-sheet>
-    <v-sheet v-show="!showLoginInfo">
-      <v-list-item three-line>
-        <v-list-item-content>
-          <div class="overline mb-4">
-            Login Info
-          </div>
-          <v-list-item-title class="headline mb-1">
-            No User
-          </v-list-item-title>
-          <v-list-item-subtitle></v-list-item-subtitle>
-        </v-list-item-content>
+      <v-layout column align-center justify-center>
+        <div class="headline mb-3" style="color: black; text-align: center">We are dropping cool news and opportunities on socials</div>
+      </v-layout>
+      <v-layout justify-center align-center style="height: 20vh">
+          <a style="text-decoration: none" href="https://www.facebook.com/UofT-Web-Project-Club-UTWPC-104336745307815"><v-icon x-large dark style="color: #2B81D6; margin: 0 20px">mdi-facebook</v-icon></a>
 
-        <v-list-item-avatar tile size="80" color="grey">
-          <!-- <span class="white--text headline"></span> -->
-        </v-list-item-avatar>
-      </v-list-item>
+          <a style="text-decoration: none" href="#"><v-icon x-large dark style="color: #2B81D6; margin: 0 20px">mdi-linkedin</v-icon></a>
 
-      <v-card-actions>
-        <v-btn outlined rounded text >
-          <router-link to="/signup">
-          Signup
-          </router-link>
-        </v-btn>
-        <v-btn outlined rounded text>
-          <router-link to="/signin">
-          Signin
-          </router-link>
-        </v-btn>
-      </v-card-actions>
-    </v-sheet>
-  </v-card>
-  
+          <a style="text-decoration: none" href="mailto:uofthub@gmail.com"><v-icon x-large dark style="color: #2B81D6; margin: 0 20px">mdi-email</v-icon></a>
+
+        </v-layout>
+    </v-content>
+  </v-app>
 </template>
 
 <script>
-import Signup from './User/Signup'
-import Signin from './User/Signin'
-  export default {
-    components: {
-      Signup,
-      Signin,
-    },
-    data() {
-      return {
-        //登录信息
-        showLoginInfo: false,
-        email: '',
-      }
-    },
-    created() {
-      // const name = this.$store.getters.user;
-      // if(name) {
-      //   this.showLoginInfo = true;
-      //   this.email = name.email;
-      // }
-    },
-    mounted() {
-      this.getCookie();
-    },
-    methods: {
-      getSX() {
-        return this.email.substr(0,1).toUpperCase();
-      },
-      Logout() {
-        //清除vuex数据 跳转首页
-        this.$store.dispatch('logout', {})
-        this.clearCookie();
-        this.$router.go(0);
-      },
-      //读取cookie
-      getCookie: function() {
-          if (document.cookie.length > 0) {
-              this.showLoginInfo = true;
-              var arr = document.cookie.split('; '); //这里显示的格式需要切割一下自己可输出看下
-              for (var i = 0; i < arr.length; i++) {
-                  var arr2 = arr[i].split('='); //再次切割
-                  //判断查找相对应的值
-                  if (arr2[0] == 'email') {
-                      this.email = arr2[1]; //保存到保存数据的地方
-                  } else if (arr2[0] == 'password') {
-                      this.password = arr2[1];
-                  }
-              }
-          }
-      },
-      //设置cookie
-      setCookie(c_name, c_pwd, exdays) {
-          var exdate = new Date(); //获取时间
-          exdate.setTime(exdate.getTime() + 24 * 60 * 60 * 1000 * 700); //保存的天数: 设为2年
-          //字符串拼接cookie
-          window.document.cookie = "email" + "=" + c_name + ";path=/;expires=" + exdate.toGMTString();
-          window.document.cookie = "password" + "=" + c_pwd + ";path=/;expires=" + exdate.toGMTString();
-      },
-      //清除cookie
-      clearCookie: function() {
-          this.setCookie("", "", -1); //修改2值都为空，天数为负1天就好了
-      }
-    },
-    // watch: {
-    //   // redirect if user sign in
-    //   user (value) {
-    //     if (value == null) {
-    //       this.$router.go(0);
-    //     }
-    //   }
-    // },
-    // computed: {
-    //   user () {
-    //     return this.$store.getters.user
-    //   },
-    // }
+export default {
+  name: "App",
+  methods: {
+    subscribe: function() {
+      this.subscribed = !this.subscribed;
+    }
+  },
+
+  computed: {
+    imgHeight: function() {
+      var offset = 320;
+      console.log("new image height is " + (this.pageHeight - offset));
+      return this.pageHeight - offset;
+    }
+  },
+
+  mounted: function() {
+    this.calculateHeight();
   }
+};
 </script>
+<style>
+html {
+  scroll-behavior: smooth;
+}
+</style>

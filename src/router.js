@@ -132,11 +132,11 @@ export default new Router({
     //   props: true,
     //   component: addComment
     // },
-    // {
-    //   path: '/about',
-    //   name: 'about',
-    //   component: About
-    // },
+    {
+      path: '/about',
+      name: 'about',
+      component: About
+    },
 
 
     // {
