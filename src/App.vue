@@ -19,7 +19,7 @@
 
 
     <v-row style="z-index:12">
-      <v-col>
+      <v-col style="padding: 0">
         <v-btn
           v-show="showContact"
           class="contact"
