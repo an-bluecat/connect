@@ -165,12 +165,12 @@ import SearchCourse from "./SeachCourse_top";
     created() {
       this.programName = this.$route.params.name;
       this.facultyName = this.$route.path.split("/")[1] //either "engineering" or artsci
+      this.yearLevel = this.$route.path.split("/")[2]
       //面包屑
       this.items[1].text = this.programName;
       this.items[1].href = '/'+this.facultyName+'/'+this.programName;
       //把数据填充到右侧区域
       const pdata = this.pdata[this.facultyName][this.programName];
-      console.log(pdata)
       this.list1 = [];this.list2 = [];this.list3 = [];this.list4 = [];
       if(pdata.length > 0) {
         pdata.map(
@@ -216,15 +216,19 @@ import SearchCourse from "./SeachCourse_top";
         switch(option) {
           case "Level 100 courses":
             this.plist = this.list1;
+            this.$router.push("/"+ this.facultyName+"/" + this.programName +"/" + "100")
             break;
           case "Level 200 courses":
             this.plist = this.list2;
+            this.$router.push("/"+ this.facultyName+"/" + this.programName +"/" + "200")
             break;
           case "Level 300 courses":
             this.plist = this.list3;
+            this.$router.push("/"+ this.facultyName+"/" + this.programName +"/" + "300")
             break;  
           case "Level 400 courses":
             this.plist = this.list4;
+            this.$router.push("/"+ this.facultyName+"/" + this.programName +"/" + "400")
             break;                             
         }
         switch (this.$vuetify.breakpoint.name) {
@@ -233,17 +237,7 @@ import SearchCourse from "./SeachCourse_top";
         }
       },
       navToRate(item) {
-        // for mobile: no new window
-        if(this.$vuetify.breakpoint.name=="xs" || this.$vuetify.breakpoint.name=="sm"){
           this.$router.push('/course/'+ item);
-        }
-        // for laptop: open a new window for the course clicked
-        else{
-          let routeData = this.$router.resolve('/course/'+ item);
-          window.open(routeData.href, '_blank');
-        }
-        
-        // 
       },
       onchangeclass(){
         this.result = '';

@@ -52,7 +52,7 @@ export default new Router({
       component: program,
       children:[
         {
-          path:"engineering/:name",
+          path:"engineering/:name/:yearLevel",
           name: "descipline-details",
           component: program
         }
@@ -64,7 +64,7 @@ export default new Router({
       component: program,
       children:[
         {
-          path:"artsci/:name",
+          path:"artsci/:name/:yearLevel",
           name: "descipline-details",
           component: program
         }
