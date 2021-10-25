@@ -148,6 +148,27 @@
           <p class="text-justify">{{ loadedCourseDesc.course_desc }}</p>
         </v-col>
       </v-row>
+
+      <!-- Being Prof Feature -->
+      <v-row no-gutters class="mt-6">
+        <v-col col="12" lg="10" md="10" sm="12" xs="12">
+
+          <p class="text-h5 font-weight-medium">Professor</p>
+
+            <v-col>
+                <v-card v-for="profData in loadedProfList">
+                  <v-list-item-title class="text-h6"
+                  ><a v-bind:href="profData.rateMyProfLink">{{profData.firstName}} {{profData.lastName}}</a></v-list-item-title>
+
+                  <v-list-item-subtitle class="">{{$route.params.name}}</v-list-item-subtitle>
+                  <h5>{{profData.rate}}/5.0 </h5>                  
+                </v-card>
+
+
+            </v-col>
+        </v-col>
+      </v-row>
+      <!-- End Prof Feature-->
       <!-- 描述 -->
       <!-- 附件 -->
       <v-row no-gutters class="mt-6">
@@ -410,6 +431,8 @@ export default {
     // getting classname from courseimport.json(includes data for 4 years)
     this.$store.dispatch("loadfileUploads", this.$route.params.name);
     this.$store.dispatch("loadCourseDesc", this.$route.params.name)
+    this.$store.dispatch("loadProfList", this.$route.params.name)
+
   },
   mounted() {
 
@@ -531,6 +554,9 @@ export default {
     },
     loadedCourseDesc(){
       return this.$store.getters.loadedCourseDesc 
+    },
+    loadedProfList(){
+      return this.$store.getters.loadedProfList 
     },
     // based on how many ratings
     numRating() {
