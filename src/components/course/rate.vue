@@ -161,7 +161,7 @@
                   ><a v-bind:href="profData.rateMyProfLink">{{profData.firstName}} {{profData.lastName}}</a></v-list-item-title>
 
                   <v-list-item-subtitle class="">{{$route.params.name}}</v-list-item-subtitle>
-                  <h5>{{profData.rate}}/5.0 </h5>                  
+                  <h5>{{profData.displayRating}} </h5>                  
                 </v-card>
 
 

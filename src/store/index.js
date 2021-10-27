@@ -367,8 +367,12 @@ export const store = new Vuex.Store({
         const profListRawData = data.val();
         profListRawData.map(profData=>{
           profData.rateMyProfLink="https://www.ratemyprofessors.com/ShowRatings.jsp?tid="+profData.id
+          if (profData.rate == 0){
+            profData.displayRating="N/A"
+          }else{
+            profData.displayRating=profData.rate+"/5.0"
+          }
         })
-
         commit('setLoadedProfList', profListRawData)
       })
     },    
