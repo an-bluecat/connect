@@ -153,10 +153,10 @@
       <v-row no-gutters class="mt-6">
         <v-col col="12" lg="10" md="10" sm="12" xs="12">
 
-          <p class="text-h5 font-weight-medium">Professor</p>
+          <p class="text-h5 font-weight-medium">Professors</p>
             <v-col>
               <v-row col="4" v-for="profData in loadedProfList">
-                <v-list-item-title class="text-h6">
+                <v-list-item-title class="text-h7 font-weight-medium">
                   <p><a v-bind:href="profData.rateMyProfLink"><u>{{profData.firstName}} {{profData.lastName}}</u></a> ({{profData.displayRating}})</p>
 
                 </v-list-item-title>
