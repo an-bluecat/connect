@@ -23,6 +23,7 @@ export const store = new Vuex.Store({
     loadedFiles: [],
     loadedComments: [],
     loadedCourseDesc:{},
+    loadedProfList:[],
     user: null, // default: no user
     signLoading: false,
     saveLoading: false,
@@ -78,6 +79,10 @@ export const store = new Vuex.Store({
     setLoadedCourseDesc(state, payload){
       console.log(payload)
       state.loadedCourseDesc = payload
+    },
+    setLoadedProfList(state, payload){
+      console.log(payload)
+      state.loadedProfList = payload
     },
     createfileUpload(state, payload) {
       state.loadedfileUploads.push(payload)
@@ -353,6 +358,24 @@ export const store = new Vuex.Store({
           }
         )
     },
+    loadProfList({
+      commit,
+      getters
+    }, course_name){
+      firebase.database().ref("profdata").child(course_name).once('value')
+      .then((data)=>{
+        const profListRawData = data.val();
+        profListRawData.map(profData=>{
+          profData.rateMyProfLink="https://www.ratemyprofessors.com/ShowRatings.jsp?tid="+profData.id
+          if (profData.rate == 0){
+            profData.displayRating="N/A"
+          }else{
+            profData.displayRating=profData.rate+"/5.0"
+          }
+        })
+        commit('setLoadedProfList', profListRawData)
+      })
+    },    
     loadCourseDesc({
       commit,
       getters
@@ -1295,6 +1318,9 @@ export const store = new Vuex.Store({
     },
     loadedCourseDesc(state){
       return state.loadedCourseDesc
+    },
+    loadedProfList(state){
+      return state.loadedProfList
     },
     loadedFiles(state) {
       return state.loadedFiles
