@@ -154,17 +154,14 @@
         <v-col col="12" lg="10" md="10" sm="12" xs="12">
 
           <p class="text-h5 font-weight-medium">Professor</p>
-
             <v-col>
-                <v-card v-for="profData in loadedProfList">
-                  <v-list-item-title class="text-h6"
-                  ><a v-bind:href="profData.rateMyProfLink">{{profData.firstName}} {{profData.lastName}}</a></v-list-item-title>
+              <v-row col="4" v-for="profData in loadedProfList">
+                <v-list-item-title class="text-h6">
+                  <p><a v-bind:href="profData.rateMyProfLink"><u>{{profData.firstName}} {{profData.lastName}}</u></a> ({{profData.displayRating}})</p>
 
-                  <v-list-item-subtitle class="">{{$route.params.name}}</v-list-item-subtitle>
-                  <h5>{{profData.displayRating}} </h5>                  
-                </v-card>
-
-
+                </v-list-item-title>
+                               
+              </v-row>
             </v-col>
         </v-col>
       </v-row>
