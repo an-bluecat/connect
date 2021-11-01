@@ -66,6 +66,7 @@ export default {
 
 <style scoped>
 .v-autocomplete{
+    min-width: 200px;
     min-height: 100px;
 }
 </style>
