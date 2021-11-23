@@ -273,7 +273,7 @@
                           </v-card-actions>
                         </span>
                       </v-col>
-                      <v-col cols="12" xs="12" sm="12" md="12" lg="12" xl="12" class="pr-5">
+                      <v-col cols="12" xs="12" sm="12" md="12" lg="12" xl="12" class="pr-5" style="white-space: pre-line">
                         {{ item.comment }}
 
                         <!-- temporarily disable comment time -->
