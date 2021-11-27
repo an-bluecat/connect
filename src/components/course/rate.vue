@@ -183,10 +183,13 @@
             <v-col md="3" cols="12"
             v-for="fileUpload in fileUploads" :key="fileUpload.id"
             > 
+            
+            <!-- disable textbook for now -->
             <v-card
               class="mx-auto"
               width="100%"
               outlined
+              v-if="fileUpload.type!='Textbook'"
               >
               <v-list-item :href="fileUpload.imageUrl" target="_blank">
                 <v-list-item-avatar tile>
