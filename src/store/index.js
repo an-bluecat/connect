@@ -362,6 +362,8 @@ export const store = new Vuex.Store({
       commit,
       getters
     }, course_name){
+      commit('setLoadedProfList', {})
+
       firebase.database().ref("profdata").child(course_name).once('value')
       .then((data)=>{
         const profListRawData = data.val();
@@ -383,7 +385,6 @@ export const store = new Vuex.Store({
       firebase.database().ref("descriptions").child(course_name).once('value')
       .then((data)=>{
         const courseRawData = data.val();
-        console.log(courseRawData[0])
         let courseDesc = {
           course_desc: courseRawData[0],
           course_name: courseRawData[1],
@@ -623,7 +624,6 @@ export const store = new Vuex.Store({
           if (records) {
             for (let recordId in records) {
               if (records[recordId].classname == className) {
-                console.log(records[recordId].classname)
                 delete records[recordId]
               }
             }
