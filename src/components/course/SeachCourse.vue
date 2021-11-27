@@ -5,7 +5,7 @@
         hide-selected
         item-text="Description"
         item-value="Course"
-        label="Search your Courses"
+        label="Seach Any UTSG Courses"
         placeholder="Start typing to Search"
         prepend-icon="mdi-database-search"
         hide-no-data
