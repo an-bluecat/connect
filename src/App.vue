@@ -34,26 +34,26 @@
 </template>
 
 <script>
-import TopPanel from "./components/TopPanel"
+import TopPanel from './components/TopPanel'
 // import Signup from './components/User/Signup'
 // import Signin from './components/User/Signin'
 
 export default {
-  name: "App",
+  name: 'App',
   components: {
     TopPanel
   },
   data() {
     return {
-      path: "",
+      path: '',
       showPath: true,
-      scroll: "",
+      scroll: '',
       showContact: false,
-      height: ""
+      height: ''
     }
   },
   created() {
-    this.$store.commit("reset")
+    this.$store.commit('reset')
   },
   computed: {
     userIsAuthenticated() {
@@ -73,13 +73,13 @@ export default {
   mounted() {
     this.path = this.$route.path
     // 要显示1./ 2.about 3.sources  其他不显示
-    if (this.path == "/" || this.path == "/about" || this.path == "/courses") {
+    if (this.path == '/' || this.path == '/about' || this.path == '/courses') {
       this.showPath = true
     } else {
       this.showPath = false
     }
     //监听滚动高度
-    window.addEventListener("scroll", this.handleScroll)
+    window.addEventListener('scroll', this.handleScroll)
   },
   methods: {
     handleScroll() {
@@ -96,9 +96,9 @@ export default {
     $route(to, from) {
       this.path = to.path
       if (
-        this.path == "/" ||
-        this.path == "/about" ||
-        this.path == "/courses"
+        this.path == '/' ||
+        this.path == '/about' ||
+        this.path == '/courses'
       ) {
         this.showPath = true
       } else {
@@ -110,7 +110,7 @@ export default {
 </script>
 
 <style lang="scss">
-@import url("https://fonts.googleapis.com/css?family=Montserrat:400,700");
+@import url('https://fonts.googleapis.com/css?family=Montserrat:400,700');
 
 .container {
   /* background-color: aqua; */

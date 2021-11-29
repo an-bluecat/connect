@@ -16,7 +16,7 @@
 
 <script>
 export default {
-  props: ["courses"],
+  props: ['courses'],
   data: () => ({
     model: null,
     // courses: courseimport
@@ -31,8 +31,8 @@ export default {
       // let routeData = this.$router.resolve('./project/rate/'+ this.model);
       // window.open(routeData.href, '_blank');
       // 域名需要除去课名，只留下代码
-      var coursecode = this.model.split(" ")[0]
-      this.$router.push("./course/" + coursecode)
+      var coursecode = this.model.split(' ')[0]
+      this.$router.push('./course/' + coursecode)
     },
     onchangeinput(input) {
       if (input) {
@@ -46,7 +46,7 @@ export default {
     items() {
       var result = []
       for (let num in this.courses) {
-        result.push(this.courses[num]["name"])
+        result.push(this.courses[num]['name'])
       }
       // console.log("result", result)
       return result
