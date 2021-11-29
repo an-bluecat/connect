@@ -56,8 +56,8 @@ export default {
 </script>
 
 <style scoped>
-.v-autocomplete {
-  /* min-width: 500px; */
+/* .v-autocomplete {
+  min-width: 500px;
   min-height: 100px;
-}
+} */
 </style>
