@@ -157,8 +157,8 @@
             <v-col>
               <v-row col="4" v-for="profData in loadedProfList">
                 <v-list-item-title class="text-h7 font-weight-medium">
-                  <p><a v-bind:href="profData.rateMyProfLink"><u>{{profData.firstName}} {{profData.lastName}}</u></a> ({{profData.displayRating}})</p>
-
+                  <p v-if="profData.rateMyProfLink"><a v-bind:href="profData.rateMyProfLink"><u>{{profData.firstName}} {{profData.lastName}}</u></a> ({{profData.displayRating}})</p>
+                  <p v-else>{{profData.firstName}} {{profData.lastName}} ({{profData.displayRating}})</p>
                 </v-list-item-title>
                                
               </v-row>
