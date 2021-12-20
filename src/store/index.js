@@ -368,7 +368,9 @@ export const store = new Vuex.Store({
       .then((data)=>{
         const profListRawData = data.val();
         profListRawData.map(profData=>{
-          profData.rateMyProfLink="https://www.ratemyprofessors.com/ShowRatings.jsp?tid="+profData.id
+          if (profData.id > 0){
+            profData.rateMyProfLink="https://www.ratemyprofessors.com/ShowRatings.jsp?tid="+profData.id
+          }
           if (profData.rate == 0){
             profData.displayRating="N/A"
           }else{
