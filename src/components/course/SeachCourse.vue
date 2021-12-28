@@ -9,6 +9,7 @@
     placeholder="Start typing to Search"
     prepend-icon="mdi-database-search"
     hide-no-data
+    ref="search_bar"
     @change="onchangeclass()"
     @update:search-input="onchangeinput"
   ></v-autocomplete>
