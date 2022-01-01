@@ -45,12 +45,15 @@
                 </v-row>
               </v-expansion-panel-content>
             </v-expansion-panel>
-            <v-expansion-panel class="d-flex flex-column justify-center py-10">
+            <div class="py-10">
+            <!-- <v-expansion-panel class="d-flex flex-column justify-center py-10"> -->
+            
               <center>
                 <div class="text-h6 justify-center">Can't find your program?</div>
                 <v-btn text color="primary" @click="focusSearch()" class="text-decoration-underline">Search using the course code!</v-btn>
               </center>
-            </v-expansion-panel>
+            <!-- </v-expansion-panel> -->
+            </div>
           </v-expansion-panels>
         </v-container>
       </v-row>
