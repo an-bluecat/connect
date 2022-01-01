@@ -14,6 +14,8 @@
       <!-- </v-container> -->
     </main>
 
+    <!-- <footer>this is the test Footer</footer> -->
+
     <v-row style="z-index:12">
       <v-col>
         <v-btn
@@ -112,11 +114,11 @@ export default {
 <style lang="scss">
 @import url('https://fonts.googleapis.com/css?family=Montserrat:400,700');
 
-.container {
-  /* background-color: aqua; */
-  height: 100vh;
-  width: 100vw;
-}
+// .container {
+//   /* background-color: aqua; */
+//   height: 100vh;
+//   width: 100vw;
+// }
 .inspire {
   height: 100vh;
   width: 100vw;
