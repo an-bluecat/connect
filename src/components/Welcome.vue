@@ -48,7 +48,7 @@
             <v-expansion-panel class="d-flex flex-column justify-center py-10">
               <center>
                 <div class="text-h6 justify-center">Can't find your program?</div>
-                <v-btn text color="primary" @click="focusSearch()">Search using your course code!</v-btn>
+                <v-btn text color="primary" @click="focusSearch()" class="text-decoration-underline">Search using the course code!</v-btn>
               </center>
             </v-expansion-panel>
           </v-expansion-panels>
