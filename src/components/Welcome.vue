@@ -15,7 +15,7 @@
           <v-expansion-panels v-model="defaultExpansionSetting" multiple hover>
             <v-expansion-panel v-for="(faculty, index) in items" :key="index">
               <v-expansion-panel-header>
-                <h5>Faculty of {{ faculty.name }}</h5>
+                <h4>Faculty of {{ faculty.name }}</h4>
               </v-expansion-panel-header>
               <v-expansion-panel-content>
                 <v-row>
@@ -50,7 +50,7 @@
             
               <center>
                 <div class="text-h6 justify-center">Can't find your program?</div>
-                <v-btn text color="primary" @click="focusSearch()" class="text-decoration-underline">Search using the course code!</v-btn>
+                <v-btn text color="primary" @click="focusSearch()" class="text-decoration-underline">Search with any UTSG course code Here!</v-btn>
               </center>
             <!-- </v-expansion-panel> -->
             </div>
