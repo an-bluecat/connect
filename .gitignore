@@ -3,6 +3,8 @@ node_modules
 /dist
 .firebase/*
 package-lock.json
+/src/main.js
+/src/components/course/coursecsv/push_to_firebase.js
 
 # local env files
 .env.local
